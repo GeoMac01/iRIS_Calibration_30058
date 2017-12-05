@@ -7,8 +7,8 @@
     <ProjectGuid>{9E226BE3-5246-4D02-B05C-31D1B6E8C622}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>iRIS_LASER_TEST_01</RootNamespace>
-    <AssemblyName>iRIS Laser Test_01</AssemblyName>
+    <RootNamespace>iRIS_CLM_GUI_TEST_01</RootNamespace>
+    <AssemblyName>iRIS_CLM_GUI_TEST_01</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -69,7 +69,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="COMsSendRecv.cs" />
     <Compile Include="Form_iRIS_Clm_test_01.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -83,6 +82,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="SendRecvCOM.cs" />
     <EmbeddedResource Include="Form_iRIS_Clm_test_01.resx">
       <DependentUpon>Form_iRIS_Clm_test_01.cs</DependentUpon>
     </EmbeddedResource>
@@ -97,7 +97,6 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.config" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -114,6 +113,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
