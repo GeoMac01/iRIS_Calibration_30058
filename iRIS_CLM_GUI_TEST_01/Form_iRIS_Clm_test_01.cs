@@ -13,6 +13,9 @@ using Microsoft.VisualBasic;
 using Thorlabs.PM100D_32.Interop;
 using MccDaq;
 
+
+
+
 namespace iRIS_CLM_GUI_TEST_01
 {
     public partial class Form_iRIS_Clm_test_01 : Form
@@ -790,7 +793,8 @@ namespace iRIS_CLM_GUI_TEST_01
 
             Rt_ReceiveDataUSB.AppendText("<<  " + strRcv);//displays anything....
 
-            ChopString(strRcv);
+            //ChopString(strRcv);
+            
             
             if (rtnCmd == cmdTrack)
             {   cmdTrack = string.Empty;
@@ -1252,6 +1256,7 @@ namespace iRIS_CLM_GUI_TEST_01
         }//end of "ProcessString"
         #endregion
         //======================================================================
+        /*
         private void ChopString(string stringToChop)
         {
             int strLgh = stringToChop.Length;
@@ -1260,6 +1265,7 @@ namespace iRIS_CLM_GUI_TEST_01
             rtnValue = stringToChop.Substring(5, (strLgh - 7));
             strLgh = 0;
         }
+        */
         //======================================================================
         private void Bt_SetAddr_Click(object sender, EventArgs e) { Task<bool> send = SendToSerial(CmdSetUnitNo, "00" + Tb_SetAdd.Text); }
         //======================================================================
