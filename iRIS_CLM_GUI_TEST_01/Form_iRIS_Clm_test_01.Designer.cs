@@ -29,12 +29,9 @@
         private void InitializeComponent()
         {
             this.TbPg_InsTest = new System.Windows.Forms.TabPage();
-            this.label41 = new System.Windows.Forms.Label();
-            this.Tb_Iop = new System.Windows.Forms.TextBox();
-            this.label32 = new System.Windows.Forms.Label();
-            this.Tb_Wavelg = new System.Windows.Forms.TextBox();
-            this.lblMaxPw = new System.Windows.Forms.Label();
-            this.Tb_MaxPower = new System.Windows.Forms.TextBox();
+            this.Bt_USBinterf = new System.Windows.Forms.Button();
+            this.Bt_PM100 = new System.Windows.Forms.Button();
+            this.bt_NewTest = new System.Windows.Forms.Button();
             this.label34 = new System.Windows.Forms.Label();
             this.Cb_LaserSelect = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -119,6 +116,8 @@
             this.tb_TecSerNumb = new System.Windows.Forms.TextBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.TbPg_Results = new System.Windows.Forms.TabPage();
+            this.label59 = new System.Windows.Forms.Label();
+            this.Tb_RsDelay = new System.Windows.Forms.TextBox();
             this.label57 = new System.Windows.Forms.Label();
             this.textBox11 = new System.Windows.Forms.TextBox();
             this.label45 = new System.Windows.Forms.Label();
@@ -145,6 +144,8 @@
             this.Bt_SetPcon = new System.Windows.Forms.Button();
             this.Tb_LaserOK = new System.Windows.Forms.TextBox();
             this.Bt_RsLaserOk = new System.Windows.Forms.Button();
+            this.Bt_DigMod = new System.Windows.Forms.Button();
+            this.Bt_LsEnable = new System.Windows.Forms.Button();
             this.CmBx_USBinterface = new System.Windows.Forms.ComboBox();
             this.CmBx_PM100str = new System.Windows.Forms.ComboBox();
             this.label48 = new System.Windows.Forms.Label();
@@ -195,13 +196,6 @@
             this.Rt_ReceiveDataUSB = new System.Windows.Forms.RichTextBox();
             this.Bt_RdLaserStatus = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Bt_DigMod = new System.Windows.Forms.Button();
-            this.Bt_LsEnable = new System.Windows.Forms.Button();
-            this.Bt_USBinterf = new System.Windows.Forms.Button();
-            this.Bt_PM100 = new System.Windows.Forms.Button();
-            this.bt_NewTest = new System.Windows.Forms.Button();
-            this.Tb_RsDelay = new System.Windows.Forms.TextBox();
-            this.label59 = new System.Windows.Forms.Label();
             this.TbPg_InsTest.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -218,12 +212,6 @@
             this.TbPg_InsTest.Controls.Add(this.Bt_USBinterf);
             this.TbPg_InsTest.Controls.Add(this.Bt_PM100);
             this.TbPg_InsTest.Controls.Add(this.bt_NewTest);
-            this.TbPg_InsTest.Controls.Add(this.label41);
-            this.TbPg_InsTest.Controls.Add(this.Tb_Iop);
-            this.TbPg_InsTest.Controls.Add(this.label32);
-            this.TbPg_InsTest.Controls.Add(this.Tb_Wavelg);
-            this.TbPg_InsTest.Controls.Add(this.lblMaxPw);
-            this.TbPg_InsTest.Controls.Add(this.Tb_MaxPower);
             this.TbPg_InsTest.Controls.Add(this.label34);
             this.TbPg_InsTest.Controls.Add(this.Cb_LaserSelect);
             this.TbPg_InsTest.Controls.Add(this.groupBox1);
@@ -243,56 +231,39 @@
             this.TbPg_InsTest.TabIndex = 1;
             this.TbPg_InsTest.Text = "Laser Calibration";
             // 
-            // label41
+            // Bt_USBinterf
             // 
-            this.label41.AutoSize = true;
-            this.label41.Location = new System.Drawing.Point(430, 57);
-            this.label41.Name = "label41";
-            this.label41.Size = new System.Drawing.Size(40, 13);
-            this.label41.TabIndex = 291;
-            this.label41.Text = "Iop mA";
+            this.Bt_USBinterf.BackColor = System.Drawing.Color.Coral;
+            this.Bt_USBinterf.Location = new System.Drawing.Point(10, 238);
+            this.Bt_USBinterf.Name = "Bt_USBinterf";
+            this.Bt_USBinterf.Size = new System.Drawing.Size(87, 39);
+            this.Bt_USBinterf.TabIndex = 294;
+            this.Bt_USBinterf.Text = "USB Interface Connect";
+            this.Bt_USBinterf.UseVisualStyleBackColor = false;
+            this.Bt_USBinterf.Click += new System.EventHandler(this.Bt_USBinterf_Click);
             // 
-            // Tb_Iop
+            // Bt_PM100
             // 
-            this.Tb_Iop.Location = new System.Drawing.Point(382, 53);
-            this.Tb_Iop.Name = "Tb_Iop";
-            this.Tb_Iop.Size = new System.Drawing.Size(46, 20);
-            this.Tb_Iop.TabIndex = 290;
-            this.Tb_Iop.Text = "100";
+            this.Bt_PM100.BackColor = System.Drawing.Color.Coral;
+            this.Bt_PM100.Location = new System.Drawing.Point(10, 193);
+            this.Bt_PM100.Name = "Bt_PM100";
+            this.Bt_PM100.Size = new System.Drawing.Size(87, 39);
+            this.Bt_PM100.TabIndex = 293;
+            this.Bt_PM100.Text = "PM100 Connect";
+            this.Bt_PM100.UseVisualStyleBackColor = false;
+            this.Bt_PM100.Click += new System.EventHandler(this.Bt_PM100_Click);
             // 
-            // label32
+            // bt_NewTest
             // 
-            this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(430, 33);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(82, 13);
-            this.label32.TabIndex = 289;
-            this.label32.Text = "Wavelength nm";
-            // 
-            // Tb_Wavelg
-            // 
-            this.Tb_Wavelg.Location = new System.Drawing.Point(382, 29);
-            this.Tb_Wavelg.Name = "Tb_Wavelg";
-            this.Tb_Wavelg.Size = new System.Drawing.Size(46, 20);
-            this.Tb_Wavelg.TabIndex = 288;
-            this.Tb_Wavelg.Text = "465";
-            // 
-            // lblMaxPw
-            // 
-            this.lblMaxPw.AutoSize = true;
-            this.lblMaxPw.Location = new System.Drawing.Point(430, 10);
-            this.lblMaxPw.Name = "lblMaxPw";
-            this.lblMaxPw.Size = new System.Drawing.Size(101, 13);
-            this.lblMaxPw.TabIndex = 287;
-            this.lblMaxPw.Text = "Laser Pw Nom. mW";
-            // 
-            // Tb_MaxPower
-            // 
-            this.Tb_MaxPower.Location = new System.Drawing.Point(382, 6);
-            this.Tb_MaxPower.Name = "Tb_MaxPower";
-            this.Tb_MaxPower.Size = new System.Drawing.Size(46, 20);
-            this.Tb_MaxPower.TabIndex = 286;
-            this.Tb_MaxPower.Text = "05.00";
+            this.bt_NewTest.BackColor = System.Drawing.Color.Coral;
+            this.bt_NewTest.Location = new System.Drawing.Point(10, 148);
+            this.bt_NewTest.Name = "bt_NewTest";
+            this.bt_NewTest.Size = new System.Drawing.Size(87, 39);
+            this.bt_NewTest.TabIndex = 292;
+            this.bt_NewTest.TabStop = false;
+            this.bt_NewTest.Text = "New Test";
+            this.bt_NewTest.UseVisualStyleBackColor = false;
+            this.bt_NewTest.Click += new System.EventHandler(this.Bt_NewTest_Click);
             // 
             // label34
             // 
@@ -1227,6 +1198,23 @@
             this.TbPg_Results.Text = "Engineering";
             this.TbPg_Results.UseVisualStyleBackColor = true;
             // 
+            // label59
+            // 
+            this.label59.AutoSize = true;
+            this.label59.Location = new System.Drawing.Point(480, 332);
+            this.label59.Name = "label59";
+            this.label59.Size = new System.Drawing.Size(84, 13);
+            this.label59.TabIndex = 333;
+            this.label59.Text = "Delay after send";
+            // 
+            // Tb_RsDelay
+            // 
+            this.Tb_RsDelay.Location = new System.Drawing.Point(434, 328);
+            this.Tb_RsDelay.Name = "Tb_RsDelay";
+            this.Tb_RsDelay.Size = new System.Drawing.Size(43, 20);
+            this.Tb_RsDelay.TabIndex = 332;
+            this.Tb_RsDelay.Text = "300";
+            // 
             // label57
             // 
             this.label57.AutoSize = true;
@@ -1344,16 +1332,16 @@
             // label53
             // 
             this.label53.AutoSize = true;
-            this.label53.Location = new System.Drawing.Point(300, 216);
+            this.label53.Location = new System.Drawing.Point(300, 218);
             this.label53.Name = "label53";
-            this.label53.Size = new System.Drawing.Size(65, 13);
+            this.label53.Size = new System.Drawing.Size(63, 13);
             this.label53.TabIndex = 319;
-            this.label53.Text = "Max I mA Ls";
+            this.label53.Text = "Max Iop mA";
             // 
             // label55
             // 
             this.label55.AutoSize = true;
-            this.label55.Location = new System.Drawing.Point(300, 195);
+            this.label55.Location = new System.Drawing.Point(300, 196);
             this.label55.Name = "label55";
             this.label55.Size = new System.Drawing.Size(82, 13);
             this.label55.TabIndex = 318;
@@ -1476,6 +1464,30 @@
             this.Bt_RsLaserOk.UseVisualStyleBackColor = false;
             this.Bt_RsLaserOk.Click += new System.EventHandler(this.Bt_RsLaserOk_Click);
             // 
+            // Bt_DigMod
+            // 
+            this.Bt_DigMod.BackColor = System.Drawing.Color.PeachPuff;
+            this.Bt_DigMod.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Bt_DigMod.Location = new System.Drawing.Point(102, 188);
+            this.Bt_DigMod.Name = "Bt_DigMod";
+            this.Bt_DigMod.Size = new System.Drawing.Size(79, 27);
+            this.Bt_DigMod.TabIndex = 303;
+            this.Bt_DigMod.Text = "Digital Mod.";
+            this.Bt_DigMod.UseVisualStyleBackColor = false;
+            this.Bt_DigMod.Click += new System.EventHandler(this.Bt_DigMod_Click);
+            // 
+            // Bt_LsEnable
+            // 
+            this.Bt_LsEnable.BackColor = System.Drawing.Color.PeachPuff;
+            this.Bt_LsEnable.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Bt_LsEnable.Location = new System.Drawing.Point(102, 156);
+            this.Bt_LsEnable.Name = "Bt_LsEnable";
+            this.Bt_LsEnable.Size = new System.Drawing.Size(79, 27);
+            this.Bt_LsEnable.TabIndex = 302;
+            this.Bt_LsEnable.Text = "Laser Enable";
+            this.Bt_LsEnable.UseVisualStyleBackColor = false;
+            this.Bt_LsEnable.Click += new System.EventHandler(this.Bt_LsEnable_Click);
+            // 
             // CmBx_USBinterface
             // 
             this.CmBx_USBinterface.Items.AddRange(new object[] {
@@ -1503,20 +1515,20 @@
             // label48
             // 
             this.label48.AutoSize = true;
-            this.label48.Location = new System.Drawing.Point(300, 258);
+            this.label48.Location = new System.Drawing.Point(300, 262);
             this.label48.Name = "label48";
-            this.label48.Size = new System.Drawing.Size(14, 13);
+            this.label48.Size = new System.Drawing.Size(69, 13);
             this.label48.TabIndex = 299;
-            this.label48.Text = "B";
+            this.label48.Text = "B DAC to Pw";
             // 
             // label51
             // 
             this.label51.AutoSize = true;
-            this.label51.Location = new System.Drawing.Point(300, 237);
+            this.label51.Location = new System.Drawing.Point(300, 239);
             this.label51.Name = "label51";
-            this.label51.Size = new System.Drawing.Size(14, 13);
+            this.label51.Size = new System.Drawing.Size(69, 13);
             this.label51.TabIndex = 298;
-            this.label51.Text = "A";
+            this.label51.Text = "A DAC to Pw";
             // 
             // textBox4
             // 
@@ -1537,20 +1549,20 @@
             // label44
             // 
             this.label44.AutoSize = true;
-            this.label44.Location = new System.Drawing.Point(300, 300);
+            this.label44.Location = new System.Drawing.Point(300, 306);
             this.label44.Name = "label44";
-            this.label44.Size = new System.Drawing.Size(14, 13);
+            this.label44.Size = new System.Drawing.Size(50, 13);
             this.label44.TabIndex = 295;
-            this.label44.Text = "B";
+            this.label44.Text = "B Pw to I";
             // 
             // label47
             // 
             this.label47.AutoSize = true;
-            this.label47.Location = new System.Drawing.Point(300, 279);
+            this.label47.Location = new System.Drawing.Point(300, 284);
             this.label47.Name = "label47";
-            this.label47.Size = new System.Drawing.Size(14, 13);
+            this.label47.Size = new System.Drawing.Size(50, 13);
             this.label47.TabIndex = 294;
-            this.label47.Text = "A";
+            this.label47.Text = "A Pw to I";
             // 
             // textBox2
             // 
@@ -1571,20 +1583,20 @@
             // label49
             // 
             this.label49.AutoSize = true;
-            this.label49.Location = new System.Drawing.Point(300, 342);
+            this.label49.Location = new System.Drawing.Point(300, 350);
             this.label49.Name = "label49";
-            this.label49.Size = new System.Drawing.Size(14, 13);
+            this.label49.Size = new System.Drawing.Size(62, 13);
             this.label49.TabIndex = 291;
-            this.label49.Text = "B";
+            this.label49.Text = "B Pw to Vin";
             // 
             // label50
             // 
             this.label50.AutoSize = true;
-            this.label50.Location = new System.Drawing.Point(300, 321);
+            this.label50.Location = new System.Drawing.Point(300, 328);
             this.label50.Name = "label50";
-            this.label50.Size = new System.Drawing.Size(14, 13);
+            this.label50.Size = new System.Drawing.Size(62, 13);
             this.label50.TabIndex = 290;
-            this.label50.Text = "A";
+            this.label50.Text = "A Pw to Vin";
             // 
             // textBox5
             // 
@@ -1697,7 +1709,7 @@
             this.Tb_TECpoint.Name = "Tb_TECpoint";
             this.Tb_TECpoint.Size = new System.Drawing.Size(46, 20);
             this.Tb_TECpoint.TabIndex = 260;
-            this.Tb_TECpoint.Text = "25";
+            this.Tb_TECpoint.Text = "250";
             // 
             // label40
             // 
@@ -1831,7 +1843,7 @@
             // 
             this.Bt_RdAnlg.Location = new System.Drawing.Point(102, 283);
             this.Bt_RdAnlg.Name = "Bt_RdAnlg";
-            this.Bt_RdAnlg.Size = new System.Drawing.Size(88, 25);
+            this.Bt_RdAnlg.Size = new System.Drawing.Size(93, 30);
             this.Bt_RdAnlg.TabIndex = 164;
             this.Bt_RdAnlg.Text = "Rd. Anlg. USB";
             this.Bt_RdAnlg.UseVisualStyleBackColor = true;
@@ -1934,78 +1946,6 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(683, 96);
             this.dataGridView1.TabIndex = 6;
-            // 
-            // Bt_DigMod
-            // 
-            this.Bt_DigMod.BackColor = System.Drawing.Color.PeachPuff;
-            this.Bt_DigMod.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Bt_DigMod.Location = new System.Drawing.Point(102, 188);
-            this.Bt_DigMod.Name = "Bt_DigMod";
-            this.Bt_DigMod.Size = new System.Drawing.Size(79, 27);
-            this.Bt_DigMod.TabIndex = 303;
-            this.Bt_DigMod.Text = "Digital Mod.";
-            this.Bt_DigMod.UseVisualStyleBackColor = false;
-            this.Bt_DigMod.Click += new System.EventHandler(this.Bt_DigMod_Click);
-            // 
-            // Bt_LsEnable
-            // 
-            this.Bt_LsEnable.BackColor = System.Drawing.Color.PeachPuff;
-            this.Bt_LsEnable.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Bt_LsEnable.Location = new System.Drawing.Point(102, 156);
-            this.Bt_LsEnable.Name = "Bt_LsEnable";
-            this.Bt_LsEnable.Size = new System.Drawing.Size(79, 27);
-            this.Bt_LsEnable.TabIndex = 302;
-            this.Bt_LsEnable.Text = "Laser Enable";
-            this.Bt_LsEnable.UseVisualStyleBackColor = false;
-            this.Bt_LsEnable.Click += new System.EventHandler(this.Bt_LsEnable_Click);
-            // 
-            // Bt_USBinterf
-            // 
-            this.Bt_USBinterf.BackColor = System.Drawing.Color.Coral;
-            this.Bt_USBinterf.Location = new System.Drawing.Point(10, 238);
-            this.Bt_USBinterf.Name = "Bt_USBinterf";
-            this.Bt_USBinterf.Size = new System.Drawing.Size(87, 39);
-            this.Bt_USBinterf.TabIndex = 294;
-            this.Bt_USBinterf.Text = "USB Interface Connect";
-            this.Bt_USBinterf.UseVisualStyleBackColor = false;
-            // 
-            // Bt_PM100
-            // 
-            this.Bt_PM100.BackColor = System.Drawing.Color.Coral;
-            this.Bt_PM100.Location = new System.Drawing.Point(10, 193);
-            this.Bt_PM100.Name = "Bt_PM100";
-            this.Bt_PM100.Size = new System.Drawing.Size(87, 39);
-            this.Bt_PM100.TabIndex = 293;
-            this.Bt_PM100.Text = "PM100 Connect";
-            this.Bt_PM100.UseVisualStyleBackColor = false;
-            // 
-            // bt_NewTest
-            // 
-            this.bt_NewTest.BackColor = System.Drawing.Color.Coral;
-            this.bt_NewTest.Location = new System.Drawing.Point(10, 148);
-            this.bt_NewTest.Name = "bt_NewTest";
-            this.bt_NewTest.Size = new System.Drawing.Size(87, 39);
-            this.bt_NewTest.TabIndex = 292;
-            this.bt_NewTest.TabStop = false;
-            this.bt_NewTest.Text = "New Test";
-            this.bt_NewTest.UseVisualStyleBackColor = false;
-            // 
-            // Tb_RsDelay
-            // 
-            this.Tb_RsDelay.Location = new System.Drawing.Point(434, 328);
-            this.Tb_RsDelay.Name = "Tb_RsDelay";
-            this.Tb_RsDelay.Size = new System.Drawing.Size(43, 20);
-            this.Tb_RsDelay.TabIndex = 332;
-            this.Tb_RsDelay.Text = "300";
-            // 
-            // label59
-            // 
-            this.label59.AutoSize = true;
-            this.label59.Location = new System.Drawing.Point(480, 332);
-            this.label59.Name = "label59";
-            this.label59.Size = new System.Drawing.Size(84, 13);
-            this.label59.TabIndex = 333;
-            this.label59.Text = "Delay after send";
             // 
             // Form_iRIS_Clm_test_01
             // 
@@ -2176,12 +2116,6 @@
         private System.Windows.Forms.Label label54;
         private System.Windows.Forms.Label Lbl_Viout;
         private System.Windows.Forms.Label label56;
-        private System.Windows.Forms.Label lblMaxPw;
-        private System.Windows.Forms.TextBox Tb_MaxPower;
-        private System.Windows.Forms.Label label32;
-        private System.Windows.Forms.TextBox Tb_Wavelg;
-        private System.Windows.Forms.Label label41;
-        private System.Windows.Forms.TextBox Tb_Iop;
         private System.Windows.Forms.Button Bt_SetIntPwDAC;
         private System.Windows.Forms.Button Bt_RdPM100;
         private System.Windows.Forms.Label Lbl_PM100rd;
