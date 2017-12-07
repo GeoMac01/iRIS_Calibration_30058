@@ -117,7 +117,7 @@ namespace iRIS_CLM_GUI_TEST_01
             { CmdSetBaseTempCal,    StrDisable },
             { CmdSetTECena_dis,     StrEnable} };
 
-        string[,] bulkSetVarialble = new string[14, 2] {
+        string[,] bulkSetVarialble = new string[13, 2] {
             {CmdSeManuDate,     StrDisable },//not implemeted
             {CmdSetCalDate,     StrDisable },//not implemeted
             {CmdSetWavelenght,  StrDisable },
@@ -127,7 +127,6 @@ namespace iRIS_CLM_GUI_TEST_01
             {CmdSetCalBPwtoI,   StrDisable},
             {CmdSetCalAPwtoVin, StrDisable},
             {CmdSetCalBPwtoVin, StrDisable},
-            {CmdSetPwtoVout ,   StrDisable},
             {CmdSetSerNumber,   StrDisable},
             {CmdSetMaxIop,      StrDisable},
             {CmdSetPartNumber,  StrDisable},
@@ -135,12 +134,13 @@ namespace iRIS_CLM_GUI_TEST_01
             {CmdRdFirmware,     StrDisable} };
 
         string[,] bulkSetdefaultCtrl = new string[5, 2] {
-            {CmdRatedPower, StrDisable },
-            {CmdSetPwMonOut, StrDisable },
-            {CmdSetVgaGain, StrDisable },
-            { CmdSetOffstVolt,  "2.500" },      //Offset 2.500V
-            { CmdSetPwCtrlOut,  "2.500" } , };  //Internal PCON 2.500V
-        
+            {CmdRatedPower,     StrDisable },
+            {CmdSetPwMonOut,    StrDisable },
+            {CmdSetVgaGain,     StrDisable },
+            { CmdSetOffstVolt,  StrDisable },      //Offset 2.500V
+            { CmdSetPwCtrlOut,  StrDisable } };    //Internal PCON 2.500V
+
+        //=================================================
         //=================================================
 
         string[,] bulkReadDigital = new string[3, 2] {
@@ -354,6 +354,7 @@ namespace iRIS_CLM_GUI_TEST_01
                                     
             if (rtnCmd == cmdTrack)
             {   cmdTrack = string.Empty;
+
                 switch (rtnCmd)
                 {
                     case CmdRdUnitNo://99
@@ -651,8 +652,8 @@ namespace iRIS_CLM_GUI_TEST_01
                         lbl_LaserI.Text = rtnValue.PadLeft(5,'0');
                         break;
 
-                    case CmdSetPwtoVout:
-                        break;
+                    //case CmdSetPwtoVout:
+                    //    break;
 
                     case CmdSetCalAPw:
                         break;
@@ -760,6 +761,7 @@ namespace iRIS_CLM_GUI_TEST_01
             string dataToAppd = string.Empty;
             string cmdToTest = string.Empty;
             int sndDl = 300;
+            int comThresh = 9;
 
             cmdToTest = strCmd[0];
             dataToAppd = strCmd[1]; //if anything different will be changed in the case below
@@ -775,6 +777,8 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdSetPartNumber:
+                    sndDl = 600;
+                    comThresh = 14;
                     break;
 
                 case CmdRdWavelen:
@@ -790,6 +794,8 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdRdFirmware:
+                    sndDl = 600;
+                    comThresh = 14;
                     break;
 
                 case CmdRdBplateTemp:
@@ -817,6 +823,7 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdSetPwMonOut:
+                    dataToAppd = Tb_PwToVout.Text;
                     break;
 
                 case CmdRdCalDate:
@@ -853,6 +860,8 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdManufDate:
+                    sndDl = 600;
+                    comThresh = 14;
                     break;
 
                 case CmdRdPwSetPcon:
@@ -862,18 +871,25 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdRdModelName:
+                    sndDl = 600;
+                    comThresh = 14;
                     break;
 
                 case CmdRdLaserPow:
                     break;
 
                 case CmdRdPnNb:
+                    sndDl = 600;
+                    comThresh = 14;
                     break;
 
                 case CmdRdCustomerPm:
+                    sndDl = 600;
+                    comThresh = 14;
                     break;
 
                 case CmdRatedPower:
+                    dataToAppd = Tb_NomPw.Text;
                     break;
 
                 case CmdCurrentRead:
@@ -885,23 +901,31 @@ namespace iRIS_CLM_GUI_TEST_01
                 case CmdSetCalAPw:
                     dataToAppd = Tb_CalAPw.Text;
                     sndDl = 600;
+                    comThresh = 14;
                     break;
 
                 case CmdSetCalBPw:
                     dataToAppd = Tb_CalBPw.Text;
                     sndDl = 600;
+                    comThresh = 14;
                     break;
 
                 case CmdSetCalAPwtoVin:
+                    sndDl = 600;
+                    comThresh = 14;
                     break;
 
                 case CmdSetCalBPwtoVin:
+                    sndDl = 600;
+                    comThresh = 14;
                     break;
 
                 case CmdRstTime:
                     break;
 
                 case CmdSetSerNumber:
+                    sndDl = 600;
+                    comThresh = 14;
                     break;
 
                 case CmdSetWavelenght:
@@ -913,18 +937,26 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdSetCustomerPm:
+                    sndDl = 600;
+                    comThresh = 14;
                     break;
 
                 case CmdSetMaxIop:
                     break;
 
                 case CmdSetCalDate:
+                    sndDl = 600;
+                    comThresh = 14;
                     break;
 
                 case CmdSeManuDate:
+                    sndDl = 600;
+                    comThresh = 14;
                     break;
 
                 case CmdSetModel:
+                    sndDl = 600;
+                    comThresh = 14;
                     break;
 
                 case CmdTestMode:
@@ -938,9 +970,13 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdSetCalAPwtoI:
+                    sndDl = 600;
+                    comThresh = 14;
                     break;
 
                 case CmdSetCalBPwtoI:
+                    sndDl = 600;
+                    comThresh = 14;
                     break;
 
                 case CmdSetTECTemp:
@@ -983,7 +1019,9 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
             }
 
-            // USB_CDC.ReceivedBytesThreshold = 9; // set INT level
+            if (comThresh > 9) USB_CDC.ReceivedBytesThreshold = comThresh;
+            else USB_CDC.ReceivedBytesThreshold = 9;
+
             bool result = await SendToSerial(cmdToTest, dataToAppd, sndDl);
 
             return true;
@@ -1691,10 +1729,10 @@ namespace iRIS_CLM_GUI_TEST_01
         {
             this.Cursor = Cursors.WaitCursor;
 
-            bool test2 = await LoadGlobalTestArray(bulkSetLaserIO);
-            test2 = await LoadGlobalTestArray(bulkSetVarialble);
-            test2 = await LoadGlobalTestArray(bulkSetdefaultCtrl);
-            test2 = await LoadGlobalTestArray(bulkSetTEC);
+            //bool test2 = await LoadGlobalTestArray(bulkSetLaserIO);
+            bool test2 = await LoadGlobalTestArray(bulkSetVarialble);
+            //test2 = await LoadGlobalTestArray(bulkSetdefaultCtrl);
+            //test2 = await LoadGlobalTestArray(bulkSetTEC);
 
             this.Cursor = Cursors.Default;
 

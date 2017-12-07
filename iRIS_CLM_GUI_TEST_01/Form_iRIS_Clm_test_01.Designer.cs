@@ -119,7 +119,7 @@
             this.label59 = new System.Windows.Forms.Label();
             this.Tb_RsDelay = new System.Windows.Forms.TextBox();
             this.label57 = new System.Windows.Forms.Label();
-            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.Tb_NomPw = new System.Windows.Forms.TextBox();
             this.label45 = new System.Windows.Forms.Label();
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.ChkBx_AnlgModSet = new System.Windows.Forms.CheckBox();
@@ -129,7 +129,7 @@
             this.label46 = new System.Windows.Forms.Label();
             this.label52 = new System.Windows.Forms.Label();
             this.textBox9 = new System.Windows.Forms.TextBox();
-            this.textBox10 = new System.Windows.Forms.TextBox();
+            this.Tb_PwToVout = new System.Windows.Forms.TextBox();
             this.label53 = new System.Windows.Forms.Label();
             this.label55 = new System.Windows.Forms.Label();
             this.Tb_MaxLsCurrent = new System.Windows.Forms.TextBox();
@@ -196,6 +196,8 @@
             this.Rt_ReceiveDataUSB = new System.Windows.Forms.RichTextBox();
             this.Bt_RdLaserStatus = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.label32 = new System.Windows.Forms.Label();
+            this.Tb_PwToVcal = new System.Windows.Forms.TextBox();
             this.TbPg_InsTest.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -1094,7 +1096,6 @@
             // tb_TecSerNumb
             // 
             this.tb_TecSerNumb.BackColor = System.Drawing.Color.Thistle;
-            this.tb_TecSerNumb.Enabled = false;
             this.tb_TecSerNumb.Location = new System.Drawing.Point(575, 27);
             this.tb_TecSerNumb.Name = "tb_TecSerNumb";
             this.tb_TecSerNumb.Size = new System.Drawing.Size(65, 20);
@@ -1116,10 +1117,12 @@
             // 
             // TbPg_Results
             // 
+            this.TbPg_Results.Controls.Add(this.label32);
+            this.TbPg_Results.Controls.Add(this.Tb_PwToVcal);
             this.TbPg_Results.Controls.Add(this.label59);
             this.TbPg_Results.Controls.Add(this.Tb_RsDelay);
             this.TbPg_Results.Controls.Add(this.label57);
-            this.TbPg_Results.Controls.Add(this.textBox11);
+            this.TbPg_Results.Controls.Add(this.Tb_NomPw);
             this.TbPg_Results.Controls.Add(this.label45);
             this.TbPg_Results.Controls.Add(this.textBox8);
             this.TbPg_Results.Controls.Add(this.ChkBx_AnlgModSet);
@@ -1129,7 +1132,7 @@
             this.TbPg_Results.Controls.Add(this.label46);
             this.TbPg_Results.Controls.Add(this.label52);
             this.TbPg_Results.Controls.Add(this.textBox9);
-            this.TbPg_Results.Controls.Add(this.textBox10);
+            this.TbPg_Results.Controls.Add(this.Tb_PwToVout);
             this.TbPg_Results.Controls.Add(this.label53);
             this.TbPg_Results.Controls.Add(this.label55);
             this.TbPg_Results.Controls.Add(this.Tb_MaxLsCurrent);
@@ -1229,13 +1232,13 @@
             this.label57.TabIndex = 331;
             this.label57.Text = "Nom. Pw mW";
             // 
-            // textBox11
+            // Tb_NomPw
             // 
-            this.textBox11.Location = new System.Drawing.Point(252, 126);
-            this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(46, 20);
-            this.textBox11.TabIndex = 330;
-            this.textBox11.Text = "0010";
+            this.Tb_NomPw.Location = new System.Drawing.Point(252, 126);
+            this.Tb_NomPw.Name = "Tb_NomPw";
+            this.Tb_NomPw.Size = new System.Drawing.Size(46, 20);
+            this.Tb_NomPw.TabIndex = 330;
+            this.Tb_NomPw.Text = "0010";
             // 
             // label45
             // 
@@ -1259,7 +1262,7 @@
             this.ChkBx_AnlgModSet.AutoSize = true;
             this.ChkBx_AnlgModSet.Checked = true;
             this.ChkBx_AnlgModSet.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ChkBx_AnlgModSet.Location = new System.Drawing.Point(252, 425);
+            this.ChkBx_AnlgModSet.Location = new System.Drawing.Point(252, 449);
             this.ChkBx_AnlgModSet.Name = "ChkBx_AnlgModSet";
             this.ChkBx_AnlgModSet.Size = new System.Drawing.Size(127, 17);
             this.ChkBx_AnlgModSet.TabIndex = 327;
@@ -1269,7 +1272,7 @@
             // ChkBx_DigitModSet
             // 
             this.ChkBx_DigitModSet.AutoSize = true;
-            this.ChkBx_DigitModSet.Location = new System.Drawing.Point(252, 406);
+            this.ChkBx_DigitModSet.Location = new System.Drawing.Point(252, 430);
             this.ChkBx_DigitModSet.Name = "ChkBx_DigitModSet";
             this.ChkBx_DigitModSet.Size = new System.Drawing.Size(127, 17);
             this.ChkBx_DigitModSet.TabIndex = 326;
@@ -1281,7 +1284,7 @@
             this.ChkBx_EnableSet.AutoSize = true;
             this.ChkBx_EnableSet.Checked = true;
             this.ChkBx_EnableSet.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ChkBx_EnableSet.Location = new System.Drawing.Point(252, 387);
+            this.ChkBx_EnableSet.Location = new System.Drawing.Point(252, 411);
             this.ChkBx_EnableSet.Name = "ChkBx_EnableSet";
             this.ChkBx_EnableSet.Size = new System.Drawing.Size(109, 17);
             this.ChkBx_EnableSet.TabIndex = 325;
@@ -1293,7 +1296,7 @@
             this.ChkBx_ExtPwCtrl.AutoSize = true;
             this.ChkBx_ExtPwCtrl.Checked = true;
             this.ChkBx_ExtPwCtrl.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ChkBx_ExtPwCtrl.Location = new System.Drawing.Point(252, 368);
+            this.ChkBx_ExtPwCtrl.Location = new System.Drawing.Point(252, 392);
             this.ChkBx_ExtPwCtrl.Name = "ChkBx_ExtPwCtrl";
             this.ChkBx_ExtPwCtrl.Size = new System.Drawing.Size(103, 17);
             this.ChkBx_ExtPwCtrl.TabIndex = 324;
@@ -1312,11 +1315,11 @@
             // label52
             // 
             this.label52.AutoSize = true;
-            this.label52.Location = new System.Drawing.Point(300, 174);
+            this.label52.Location = new System.Drawing.Point(300, 198);
             this.label52.Name = "label52";
-            this.label52.Size = new System.Drawing.Size(65, 13);
+            this.label52.Size = new System.Drawing.Size(86, 13);
             this.label52.TabIndex = 322;
-            this.label52.Text = "V Pmon. out";
+            this.label52.Text = "V Pmon. out Val.";
             // 
             // textBox9
             // 
@@ -1326,18 +1329,18 @@
             this.textBox9.TabIndex = 321;
             this.textBox9.Text = "0012";
             // 
-            // textBox10
+            // Tb_PwToVout
             // 
-            this.textBox10.Location = new System.Drawing.Point(252, 170);
-            this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(46, 20);
-            this.textBox10.TabIndex = 320;
-            this.textBox10.Text = "4.000";
+            this.Tb_PwToVout.Location = new System.Drawing.Point(252, 194);
+            this.Tb_PwToVout.Name = "Tb_PwToVout";
+            this.Tb_PwToVout.Size = new System.Drawing.Size(46, 20);
+            this.Tb_PwToVout.TabIndex = 320;
+            this.Tb_PwToVout.Text = "2.000";
             // 
             // label53
             // 
             this.label53.AutoSize = true;
-            this.label53.Location = new System.Drawing.Point(300, 218);
+            this.label53.Location = new System.Drawing.Point(300, 242);
             this.label53.Name = "label53";
             this.label53.Size = new System.Drawing.Size(63, 13);
             this.label53.TabIndex = 319;
@@ -1346,7 +1349,7 @@
             // label55
             // 
             this.label55.AutoSize = true;
-            this.label55.Location = new System.Drawing.Point(300, 196);
+            this.label55.Location = new System.Drawing.Point(300, 220);
             this.label55.Name = "label55";
             this.label55.Size = new System.Drawing.Size(82, 13);
             this.label55.TabIndex = 318;
@@ -1354,7 +1357,7 @@
             // 
             // Tb_MaxLsCurrent
             // 
-            this.Tb_MaxLsCurrent.Location = new System.Drawing.Point(252, 214);
+            this.Tb_MaxLsCurrent.Location = new System.Drawing.Point(252, 238);
             this.Tb_MaxLsCurrent.Name = "Tb_MaxLsCurrent";
             this.Tb_MaxLsCurrent.Size = new System.Drawing.Size(46, 20);
             this.Tb_MaxLsCurrent.TabIndex = 317;
@@ -1362,7 +1365,7 @@
             // 
             // Tb_Wavelength
             // 
-            this.Tb_Wavelength.Location = new System.Drawing.Point(252, 192);
+            this.Tb_Wavelength.Location = new System.Drawing.Point(252, 216);
             this.Tb_Wavelength.Name = "Tb_Wavelength";
             this.Tb_Wavelength.Size = new System.Drawing.Size(46, 20);
             this.Tb_Wavelength.TabIndex = 316;
@@ -1520,7 +1523,7 @@
             // label48
             // 
             this.label48.AutoSize = true;
-            this.label48.Location = new System.Drawing.Point(300, 262);
+            this.label48.Location = new System.Drawing.Point(300, 286);
             this.label48.Name = "label48";
             this.label48.Size = new System.Drawing.Size(69, 13);
             this.label48.TabIndex = 299;
@@ -1529,7 +1532,7 @@
             // label51
             // 
             this.label51.AutoSize = true;
-            this.label51.Location = new System.Drawing.Point(300, 239);
+            this.label51.Location = new System.Drawing.Point(300, 263);
             this.label51.Name = "label51";
             this.label51.Size = new System.Drawing.Size(69, 13);
             this.label51.TabIndex = 298;
@@ -1537,7 +1540,7 @@
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(252, 258);
+            this.textBox4.Location = new System.Drawing.Point(252, 282);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(46, 20);
             this.textBox4.TabIndex = 297;
@@ -1545,7 +1548,7 @@
             // 
             // Tb_A
             // 
-            this.Tb_A.Location = new System.Drawing.Point(252, 236);
+            this.Tb_A.Location = new System.Drawing.Point(252, 260);
             this.Tb_A.Name = "Tb_A";
             this.Tb_A.Size = new System.Drawing.Size(46, 20);
             this.Tb_A.TabIndex = 296;
@@ -1554,7 +1557,7 @@
             // label44
             // 
             this.label44.AutoSize = true;
-            this.label44.Location = new System.Drawing.Point(300, 306);
+            this.label44.Location = new System.Drawing.Point(300, 330);
             this.label44.Name = "label44";
             this.label44.Size = new System.Drawing.Size(50, 13);
             this.label44.TabIndex = 295;
@@ -1563,7 +1566,7 @@
             // label47
             // 
             this.label47.AutoSize = true;
-            this.label47.Location = new System.Drawing.Point(300, 284);
+            this.label47.Location = new System.Drawing.Point(300, 308);
             this.label47.Name = "label47";
             this.label47.Size = new System.Drawing.Size(50, 13);
             this.label47.TabIndex = 294;
@@ -1571,7 +1574,7 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(252, 302);
+            this.textBox2.Location = new System.Drawing.Point(252, 326);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(46, 20);
             this.textBox2.TabIndex = 293;
@@ -1579,7 +1582,7 @@
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(252, 280);
+            this.textBox3.Location = new System.Drawing.Point(252, 304);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(46, 20);
             this.textBox3.TabIndex = 292;
@@ -1588,7 +1591,7 @@
             // label49
             // 
             this.label49.AutoSize = true;
-            this.label49.Location = new System.Drawing.Point(300, 350);
+            this.label49.Location = new System.Drawing.Point(300, 374);
             this.label49.Name = "label49";
             this.label49.Size = new System.Drawing.Size(62, 13);
             this.label49.TabIndex = 291;
@@ -1597,7 +1600,7 @@
             // label50
             // 
             this.label50.AutoSize = true;
-            this.label50.Location = new System.Drawing.Point(300, 328);
+            this.label50.Location = new System.Drawing.Point(300, 352);
             this.label50.Name = "label50";
             this.label50.Size = new System.Drawing.Size(62, 13);
             this.label50.TabIndex = 290;
@@ -1605,7 +1608,7 @@
             // 
             // Tb_CalBPw
             // 
-            this.Tb_CalBPw.Location = new System.Drawing.Point(252, 346);
+            this.Tb_CalBPw.Location = new System.Drawing.Point(252, 370);
             this.Tb_CalBPw.Name = "Tb_CalBPw";
             this.Tb_CalBPw.Size = new System.Drawing.Size(46, 20);
             this.Tb_CalBPw.TabIndex = 289;
@@ -1613,7 +1616,7 @@
             // 
             // Tb_CalAPw
             // 
-            this.Tb_CalAPw.Location = new System.Drawing.Point(252, 324);
+            this.Tb_CalAPw.Location = new System.Drawing.Point(252, 348);
             this.Tb_CalAPw.Name = "Tb_CalAPw";
             this.Tb_CalAPw.Size = new System.Drawing.Size(46, 20);
             this.Tb_CalAPw.TabIndex = 288;
@@ -1928,16 +1931,16 @@
             // 
             // Rt_ReceiveDataUSB
             // 
-            this.Rt_ReceiveDataUSB.Location = new System.Drawing.Point(560, 105);
+            this.Rt_ReceiveDataUSB.Location = new System.Drawing.Point(521, 105);
             this.Rt_ReceiveDataUSB.Name = "Rt_ReceiveDataUSB";
-            this.Rt_ReceiveDataUSB.Size = new System.Drawing.Size(126, 222);
+            this.Rt_ReceiveDataUSB.Size = new System.Drawing.Size(165, 222);
             this.Rt_ReceiveDataUSB.TabIndex = 185;
             this.Rt_ReceiveDataUSB.Text = "";
             this.Rt_ReceiveDataUSB.DoubleClick += new System.EventHandler(this.Rtb_Display_USB_DoubleClick);
             // 
             // Bt_RdLaserStatus
             // 
-            this.Bt_RdLaserStatus.Location = new System.Drawing.Point(476, 105);
+            this.Bt_RdLaserStatus.Location = new System.Drawing.Point(434, 102);
             this.Bt_RdLaserStatus.Name = "Bt_RdLaserStatus";
             this.Bt_RdLaserStatus.Size = new System.Drawing.Size(78, 26);
             this.Bt_RdLaserStatus.TabIndex = 156;
@@ -1951,6 +1954,23 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(683, 96);
             this.dataGridView1.TabIndex = 6;
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(300, 175);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(86, 13);
+            this.label32.TabIndex = 335;
+            this.label32.Text = "V Pmon. out Cal.";
+            // 
+            // Tb_PwToVcal
+            // 
+            this.Tb_PwToVcal.Location = new System.Drawing.Point(252, 171);
+            this.Tb_PwToVcal.Name = "Tb_PwToVcal";
+            this.Tb_PwToVcal.Size = new System.Drawing.Size(46, 20);
+            this.Tb_PwToVcal.TabIndex = 334;
+            this.Tb_PwToVcal.Text = "4.000";
             // 
             // Form_iRIS_Clm_test_01
             // 
@@ -2127,7 +2147,7 @@
         private System.Windows.Forms.Label label46;
         private System.Windows.Forms.Label label52;
         private System.Windows.Forms.TextBox textBox9;
-        private System.Windows.Forms.TextBox textBox10;
+        private System.Windows.Forms.TextBox Tb_PwToVout;
         private System.Windows.Forms.Label label53;
         private System.Windows.Forms.Label label55;
         private System.Windows.Forms.TextBox Tb_MaxLsCurrent;
@@ -2141,7 +2161,7 @@
         private System.Windows.Forms.CheckBox ChkBx_EnableSet;
         private System.Windows.Forms.CheckBox ChkBx_ExtPwCtrl;
         private System.Windows.Forms.Label label57;
-        private System.Windows.Forms.TextBox textBox11;
+        private System.Windows.Forms.TextBox Tb_NomPw;
         private System.Windows.Forms.Label label58;
         private System.Windows.Forms.TextBox textBox12;
         private System.Windows.Forms.Button Bt_DigMod;
@@ -2151,6 +2171,8 @@
         private System.Windows.Forms.Button bt_NewTest;
         private System.Windows.Forms.Label label59;
         private System.Windows.Forms.TextBox Tb_RsDelay;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.TextBox Tb_PwToVcal;
     }
 }
 
