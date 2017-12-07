@@ -59,10 +59,10 @@ namespace iRIS_CLM_GUI_TEST_01
         const string CmdSetCalAPwtoVin  = "62";
         const string CmdSetCalBPwtoVin  = "63";
         const string CmdRstTime         = "66";
-        const string CmdRstPtr          = "67";
-        const string CmdRstTon          = "68";
-        const string CmdRstCntr1000     = "69";
-        const string CmdSetFirmware     = "70";
+        //const string CmdRstPtr          = "67";
+        //const string CmdRstTon          = "68";
+        //const string CmdRstCntr1000     = "69";
+        //const string CmdSetFirmware     = "70";
         const string CmdSetSerNumber    = "71";
         const string CmdSetWavelenght   = "72";
         const string CmdSetLsMominalPw  = "73";
@@ -76,7 +76,7 @@ namespace iRIS_CLM_GUI_TEST_01
         const string CmdSetCalBPwtoI    = "82";
         const string CmdTestMode        = "83";
         const string CmdSetPSU          = "84";
-        const string CmdRdPSUvolt       = "85";//check cmd 86 / 85
+        //const string CmdRdPSUvolt       = "85";//check cmd 86 / 85
         const string CmdReadPSU         = "86";
         const string CmdSetBaseTempCal  = "87";
         const string CmdSetTECTemp      = "90";
@@ -117,9 +117,9 @@ namespace iRIS_CLM_GUI_TEST_01
             { CmdSetBaseTempCal,    StrDisable },
             { CmdSetTECena_dis,     StrEnable} };
 
-        string[,] bulkSetVarialble = new string[16, 2] {
-            {CmdSeManuDate,     StrDisable },
-            {CmdSetCalDate,     StrDisable },
+        string[,] bulkSetVarialble = new string[14, 2] {
+            {CmdSeManuDate,     StrDisable },//not implemeted
+            {CmdSetCalDate,     StrDisable },//not implemeted
             {CmdSetWavelenght,  StrDisable },
             {CmdSetCalAPw,      StrDisable },
             {CmdSetCalBPw,      StrDisable},
@@ -131,8 +131,7 @@ namespace iRIS_CLM_GUI_TEST_01
             {CmdSetSerNumber,   StrDisable},
             {CmdSetMaxIop,      StrDisable},
             {CmdSetPartNumber,  StrDisable},
-            {CmdSetModel,       StrDisable},
-            {CmdRdPSUvolt,      StrDisable},
+            //{CmdSetModel,       StrDisable},
             {CmdRdFirmware,     StrDisable} };
 
         string[,] bulkSetdefaultCtrl = new string[5, 2] {
@@ -412,7 +411,7 @@ namespace iRIS_CLM_GUI_TEST_01
                     case CmdRdWavelen:
                         break;
 
-                    case CmdLaserEnable:
+                    case CmdLaserEnable://uses serial send to set
                         break;
 
                     case CmdSetLsPw:
@@ -589,7 +588,7 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdSetInOutPwCtrl:
-                        if (rtnValue == "0000") intExtCmd = false;
+                        if (rtnValue == "0000") intExtCmd = false;//used to select text box
                         else if (rtnValue == "0001") intExtCmd = true;
                         break;
 
@@ -652,7 +651,13 @@ namespace iRIS_CLM_GUI_TEST_01
                         lbl_LaserI.Text = rtnValue.PadLeft(5,'0');
                         break;
 
+                    case CmdSetPwtoVout:
+                        break;
+
                     case CmdSetCalAPw:
+                        break;
+
+                    case CmdSetCalBPw:
                         break;
 
                     case CmdSetCalAPwtoVin:
@@ -662,18 +667,6 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdRstTime:
-                        break;
-
-                    case CmdRstPtr:
-                        break;
-
-                    case CmdRstTon:
-                        break;
-
-                    case CmdRstCntr1000:
-                        break;
-
-                    case CmdSetFirmware:
                         break;
 
                     case CmdSetSerNumber:
@@ -708,12 +701,6 @@ namespace iRIS_CLM_GUI_TEST_01
 
                     case CmdSetPSU:
                         break;
-
-                    //case CmdRdPSUvolt:
-                    //    break;
-
-                    //case CmdReadPSU:
-                    //    break;
 
                     case CmdSetBaseTempCal:
                         break;
@@ -793,7 +780,7 @@ namespace iRIS_CLM_GUI_TEST_01
                 case CmdRdWavelen:
                     break;
 
-                case CmdLaserEnable:
+                case CmdLaserEnable://uses serial send to set
                     break;
 
                 case CmdSetLsPw:
@@ -836,15 +823,15 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdSetPwCtrlOut:
-                    if (engFlag == true) { dataToAppd = tb_SetIntPw.Text; }
+                    dataToAppd = tb_SetIntPw.Text;
                     break;
 
                 case CmdSetOffstVolt:
-                    if (engFlag == true) { dataToAppd = tb_SetOffset.Text; }
+                    dataToAppd = tb_SetOffset.Text;
                     break;
 
                 case CmdSetVgaGain:
-                    if (engFlag == true) { dataToAppd = Tb_VGASet.Text; }
+                    dataToAppd = Tb_VGASet.Text;
                     break;
 
                 case CmdOperatingHr:
@@ -892,7 +879,17 @@ namespace iRIS_CLM_GUI_TEST_01
                 case CmdCurrentRead:
                     break;
 
+                case CmdSetPwtoVout:
+                    break;
+
                 case CmdSetCalAPw:
+                    dataToAppd = Tb_CalAPw.Text;
+                    sndDl = 600;
+                    break;
+
+                case CmdSetCalBPw:
+                    dataToAppd = Tb_CalBPw.Text;
+                    sndDl = 600;
                     break;
 
                 case CmdSetCalAPwtoVin:
@@ -904,22 +901,12 @@ namespace iRIS_CLM_GUI_TEST_01
                 case CmdRstTime:
                     break;
 
-                case CmdRstPtr:
-                    break;
-
-                case CmdRstTon:
-                    break;
-
-                case CmdRstCntr1000:
-                    break;
-
-                case CmdSetFirmware:
-                    break;
-
                 case CmdSetSerNumber:
                     break;
 
                 case CmdSetWavelenght:
+                    dataToAppd = Tb_Wavelength.Text;
+                    sndDl = 300;
                     break;
 
                 case CmdSetLsMominalPw:
@@ -946,14 +933,8 @@ namespace iRIS_CLM_GUI_TEST_01
                 case CmdSetPSU:
                     break;
 
-                //case CmdRdPSUvolt:
-                //  break;
-
-                //case CmdReadPSU:
-                //    break;
-
                 case CmdSetBaseTempCal:
-                    if (engFlag == true) { dataToAppd = tb_TempCompSet.Text; }
+                    dataToAppd = tb_TempCompSet.Text;
                     break;
 
                 case CmdSetCalAPwtoI:
@@ -963,15 +944,23 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdSetTECTemp:
+                    dataToAppd = Tb_TECpoint.Text;
+                    sndDl = 300;
                     break;
 
                 case CmdSetTECkp:
+                    dataToAppd = Tb_Kp.Text;
+                    sndDl = 300;
                     break;
 
                 case CmdSetTECki:
+                    dataToAppd = Tb_Ki.Text;
+                    sndDl = 300;
                     break;
 
                 case CmdSetTECsmpTime:
+                    dataToAppd = Tb_LoopT.Text;
+                    sndDl = 300;
                     break;
 
                 case CmdRdTECsetTemp:
@@ -993,6 +982,8 @@ namespace iRIS_CLM_GUI_TEST_01
                     MessageBox.Show("No command Found to send");
                     break;
             }
+
+            // USB_CDC.ReceivedBytesThreshold = 9; // set INT level
             bool result = await SendToSerial(cmdToTest, dataToAppd, sndDl);
 
             return true;
@@ -1125,6 +1116,7 @@ namespace iRIS_CLM_GUI_TEST_01
                 }
             }
             Task<bool> usbadd = SetAddress();
+            MessageBox.Show(" Connect PM100 \n" + " Connect USB IO interface \n");
             this.Cursor = Cursors.Default;
         }
         //======================================================================
@@ -1689,6 +1681,7 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private void Bt_NewTest_Click(object sender, EventArgs e)
         {
+            bt_NewTest.BackColor = Color.LawnGreen;
             MessageBox.Show(" Power ON/12V-2A \n");
             if (USB_Port_Open == true) { Task<bool> test2 = FirtInit(); }
             else MessageBox.Show("USB not connected");
@@ -1704,6 +1697,9 @@ namespace iRIS_CLM_GUI_TEST_01
             test2 = await LoadGlobalTestArray(bulkSetTEC);
 
             this.Cursor = Cursors.Default;
+
+            MessageBox.Show("Cycle Laser ower \n" + "Wait for TEC lock LED");
+            bt_NewTest.BackColor = Color.Coral;
 
             return true;
         }

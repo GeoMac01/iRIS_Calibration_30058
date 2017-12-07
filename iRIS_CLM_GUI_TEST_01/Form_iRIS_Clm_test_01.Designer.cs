@@ -158,8 +158,8 @@
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label49 = new System.Windows.Forms.Label();
             this.label50 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.Tb_CalBPw = new System.Windows.Forms.TextBox();
+            this.Tb_CalAPw = new System.Windows.Forms.TextBox();
             this.Tb_VPcon = new System.Windows.Forms.TextBox();
             this.ChkBx_TecOn = new System.Windows.Forms.CheckBox();
             this.label42 = new System.Windows.Forms.Label();
@@ -277,11 +277,16 @@
             // Cb_LaserSelect
             // 
             this.Cb_LaserSelect.FormattingEnabled = true;
+            this.Cb_LaserSelect.Items.AddRange(new object[] {
+            "iRIS CLM 780",
+            "iRIS CLM 660",
+            "iRIS CLM 580",
+            "iRIS CLM 488"});
             this.Cb_LaserSelect.Location = new System.Drawing.Point(241, 37);
             this.Cb_LaserSelect.Name = "Cb_LaserSelect";
             this.Cb_LaserSelect.Size = new System.Drawing.Size(99, 21);
             this.Cb_LaserSelect.TabIndex = 282;
-            this.Cb_LaserSelect.Text = "iRIS CLM 780";
+            this.Cb_LaserSelect.Text = "Select Laser";
             // 
             // groupBox1
             // 
@@ -448,9 +453,9 @@
             this.groupBox5.Controls.Add(this.tb_Cmd14Bit1);
             this.groupBox5.Controls.Add(this.label7);
             this.groupBox5.Controls.Add(this.tb_Cmd14Bit0);
-            this.groupBox5.Location = new System.Drawing.Point(463, 314);
+            this.groupBox5.Location = new System.Drawing.Point(463, 346);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(226, 249);
+            this.groupBox5.Size = new System.Drawing.Size(226, 217);
             this.groupBox5.TabIndex = 268;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Set & Test";
@@ -458,7 +463,7 @@
             // tb_Cmd20Bit3
             // 
             this.tb_Cmd20Bit3.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd20Bit3.Location = new System.Drawing.Point(121, 98);
+            this.tb_Cmd20Bit3.Location = new System.Drawing.Point(114, 80);
             this.tb_Cmd20Bit3.Name = "tb_Cmd20Bit3";
             this.tb_Cmd20Bit3.Size = new System.Drawing.Size(11, 20);
             this.tb_Cmd20Bit3.TabIndex = 195;
@@ -467,7 +472,7 @@
             // 
             this.label21.AutoSize = true;
             this.label21.BackColor = System.Drawing.Color.Transparent;
-            this.label21.Location = new System.Drawing.Point(142, 207);
+            this.label21.Location = new System.Drawing.Point(135, 189);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(64, 13);
             this.label21.TabIndex = 222;
@@ -476,7 +481,7 @@
             // tb_Cmd20Bit7
             // 
             this.tb_Cmd20Bit7.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd20Bit7.Location = new System.Drawing.Point(121, 204);
+            this.tb_Cmd20Bit7.Location = new System.Drawing.Point(114, 186);
             this.tb_Cmd20Bit7.Name = "tb_Cmd20Bit7";
             this.tb_Cmd20Bit7.Size = new System.Drawing.Size(11, 20);
             this.tb_Cmd20Bit7.TabIndex = 221;
@@ -485,7 +490,7 @@
             // 
             this.label20.AutoSize = true;
             this.label20.BackColor = System.Drawing.Color.Transparent;
-            this.label20.Location = new System.Drawing.Point(142, 181);
+            this.label20.Location = new System.Drawing.Point(135, 163);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(68, 13);
             this.label20.TabIndex = 220;
@@ -494,7 +499,7 @@
             // tb_Cmd20Bit6
             // 
             this.tb_Cmd20Bit6.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd20Bit6.Location = new System.Drawing.Point(121, 178);
+            this.tb_Cmd20Bit6.Location = new System.Drawing.Point(114, 160);
             this.tb_Cmd20Bit6.Name = "tb_Cmd20Bit6";
             this.tb_Cmd20Bit6.Size = new System.Drawing.Size(11, 20);
             this.tb_Cmd20Bit6.TabIndex = 219;
@@ -503,7 +508,7 @@
             // 
             this.label19.AutoSize = true;
             this.label19.BackColor = System.Drawing.Color.Transparent;
-            this.label19.Location = new System.Drawing.Point(142, 155);
+            this.label19.Location = new System.Drawing.Point(135, 137);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(72, 13);
             this.label19.TabIndex = 218;
@@ -512,7 +517,7 @@
             // tb_Cmd20Bit5
             // 
             this.tb_Cmd20Bit5.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd20Bit5.Location = new System.Drawing.Point(121, 152);
+            this.tb_Cmd20Bit5.Location = new System.Drawing.Point(114, 134);
             this.tb_Cmd20Bit5.Name = "tb_Cmd20Bit5";
             this.tb_Cmd20Bit5.Size = new System.Drawing.Size(11, 20);
             this.tb_Cmd20Bit5.TabIndex = 217;
@@ -521,7 +526,7 @@
             // 
             this.label18.AutoSize = true;
             this.label18.BackColor = System.Drawing.Color.Transparent;
-            this.label18.Location = new System.Drawing.Point(142, 129);
+            this.label18.Location = new System.Drawing.Point(135, 111);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(65, 13);
             this.label18.TabIndex = 216;
@@ -530,7 +535,7 @@
             // tb_Cmd20Bit4
             // 
             this.tb_Cmd20Bit4.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd20Bit4.Location = new System.Drawing.Point(121, 126);
+            this.tb_Cmd20Bit4.Location = new System.Drawing.Point(114, 108);
             this.tb_Cmd20Bit4.Name = "tb_Cmd20Bit4";
             this.tb_Cmd20Bit4.Size = new System.Drawing.Size(11, 20);
             this.tb_Cmd20Bit4.TabIndex = 215;
@@ -539,7 +544,7 @@
             // 
             this.label17.AutoSize = true;
             this.label17.BackColor = System.Drawing.Color.Transparent;
-            this.label17.Location = new System.Drawing.Point(142, 101);
+            this.label17.Location = new System.Drawing.Point(135, 83);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(47, 13);
             this.label17.TabIndex = 214;
@@ -549,7 +554,7 @@
             // 
             this.label16.AutoSize = true;
             this.label16.BackColor = System.Drawing.Color.Transparent;
-            this.label16.Location = new System.Drawing.Point(142, 75);
+            this.label16.Location = new System.Drawing.Point(135, 57);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(79, 13);
             this.label16.TabIndex = 212;
@@ -558,7 +563,7 @@
             // tb_Cmd20Bit2
             // 
             this.tb_Cmd20Bit2.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd20Bit2.Location = new System.Drawing.Point(121, 72);
+            this.tb_Cmd20Bit2.Location = new System.Drawing.Point(114, 54);
             this.tb_Cmd20Bit2.Name = "tb_Cmd20Bit2";
             this.tb_Cmd20Bit2.Size = new System.Drawing.Size(11, 20);
             this.tb_Cmd20Bit2.TabIndex = 211;
@@ -567,7 +572,7 @@
             // 
             this.label15.AutoSize = true;
             this.label15.BackColor = System.Drawing.Color.Transparent;
-            this.label15.Location = new System.Drawing.Point(142, 49);
+            this.label15.Location = new System.Drawing.Point(135, 31);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(59, 13);
             this.label15.TabIndex = 210;
@@ -576,7 +581,7 @@
             // tb_Cmd20Bit1
             // 
             this.tb_Cmd20Bit1.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd20Bit1.Location = new System.Drawing.Point(121, 46);
+            this.tb_Cmd20Bit1.Location = new System.Drawing.Point(114, 28);
             this.tb_Cmd20Bit1.Name = "tb_Cmd20Bit1";
             this.tb_Cmd20Bit1.Size = new System.Drawing.Size(11, 20);
             this.tb_Cmd20Bit1.TabIndex = 209;
@@ -585,7 +590,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.BackColor = System.Drawing.Color.Transparent;
-            this.label14.Location = new System.Drawing.Point(142, 23);
+            this.label14.Location = new System.Drawing.Point(33, 31);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(69, 13);
             this.label14.TabIndex = 208;
@@ -594,7 +599,7 @@
             // tb_Cmd20Bit0
             // 
             this.tb_Cmd20Bit0.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd20Bit0.Location = new System.Drawing.Point(121, 20);
+            this.tb_Cmd20Bit0.Location = new System.Drawing.Point(12, 28);
             this.tb_Cmd20Bit0.Name = "tb_Cmd20Bit0";
             this.tb_Cmd20Bit0.Size = new System.Drawing.Size(11, 20);
             this.tb_Cmd20Bit0.TabIndex = 207;
@@ -603,7 +608,7 @@
             // 
             this.label13.AutoSize = true;
             this.label13.BackColor = System.Drawing.Color.Transparent;
-            this.label13.Location = new System.Drawing.Point(40, 207);
+            this.label13.Location = new System.Drawing.Point(33, 189);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(69, 13);
             this.label13.TabIndex = 206;
@@ -612,7 +617,7 @@
             // tb_Cmd14Bit5
             // 
             this.tb_Cmd14Bit5.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd14Bit5.Location = new System.Drawing.Point(19, 204);
+            this.tb_Cmd14Bit5.Location = new System.Drawing.Point(12, 186);
             this.tb_Cmd14Bit5.Name = "tb_Cmd14Bit5";
             this.tb_Cmd14Bit5.Size = new System.Drawing.Size(11, 20);
             this.tb_Cmd14Bit5.TabIndex = 205;
@@ -621,7 +626,7 @@
             // 
             this.label12.AutoSize = true;
             this.label12.BackColor = System.Drawing.Color.Transparent;
-            this.label12.Location = new System.Drawing.Point(40, 181);
+            this.label12.Location = new System.Drawing.Point(33, 163);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(54, 13);
             this.label12.TabIndex = 204;
@@ -630,7 +635,7 @@
             // tb_Cmd14Bit4
             // 
             this.tb_Cmd14Bit4.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd14Bit4.Location = new System.Drawing.Point(19, 178);
+            this.tb_Cmd14Bit4.Location = new System.Drawing.Point(12, 160);
             this.tb_Cmd14Bit4.Name = "tb_Cmd14Bit4";
             this.tb_Cmd14Bit4.Size = new System.Drawing.Size(11, 20);
             this.tb_Cmd14Bit4.TabIndex = 203;
@@ -639,7 +644,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.BackColor = System.Drawing.Color.Transparent;
-            this.label11.Location = new System.Drawing.Point(40, 153);
+            this.label11.Location = new System.Drawing.Point(33, 135);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(56, 13);
             this.label11.TabIndex = 202;
@@ -648,7 +653,7 @@
             // tb_Cmd14Bit3
             // 
             this.tb_Cmd14Bit3.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd14Bit3.Location = new System.Drawing.Point(19, 150);
+            this.tb_Cmd14Bit3.Location = new System.Drawing.Point(12, 132);
             this.tb_Cmd14Bit3.Name = "tb_Cmd14Bit3";
             this.tb_Cmd14Bit3.Size = new System.Drawing.Size(11, 20);
             this.tb_Cmd14Bit3.TabIndex = 201;
@@ -657,7 +662,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.BackColor = System.Drawing.Color.Transparent;
-            this.label10.Location = new System.Drawing.Point(40, 127);
+            this.label10.Location = new System.Drawing.Point(33, 109);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(62, 13);
             this.label10.TabIndex = 200;
@@ -666,7 +671,7 @@
             // tb_Cmd14Bit2
             // 
             this.tb_Cmd14Bit2.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd14Bit2.Location = new System.Drawing.Point(19, 124);
+            this.tb_Cmd14Bit2.Location = new System.Drawing.Point(12, 106);
             this.tb_Cmd14Bit2.Name = "tb_Cmd14Bit2";
             this.tb_Cmd14Bit2.Size = new System.Drawing.Size(11, 20);
             this.tb_Cmd14Bit2.TabIndex = 199;
@@ -675,7 +680,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.BackColor = System.Drawing.Color.Transparent;
-            this.label9.Location = new System.Drawing.Point(40, 101);
+            this.label9.Location = new System.Drawing.Point(33, 83);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(66, 13);
             this.label9.TabIndex = 198;
@@ -684,7 +689,7 @@
             // tb_Cmd14Bit1
             // 
             this.tb_Cmd14Bit1.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd14Bit1.Location = new System.Drawing.Point(19, 98);
+            this.tb_Cmd14Bit1.Location = new System.Drawing.Point(12, 80);
             this.tb_Cmd14Bit1.Name = "tb_Cmd14Bit1";
             this.tb_Cmd14Bit1.Size = new System.Drawing.Size(11, 20);
             this.tb_Cmd14Bit1.TabIndex = 197;
@@ -693,7 +698,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.BackColor = System.Drawing.Color.Transparent;
-            this.label7.Location = new System.Drawing.Point(40, 75);
+            this.label7.Location = new System.Drawing.Point(33, 57);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(62, 13);
             this.label7.TabIndex = 194;
@@ -702,7 +707,7 @@
             // tb_Cmd14Bit0
             // 
             this.tb_Cmd14Bit0.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd14Bit0.Location = new System.Drawing.Point(19, 72);
+            this.tb_Cmd14Bit0.Location = new System.Drawing.Point(12, 54);
             this.tb_Cmd14Bit0.Name = "tb_Cmd14Bit0";
             this.tb_Cmd14Bit0.Size = new System.Drawing.Size(11, 20);
             this.tb_Cmd14Bit0.TabIndex = 190;
@@ -741,7 +746,7 @@
             this.groupBox4.Controls.Add(this.label4);
             this.groupBox4.Controls.Add(this.label2);
             this.groupBox4.Controls.Add(this.label1);
-            this.groupBox4.Location = new System.Drawing.Point(288, 393);
+            this.groupBox4.Location = new System.Drawing.Point(150, 390);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(169, 173);
             this.groupBox4.TabIndex = 247;
@@ -878,7 +883,7 @@
             this.groupBox3.Controls.Add(this.label22);
             this.groupBox3.Controls.Add(this.tb_Cmd34Bit2);
             this.groupBox3.Controls.Add(this.tb_Cmd34Bit3);
-            this.groupBox3.Location = new System.Drawing.Point(561, 168);
+            this.groupBox3.Location = new System.Drawing.Point(324, 423);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(135, 140);
             this.groupBox3.TabIndex = 231;
@@ -1153,8 +1158,8 @@
             this.TbPg_Results.Controls.Add(this.textBox3);
             this.TbPg_Results.Controls.Add(this.label49);
             this.TbPg_Results.Controls.Add(this.label50);
-            this.TbPg_Results.Controls.Add(this.textBox5);
-            this.TbPg_Results.Controls.Add(this.textBox6);
+            this.TbPg_Results.Controls.Add(this.Tb_CalBPw);
+            this.TbPg_Results.Controls.Add(this.Tb_CalAPw);
             this.TbPg_Results.Controls.Add(this.Tb_VPcon);
             this.TbPg_Results.Controls.Add(this.ChkBx_TecOn);
             this.TbPg_Results.Controls.Add(this.label42);
@@ -1230,7 +1235,7 @@
             this.textBox11.Name = "textBox11";
             this.textBox11.Size = new System.Drawing.Size(46, 20);
             this.textBox11.TabIndex = 330;
-            this.textBox11.Text = "10";
+            this.textBox11.Text = "0010";
             // 
             // label45
             // 
@@ -1319,7 +1324,7 @@
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(46, 20);
             this.textBox9.TabIndex = 321;
-            this.textBox9.Text = "12";
+            this.textBox9.Text = "0012";
             // 
             // textBox10
             // 
@@ -1353,7 +1358,7 @@
             this.Tb_MaxLsCurrent.Name = "Tb_MaxLsCurrent";
             this.Tb_MaxLsCurrent.Size = new System.Drawing.Size(46, 20);
             this.Tb_MaxLsCurrent.TabIndex = 317;
-            this.Tb_MaxLsCurrent.Text = "100";
+            this.Tb_MaxLsCurrent.Text = "0100";
             // 
             // Tb_Wavelength
             // 
@@ -1361,7 +1366,7 @@
             this.Tb_Wavelength.Name = "Tb_Wavelength";
             this.Tb_Wavelength.Size = new System.Drawing.Size(46, 20);
             this.Tb_Wavelength.TabIndex = 316;
-            this.Tb_Wavelength.Text = "488";
+            this.Tb_Wavelength.Text = "0488";
             // 
             // Lbl_PM100rd
             // 
@@ -1598,21 +1603,21 @@
             this.label50.TabIndex = 290;
             this.label50.Text = "A Pw to Vin";
             // 
-            // textBox5
+            // Tb_CalBPw
             // 
-            this.textBox5.Location = new System.Drawing.Point(252, 346);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(46, 20);
-            this.textBox5.TabIndex = 289;
-            this.textBox5.Text = "0.000";
+            this.Tb_CalBPw.Location = new System.Drawing.Point(252, 346);
+            this.Tb_CalBPw.Name = "Tb_CalBPw";
+            this.Tb_CalBPw.Size = new System.Drawing.Size(46, 20);
+            this.Tb_CalBPw.TabIndex = 289;
+            this.Tb_CalBPw.Text = "0.000";
             // 
-            // textBox6
+            // Tb_CalAPw
             // 
-            this.textBox6.Location = new System.Drawing.Point(252, 324);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(46, 20);
-            this.textBox6.TabIndex = 288;
-            this.textBox6.Text = "1.000";
+            this.Tb_CalAPw.Location = new System.Drawing.Point(252, 324);
+            this.Tb_CalAPw.Name = "Tb_CalAPw";
+            this.Tb_CalAPw.Size = new System.Drawing.Size(46, 20);
+            this.Tb_CalAPw.TabIndex = 288;
+            this.Tb_CalAPw.Text = "1.000";
             // 
             // Tb_VPcon
             // 
@@ -1658,7 +1663,7 @@
             this.Tb_LoopT.Name = "Tb_LoopT";
             this.Tb_LoopT.Size = new System.Drawing.Size(46, 20);
             this.Tb_LoopT.TabIndex = 266;
-            this.Tb_LoopT.Text = "300";
+            this.Tb_LoopT.Text = "0300";
             // 
             // label8
             // 
@@ -1693,7 +1698,7 @@
             this.Tb_Ki.Name = "Tb_Ki";
             this.Tb_Ki.Size = new System.Drawing.Size(46, 20);
             this.Tb_Ki.TabIndex = 262;
-            this.Tb_Ki.Text = "4";
+            this.Tb_Ki.Text = "0004";
             // 
             // Tb_Kp
             // 
@@ -1701,7 +1706,7 @@
             this.Tb_Kp.Name = "Tb_Kp";
             this.Tb_Kp.Size = new System.Drawing.Size(46, 20);
             this.Tb_Kp.TabIndex = 261;
-            this.Tb_Kp.Text = "30";
+            this.Tb_Kp.Text = "0030";
             // 
             // Tb_TECpoint
             // 
@@ -1709,7 +1714,7 @@
             this.Tb_TECpoint.Name = "Tb_TECpoint";
             this.Tb_TECpoint.Size = new System.Drawing.Size(46, 20);
             this.Tb_TECpoint.TabIndex = 260;
-            this.Tb_TECpoint.Text = "250";
+            this.Tb_TECpoint.Text = "0250";
             // 
             // label40
             // 
@@ -1764,7 +1769,7 @@
             this.Tb_VGASet.Name = "Tb_VGASet";
             this.Tb_VGASet.Size = new System.Drawing.Size(46, 20);
             this.Tb_VGASet.TabIndex = 255;
-            this.Tb_VGASet.Text = "60";
+            this.Tb_VGASet.Text = "0060";
             // 
             // Tb_ServerName
             // 
@@ -2104,8 +2109,8 @@
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label49;
         private System.Windows.Forms.Label label50;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox Tb_CalBPw;
+        private System.Windows.Forms.TextBox Tb_CalAPw;
         private System.Windows.Forms.TextBox Tb_VPcon;
         private System.Windows.Forms.ComboBox CmBx_PM100str;
         private System.Windows.Forms.ComboBox CmBx_USBinterface;
