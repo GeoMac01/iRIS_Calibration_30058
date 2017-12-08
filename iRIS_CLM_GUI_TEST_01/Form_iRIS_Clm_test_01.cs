@@ -117,7 +117,8 @@ namespace iRIS_CLM_GUI_TEST_01
             { CmdSetBaseTempCal,    StrDisable },
             { CmdSetTECena_dis,     StrEnable} };
 
-        string[,] bulkSetVarialble = new string[13, 2] {
+        string[,] bulkSetVarialble = new string[14, 2] {
+            { CmdTestMode,      StrEnable  },
             {CmdSeManuDate,     StrDisable },//not implemeted
             {CmdSetCalDate,     StrDisable },//not implemeted
             {CmdSetWavelenght,  StrDisable },
@@ -133,21 +134,23 @@ namespace iRIS_CLM_GUI_TEST_01
             //{CmdSetModel,       StrDisable},
             {CmdRdFirmware,     StrDisable} };
 
-        string[,] bulkSetdefaultCtrl = new string[5, 2] {
+        string[,] bulkSetdefaultCtrl = new string[6, 2] {
+            {CmdTestMode,       StrEnable  },
             {CmdRatedPower,     StrDisable },
             {CmdSetPwMonOut,    StrDisable },
             {CmdSetVgaGain,     StrDisable },
-            { CmdSetOffstVolt,  StrDisable },      //Offset 2.500V
-            { CmdSetPwCtrlOut,  StrDisable } };    //Internal PCON 2.500V
+            {CmdSetOffstVolt,   StrDisable },      //Offset 2.500V
+            {CmdSetPwCtrlOut,   StrDisable } };    //Internal PCON 2.500V
 
         //=================================================
         //=================================================
-
-        string[,] bulkReadDigital = new string[3, 2] {
-            { CmdLaserStatus, StrDisable  },
-            { CmdRdLsrStatus, StrDisable  },
-            { CmdRdCmdStautus2, StrDisable } };
-        //=================================================
+        string[,] bulkSetVga = new string[6, 2] {
+            { CmdLaserEnable,       StrDisable },
+            { CmdTestMode,          StrEnable  },
+            { CmdSetInOutPwCtrl,    StrDisable },       //external PCON
+            { CmdAnalgInpt,         StrDisable },       //Non Inv. PCON
+            { CmdEnablLogicvIn,     StrDisable },       //Non Inv. Laser Enable
+            { CmdsetTTL,            StrDisable } };    //Non Inv. TTL line in
 
         string[,] analogRead = new string[8, 2] {//read all analog inputs
             { CmdTestMode, StrEnable },
@@ -159,15 +162,6 @@ namespace iRIS_CLM_GUI_TEST_01
             { CmdRdBplateTemp,StrDisable },
             { CmdTestMode, StrDisable }};
 
-        string[,] endTest = new string[8, 2] {
-            { CmdLaserEnable, StrDisable },
-            { CmdTestMode, StrEnable },
-            { CmdSetOffstVolt,  "1.250" },
-            { CmdSetPwCtrlOut,  "1.250"},
-            { CmdSetInOutPwCtrl, StrEnable },
-            { CmdEnablLogicvIn, StrEnable },
-            { CmdsetTTL, StrEnable },
-            { CmdTestMode, StrDisable }};//internal PW ctrl
         #endregion
         //=================================================
         string[]  testStringArr   =     new string[2];
@@ -226,8 +220,7 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         #endregion
         //======================================================================
- 
-        public Form_iRIS_Clm_test_01()
+         public Form_iRIS_Clm_test_01()
         {
             InitializeComponent();
             Getportnames();
@@ -1036,7 +1029,7 @@ namespace iRIS_CLM_GUI_TEST_01
 
             this.Cursor = Cursors.WaitCursor;
 
-            bool    testBoard = await LoadGlobalTestArray(bulkReadDigital);            //initialise board;  
+            bool    testBoard = await LoadGlobalTestArray(bulkSetVga);            //initialise board;  
  
             adcRes1 = Convert.ToInt16(lbl_LaserPconInt.Text);
  
@@ -1132,9 +1125,9 @@ namespace iRIS_CLM_GUI_TEST_01
                     Cb_USB.Enabled = false;
                     Bt_USBcom.BackColor = Color.LawnGreen;
                     Bt_USBcom.Text = "USB Connected";
-                    Cb_USB.Enabled = false;
                     Bt_RefrCOMs.Enabled = false;
                     Bt_SetAddr.Enabled = true;
+                    MessageBox.Show(" Connect PM100 \n" + " Connect USB IO interface \n");
                     //Reset_Form();
                 }
                 catch (Exception)
@@ -1154,7 +1147,6 @@ namespace iRIS_CLM_GUI_TEST_01
                 }
             }
             Task<bool> usbadd = SetAddress();
-            MessageBox.Show(" Connect PM100 \n" + " Connect USB IO interface \n");
             this.Cursor = Cursors.Default;
         }
         //======================================================================
@@ -1305,7 +1297,7 @@ namespace iRIS_CLM_GUI_TEST_01
         }
         #endregion
         //======================================================================
-        private void Bt_RdLaserStatus_Click(object sender, EventArgs e) { Task<bool> send = LoadGlobalTestArray(bulkReadDigital); }
+        private void Bt_RdLaserStatus_Click(object sender, EventArgs e) { Task<bool> send = LoadGlobalTestArray(bulkSetVga); }
         //======================================================================
         private void Bt_LaserEn_Click(object sender, EventArgs e)
         {
@@ -1343,17 +1335,7 @@ namespace iRIS_CLM_GUI_TEST_01
                 Bt_NonInvDigMod.Text = " Non Inv.Anlg";
             }
         }
-        //======================================================================
-        private void Bt_SetInPw_Click(object sender, EventArgs e) { Task<bool> send = SetDacs(); }
-        //======================================================================
-        private async Task<bool> SetDacs()
-        {
-            engFlag = true;//set the value in to the textbox
-            bool setDacs = await LoadGlobalTestArray(endTest);
-            engFlag = false;
-            return true;
-        }
-         //======================================================================
+        
         private void Form_iRIS_Clm_01_Load(object sender, EventArgs e)
         {
             //MessageBox.Show(" Enter Boards serial numbers\n Validate entry press ENTER\n", "Initial Set");
@@ -1671,21 +1653,21 @@ namespace iRIS_CLM_GUI_TEST_01
             else Tb_LaserOK.BackColor = Color.Red;
         }
         //======================================================================
-        private void WriteDAC(double dacValue, int dacChannel)
+        private void WriteDAC(double dacValue, int dacChannel)//value in volts
         {
             double dacValue1 = 0;
-            dacValue1 = dacValue * 0.5;
+            dacValue1 = dacValue * 0.5;//unipolar convertion
             ULStat = DaqBoard.VOut(dacChannel, RangeSelected, (float)dacValue1, MccDaq.VOutOptions.Default);
         }
         //======================================================================
-        private void Bt_SetPcon_Click(object sender, EventArgs e)
+        private void Bt_SetPcon_Click(object sender, EventArgs e)//values in volts
         {
             double pconV = Convert.ToDouble(Tb_VPcon.Text);
-            WriteDAC(pconV, 0);
-            WriteDAC(pconV, 1);
+            WriteDAC(pconV, 0);//Pcon Channel
+            WriteDAC(pconV, 1);//Aux channel
         }
         //======================================================================
-        private double ReadADC(int adcChannel)
+        private double ReadADC(int adcChannel)//returns Volts
         {
             double VInVolts = 0;
             Range = MccDaq.Range.Bip10Volts;//connect ch low to AGND
@@ -1696,26 +1678,15 @@ namespace iRIS_CLM_GUI_TEST_01
         private void Bt_RdAnlg_Click_1(object sender, EventArgs e)
         {
             double vRead = 0;
-            vRead = ReadADC(0);
-            Lbl_Vpcon.Text = vRead.ToString("#0.##");
-            vRead = (ReadADC(1)) * 294.12;
-            Lbl_Viout.Text = vRead.ToString("#0.##");
+            vRead = ReadADC(0);//Pcon feedback
+            Lbl_Vpcon.Text = vRead.ToString("#0.###");
+            vRead = (ReadADC(1)) * 294.12;//Current read
+            Lbl_Viout.Text = vRead.ToString("#0.###");
+            vRead = ReadADC(2);//Laser Power
+            Lbl_PwreadV.Text = vRead.ToString("#0.###");
         }
         //======================================================================
         #endregion  External Hardware
-        //======================================================================
-        private void RampDAC(double minV, double maxV, int dacCh)
-            {
-                int lpNb = 20;
-                double dacStep = (maxV - minV) / lpNb;
-                double startStep = minV;
-                //for(double startStep = minV; (startStep < (maxV + dacStep));)//issue with 0
-                for (int lp1 = 0; lp1 <= lpNb; lp1++)
-                {
-                    WriteDAC(startStep, dacCh);
-                    startStep = startStep + dacStep;
-                }
-            }
         //======================================================================
         private void Bt_NewTest_Click(object sender, EventArgs e)
         {
@@ -1729,10 +1700,10 @@ namespace iRIS_CLM_GUI_TEST_01
         {
             this.Cursor = Cursors.WaitCursor;
 
-            //bool test2 = await LoadGlobalTestArray(bulkSetLaserIO);
-            bool test2 = await LoadGlobalTestArray(bulkSetVarialble);
-            //test2 = await LoadGlobalTestArray(bulkSetdefaultCtrl);
-            //test2 = await LoadGlobalTestArray(bulkSetTEC);
+            bool test2 = await LoadGlobalTestArray(bulkSetLaserIO);
+            test2 = await LoadGlobalTestArray(bulkSetVarialble);
+            test2 = await LoadGlobalTestArray(bulkSetdefaultCtrl);
+            test2 = await LoadGlobalTestArray(bulkSetTEC);
 
             this.Cursor = Cursors.Default;
 
@@ -1742,10 +1713,44 @@ namespace iRIS_CLM_GUI_TEST_01
             return true;
         }
         //======================================================================
+        private void Bt_CalVGA_Click(object sender, EventArgs e) { Task<bool> calvga = CalVGA(); }
+        //======================================================================
+        private async Task<bool> CalVGA()
+        {
+            bool initvga = await LoadGlobalTestArray(bulkSetVga);
+            Set_USB_Digit_Out(0,0);
+            Set_USB_Digit_Out(1, 0);
+            WriteDAC(0,0);
+            initvga = await ReadAllanlg(); //test if OK            
 
+            if ( Convert.ToBoolean(Read_USB_Digit_in(0)) == true) {
+                Set_USB_Digit_Out(1,1);
+                initvga = await SendToSerial(CmdLaserEnable, StrEnable, 300);
+                initvga = await ReadAllanlg();//test if OK  
 
+                //loop
+                //test
 
+            }
+            else MessageBox.Show("Laser NOT OK");
+           return true;
+        }
+        //======================================================================
+        private async Task<bool> ReadAllanlg()  {
 
+            bool readAdc = await LoadGlobalTestArray(analogRead);
+            double pwrRead = ReadPM100();
+            double pconRead = ReadADC(0);
+            double lsrPwRead = ReadADC(1);
+            double lsrCurrRead = ReadADC(2);
+
+            Lbl_PM100rd.Text = Convert.ToString(pwrRead);
+            Lbl_Vpcon.Text = Convert.ToString(pconRead);
+            Lbl_PwreadV.Text = Convert.ToString(lsrPwRead);
+            Lbl_Viout.Text = Convert.ToString(lsrCurrRead);
+
+            return true;
+        }
         //======================================================================
         //======================================================================
     }
