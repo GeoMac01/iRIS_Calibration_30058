@@ -117,6 +117,8 @@
             this.tb_TecSerNumb = new System.Windows.Forms.TextBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.TbPg_Results = new System.Windows.Forms.TabPage();
+            this.Lbl_PwreadV = new System.Windows.Forms.Label();
+            this.label60 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
             this.Tb_PwToVcal = new System.Windows.Forms.TextBox();
             this.label59 = new System.Windows.Forms.Label();
@@ -124,14 +126,14 @@
             this.label57 = new System.Windows.Forms.Label();
             this.Tb_NomPw = new System.Windows.Forms.TextBox();
             this.label45 = new System.Windows.Forms.Label();
-            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.Tb_minMaxPw = new System.Windows.Forms.TextBox();
             this.ChkBx_AnlgModSet = new System.Windows.Forms.CheckBox();
             this.ChkBx_DigitModSet = new System.Windows.Forms.CheckBox();
             this.ChkBx_EnableSet = new System.Windows.Forms.CheckBox();
             this.ChkBx_ExtPwCtrl = new System.Windows.Forms.CheckBox();
             this.label46 = new System.Windows.Forms.Label();
             this.label52 = new System.Windows.Forms.Label();
-            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.Tb_maxMaxPw = new System.Windows.Forms.TextBox();
             this.Tb_PwToVout = new System.Windows.Forms.TextBox();
             this.label53 = new System.Windows.Forms.Label();
             this.label55 = new System.Windows.Forms.Label();
@@ -184,7 +186,7 @@
             this.Bt_EnableDBstring = new System.Windows.Forms.Button();
             this.tb_SetIntPw = new System.Windows.Forms.TextBox();
             this.label38 = new System.Windows.Forms.Label();
-            this.tb_SetOffset = new System.Windows.Forms.TextBox();
+            this.Tb_SetOffset = new System.Windows.Forms.TextBox();
             this.Tb_Pw1 = new System.Windows.Forms.TextBox();
             this.tb_TempCompSet = new System.Windows.Forms.TextBox();
             this.label37 = new System.Windows.Forms.Label();
@@ -199,8 +201,6 @@
             this.Rt_ReceiveDataUSB = new System.Windows.Forms.RichTextBox();
             this.Bt_RdLaserStatus = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Lbl_PwreadV = new System.Windows.Forms.Label();
-            this.label60 = new System.Windows.Forms.Label();
             this.TbPg_InsTest.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -240,7 +240,7 @@
             // Bt_CalVGA
             // 
             this.Bt_CalVGA.BackColor = System.Drawing.Color.Coral;
-            this.Bt_CalVGA.Location = new System.Drawing.Point(108, 148);
+            this.Bt_CalVGA.Location = new System.Drawing.Point(10, 283);
             this.Bt_CalVGA.Name = "Bt_CalVGA";
             this.Bt_CalVGA.Size = new System.Drawing.Size(87, 39);
             this.Bt_CalVGA.TabIndex = 295;
@@ -252,7 +252,7 @@
             // Bt_USBinterf
             // 
             this.Bt_USBinterf.BackColor = System.Drawing.Color.Coral;
-            this.Bt_USBinterf.Location = new System.Drawing.Point(10, 238);
+            this.Bt_USBinterf.Location = new System.Drawing.Point(10, 148);
             this.Bt_USBinterf.Name = "Bt_USBinterf";
             this.Bt_USBinterf.Size = new System.Drawing.Size(87, 39);
             this.Bt_USBinterf.TabIndex = 294;
@@ -274,7 +274,7 @@
             // bt_NewTest
             // 
             this.bt_NewTest.BackColor = System.Drawing.Color.Coral;
-            this.bt_NewTest.Location = new System.Drawing.Point(10, 148);
+            this.bt_NewTest.Location = new System.Drawing.Point(10, 238);
             this.bt_NewTest.Name = "bt_NewTest";
             this.bt_NewTest.Size = new System.Drawing.Size(87, 39);
             this.bt_NewTest.TabIndex = 292;
@@ -1142,14 +1142,14 @@
             this.TbPg_Results.Controls.Add(this.label57);
             this.TbPg_Results.Controls.Add(this.Tb_NomPw);
             this.TbPg_Results.Controls.Add(this.label45);
-            this.TbPg_Results.Controls.Add(this.textBox8);
+            this.TbPg_Results.Controls.Add(this.Tb_minMaxPw);
             this.TbPg_Results.Controls.Add(this.ChkBx_AnlgModSet);
             this.TbPg_Results.Controls.Add(this.ChkBx_DigitModSet);
             this.TbPg_Results.Controls.Add(this.ChkBx_EnableSet);
             this.TbPg_Results.Controls.Add(this.ChkBx_ExtPwCtrl);
             this.TbPg_Results.Controls.Add(this.label46);
             this.TbPg_Results.Controls.Add(this.label52);
-            this.TbPg_Results.Controls.Add(this.textBox9);
+            this.TbPg_Results.Controls.Add(this.Tb_maxMaxPw);
             this.TbPg_Results.Controls.Add(this.Tb_PwToVout);
             this.TbPg_Results.Controls.Add(this.label53);
             this.TbPg_Results.Controls.Add(this.label55);
@@ -1202,7 +1202,7 @@
             this.TbPg_Results.Controls.Add(this.Bt_EnableDBstring);
             this.TbPg_Results.Controls.Add(this.tb_SetIntPw);
             this.TbPg_Results.Controls.Add(this.label38);
-            this.TbPg_Results.Controls.Add(this.tb_SetOffset);
+            this.TbPg_Results.Controls.Add(this.Tb_SetOffset);
             this.TbPg_Results.Controls.Add(this.Tb_Pw1);
             this.TbPg_Results.Controls.Add(this.tb_TempCompSet);
             this.TbPg_Results.Controls.Add(this.label37);
@@ -1223,6 +1223,25 @@
             this.TbPg_Results.TabIndex = 3;
             this.TbPg_Results.Text = "Engineering";
             this.TbPg_Results.UseVisualStyleBackColor = true;
+            // 
+            // Lbl_PwreadV
+            // 
+            this.Lbl_PwreadV.AutoSize = true;
+            this.Lbl_PwreadV.Location = new System.Drawing.Point(129, 292);
+            this.Lbl_PwreadV.Name = "Lbl_PwreadV";
+            this.Lbl_PwreadV.Size = new System.Drawing.Size(34, 13);
+            this.Lbl_PwreadV.TabIndex = 337;
+            this.Lbl_PwreadV.Text = "0.000";
+            this.Lbl_PwreadV.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label60
+            // 
+            this.label60.AutoSize = true;
+            this.label60.Location = new System.Drawing.Point(171, 293);
+            this.label60.Name = "label60";
+            this.label60.Size = new System.Drawing.Size(82, 13);
+            this.label60.TabIndex = 336;
+            this.label60.Text = "V PD Power Rd";
             // 
             // label32
             // 
@@ -1284,13 +1303,13 @@
             this.label45.TabIndex = 329;
             this.label45.Text = "Min. max. Pw mW";
             // 
-            // textBox8
+            // Tb_minMaxPw
             // 
-            this.textBox8.Location = new System.Drawing.Point(274, 148);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(46, 20);
-            this.textBox8.TabIndex = 328;
-            this.textBox8.Text = "10.1";
+            this.Tb_minMaxPw.Location = new System.Drawing.Point(274, 148);
+            this.Tb_minMaxPw.Name = "Tb_minMaxPw";
+            this.Tb_minMaxPw.Size = new System.Drawing.Size(46, 20);
+            this.Tb_minMaxPw.TabIndex = 328;
+            this.Tb_minMaxPw.Text = "10.1";
             // 
             // ChkBx_AnlgModSet
             // 
@@ -1356,13 +1375,13 @@
             this.label52.TabIndex = 322;
             this.label52.Text = "V Pmon. out Val.";
             // 
-            // textBox9
+            // Tb_maxMaxPw
             // 
-            this.textBox9.Location = new System.Drawing.Point(274, 105);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(46, 20);
-            this.textBox9.TabIndex = 321;
-            this.textBox9.Text = "0012";
+            this.Tb_maxMaxPw.Location = new System.Drawing.Point(274, 105);
+            this.Tb_maxMaxPw.Name = "Tb_maxMaxPw";
+            this.Tb_maxMaxPw.Size = new System.Drawing.Size(46, 20);
+            this.Tb_maxMaxPw.TabIndex = 321;
+            this.Tb_maxMaxPw.Text = "0012";
             // 
             // Tb_PwToVout
             // 
@@ -1409,7 +1428,7 @@
             // Lbl_PM100rd
             // 
             this.Lbl_PM100rd.AutoSize = true;
-            this.Lbl_PM100rd.Location = new System.Drawing.Point(78, 453);
+            this.Lbl_PM100rd.Location = new System.Drawing.Point(26, 490);
             this.Lbl_PM100rd.Name = "Lbl_PM100rd";
             this.Lbl_PM100rd.Size = new System.Drawing.Size(46, 13);
             this.Lbl_PM100rd.TabIndex = 315;
@@ -1547,8 +1566,7 @@
             // 
             this.CmBx_PM100str.Items.AddRange(new object[] {
             "USB0::0x1313::0x8072::P2008991::0::INSTR",
-            "USB0::0x1313::0x8072::P2008991::0::INSTR",
-            "USB0::0x1313::0x8072::P2008991::0::INSTR"});
+            "USB0::0x1313::0x8072::P2002916::0::INSTR"});
             this.CmBx_PM100str.Location = new System.Drawing.Point(434, 354);
             this.CmBx_PM100str.Name = "CmBx_PM100str";
             this.CmBx_PM100str.Size = new System.Drawing.Size(252, 21);
@@ -1807,7 +1825,7 @@
             this.Tb_VGASet.Name = "Tb_VGASet";
             this.Tb_VGASet.Size = new System.Drawing.Size(46, 20);
             this.Tb_VGASet.TabIndex = 255;
-            this.Tb_VGASet.Text = "0070";
+            this.Tb_VGASet.Text = "0040";
             // 
             // Tb_ServerName
             // 
@@ -1847,13 +1865,13 @@
             this.label38.Text = "Password";
             this.label38.Visible = false;
             // 
-            // tb_SetOffset
+            // Tb_SetOffset
             // 
-            this.tb_SetOffset.Location = new System.Drawing.Point(3, 424);
-            this.tb_SetOffset.Name = "tb_SetOffset";
-            this.tb_SetOffset.Size = new System.Drawing.Size(46, 20);
-            this.tb_SetOffset.TabIndex = 249;
-            this.tb_SetOffset.Text = "2.500";
+            this.Tb_SetOffset.Location = new System.Drawing.Point(3, 424);
+            this.Tb_SetOffset.Name = "Tb_SetOffset";
+            this.Tb_SetOffset.Size = new System.Drawing.Size(46, 20);
+            this.Tb_SetOffset.TabIndex = 249;
+            this.Tb_SetOffset.Text = "2.500";
             // 
             // Tb_Pw1
             // 
@@ -1990,25 +2008,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(683, 96);
             this.dataGridView1.TabIndex = 6;
             // 
-            // Lbl_PwreadV
-            // 
-            this.Lbl_PwreadV.AutoSize = true;
-            this.Lbl_PwreadV.Location = new System.Drawing.Point(129, 292);
-            this.Lbl_PwreadV.Name = "Lbl_PwreadV";
-            this.Lbl_PwreadV.Size = new System.Drawing.Size(34, 13);
-            this.Lbl_PwreadV.TabIndex = 337;
-            this.Lbl_PwreadV.Text = "0.000";
-            this.Lbl_PwreadV.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label60
-            // 
-            this.label60.AutoSize = true;
-            this.label60.Location = new System.Drawing.Point(171, 293);
-            this.label60.Name = "label60";
-            this.label60.Size = new System.Drawing.Size(82, 13);
-            this.label60.TabIndex = 336;
-            this.label60.Text = "V PD Power Rd";
-            // 
             // Form_iRIS_Clm_test_01
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2140,7 +2139,7 @@
         private System.Windows.Forms.Button Bt_EnableDBstring;
         private System.Windows.Forms.TextBox tb_SetIntPw;
         private System.Windows.Forms.Label label38;
-        private System.Windows.Forms.TextBox tb_SetOffset;
+        private System.Windows.Forms.TextBox Tb_SetOffset;
         private System.Windows.Forms.TextBox Tb_Pw1;
         private System.Windows.Forms.Label label37;
         private System.Windows.Forms.Button Bt_RdAnlg;
@@ -2183,7 +2182,7 @@
         private System.Windows.Forms.Label Lbl_PM100rd;
         private System.Windows.Forms.Label label46;
         private System.Windows.Forms.Label label52;
-        private System.Windows.Forms.TextBox textBox9;
+        private System.Windows.Forms.TextBox Tb_maxMaxPw;
         private System.Windows.Forms.TextBox Tb_PwToVout;
         private System.Windows.Forms.Label label53;
         private System.Windows.Forms.Label label55;
@@ -2192,7 +2191,7 @@
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.TextBox textBox7;
         private System.Windows.Forms.Label label45;
-        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.TextBox Tb_minMaxPw;
         private System.Windows.Forms.CheckBox ChkBx_AnlgModSet;
         private System.Windows.Forms.CheckBox ChkBx_DigitModSet;
         private System.Windows.Forms.CheckBox ChkBx_EnableSet;
