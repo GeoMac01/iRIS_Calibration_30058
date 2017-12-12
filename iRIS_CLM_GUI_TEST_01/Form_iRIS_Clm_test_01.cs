@@ -117,21 +117,22 @@ namespace iRIS_CLM_GUI_TEST_01
             { CmdSetBaseTempCal,    StrDisable },
             { CmdSetTECena_dis,     StrEnable} };
 
-        string[,] bulkSetVarialble = new string[14, 2] {
-            { CmdTestMode,      StrEnable  },
-            {CmdSeManuDate,     StrDisable },//not implemeted
-            {CmdSetCalDate,     StrDisable },//not implemeted
-            {CmdSetWavelenght,  StrDisable },
-            {CmdSetCalAPw,      StrDisable },
+        string[,] bulkSetVarialble = new string[16, 2] {
+            {CmdTestMode,       StrEnable },
+            {CmdSetWavelenght,  StrDisable},
+            {CmdSetLsMominalPw, StrDisable},
+            {CmdSetMaxIop,      StrDisable},
+            {CmdSetSerNumber,   StrDisable},
+            {CmdSetModel,       StrDisable},
+            {CmdSeManuDate,     StrDisable},
+            {CmdSetCalDate,     StrDisable},
+            {CmdSetPartNumber,  StrDisable},
+            {CmdSetCalAPw,      StrDisable},
             {CmdSetCalBPw,      StrDisable},
             {CmdSetCalAPwtoI,   StrDisable},
             {CmdSetCalBPwtoI,   StrDisable},
             {CmdSetCalAPwtoVin, StrDisable},
             {CmdSetCalBPwtoVin, StrDisable},
-            {CmdSetSerNumber,   StrDisable},
-            {CmdSetMaxIop,      StrDisable},
-            {CmdSetPartNumber,  StrDisable},
-            //{CmdSetModel,       StrDisable},
             {CmdRdFirmware,     StrDisable} };
 
         string[,] bulkSetdefaultCtrl = new string[6, 2] {
@@ -664,9 +665,11 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdSetSerNumber:
+                        Tb_SerNb.Text = rtnValue.PadLeft(8, '0');                      
                         break;
 
                     case CmdSetWavelenght:
+                        Lbl_WaveLg.Text = rtnValue;
                         break;
 
                     case CmdSetLsMominalPw:
@@ -770,6 +773,7 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdSetPartNumber:
+                    dataToAppd = Tb_LaserPN.Text;
                     sndDl = 600;
                     comThresh = 14;
                     break;
@@ -917,6 +921,7 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdSetSerNumber:
+                    dataToAppd = Tb_SerNb.Text;
                     sndDl = 600;
                     comThresh = 14;
                     break;
@@ -927,6 +932,8 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdSetLsMominalPw:
+                    dataToAppd = Tb_NomPw.Text;
+                    sndDl = 300;
                     break;
 
                 case CmdSetCustomerPm:
@@ -935,19 +942,24 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdSetMaxIop:
+                    dataToAppd = Tb_MaxLsCurrent.Text;
+                    sndDl = 300;
                     break;
 
                 case CmdSetCalDate:
+                    dataToAppd = dateTimePicker1.Value.Date.ToString("ddMMyyyy");
                     sndDl = 600;
-                    comThresh = 14;
+                    comThresh = 15;
                     break;
 
                 case CmdSeManuDate:
+                    dataToAppd = dateTimePicker1.Value.Date.ToString("ddMMyyyy");
                     sndDl = 600;
-                    comThresh = 14;
+                    comThresh = 15;
                     break;
 
                 case CmdSetModel:
+                    dataToAppd = Lbl_MdlName.Text;
                     sndDl = 600;
                     comThresh = 14;
                     break;
@@ -1127,6 +1139,8 @@ namespace iRIS_CLM_GUI_TEST_01
                     Bt_USBcom.Text = "USB Connected";
                     Bt_RefrCOMs.Enabled = false;
                     Bt_SetAddr.Enabled = true;
+                    Task<bool> usbadd = SetAddress();
+                    MessageBox.Show(" Connect PM100 \n" + " Connect USB IO interface \n");
                     //Reset_Form();
                 }
                 catch (Exception)
@@ -1145,8 +1159,7 @@ namespace iRIS_CLM_GUI_TEST_01
                     MessageBox.Show("USB_Port_Open COM Error");
                 }
             }
-            Task<bool> usbadd = SetAddress();
-            MessageBox.Show(" Connect PM100 \n" + " Connect USB IO interface \n");
+
             this.Cursor = Cursors.Default;
         }
         //======================================================================
@@ -1670,9 +1683,9 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private double ReadADC(int adcChannel)//returns Volts
         {
-            double VInVolts = 0;
+            //double VInVolts = 0;
             Range = MccDaq.Range.Bip10Volts;//connect ch low to AGND
-            ULStat = DaqBoard.VIn32(Convert.ToInt16(adcChannel), Range, out VInVolts, MccDaq.VInOptions.Default);
+            ULStat = DaqBoard.VIn32(Convert.ToInt16(adcChannel), Range, out double VInVolts, MccDaq.VInOptions.Default);
             return VInVolts;
         }
         //======================================================================
@@ -1797,6 +1810,10 @@ namespace iRIS_CLM_GUI_TEST_01
 
         else MessageBox.Show("Laser NOT OK");
 
+            initvga = await SendToSerial(CmdLaserEnable, StrDisable, 300);
+            WriteDAC(0,0);
+            WriteDAC(0,1);
+
             Bt_CalVGA.BackColor = Color.Coral;
             this.Cursor = Cursors.Default;
 
@@ -1843,6 +1860,78 @@ namespace iRIS_CLM_GUI_TEST_01
 
             return true;
         }
+        //======================================================================
+        private void Bt_ZeroI_Click(object sender, EventArgs e)
+        {
+            Task<bool> zeroI = ZerroCurrent();
+        }
+        //======================================================================
+        private async Task<bool> ZerroCurrent()
+        {
+            double zeroCurrent = 0;
+
+            bool rdIcal = await ReadAllanlg(true);
+            zeroCurrent = Convert.ToDouble(Lbl_Viout.Text);
+
+            rdIcal = await SendToSerial(CmdSet0mA, StrDisable,600);
+
+            return true;
+        }
+        //======================================================================
+        private void TbPg_InsTest_Click(object sender, EventArgs e)
+        {
+            Task<bool> calPwMonOut = CalPwMonOut(); 
+        }
+        //======================================================================
+        private async Task<bool> CalPwMonOut()
+        {
+
+            await Task.Delay(1);
+
+            return true;
+        }
+        //======================================================================
+        private void Bt_BasePltTempComp_Click(object sender, EventArgs e)
+        {
+            Task<bool> bspltcomp = BasePltTempComp();
+        }
+        //======================================================================
+        private async Task<bool> BasePltTempComp()
+        {
+            await Task.Delay(1);
+
+                return true;
+        }
+        //======================================================================
+        private void Bt_pdCalibration_Click(object sender, EventArgs e)
+        {
+            Task<bool> pdcal = PD_Calibration();
+        }
+        //======================================================================
+        private async Task<bool> PD_Calibration()
+        {
+
+            await Task.Delay(1);
+
+            return true;
+        }
+
+
+        //======================================================================
+        private void Bt_FinalLsSetup_Click(object sender, EventArgs e)
+        {
+            Task<bool> endSetup = LsFinalSet();
+  
+        }
+        //======================================================================
+        private async Task<bool> LsFinalSet()
+        {
+
+            await Task.Delay(1);
+
+            return true;
+        }
+
         //======================================================================
 
 
