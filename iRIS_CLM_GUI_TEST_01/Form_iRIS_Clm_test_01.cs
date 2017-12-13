@@ -99,14 +99,15 @@ namespace iRIS_CLM_GUI_TEST_01
         #region Test Sequence Definition
         //=================================================
 
-        string[,] bulkSetLaserIO = new string[7, 2] {   //the rest of the string is build with case...
+        string[,] bulkSetLaserIO = new string[8, 2] {   //the rest of the string is build with case...
             { CmdLaserEnable,       StrDisable },
             { CmdTestMode,          StrEnable  },
-            { CmdSetTECena_dis,     StrDisable },
+            { CmdSetTECena_dis,     StrEnable  },
             { CmdSetInOutPwCtrl,    StrDisable },       //external PCON
             { CmdAnalgInpt,         StrDisable },       //Non Inv. PCON
             { CmdEnablLogicvIn,     StrDisable },       //Non Inv. Laser Enable
-            { CmdsetTTL,            StrDisable }, };    //Non Inv. TTL line in
+            { CmdsetTTL,            StrEnable },        //Inv. TTL line in nothing connected
+            { CmdRdWavelen,         StrDisable }, };    
  
         string[,] bulkSetTEC = new string[7, 2] {
             { CmdTestMode,          StrEnable  },
@@ -331,7 +332,6 @@ namespace iRIS_CLM_GUI_TEST_01
             catch (Exception) { MessageBox.Show("COM Write Error"); }
             return true;                        
         }
-  
         //======================================================================
         #region Process_String long case where the received string is analysed
         private void Process_String(string strRcv)
@@ -404,6 +404,7 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdRdWavelen:
+                        Lbl_WaveLg.Text = rtnValue;
                         break;
 
                     case CmdLaserEnable://uses serial send to set
@@ -1033,33 +1034,6 @@ namespace iRIS_CLM_GUI_TEST_01
         }
         #endregion
         //======================================================================
-        private void Bt_SetJig_Click(object sender, EventArgs e)  { Task<bool> testRun = TestSeq01(); }
-        //======================================================================
-        private async Task<bool> TestSeq01()
-        {
-            int adcRes1 = 0;
-
-            this.Cursor = Cursors.WaitCursor;
-
-            bool    testBoard = await LoadGlobalTestArray(bulkSetVga);            //initialise board;  
- 
-            adcRes1 = Convert.ToInt16(lbl_LaserPconInt.Text);
- 
-            /*
-            con.Open();
-            cmd = new SqlCommand("update " + dataBaseName + " set DigitalTestRes = @DigiRes,  DigitalTestPass = @DigitPass where LaserId = @LaserId", con);
-            cmd.Parameters.AddWithValue("@LaserId", iD);
-            cmd.Parameters.AddWithValue("@DigiRes", digitalFault);
-            if (digitalFault == 0) cmd.Parameters.AddWithValue("@DigitPass", 1);
-            else cmd.Parameters.AddWithValue("@DigitPass", 0);
-            cmd.ExecuteNonQuery();
-            con.Close();
-            DisplayData();
-            */
-            this.Cursor = Cursors.Default;
-            return true;
-        }
-        //======================================================================
         private async Task<bool> LoadGlobalTestArray(string[,] testListArr)// from test sequence
         {
             arrayLgth = (testListArr.Length) / 2; //how many steps in the bulk sequence
@@ -1074,8 +1048,6 @@ namespace iRIS_CLM_GUI_TEST_01
             return true;
         }
         //======================================================================
-        private void Bt_RdAnlg_Click(object sender, EventArgs e) { Task<bool> rdAnalg = LoadGlobalTestArray(analogRead); }
-        //======================================================================
         private static byte[] ConvertToByteArr(string str)
         {
             char[] charArr = str.ToCharArray();
@@ -1088,8 +1060,6 @@ namespace iRIS_CLM_GUI_TEST_01
             }
             return bytes;
         }
-        //======================================================================
-        #region list of working methods and events 
         //======================================================================
         #region COM buttons and address settings
         //======================================================================
@@ -1285,70 +1255,6 @@ namespace iRIS_CLM_GUI_TEST_01
             Application.Exit();
         }
         //======================================================================
-        private void Reset_Form()
-        {
-            tb_Cmd14Bit0.BackColor = Color.Red;
-            tb_Cmd14Bit1.BackColor = Color.Red;
-            tb_Cmd14Bit2.BackColor = Color.Red;
-            tb_Cmd14Bit4.BackColor = Color.Red;
-            tb_Cmd14Bit3.BackColor = Color.Red;
-            tb_Cmd14Bit5.BackColor = Color.Red;
-            tb_Cmd14Bit5.BackColor = Color.Red;
-            tb_Cmd20Bit0.BackColor = Color.Red;
-            tb_Cmd20Bit1.BackColor = Color.Red;
-            tb_Cmd20Bit2.BackColor = Color.Red;
-            tb_Cmd20Bit3.BackColor = Color.Red;
-            tb_Cmd20Bit4.BackColor = Color.Red;
-            tb_Cmd20Bit5.BackColor = Color.Red;
-            tb_Cmd20Bit6.BackColor = Color.Red;
-            tb_Cmd20Bit7.BackColor = Color.Red;
-            tb_Cmd34Bit0.BackColor = Color.Red;
-            tb_Cmd34Bit1.BackColor = Color.Red;
-            tb_Cmd34Bit2.BackColor = Color.Red;
-            tb_Cmd34Bit3.BackColor = Color.Red;
-            Tb_EepromGood.BackColor = Color.Red; 
-        }
-        #endregion
-        //======================================================================
-        private void Bt_RdLaserStatus_Click(object sender, EventArgs e) { Task<bool> send = LoadGlobalTestArray(bulkSetVga); }
-        //======================================================================
-        private void Bt_LaserEn_Click(object sender, EventArgs e)
-        {
-
-        }
-        //======================================================================
-        private void Bt_InvDigtMod_Click(object sender, EventArgs e)
-        {
-
-        }
-        //======================================================================
-        private void Bt_IntExtPw_Click(object sender, EventArgs e)
-        {
-            if (Bt_IntExtPw.BackColor == Color.SandyBrown)
-            {   Task<bool> send = SendToSerial(CmdSetInOutPwCtrl, StrEnable, 0);
-                Bt_IntExtPw.BackColor = Color.LawnGreen;
-            }
-            else
-            {   Task<bool> send = SendToSerial(CmdSetInOutPwCtrl, StrDisable, 0);
-                Bt_IntExtPw.BackColor = Color.SandyBrown;
-            }
-
-        }
-        //======================================================================
-        private void Bt_NonInvDigMod_Click(object sender, EventArgs e)
-        {
-            if (Bt_NonInvDigMod.BackColor == Color.SandyBrown)
-            {   Task<bool> send = SendToSerial(CmdAnalgInpt, StrEnable, 0);
-                Bt_NonInvDigMod.BackColor = Color.LawnGreen;
-                Bt_NonInvDigMod.Text = "Inv. Anlg";
-            }
-            else
-            {   Task<bool> send = SendToSerial(CmdAnalgInpt, StrDisable, 0);
-                Bt_NonInvDigMod.BackColor = Color.SandyBrown;
-                Bt_NonInvDigMod.Text = " Non Inv.Anlg";
-            }
-        }
-        
         private void Form_iRIS_Clm_01_Load(object sender, EventArgs e)
         {
             //MessageBox.Show(" Enter Boards serial numbers\n Validate entry press ENTER\n", "Initial Set");
@@ -1409,15 +1315,6 @@ namespace iRIS_CLM_GUI_TEST_01
             }
         }
         //======================================================================
-        
-        //======================================================================
-        private void ErrorResetTest() {
-            MessageBox.Show(" Boards Fail\n" + 
-                            " Click 'New Test'\n");
-            bt_NewTest.Enabled = true;
-        }
-
-        //======================================================================
         private void Tb_User_MouseClick(object sender, MouseEventArgs e) { Tb_User.Clear(); }
         //======================================================================
         private void Tb_User_KeyDown(object sender, KeyEventArgs e)
@@ -1469,8 +1366,7 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         #region // PM100 Code...
         //======================================================================
-        private void Bt_PM100_Click(object sender, EventArgs e) { Task pm100bt = PM100Button(); }
-
+        private void Bt_PM100_Click(object sender, EventArgs e) { Task<bool> pm100bt = PM100Button(); }
         //======================================================================
         private async Task<bool> PM100Button()
         {
@@ -1491,6 +1387,7 @@ namespace iRIS_CLM_GUI_TEST_01
                 Bt_PM100.BackColor = Color.Coral;
                 pm.reset();
                 pm.Dispose();
+                pm100ok = false;
             }
             return true;
         }
@@ -1539,7 +1436,7 @@ namespace iRIS_CLM_GUI_TEST_01
             {
                 pm.measPower(out double power);
                 powerRd = Math.Round((power * 1000), 4);
-                pwrStr = powerRd.ToString("000.###");
+                pwrStr = powerRd.ToString("00.000");
                 Lbl_PM100rd.Text = pwrStr;
             }
             else if (pm100ok == false) { MessageBox.Show("PM100 Error"); }
@@ -1632,15 +1529,15 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private void Bt_LsEnable_Click(object sender, EventArgs e)
         {
-            if (Bt_LaserEn.BackColor == Color.PeachPuff)
+            if (Bt_LsEnable.BackColor == Color.PeachPuff)
             {
                 Set_USB_Digit_Out(0, 1);
-                Bt_LaserEn.BackColor = Color.Plum;
+                Bt_LsEnable.BackColor = Color.Plum;
             }
             else
             {
                 Set_USB_Digit_Out(0, 0);
-                Bt_LaserEn.BackColor = Color.PeachPuff;
+                Bt_LsEnable.BackColor = Color.PeachPuff;
             }
         }
         //======================================================================
@@ -1661,7 +1558,7 @@ namespace iRIS_CLM_GUI_TEST_01
         private void Bt_RsLaserOk_Click(object sender, EventArgs e)
         {
             sbyte lsOK = 0;
-            lsOK = Read_USB_Digit_in(1);
+            lsOK = Read_USB_Digit_in(2);
             if (lsOK == 1) Tb_LaserOK.BackColor = Color.Green;
             else Tb_LaserOK.BackColor = Color.Red;
         }
@@ -1683,22 +1580,12 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private double ReadADC(int adcChannel)//returns Volts
         {
-            //double VInVolts = 0;
             Range = MccDaq.Range.Bip10Volts;//connect ch low to AGND
             ULStat = DaqBoard.VIn32(Convert.ToInt16(adcChannel), Range, out double VInVolts, MccDaq.VInOptions.Default);
             return VInVolts;
         }
         //======================================================================
-        private void Bt_RdAnlg_Click_1(object sender, EventArgs e)
-        {
-            double vRead = 0;
-            vRead = ReadADC(0);//Pcon feedback
-            Lbl_Vpcon.Text = vRead.ToString("#0.###");
-            vRead = (ReadADC(1)) * 294.12;//Current read
-            Lbl_Viout.Text = vRead.ToString("#0.###");
-            vRead = ReadADC(2);//Laser Power
-            Lbl_PwreadV.Text = vRead.ToString("#0.###");
-        }
+        private void Bt_RdAnlg_Click_1(object sender, EventArgs e) { Task<bool> rdadc = ReadAllanlg(false); }
         //======================================================================
         #endregion  External Hardware
         //======================================================================
@@ -1738,9 +1625,9 @@ namespace iRIS_CLM_GUI_TEST_01
             this.Cursor = Cursors.WaitCursor;
 
             bool test2 = await LoadGlobalTestArray(bulkSetLaserIO);
-            test2 = await LoadGlobalTestArray(bulkSetVarialble);
-            test2 = await LoadGlobalTestArray(bulkSetdefaultCtrl);
-            test2 = await LoadGlobalTestArray(bulkSetTEC);
+            //test2 = await LoadGlobalTestArray(bulkSetVarialble);
+            //test2 = await LoadGlobalTestArray(bulkSetdefaultCtrl);
+            //test2 = await LoadGlobalTestArray(bulkSetTEC);
 
             this.Cursor = Cursors.Default;
 
@@ -1845,17 +1732,20 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private async Task<bool> ReadAllanlg(bool fullRd)  {
 
-            if (fullRd == true) { bool readAdc = await LoadGlobalTestArray(analogRead); }
-            double pwrRead = ReadPM100();
+            double pwrRead = 0;
             double pconRead = ReadADC(0);
             double lsrPwRead = ReadADC(1);
             double lsrCurrRead = ReadADC(2);
 
-            Lbl_PM100rd.Text = pwrRead.ToString("0.000");
-            Lbl_Vpcon.Text =   pconRead.ToString("0.000");
-            Lbl_PwreadV.Text = lsrPwRead.ToString("0.000");
-            Lbl_Viout.Text =   lsrCurrRead.ToString("0.000");
+            if (pm100ok == true) { pwrRead = ReadPM100(); }
 
+            if (fullRd == true) { bool readAdc = await LoadGlobalTestArray(analogRead); }
+
+            Lbl_PM100rd.Text = pwrRead.ToString("00.000");
+            Lbl_Vpcon.Text =   pconRead.ToString("00.000");
+            Lbl_PwreadV.Text = lsrPwRead.ToString("00.000");//*294.12
+            Lbl_Viout.Text =   lsrCurrRead.ToString("00.000");
+            
             await Task.Delay(1);//this is there as the compiler will not see the await in the if statement.
 
             return true;
@@ -1915,8 +1805,6 @@ namespace iRIS_CLM_GUI_TEST_01
 
             return true;
         }
-
-
         //======================================================================
         private void Bt_FinalLsSetup_Click(object sender, EventArgs e)
         {
@@ -1931,106 +1819,168 @@ namespace iRIS_CLM_GUI_TEST_01
 
             return true;
         }
-
+        //======================================================================
+        private void Bt_LaserEn_Click_1(object sender, EventArgs e) {
+            if (Bt_LaserEn.BackColor == Color.SandyBrown) {
+                Task<bool> sdEne = SendToSerial(CmdLaserEnable, StrEnable, 300);
+                Bt_LaserEn.BackColor = Color.LawnGreen;
+            }
+            else if (Bt_LaserEn.BackColor == Color.LawnGreen) {
+                Task<bool> sdEnd = SendToSerial(CmdLaserEnable, StrDisable, 300);
+                Bt_LaserEn.BackColor = Color.SandyBrown;
+            }
+        }
+        //======================================================================
+        private void Bt_InvDigtMod_Click_1(object sender, EventArgs e) {
+            if (Bt_InvDigtMod.BackColor == Color.SandyBrown) {
+                Task<bool> sdEne = SendToSerial(CmdsetTTL, StrEnable, 300);
+                Bt_InvDigtMod.BackColor = Color.LawnGreen;
+            }
+            else if (Bt_InvDigtMod.BackColor == Color.LawnGreen){
+                Task<bool> sdEnd = SendToSerial(CmdsetTTL, StrDisable, 300);
+                Bt_InvDigtMod.BackColor = Color.SandyBrown;
+            }
+        }
+        //======================================================================
+        private void Bt_InvAnlg_Click_1(object sender, EventArgs e) {
+            if (Bt_InvAnlg.BackColor == Color.SandyBrown) {
+                Task<bool> sdEne = SendToSerial(CmdAnalgInpt, StrEnable, 300);
+                Bt_InvAnlg.BackColor = Color.LawnGreen;
+            }
+            else if (Bt_InvAnlg.BackColor == Color.LawnGreen) {
+                Task<bool> sdEnd = SendToSerial(CmdAnalgInpt, StrDisable, 300);
+                Bt_InvAnlg.BackColor = Color.SandyBrown;
+            }
+        }
+        //======================================================================
+        private void Bt_IntExtPw_Click_1(object sender, EventArgs e) {
+            if (Bt_IntExtPw.BackColor == Color.SandyBrown)  {
+                Task<bool> sdEne = SendToSerial(CmdSetInOutPwCtrl, StrEnable, 300);
+                Bt_IntExtPw.BackColor = Color.LawnGreen;
+            }
+            else if (Bt_IntExtPw.BackColor == Color.LawnGreen) {
+                Task<bool> sdEnd = SendToSerial(CmdSetInOutPwCtrl, StrDisable, 300);
+                Bt_IntExtPw.BackColor = Color.SandyBrown;
+            }
+        }
+        //======================================================================
+        private void Bt_SetIntPwDAC_Click(object sender, EventArgs e) { Task<bool> sdEne = SendToSerial(CmdSetPwCtrlOut, tb_SetIntPw.Text, 600); }
+        //======================================================================
+        private void Bt_EnableTest_Click(object sender, EventArgs e) {
+            if (Bt_EnableTest.BackColor == Color.SandyBrown) {
+                Bt_EnableTest.BackColor = Color.LawnGreen;
+                Task<bool> sdEne = SendToSerial(CmdTestMode, StrEnable, 300);
+            }
+            else if (Bt_EnableTest.BackColor == Color.LawnGreen) {
+                Bt_EnableTest.BackColor = Color.SandyBrown;
+                Task<bool> sdEnd = SendToSerial(CmdTestMode,StrDisable,300);
+            }
+        }
+        //======================================================================
+        private void Bt_setOffDac_Click(object sender, EventArgs e) { Task<bool> sdEne = SendToSerial(CmdSetOffstVolt, Tb_SetOffset.Text, 600); }
+        //======================================================================
+        private void Bt_SetPwDac_Click(object sender, EventArgs e) { Task<bool> sdPddac = SendToSerial(CmdSetPwMonOut, StrDisable, 600); }
         //======================================================================
 
 
         //======================================================================
         //======================================================================
     }
+    //======================================================================
+    //======================================================================
 }
 //======================================================================
 //======================================================================
 
-    /*
+/*
 namespace ConsoleApplication1
 {
 
-    using System.Text;
-    using System.Data.Odbc;
-    using System.Data;
-    using System.Web;
-    using System.ComponentModel;
-    using System.IO;
-    using System.Net;
-    using System.Diagnostics;
-    using System.Runtime.InteropServices;
-    using System.Data.OleDb;
-    using System.Text.RegularExpressions;
-    using System.Linq;
+using System.Text;
+using System.Data.Odbc;
+using System.Data;
+using System.Web;
+using System.ComponentModel;
+using System.IO;
+using System.Net;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Data.OleDb;
+using System.Text.RegularExpressions;
+using System.Linq;
 
-    using System;
-    using System.Collections.Generic;
-    using System.Management; // need to add System.Management to your project references.
+using System;
+using System.Collections.Generic;
+using System.Management; // need to add System.Management to your project references.
 
-    class Program
+class Program
+{
+
+    static void Main(string[] args)
     {
+        var usbDevices = GetUSBDevices();
 
-        static void Main(string[] args)
+        foreach (var usbDevice in usbDevices)
         {
-            var usbDevices = GetUSBDevices();
+            string m_pendid;
 
-            foreach (var usbDevice in usbDevices)
-            {
-                string m_pendid;
+            Console.WriteLine("Device ID: {0}, PNP Device ID: {1}, Description: {2}, USBVersion: {3}, SystemName: {4}",
+            usbDevice.DeviceID, usbDevice.PnpDeviceID, usbDevice.Description, usbDevice.usbversion, usbDevice.SystemName);
 
-                Console.WriteLine("Device ID: {0}, PNP Device ID: {1}, Description: {2}, USBVersion: {3}, SystemName: {4}",
-                usbDevice.DeviceID, usbDevice.PnpDeviceID, usbDevice.Description, usbDevice.usbversion, usbDevice.SystemName);
+            // m_pendid=catch["usbDevice.DeviceID"];
+            m_pendid = usbDevice.DeviceID;
 
-                // m_pendid=catch["usbDevice.DeviceID"];
-                m_pendid = usbDevice.DeviceID;
-
-                Console.WriteLine("Test" + m_pendid);
-
-            }
-
-            // Console.Write("DeviceID :DeviceID");
-            Console.Read();
+            Console.WriteLine("Test" + m_pendid);
 
         }
 
-        static List<usbdeviceinfo> GetUSBDevices()
-        {
-            List<usbdeviceinfo> devices = new List<usbdeviceinfo>();
+        // Console.Write("DeviceID :DeviceID");
+        Console.Read();
 
-            ManagementObjectCollection collection;
-            using (var searcher = new ManagementObjectSearcher(@"Select * From Win32_USBHub"))
-                collection = searcher.Get();
-
-            foreach (var device in collection)
-            {
-                devices.Add(new USBDeviceInfo(
-                (string)device.GetPropertyValue("DeviceID"),
-                (string)device.GetPropertyValue("PNPDeviceID"),
-                (string)device.GetPropertyValue("Description"),
-                (string)device.GetPropertyValue("USBVersion"),
-                (string)device.GetPropertyValue("SystemName")
-
-                ));
-
-            }
-
-            collection.Dispose();
-            return devices;
-        }
     }
 
-    class USBDeviceInfo
+    static List<usbdeviceinfo> GetUSBDevices()
     {
-        public USBDeviceInfo(string deviceID, string pnpDeviceID, string description, string usbversion1, string SystemName2)
+        List<usbdeviceinfo> devices = new List<usbdeviceinfo>();
+
+        ManagementObjectCollection collection;
+        using (var searcher = new ManagementObjectSearcher(@"Select * From Win32_USBHub"))
+            collection = searcher.Get();
+
+        foreach (var device in collection)
         {
-            this.DeviceID = deviceID;
-            this.PnpDeviceID = pnpDeviceID;
-            this.Description = description;
-            this.usbversion = usbversion1;
-            this.SystemName = SystemName2;
+            devices.Add(new USBDeviceInfo(
+            (string)device.GetPropertyValue("DeviceID"),
+            (string)device.GetPropertyValue("PNPDeviceID"),
+            (string)device.GetPropertyValue("Description"),
+            (string)device.GetPropertyValue("USBVersion"),
+            (string)device.GetPropertyValue("SystemName")
+
+            ));
+
         }
-        public string DeviceID { get; private set; }
-        public string PnpDeviceID { get; private set; }
-        public string Description { get; private set; }
-        public string usbversion { get; private set; }
-        public string SystemName { get; private set; }
+
+        collection.Dispose();
+        return devices;
     }
 }
 
-    */
+class USBDeviceInfo
+{
+    public USBDeviceInfo(string deviceID, string pnpDeviceID, string description, string usbversion1, string SystemName2)
+    {
+        this.DeviceID = deviceID;
+        this.PnpDeviceID = pnpDeviceID;
+        this.Description = description;
+        this.usbversion = usbversion1;
+        this.SystemName = SystemName2;
+    }
+    public string DeviceID { get; private set; }
+    public string PnpDeviceID { get; private set; }
+    public string Description { get; private set; }
+    public string usbversion { get; private set; }
+    public string SystemName { get; private set; }
+}
+}
+
+*/
