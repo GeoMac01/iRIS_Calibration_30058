@@ -13,12 +13,16 @@ using Microsoft.VisualBasic;
 using Thorlabs.PM100D_32.Interop;
 using MccDaq;
 
+//iRIS Production 30058_01
+//14/12/2017
+
 namespace iRIS_CLM_GUI_TEST_01
 {
     public partial class Form_iRIS_Clm_test_01 : Form
     {
 
         #region Commands Definition
+        const string rtnNull            = "00";
         const string CmdLaserEnable     = "02";
         const string CmdSetLsPw         = "03";
         const string CmdRdSerialNo      = "04";
@@ -109,13 +113,12 @@ namespace iRIS_CLM_GUI_TEST_01
             { CmdsetTTL,            StrEnable },        //Inv. TTL line in nothing connected
             { CmdRdWavelen,         StrDisable }, };    
  
-        string[,] bulkSetTEC = new string[7, 2] {
+        string[,] bulkSetTEC = new string[6, 2] {
             { CmdTestMode,          StrEnable  },
             { CmdSetTECTemp,        StrDisable },
             { CmdSetTECkp,          StrDisable },
             { CmdSetTECki,          StrDisable },
             { CmdSetTECsmpTime,     StrDisable },
-            { CmdSetBaseTempCal,    StrDisable },
             { CmdSetTECena_dis,     StrEnable} };
 
         string[,] bulkSetVarialble = new string[16, 2] {
@@ -143,9 +146,9 @@ namespace iRIS_CLM_GUI_TEST_01
             {CmdSetVgaGain,     StrDisable },
             {CmdSetOffstVolt,   StrDisable },      //Offset 2.500V
             {CmdSetPwCtrlOut,   StrDisable } };    //Internal PCON 2.500V
+    
+        //=================================================
 
-        //=================================================
-        //=================================================
         string[,] bulkSetVga = new string[6, 2] {
             { CmdLaserEnable,       StrDisable },
             { CmdTestMode,          StrEnable  },
@@ -155,13 +158,13 @@ namespace iRIS_CLM_GUI_TEST_01
             { CmdsetTTL,            StrDisable } };    //Non Inv. TTL line in
 
         string[,] analogRead = new string[7, 2] {//read all analog inputs
-            { CmdTestMode, StrEnable },
-            { CmdRdCmdStautus2, StrDisable },
-            { CmdRdPwSetPcon, StrDisable },
-            { CmdRdLaserPow, StrDisable },
-            { CmdCurrentRead,StrDisable },
-            { CmdRdTecTemprt,StrDisable },
-            { CmdRdBplateTemp,StrDisable } };
+            { CmdTestMode,          StrEnable },
+            { CmdRdCmdStautus2,     StrDisable },
+            { CmdRdPwSetPcon,       StrDisable },
+            { CmdRdLaserPow,        StrDisable },
+            { CmdCurrentRead,       StrDisable },
+            { CmdRdTecTemprt,       StrDisable },
+            { CmdRdBplateTemp,      StrDisable } };
             //{ CmdTestMode, StrDisable }};
 
         #endregion
@@ -186,6 +189,7 @@ namespace iRIS_CLM_GUI_TEST_01
         bool RS232_Port_Open =  false;
         bool intExtCmd =        false;
         bool engFlag =          false;
+        bool testMode =         false;
                 
         int arrayLgth =         0;
         
@@ -346,11 +350,13 @@ namespace iRIS_CLM_GUI_TEST_01
             rtnCmd = returnChop[1];
             rtnValue = returnChop[2];
                                     
-            if (rtnCmd == cmdTrack)
+            if (rtnCmd=="00") MessageBox.Show("rtn null");
+            else if (rtnCmd == cmdTrack)
             {   cmdTrack = string.Empty;
 
                 switch (rtnCmd)
                 {
+
                     case CmdRdUnitNo://99
                         if (RS232_Port_Open == true)
                         {
@@ -408,6 +414,8 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdLaserEnable://uses serial send to set
+                        if (rtnValue == StrDisable) { Bt_LaserEn.BackColor = Color.SandyBrown; }
+                        else if (rtnValue == StrEnable) { Bt_LaserEn.BackColor = Color.LawnGreen; }
                         break;
 
                     case CmdSetLsPw:
@@ -433,7 +441,7 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdRdBplateTemp:
-                        lbl_baseTemp.Text = rtnValue.PadLeft(5,'0');
+                        Lbl_TempBplt.Text = rtnValue.PadLeft(4,'0');
                         break;
 
                     case CmdLaserStatus:
@@ -485,19 +493,25 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdRdTecTemprt:
-                        lbl_TecTemp.Text = rtnValue.PadLeft(5,'0');
+                        //lbl_TecTemp.Text = rtnValue.PadLeft(5,'0');
                         break;
 
                     case CmdHELP:
                         break;
 
                     case CmdsetTTL:
+                        if (rtnValue == StrDisable) { Bt_InvDigtMod.BackColor = Color.SandyBrown; }
+                        else if (rtnValue == StrEnable) { Bt_InvDigtMod.BackColor = Color.LawnGreen; }
                         break;
 
                     case CmdEnablLogicvIn:
+                        if (rtnValue == StrDisable) { Bt_InvEnable.BackColor = Color.SandyBrown; }
+                        else if (rtnValue == StrEnable) { Bt_InvEnable.BackColor = Color.LawnGreen; }
                         break;
 
                     case CmdAnalgInpt:
+                        if (rtnValue == StrDisable) { Bt_InvAnlg.BackColor = Color.SandyBrown; }
+                        else if (rtnValue == StrEnable) { Bt_InvAnlg.BackColor = Color.LawnGreen; }
                         break;
 
                     case CmdRdLsrStatus:
@@ -584,11 +598,16 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdSetInOutPwCtrl:
-                        if (rtnValue == "0000") intExtCmd = false;//used to select text box
-                        else if (rtnValue == "0001") intExtCmd = true;
+                        if (rtnValue == StrDisable) {
+                            intExtCmd = false;//used to select text box
+                            Bt_IntExtPw.BackColor = Color.SandyBrown; }
+                        else if (rtnValue == StrEnable) {
+                            intExtCmd = true;
+                            Bt_IntExtPw.BackColor = Color.LawnGreen; }
                         break;
 
                     case CmdSet0mA:
+                        //firmware "error" : returns 00 as cmd
                         break;
 
                     case CmdSetStramind:
@@ -620,8 +639,8 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdRdPwSetPcon:
-                        if (intExtCmd == true) lbl_LaserPconInt.Text = rtnValue.PadLeft(5,'0');
-                        else if (intExtCmd == false) lbl_LaserPconExt.Text = rtnValue.PadLeft(5,'0');
+                        //if (intExtCmd == true) lbl_LaserPconInt.Text = rtnValue.PadLeft(5,'0');
+                        //else if (intExtCmd == false) lbl_LaserPconExt.Text = rtnValue.PadLeft(5,'0');
                         break;
 
                     case CmdRdInitCurrent:
@@ -631,7 +650,7 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdRdLaserPow:
-                        lbl_LaserPD.Text = rtnValue.PadLeft(5,'0');
+                        //lbl_LaserPD.Text = rtnValue.PadLeft(5,'0');
                         break;
 
                     case CmdRdPnNb:
@@ -644,7 +663,17 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdCurrentRead:
-                        lbl_LaserI.Text = rtnValue.PadLeft(5,'0');
+                        if (testMode == true)
+                        {
+                            Lbl_uClsCurrent.Text = rtnValue.PadLeft(5, '0');
+                            Lbl_MaOrBits.Text = "uC Ls. bits";
+                        }
+                        else if (testMode==false)
+                        {
+                            Lbl_uClsCurrent.Text = rtnValue.PadLeft(4, '0');
+                            Lbl_MaOrBits.Text = "uC Ls. ImA";
+                        }
+
                         break;
 
                     //case CmdSetPwtoVout:
@@ -695,6 +724,12 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdTestMode:
+                        if (rtnValue == "0000") {
+                            testMode = false;
+                            Bt_EnableTest.BackColor = Color.SandyBrown; }
+                        else if (rtnValue == "0001") {
+                            testMode = true;
+                            Bt_EnableTest.BackColor = Color.LawnGreen; }
                         break;
 
                     case CmdSetPSU:
@@ -809,19 +844,24 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdsetTTL:
+                    if (dataToAppd == StrDisable) { Bt_InvDigtMod.BackColor = Color.SandyBrown; }
+                    else if (dataToAppd == StrEnable) { Bt_InvDigtMod.BackColor = Color.LawnGreen; }
                     break;
 
                 case CmdEnablLogicvIn:
+                    if (dataToAppd == StrDisable) { Bt_InvEnable.BackColor = Color.SandyBrown; }
+                    else if (dataToAppd == StrEnable) { Bt_InvEnable.BackColor = Color.LawnGreen; }
                     break;
 
                 case CmdAnalgInpt:
+                    if (dataToAppd == StrDisable) { Bt_InvAnlg.BackColor = Color.SandyBrown; }
+                    else if (dataToAppd == StrEnable) { Bt_InvAnlg.BackColor = Color.LawnGreen; }
                     break;
 
                 case CmdRdLsrStatus:
                     break;
 
                 case CmdSetPwMonOut:
-                    dataToAppd = Tb_PwToVout.Text;
                     break;
 
                 case CmdRdCalDate:
@@ -891,6 +931,7 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdCurrentRead:
+                    if(testMode==true) comThresh = 10;
                     break;
 
                 case CmdSetPwtoVout:
@@ -972,7 +1013,7 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdSetBaseTempCal:
-                    dataToAppd = tb_TempCompSet.Text;
+                    //dataToAppd = tb_TempCompSet.Text;
                     break;
 
                 case CmdSetCalAPwtoI:
@@ -1555,13 +1596,11 @@ namespace iRIS_CLM_GUI_TEST_01
             }
         }
         //======================================================================
-        private void Bt_RsLaserOk_Click(object sender, EventArgs e)
-        {
+        private void Bt_RsLaserOk_Click(object sender, EventArgs e) {
             sbyte lsOK = 0;
             lsOK = Read_USB_Digit_in(2);
             if (lsOK == 1) Tb_LaserOK.BackColor = Color.Green;
-            else Tb_LaserOK.BackColor = Color.Red;
-        }
+            else Tb_LaserOK.BackColor = Color.Red; }
         //======================================================================
         private void WriteDAC(double dacValue, int dacChannel)//value in volts
         {
@@ -1575,7 +1614,6 @@ namespace iRIS_CLM_GUI_TEST_01
         {
             double pconV = Convert.ToDouble(Tb_VPcon.Text);
             WriteDAC(pconV, 0);//Pcon Channel
-            WriteDAC(pconV, 1);//Aux channel
         }
         //======================================================================
         private double ReadADC(int adcChannel)//returns Volts
@@ -1589,23 +1627,20 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         #endregion  External Hardware
         //======================================================================
-        private async Task<bool> RampADC(double startRp, double stopRp, double stepRp, int dacChn)
+        private async Task<bool> RampDAC1(double startRp, double stopRp, double stepRp)
         {
                 for (double startRpLp = startRp; startRpLp <= stopRp; startRpLp = startRpLp + stepRp)//adds for now
                 {
                     Tb_VPcon.Text = startRpLp.ToString("00.000");
-                    WriteDAC(startRpLp, dacChn);
-                    WriteDAC(startRpLp, dacChn + 1);
+                    WriteDAC(startRpLp, 0);
                     bool readAnlg = await ReadAllanlg(false);
-                    //await Task.Delay(2);
-   
+    
                     double pm100Res = Convert.ToDouble(Lbl_PM100rd.Text);//mW
                     double maxPw = Convert.ToDouble(Tb_maxMaxPw.Text);
 
                         if ( pm100Res >= maxPw) {//not enought gain at VGA 40
-                        WriteDAC(0, dacChn);
-                        WriteDAC(0, dacChn + 1);
-                        MessageBox.Show("Rf too low");
+                        WriteDAC(0, 0);
+                        MessageBox.Show("Power Error");
                         break; }
             }
 
@@ -1657,7 +1692,6 @@ namespace iRIS_CLM_GUI_TEST_01
             Set_USB_Digit_Out(0,0);
             Set_USB_Digit_Out(1, 0);
             WriteDAC(0, 0);
-            WriteDAC(0, 1);//feedback use only
 
             if ( Convert.ToBoolean(Read_USB_Digit_in(0)) == false) {//Laser OK //test
                 Set_USB_Digit_Out(1,1);//Laser Enable
@@ -1666,12 +1700,11 @@ namespace iRIS_CLM_GUI_TEST_01
 
                 for (int i = 0; i <= 2; i++)//3 VGA set iteration //test
                 {
-                    bool boolCalVGA = await RampADC(0, 5.00, 0.01, 0);//set VGA MAX power
+                    bool boolCalVGA = await RampDAC1(0, 4.950, 0.01);//set VGA MAX power
 
                     boolCalVGA = await RampVGA();
 
                     WriteDAC(0.5, 0);//reset to 0.5 0.1% power
-                    WriteDAC(0.5, 1);//feedback use only
 
                     boolCalVGA = await ReadAllanlg(false);
 
@@ -1699,7 +1732,6 @@ namespace iRIS_CLM_GUI_TEST_01
 
             initvga = await SendToSerial(CmdLaserEnable, StrDisable, 300);
             WriteDAC(0,0);
-            WriteDAC(0,1);
 
             Bt_CalVGA.BackColor = Color.Coral;
             this.Cursor = Cursors.Default;
@@ -1744,34 +1776,50 @@ namespace iRIS_CLM_GUI_TEST_01
             Lbl_PM100rd.Text = pwrRead.ToString("00.000");
             Lbl_Vpcon.Text =   pconRead.ToString("00.000");
             Lbl_PwreadV.Text = lsrPwRead.ToString("00.000");//*294.12
-            Lbl_Viout.Text =   lsrCurrRead.ToString("00.000");
-            
+
+            if (testMode == true) {
+                Lbl_Viout.Text = lsrCurrRead.ToString("00.000");
+                Lbl_Ma.Text = "Laser I in V";
+            }
+            else if (testMode == false) {
+
+                string currentMa = Convert.ToString(lsrCurrRead * 200);
+                int endIndex = currentMa.LastIndexOf(".");
+                Lbl_Viout.Text = currentMa.Substring(0, endIndex+1);
+                Lbl_Ma.Text = "Laser I in mA";
+            }
+
             await Task.Delay(1);//this is there as the compiler will not see the await in the if statement.
 
             return true;
         }
         //======================================================================
-        private void Bt_ZeroI_Click(object sender, EventArgs e)
-        {
-            Task<bool> zeroI = ZerroCurrent();
-        }
+        #region Current Zero 
         //======================================================================
-        private async Task<bool> ZerroCurrent()
-        {
-            double zeroCurrent = 0;
+        private void Bt_ReaduCcurrent_Click(object sender, EventArgs e) { Task<bool> readuCLsCurrent = SendToSerial(CmdCurrentRead, StrDisable, 300); }
+        //======================================================================
+        private void Bt_ZeroI_Click(object sender, EventArgs e) { Task<bool> zeroI = ZerroCurrent(); }
+        //======================================================================
+        private async Task<bool> ZerroCurrent() {
 
-            bool rdIcal = await ReadAllanlg(true);
-            zeroCurrent = Convert.ToDouble(Lbl_Viout.Text);
+            Set_USB_Digit_Out(0, 1);
+            WriteDAC(0, 0);//Pcon Channel
+           
+            bool rdIcal = await SendToSerial(CmdCurrentRead, StrDisable, 300);
+            double lsrCurrRead = ReadADC(2);
 
-            rdIcal = await SendToSerial(CmdSet0mA, StrDisable,600);
+            //Lbl_Viout.Text = lsrCurrRead.ToString("00.000");
+            //int lsrCurrComp = Convert.ToInt16(lsrCurrRead * 1000);
+            //rdIcal = await SendToSerial(CmdSet0mA, lsrCurrComp.ToString("0000") ,600);
+            rdIcal = await SendToSerial(CmdSet0mA, StrDisable ,600);
+
+            rdIcal = await SendToSerial(CmdCurrentRead, StrDisable, 300);
 
             return true;
         }
+        #endregion
         //======================================================================
-        private void TbPg_InsTest_Click(object sender, EventArgs e)
-        {
-            Task<bool> calPwMonOut = CalPwMonOut(); 
-        }
+        private void TbPg_InsTest_Click(object sender, EventArgs e) { Task<bool> calPwMonOut = CalPwMonOut(); }
         //======================================================================
         private async Task<bool> CalPwMonOut()
         {
@@ -1779,18 +1827,6 @@ namespace iRIS_CLM_GUI_TEST_01
             await Task.Delay(1);
 
             return true;
-        }
-        //======================================================================
-        private void Bt_BasePltTempComp_Click(object sender, EventArgs e)
-        {
-            Task<bool> bspltcomp = BasePltTempComp();
-        }
-        //======================================================================
-        private async Task<bool> BasePltTempComp()
-        {
-            await Task.Delay(1);
-
-                return true;
         }
         //======================================================================
         private void Bt_pdCalibration_Click(object sender, EventArgs e)
@@ -1879,10 +1915,67 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private void Bt_setOffDac_Click(object sender, EventArgs e) { Task<bool> sdEne = SendToSerial(CmdSetOffstVolt, Tb_SetOffset.Text, 600); }
         //======================================================================
-        private void Bt_SetPwDac_Click(object sender, EventArgs e) { Task<bool> sdPddac = SendToSerial(CmdSetPwMonOut, StrDisable, 600); }
+        private void Bt_SetPwDac_Click(object sender, EventArgs e) { Task<bool> sdPddac = SendToSerial(CmdSetPwMonOut, Tb_PwToVout.Text, 600); }
         //======================================================================
+        private void Bt_InvEnable_Click(object sender, EventArgs e)
+        {
+            if (Bt_InvEnable.BackColor == Color.SandyBrown)
+            {
+                Task<bool> sdEne = SendToSerial(CmdEnablLogicvIn, StrEnable, 300);
+                Bt_InvEnable.BackColor = Color.LawnGreen;
+            }
+            else if (Bt_InvEnable.BackColor == Color.LawnGreen)
+            {
+                Task<bool> sdEnd = SendToSerial(CmdEnablLogicvIn, StrDisable, 300);
+                Bt_InvEnable.BackColor = Color.SandyBrown;
+            }
+        }
+        //======================================================================
+        private void Bt_PwOutMonCal_Click(object sender, EventArgs e) { Task<bool> rampdac1 = RampDAC1(0, 4.950, 0.010); }
+        //======================================================================
+        #region Temp Comp Base plate
+        //======================================================================
+        private void Bt_BasepltTemp_Click(object sender, EventArgs e) { Task<bool> readtempBplt = SendToSerial(CmdRdBplateTemp, StrDisable, 300); }
+        //======================================================================
+        private void Bt_BasePltTempComp_Click(object sender, EventArgs e) { Task<bool> setTcomp = CompBpltTemp(); }
+        //======================================================================
+        private async Task<bool> CompBpltTemp() {
 
+            bool setCompT =     await SendToSerial(CmdSetBaseTempCal, "0000", 300);                         //set init comp to 0000 remember to reset for next init.
+            setCompT =          await SendToSerial(CmdRdBplateTemp, StrDisable, 300);                       //read initial value
+            
+            int measTemp =  ReadExtTemp();                                                                  //get user temp //wait
+            int tempComp1 = Convert.ToInt16(Lbl_TempBplt.Text) - measTemp;
+            setCompT =         await SendToSerial(CmdSetBaseTempCal, tempComp1.ToString("0000"), 300);      //set init comp to 0000 remember to reset for next init.
+            
+            setCompT =      await SendToSerial(CmdRdBplateTemp, StrDisable, 300);                            //read comp data
+            return true;
+        }
+         //======================================================================
+        private int ReadExtTemp()//user thermometer reading
+        {
+            int strpopupInt = 0;
+            Getitright:
+            string strpopup = Microsoft.VisualBasic.Interaction.InputBox(" Enter Temperature in 1/10C \n", "Base Plate Temperature Compensation", "000");
 
+            bool t = Information.IsNumeric(strpopup);
+            int strLgh = strpopup.Length;
+
+            if (t == true) {
+                if (strLgh < 4) { strpopupInt = Convert.ToInt16(strpopup); }
+                else {
+                    MessageBox.Show("3 Digits Maximum");
+                    goto Getitright; }
+            }
+            else {
+                MessageBox.Show("Numerical only");
+                goto Getitright;
+            }
+
+            return strpopupInt;
+        }
+        //======================================================================
+        #endregion
         //======================================================================
         //======================================================================
     }
