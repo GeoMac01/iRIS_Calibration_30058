@@ -676,7 +676,7 @@ namespace iRIS_CLM_GUI_TEST_01
 
                         break;
 
-                    //case CmdSetPwtoVout:
+                    //case CmdSetPwtoVout://no return
                     //    break;
 
                     case CmdSetCalAPw:
@@ -935,6 +935,8 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdSetPwtoVout:
+                    dataToAppd = Tb_PwToVcal.Text;
+                    sndDl = 600;
                     break;
 
                 case CmdSetCalAPw:
@@ -1013,7 +1015,7 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdSetBaseTempCal:
-                    //dataToAppd = tb_TempCompSet.Text;
+                    //compensation value for temperature
                     break;
 
                 case CmdSetCalAPwtoI:
@@ -1837,6 +1839,33 @@ namespace iRIS_CLM_GUI_TEST_01
         private async Task<bool> PD_Calibration()
         {
 
+            Bt_pdCalibration.BackColor = Color.LawnGreen;
+
+            bool sendCalPw = await SendToSerial(CmdSetCalAPw, "01.000", 600);
+            sendCalPw = await SendToSerial(CmdSetCalBPw, "00.000", 600);
+
+            WriteDAC(00.000, 0);//reset DAC
+            Set_USB_Digit_Out(0, 1);//Enable laser
+            Bt_LsEnable.BackColor = Color.LawnGreen;//show enable on button
+
+            bool rampdac1 = await RampDAC1(0, 5.000, 0.100);//adjust PCON to MAX power
+
+
+            /*
+            //testStringArr[0] = CmdSetPwtoVout;
+            //testStringArr[1] = StrDisable;
+            //bool sendCalPw = await BuildSendString(testStringArr);
+            bool sendCalPw = await SendToSerial(CmdSetPwtoVout, Tb_PwToVcal.Text, 600);
+            sendCalPw = await ReadAllanlg(true);
+            MessageBox.Show("Pw Mon. Vmax");
+            WriteDAC(00.000, 0);
+            Set_USB_Digit_Out(0, 0);
+            Bt_LsEnable.BackColor = Color.Plum;
+           sendCalPw = await ReadAllanlg(true);
+            MessageBox.Show("Pw Mon. Vmin");
+            Bt_PwOutMonCal.BackColor = Color.Coral;
+            */
+ 
             await Task.Delay(1);
 
             return true;
@@ -1931,7 +1960,38 @@ namespace iRIS_CLM_GUI_TEST_01
             }
         }
         //======================================================================
-        private void Bt_PwOutMonCal_Click(object sender, EventArgs e) { Task<bool> rampdac1 = RampDAC1(0, 4.950, 0.010); }
+        #region Calibrate Power Monitor Output
+        private void Bt_PwOutMonCal_Click(object sender, EventArgs e) { Task<bool> runPwCal = PwMonOutCal(); }
+        //======================================================================
+        private async Task<bool> PwMonOutCal()
+        {
+            Bt_PwOutMonCal.BackColor = Color.LawnGreen;
+
+            WriteDAC(00.000, 0);
+            Set_USB_Digit_Out(0, 1);
+            Bt_LsEnable.BackColor = Color.LawnGreen;
+
+            bool rampdac1 = await RampDAC1(0, 5.000, 0.100);//adjust PCON to MAX power
+
+            //testStringArr[0] = CmdSetPwtoVout;
+            //testStringArr[1] = StrDisable;
+            //bool sendCalPw = await BuildSendString(testStringArr);
+            bool sendCalPw = await SendToSerial(CmdSetPwtoVout, Tb_PwToVcal.Text, 600);
+
+            sendCalPw = await ReadAllanlg(true);
+            MessageBox.Show("Pw Mon. Vmax");
+
+            WriteDAC(00.000, 0);
+            Set_USB_Digit_Out(0, 0);
+            Bt_LsEnable.BackColor = Color.Plum;
+            sendCalPw = await ReadAllanlg(true);
+
+            MessageBox.Show("Pw Mon. Vmin");
+            Bt_PwOutMonCal.BackColor = Color.Coral;
+
+            return true;
+        }
+        #endregion
         //======================================================================
         #region Temp Comp Base plate
         //======================================================================
