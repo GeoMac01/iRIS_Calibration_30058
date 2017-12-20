@@ -1651,14 +1651,15 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private void Bt_NewTest_Click(object sender, EventArgs e)
         {
-            bt_NewTest.BackColor = Color.LawnGreen;
-            MessageBox.Show(" Power ON/12V-2A \n");
             if (USB_Port_Open == true) { Task<bool> test2 = FirtInit(); }
             else MessageBox.Show("USB not connected");
         }
         //======================================================================
         private async Task<bool> FirtInit()
         {
+            MessageBox.Show(" Power ON/12V-2A \n");
+
+            bt_NewTest.BackColor = Color.LawnGreen;
             this.Cursor = Cursors.WaitCursor;
 
             bool test2 = await LoadGlobalTestArray(bulkSetLaserIO);
@@ -1667,9 +1668,8 @@ namespace iRIS_CLM_GUI_TEST_01
             //test2 = await LoadGlobalTestArray(bulkSetTEC);
 
             this.Cursor = Cursors.Default;
-
             MessageBox.Show("Cycle Laser ower \n" + "Wait for TEC lock LED");
-            bt_NewTest.BackColor = Color.Coral;
+            //bt_NewTest.BackColor = Color.Coral;
 
             return true;
         }
@@ -1781,13 +1781,13 @@ namespace iRIS_CLM_GUI_TEST_01
 
             if (testMode == true) {
                 Lbl_Viout.Text = lsrCurrRead.ToString("00.000");
-                Lbl_Ma.Text = "Laser I in V";
+                Lbl_Ma.Text = "Laser I in V /5";
             }
             else if (testMode == false) {
 
                 string currentMa = Convert.ToString(lsrCurrRead * 200);
                 int endIndex = currentMa.LastIndexOf(".");
-                Lbl_Viout.Text = currentMa.Substring(0, endIndex+1);
+                Lbl_Viout.Text = currentMa.Substring(0, endIndex);
                 Lbl_Ma.Text = "Laser I in mA";
             }
 
@@ -1804,18 +1804,16 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private async Task<bool> ZerroCurrent() {
 
-            Set_USB_Digit_Out(0, 1);
-            WriteDAC(0, 0);//Pcon Channel
+            Bt_ZeroI.BackColor = Color.LawnGreen;
+            Set_USB_Digit_Out(0, 1);//Laser OFF
+            WriteDAC(0, 0);//Pcon Channel = 0V
            
-            bool rdIcal = await SendToSerial(CmdCurrentRead, StrDisable, 300);
-            double lsrCurrRead = ReadADC(2);
+            bool rdIcal = await SendToSerial(CmdCurrentRead, StrDisable, 300);//read current value from cpu displayed on label
+            double lsrCurrRead = ReadADC(2);//Current monitor voltage
 
-            //Lbl_Viout.Text = lsrCurrRead.ToString("00.000");
-            //int lsrCurrComp = Convert.ToInt16(lsrCurrRead * 1000);
-            //rdIcal = await SendToSerial(CmdSet0mA, lsrCurrComp.ToString("0000") ,600);
-            rdIcal = await SendToSerial(CmdSet0mA, StrDisable ,600);
+            rdIcal = await SendToSerial(CmdSet0mA, StrDisable ,600);//zero value cal
 
-            rdIcal = await SendToSerial(CmdCurrentRead, StrDisable, 300);
+            rdIcal = await SendToSerial(CmdCurrentRead, StrDisable, 300);//recheck new cpu value...same voltage offset at Imon OUT
 
             return true;
         }
@@ -1966,29 +1964,34 @@ namespace iRIS_CLM_GUI_TEST_01
         private async Task<bool> PwMonOutCal()
         {
             Bt_PwOutMonCal.BackColor = Color.LawnGreen;
+            string pmonVmax = Tb_PwToVcal.Text;
 
             WriteDAC(00.000, 0);
+
+            bool sendCalPw = await SendToSerial(CmdTestMode, StrEnable, 300);
+            sendCalPw = await SendToSerial(CmdLaserEnable, StrEnable, 300);
             Set_USB_Digit_Out(0, 1);
-            Bt_LsEnable.BackColor = Color.LawnGreen;
+
+            Bt_LsEnable.BackColor = Color.Plum;
 
             bool rampdac1 = await RampDAC1(0, 5.000, 0.100);//adjust PCON to MAX power
 
-            //testStringArr[0] = CmdSetPwtoVout;
-            //testStringArr[1] = StrDisable;
-            //bool sendCalPw = await BuildSendString(testStringArr);
-            bool sendCalPw = await SendToSerial(CmdSetPwtoVout, Tb_PwToVcal.Text, 600);
+            await Task.Delay(1000);
 
+            sendCalPw = await SendToSerial(CmdSetPwtoVout, pmonVmax, 600);
             sendCalPw = await ReadAllanlg(true);
+
             MessageBox.Show("Pw Mon. Vmax");
 
-            WriteDAC(00.000, 0);
             Set_USB_Digit_Out(0, 0);
-            Bt_LsEnable.BackColor = Color.Plum;
+            sendCalPw = await SendToSerial(CmdLaserEnable, StrDisable, 300);
+            WriteDAC(00.000, 0);
+            Bt_LsEnable.BackColor = Color.PeachPuff;
+
             sendCalPw = await ReadAllanlg(true);
 
             MessageBox.Show("Pw Mon. Vmin");
-            Bt_PwOutMonCal.BackColor = Color.Coral;
-
+ 
             return true;
         }
         #endregion
@@ -2001,6 +2004,7 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private async Task<bool> CompBpltTemp() {
 
+            Bt_BasepltTemp.BackColor = Color.LawnGreen;
             bool setCompT =     await SendToSerial(CmdSetBaseTempCal, "0000", 300);                         //set init comp to 0000 remember to reset for next init.
             setCompT =          await SendToSerial(CmdRdBplateTemp, StrDisable, 300);                       //read initial value
             
@@ -2037,7 +2041,60 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         #endregion
         //======================================================================
-        //======================================================================
+        private double[] FindLinearLeastSquaresFit(double[,] dataXy, int strtX, int endX)
+        {
+            double[] rtnAb = new double[2];
+            double S1 = 0;
+            double Sx = 0;
+            double Sy = 0;
+            double Sxx = 0;
+            double Sxy = 0;
+
+            //if (ChkBx_B.Checked == true)
+            //{
+                for (int lp2 = strtX; lp2 <= endX; lp2++)
+                {
+                    Sx += dataXy[lp2, 0];//x
+                    Sy += dataXy[lp2, 2];//y
+
+                    Sxx += dataXy[lp2, 0] * dataXy[lp2, 0];//xx
+                    Sxy += dataXy[lp2, 0] * dataXy[lp2, 2];//xy
+
+                    Rt_ReceiveDataUSB.AppendText(   Convert.ToString(dataXy[lp2, 0]) + " " +
+                                                    Convert.ToString(dataXy[lp2, 2]) + " " +
+                                                    Footer);
+                    S1++;
+                }
+
+                double m = (Sxy * S1 - Sx * Sy) / (Sxx * S1 - Sx * Sx);
+                double b = (Sxy * Sx - Sy * Sxx) / (Sx * Sx - S1 * Sxx);
+
+                rtnAb[0] = m;
+                rtnAb[1] = b;
+            //}
+            /*
+            else if (ChkBx_B.Checked == false)//default 
+            {
+                for (int lp2 = strtX; lp2 <= endX; lp2++)
+                {
+                    Sxx += dataXy[lp2, 0] * dataXy[lp2, 0];//xx sum square x
+                    Sxy += dataXy[lp2, 0] * dataXy[lp2, 2];//xy sum product xy
+
+                    Rtb_Snoop.AppendText(Convert.ToString(dataXy[lp2, 0]) + " " +
+                                         Convert.ToString(dataXy[lp2, 2]) + " " +
+                                            iRIScoms.Footer);
+                    S1++;
+                }
+
+                double m = (Sxy) / (Sxx);
+
+                rtnAb[0] = m;
+                rtnAb[1] = 0;
+            }
+            */
+            return rtnAb;
+        }
+    //======================================================================
     }
     //======================================================================
     //======================================================================

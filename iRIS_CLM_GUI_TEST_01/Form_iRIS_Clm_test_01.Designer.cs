@@ -1680,9 +1680,9 @@
             this.Lbl_Ma.AutoSize = true;
             this.Lbl_Ma.Location = new System.Drawing.Point(153, 281);
             this.Lbl_Ma.Name = "Lbl_Ma";
-            this.Lbl_Ma.Size = new System.Drawing.Size(78, 13);
+            this.Lbl_Ma.Size = new System.Drawing.Size(70, 13);
             this.Lbl_Ma.TabIndex = 307;
-            this.Lbl_Ma.Text = "V / Iout mA Rd";
+            this.Lbl_Ma.Text = "V Iout mA Rd";
             // 
             // Bt_SetPcon
             // 
