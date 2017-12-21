@@ -57,11 +57,14 @@ namespace iRIS_CLM_GUI_TEST_01
         const string CmdRdCustomerPm    = "46";
         const string CmdRatedPower      = "47";
         const string CmdCurrentRead     = "56";
-        const string CmdSetPwtoVout     = "59";  
+        const string CmdSetPwtoVout     = "59";
+        
         const string CmdSetCalAPw       = "60";
         const string CmdSetCalBPw       = "61";
-        const string CmdSetCalAPwtoVin  = "62";
-        const string CmdSetCalBPwtoVin  = "63";
+
+        const string CmdSetCalAPwtoVint = "62";
+        const string CmdSetCalBPwtoVint = "63";
+
         const string CmdRstTime         = "66";
         //const string CmdRstPtr          = "67";
         //const string CmdRstTon          = "68";
@@ -76,8 +79,10 @@ namespace iRIS_CLM_GUI_TEST_01
         const string CmdSeManuDate      = "78";
         const string CmdSetPartNumber   = "79";
         const string CmdSetModel        = "80";
-        const string CmdSetCalAPwtoI    = "81";
-        const string CmdSetCalBPwtoI    = "82";
+
+        const string CmdSetCalAVtoPw    = "81";
+        const string CmdSetCalBVtoPw    = "82";
+
         const string CmdTestMode        = "83";
         const string CmdSetPSU          = "84";
         //const string CmdRdPSUvolt       = "85";//check cmd 86 / 85
@@ -121,22 +126,22 @@ namespace iRIS_CLM_GUI_TEST_01
             { CmdSetTECsmpTime,     StrDisable },
             { CmdSetTECena_dis,     StrEnable} };
 
-        string[,] bulkSetVarialble = new string[16, 2] {
+        string[,] bulkSetVarialble = new string[8, 2] {
             {CmdTestMode,       StrEnable },
-            {CmdSetWavelenght,  StrDisable},
-            {CmdSetLsMominalPw, StrDisable},
-            {CmdSetMaxIop,      StrDisable},
-            {CmdSetSerNumber,   StrDisable},
-            {CmdSetModel,       StrDisable},
-            {CmdSeManuDate,     StrDisable},
-            {CmdSetCalDate,     StrDisable},
-            {CmdSetPartNumber,  StrDisable},
-            {CmdSetCalAPw,      StrDisable},
+            //{CmdSetWavelenght,  StrDisable},
+            //{CmdSetLsMominalPw, StrDisable},
+            //{CmdSetMaxIop,      StrDisable},
+            //{CmdSetSerNumber,   StrDisable},
+            //{CmdSetModel,       StrDisable},
+            //{CmdSeManuDate,     StrDisable},
+            //{CmdSetCalDate,     StrDisable},
+            //{CmdSetPartNumber,  StrDisable},
+            {CmdSetCalAPw,      StrEnable},
             {CmdSetCalBPw,      StrDisable},
-            {CmdSetCalAPwtoI,   StrDisable},
-            {CmdSetCalBPwtoI,   StrDisable},
-            {CmdSetCalAPwtoVin, StrDisable},
-            {CmdSetCalBPwtoVin, StrDisable},
+            {CmdSetCalAPwtoVint,   StrEnable},
+            {CmdSetCalBPwtoVint,   StrDisable},
+            {CmdSetCalAVtoPw, StrEnable},
+            {CmdSetCalBVtoPw, StrDisable},
             {CmdRdFirmware,     StrDisable} };
 
         string[,] bulkSetdefaultCtrl = new string[6, 2] {
@@ -685,10 +690,10 @@ namespace iRIS_CLM_GUI_TEST_01
                     case CmdSetCalBPw:
                         break;
 
-                    case CmdSetCalAPwtoVin:
+                    case CmdSetCalAVtoPw:
                         break;
 
-                    case CmdSetCalBPwtoVin:
+                    case CmdSetCalBVtoPw:
                         break;
 
                     case CmdRstTime:
@@ -738,10 +743,10 @@ namespace iRIS_CLM_GUI_TEST_01
                     case CmdSetBaseTempCal:
                         break;
 
-                    case CmdSetCalAPwtoI:
+                    case CmdSetCalAPwtoVint:
                         break;
 
-                    case CmdSetCalBPwtoI:
+                    case CmdSetCalBPwtoVint:
                         break;
 
                     case CmdSetTECTemp:
@@ -951,12 +956,12 @@ namespace iRIS_CLM_GUI_TEST_01
                     comThresh = 14;
                     break;
 
-                case CmdSetCalAPwtoVin:
+                case CmdSetCalAVtoPw:
                     sndDl = 600;
                     comThresh = 14;
                     break;
 
-                case CmdSetCalBPwtoVin:
+                case CmdSetCalBVtoPw:
                     sndDl = 600;
                     comThresh = 14;
                     break;
@@ -1018,12 +1023,12 @@ namespace iRIS_CLM_GUI_TEST_01
                     //compensation value for temperature
                     break;
 
-                case CmdSetCalAPwtoI:
+                case CmdSetCalAPwtoVint:
                     sndDl = 600;
                     comThresh = 14;
                     break;
 
-                case CmdSetCalBPwtoI:
+                case CmdSetCalBPwtoVint:
                     sndDl = 600;
                     comThresh = 14;
                     break;
@@ -1838,18 +1843,30 @@ namespace iRIS_CLM_GUI_TEST_01
         {
 
             Bt_pdCalibration.BackColor = Color.LawnGreen;
-
-            bool sendCalPw = await SendToSerial(CmdSetCalAPw, "01.000", 600);
-            sendCalPw = await SendToSerial(CmdSetCalBPw, "00.000", 600);
+            Cursor.Current = Cursors.WaitCursor;
 
             WriteDAC(00.000, 0);//reset DAC
-            Set_USB_Digit_Out(0, 1);//Enable laser
-            Bt_LsEnable.BackColor = Color.LawnGreen;//show enable on button
 
-            bool rampdac1 = await RampDAC1(0, 5.000, 0.100);//adjust PCON to MAX power
+            //bool sendCalPw = await SendToSerial(CmdSetCalAPw, "01.000", 600);   //60 PD to mW photodiode calibration
+            //sendCalPw = await SendToSerial(CmdSetCalBPw, "00.000", 600);        //61
+            //sendCalPw = await SendToSerial(CmdSetCalAPwtoVint, "01.000", 600);        //62 read int DAC PCON to mW sets internal power
+            //sendCalPw = await SendToSerial(CmdSetCalBPwtoVint, "00.000", 600);        //63
+            //sendCalPw = await SendToSerial(CmdSetCalAVtoPw, "01.000", 600);     //81 ext PCON ADC to PD ADC
+            //sendCalPw = await SendToSerial(CmdSetCalBVtoPw, "00.000", 600);     //82
+            bool rstDataCal = await LoadGlobalTestArray(bulkSetVarialble);
+            
+            Set_USB_Digit_Out(0, 1);                    //Enable laser
+            Bt_LsEnable.BackColor = Color.LawnGreen;    //show enable on button
+            bool sendCalPw = await SendToSerial(CmdLaserEnable, StrEnable, 300);
+
+
+
+
+
 
 
             /*
+            bool rampdac1 = await RampDAC1(0, 5.000, 0.100);//adjust PCON to MAX power
             //testStringArr[0] = CmdSetPwtoVout;
             //testStringArr[1] = StrDisable;
             //bool sendCalPw = await BuildSendString(testStringArr);
@@ -1863,9 +1880,10 @@ namespace iRIS_CLM_GUI_TEST_01
             MessageBox.Show("Pw Mon. Vmin");
             Bt_PwOutMonCal.BackColor = Color.Coral;
             */
- 
-            await Task.Delay(1);
 
+            //await Task.Delay(1);
+
+            Cursor.Current = Cursors.Default;
             return true;
         }
         //======================================================================
