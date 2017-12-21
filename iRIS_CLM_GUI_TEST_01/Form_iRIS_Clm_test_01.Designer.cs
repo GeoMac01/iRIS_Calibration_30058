@@ -206,6 +206,10 @@
             this.Rt_ReceiveDataUSB = new System.Windows.Forms.RichTextBox();
             this.Bt_RdLaserStatus = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lbl_ADCpconRd = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.lbl_LaserPD = new System.Windows.Forms.Label();
             this.TbPg_InsTest.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -219,6 +223,10 @@
             // 
             // TbPg_InsTest
             // 
+            this.TbPg_InsTest.Controls.Add(this.label2);
+            this.TbPg_InsTest.Controls.Add(this.lbl_LaserPD);
+            this.TbPg_InsTest.Controls.Add(this.label1);
+            this.TbPg_InsTest.Controls.Add(this.lbl_ADCpconRd);
             this.TbPg_InsTest.Controls.Add(this.Lbl_MaOrBits);
             this.TbPg_InsTest.Controls.Add(this.Lbl_uClsCurrent);
             this.TbPg_InsTest.Controls.Add(this.Bt_ReaduCcurrent);
@@ -278,7 +286,7 @@
             // Bt_ReaduCcurrent
             // 
             this.Bt_ReaduCcurrent.BackColor = System.Drawing.Color.Coral;
-            this.Bt_ReaduCcurrent.Location = new System.Drawing.Point(110, 328);
+            this.Bt_ReaduCcurrent.Location = new System.Drawing.Point(110, 324);
             this.Bt_ReaduCcurrent.Name = "Bt_ReaduCcurrent";
             this.Bt_ReaduCcurrent.Size = new System.Drawing.Size(102, 23);
             this.Bt_ReaduCcurrent.TabIndex = 310;
@@ -290,7 +298,7 @@
             // Bt_BasepltTemp
             // 
             this.Bt_BasepltTemp.BackColor = System.Drawing.Color.Coral;
-            this.Bt_BasepltTemp.Location = new System.Drawing.Point(108, 418);
+            this.Bt_BasepltTemp.Location = new System.Drawing.Point(108, 414);
             this.Bt_BasepltTemp.Name = "Bt_BasepltTemp";
             this.Bt_BasepltTemp.Size = new System.Drawing.Size(104, 24);
             this.Bt_BasepltTemp.TabIndex = 309;
@@ -302,7 +310,7 @@
             // label63
             // 
             this.label63.AutoSize = true;
-            this.label63.Location = new System.Drawing.Point(148, 445);
+            this.label63.Location = new System.Drawing.Point(148, 442);
             this.label63.Name = "label63";
             this.label63.Size = new System.Drawing.Size(108, 13);
             this.label63.TabIndex = 308;
@@ -311,7 +319,7 @@
             // Lbl_TempBplt
             // 
             this.Lbl_TempBplt.AutoSize = true;
-            this.Lbl_TempBplt.Location = new System.Drawing.Point(107, 445);
+            this.Lbl_TempBplt.Location = new System.Drawing.Point(107, 441);
             this.Lbl_TempBplt.Name = "Lbl_TempBplt";
             this.Lbl_TempBplt.Size = new System.Drawing.Size(34, 13);
             this.Lbl_TempBplt.TabIndex = 306;
@@ -356,7 +364,7 @@
             // Bt_FinalLsSetup
             // 
             this.Bt_FinalLsSetup.BackColor = System.Drawing.Color.Coral;
-            this.Bt_FinalLsSetup.Location = new System.Drawing.Point(9, 503);
+            this.Bt_FinalLsSetup.Location = new System.Drawing.Point(9, 504);
             this.Bt_FinalLsSetup.Name = "Bt_FinalLsSetup";
             this.Bt_FinalLsSetup.Size = new System.Drawing.Size(87, 39);
             this.Bt_FinalLsSetup.TabIndex = 300;
@@ -368,7 +376,7 @@
             // Bt_pdCalibration
             // 
             this.Bt_pdCalibration.BackColor = System.Drawing.Color.Coral;
-            this.Bt_pdCalibration.Location = new System.Drawing.Point(9, 461);
+            this.Bt_pdCalibration.Location = new System.Drawing.Point(9, 460);
             this.Bt_pdCalibration.Name = "Bt_pdCalibration";
             this.Bt_pdCalibration.Size = new System.Drawing.Size(87, 39);
             this.Bt_pdCalibration.TabIndex = 299;
@@ -2105,6 +2113,42 @@
             this.dataGridView1.Size = new System.Drawing.Size(683, 96);
             this.dataGridView1.TabIndex = 6;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(153, 480);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(47, 13);
+            this.label1.TabIndex = 314;
+            this.label1.Text = "ADC PD";
+            // 
+            // lbl_ADCpconRd
+            // 
+            this.lbl_ADCpconRd.AutoSize = true;
+            this.lbl_ADCpconRd.Location = new System.Drawing.Point(107, 462);
+            this.lbl_ADCpconRd.Name = "lbl_ADCpconRd";
+            this.lbl_ADCpconRd.Size = new System.Drawing.Size(40, 13);
+            this.lbl_ADCpconRd.TabIndex = 313;
+            this.lbl_ADCpconRd.Text = " - - - - - ";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(153, 462);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(62, 13);
+            this.label2.TabIndex = 316;
+            this.label2.Text = "ADC PCON";
+            // 
+            // lbl_LaserPD
+            // 
+            this.lbl_LaserPD.AutoSize = true;
+            this.lbl_LaserPD.Location = new System.Drawing.Point(106, 483);
+            this.lbl_LaserPD.Name = "lbl_LaserPD";
+            this.lbl_LaserPD.Size = new System.Drawing.Size(40, 13);
+            this.lbl_LaserPD.TabIndex = 315;
+            this.lbl_LaserPD.Text = " - - - - - ";
+            // 
             // Form_iRIS_Clm_test_01
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2314,6 +2358,10 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.TextBox Tb_VGASet;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbl_ADCpconRd;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lbl_LaserPD;
     }
 }
 
