@@ -120,23 +120,23 @@ namespace iRIS_CLM_GUI_TEST_01
             { CmdSetTECsmpTime,     StrDisable },
             { CmdSetTECena_dis,     StrEnable} };
 
-        string[,] bulkSetVarialble = new string[8, 2] {
+        string[,] bulkSetVarialble = new string[7, 2] {
             {CmdTestMode,       StrEnable },
-            //{CmdSetWavelenght,  StrDisable},
-            //{CmdSetLsMominalPw, StrDisable},
-            //{CmdSetMaxIop,      StrDisable},
-            //{CmdSetSerNumber,   StrDisable},
-            //{CmdSetModel,       StrDisable},
-            //{CmdSeManuDate,     StrDisable},
-            //{CmdSetCalDate,     StrDisable},
-            //{CmdSetPartNumber,  StrDisable},
-            {CmdSetCalAPw,      StrEnable},
-            {CmdSetCalBPw,      StrDisable},
-            {CmdSetCalAPwtoVint,   StrEnable},
-            {CmdSetCalBPwtoVint,   StrDisable},
-            {CmdSetCalAVtoPw, StrEnable},
-            {CmdSetCalBVtoPw, StrDisable},
-            {CmdRdFirmware,     StrDisable} };
+            //{CmdSetWavelenght,    StrDisable},
+            //{CmdSetLsMominalPw,   StrDisable},
+            //{CmdSetMaxIop,        StrDisable},
+            //{CmdSetSerNumber,     StrDisable},
+            //{CmdSetModel,         StrDisable},
+            //{CmdSeManuDate,       StrDisable},
+            //{CmdSetCalDate,       StrDisable},
+            //{CmdSetPartNumber,    StrDisable},
+            {CmdSetCalAPw,          StrDisable},
+            {CmdSetCalBPw,          StrDisable},
+            {CmdSetCalAPwtoVint,    StrDisable},
+            {CmdSetCalBPwtoVint,    StrDisable},
+            {CmdSetCalAVtoPw,       StrDisable},
+            {CmdSetCalBVtoPw,       StrDisable}, };
+            //{CmdRdFirmware,       StrDisable} };
 
         string[,] bulkSetdefaultCtrl = new string[6, 2] {
             {CmdTestMode,       StrEnable  },
@@ -346,6 +346,7 @@ namespace iRIS_CLM_GUI_TEST_01
             returnChop = SendRecvCOM.ChopString(strRcv);
             rtnHeader = returnChop[0];
             rtnCmd = returnChop[1];
+
             rtnValue = returnChop[2];
                                     
             if (rtnCmd=="00") MessageBox.Show("rtn null");
@@ -678,15 +679,19 @@ namespace iRIS_CLM_GUI_TEST_01
                     //    break;
 
                     case CmdSetCalAPw:
+                        Tb_CalA_Pw.Text = rtnValue;
                         break;
 
                     case CmdSetCalBPw:
+                        Tb_CalB_Pw.Text = rtnValue;
                         break;
 
                     case CmdSetCalAVtoPw:
+                        Tb_CalAcmdToPw.Text = rtnValue;
                         break;
 
                     case CmdSetCalBVtoPw:
+                        Tb_CalBcmdToPw.Text = rtnValue;
                         break;
 
                     case CmdRstTime:
@@ -737,9 +742,11 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdSetCalAPwtoVint:
+                        Tb_CalA_PwToADC.Text = rtnValue;
                         break;
 
                     case CmdSetCalBPwtoVint:
+                        Tb_CalB_PwToADC.Text = rtnValue;
                         break;
 
                     case CmdSetTECTemp:
@@ -938,23 +945,25 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdSetCalAPw:
-                    dataToAppd = Tb_CalAPw.Text;
+                    dataToAppd = Tb_CalA_Pw.Text;
                     sndDl = 600;
                     comThresh = 14;
                     break;
 
                 case CmdSetCalBPw:
-                    dataToAppd = Tb_CalBPw.Text;
+                    dataToAppd = Tb_CalB_Pw.Text;
                     sndDl = 600;
                     comThresh = 14;
                     break;
 
                 case CmdSetCalAVtoPw:
+                    dataToAppd = Tb_CalAcmdToPw.Text;
                     sndDl = 600;
                     comThresh = 14;
                     break;
 
                 case CmdSetCalBVtoPw:
+                    dataToAppd = Tb_CalBcmdToPw.Text;
                     sndDl = 600;
                     comThresh = 14;
                     break;
@@ -1017,11 +1026,13 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdSetCalAPwtoVint:
+                    dataToAppd = Tb_CalA_PwToADC.Text;
                     sndDl = 600;
                     comThresh = 14;
                     break;
 
                 case CmdSetCalBPwtoVint:
+                    dataToAppd = Tb_CalB_PwToADC.Text;
                     sndDl = 600;
                     comThresh = 14;
                     break;
@@ -1629,31 +1640,33 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private async Task<bool> RampDAC1(double startRp, double stopRp, double stepRp)//external PCON
         {
-            double[,] dataADC = new double[120,3];//could "dynamically" size array....
-            dataADC.Initialize();
             double maxPw = Convert.ToDouble(Tb_maxMaxPw.Text);
             bool rampDAC1task = false;
-            int arrIndex = 0;
-           
+
+            int arrIndex = Convert.ToInt16 ((stopRp - stopRp) / stepRp);
+            double[,] dataADC = new double[arrIndex, 3];//could "dynamically" size array....
+            dataADC.Initialize();
+
             for (double startRpLp = startRp; startRpLp <= stopRp; startRpLp = startRpLp + stepRp)
             {
                     WriteDAC(startRpLp, 0);
-                    rampDAC1task = await ReadAllanlg(true);//displays current in bits
+                    rampDAC1task = await ReadAllanlg(false);//displays current in bits
 
-                    double pm100Res = Convert.ToDouble(Lbl_PM100rd.Text);//mW
+                        double pm100Res = Convert.ToDouble(Lbl_PM100rd.Text);//mW
                         if ( pm100Res > maxPw) {   //not enought gain at VGA 40
                             WriteDAC(0, 0);
                             MessageBox.Show("Power Error");
                             break; }
 
                 //populate array with results
-                dataADC[arrIndex, 0] = pm100Res;
-                dataADC[arrIndex, 1] = Convert.ToDouble(lbl_LaserPD.Text);
-                dataADC[arrIndex, 2] = Convert.ToDouble(lbl_ADCpconRd.Text);
-                arrIndex++;
+                //dataADC[arrIndex, 0] = pm100Res;
+                //dataADC[arrIndex, 1] = Convert.ToDouble(lbl_LaserPD.Text);
+                //dataADC[arrIndex, 2] = Convert.ToDouble(lbl_ADCpconRd.Text);
+                //arrIndex++;
             }
 
             WriteDAC(startRp,0);//reset ramp to original
+            rampDAC1task = await ReadAllanlg(true);//displays current in bits
 
             Rt_ReceiveDataUSB.Clear();
             foreach (double dbl in dataADC)
@@ -1672,24 +1685,26 @@ namespace iRIS_CLM_GUI_TEST_01
             double lsrPwRead = ReadADC(1);  //PD Vout
             double lsrCurrRead = ReadADC(2);//Current Vout
 
-            if (pm100ok == true) { pwrRead = ReadPM100(); }//in mW
-            if (fullRd == true) { bool readAdc = await LoadGlobalTestArray(analogRead); }//internal uCadc
-
             //display ADC results**
-            Lbl_PM100rd.Text = pwrRead.ToString("00.000");
             Lbl_Vpcon.Text = pconRead.ToString("00.000");
             Lbl_PwreadV.Text = lsrPwRead.ToString("00.000");//*294.12
-            if (testMode == true){//test mode
+            if (testMode == true)
+            {//test mode
                 Lbl_Viout.Text = lsrCurrRead.ToString("00.000");
                 Lbl_Ma.Text = "Laser I in V /5";
             }
-            else if (testMode == false){//run mode
+            else if (testMode == false)
+            {//run mode
                 string currentMa = Convert.ToString(lsrCurrRead * 200);
                 int endIndex = currentMa.LastIndexOf(".");
                 Lbl_Viout.Text = currentMa.Substring(0, endIndex);
                 Lbl_Ma.Text = "Laser I in mA";
             }
-            //**********************
+ 
+            if (pm100ok == true) { pwrRead = ReadPM100();
+                Lbl_PM100rd.Text = pwrRead.ToString("00.000"); }//in mW
+
+            if (fullRd == true) { bool readAdc = await LoadGlobalTestArray(analogRead); }//internal uCadc
 
             await Task.Delay(1);//this is there as the compiler will not see the await in the if statement.
 
@@ -1749,7 +1764,7 @@ namespace iRIS_CLM_GUI_TEST_01
 
                 for (int i = 0; i <= 2; i++)//3 VGA set iteration //test
                 {
-                    bool boolCalVGA = await RampDAC1(0, 4.950, 0.01);//set VGA MAX power
+                    bool boolCalVGA = await RampDAC1(0, 4.950, 0.05);//set VGA MAX power
 
                     boolCalVGA = await RampVGA();
 
@@ -1773,7 +1788,7 @@ namespace iRIS_CLM_GUI_TEST_01
                         string offset = setOffSet.ToString("0.000");
                         boolCalVGA = await SendToSerial(CmdSetOffstVolt, offset, 400);
                     }
-                    Tb_SetOffset.Text = setOffSet.ToString("0.000");
+                    Tb_SetOffset.Text = setOffSet.ToString("0.000");//update offset for next loop
                 }
             }
 
@@ -1801,7 +1816,7 @@ namespace iRIS_CLM_GUI_TEST_01
                 double maxPw = Convert.ToDouble(Tb_maxMaxPw.Text);
 
                 if (maxPw >= pm100Res){
-                    MessageBox.Show("VGA pass 1 set");
+                    MessageBox.Show("VGA set pass");
                     break; }
 
                 if (vgaVal >= 80){
@@ -1849,7 +1864,6 @@ namespace iRIS_CLM_GUI_TEST_01
         private async Task<bool> PD_Calibration()
         {
             bool pdCalTask = false;
-
             Bt_pdCalibration.BackColor = Color.LawnGreen;
             Cursor.Current = Cursors.WaitCursor;
 
@@ -1964,18 +1978,15 @@ namespace iRIS_CLM_GUI_TEST_01
         private async Task<bool> PwMonOutCal()
         {
             Bt_PwOutMonCal.BackColor = Color.LawnGreen;
-            string pmonVmax = Tb_PwToVcal.Text;
 
+            string pmonVmax = Tb_PwToVcal.Text;
             WriteDAC(00.000, 0);
             bool sendCalPw = await SendToSerial(CmdTestMode, StrEnable, 300);
-
             sendCalPw = await SendToSerial(CmdLaserEnable, StrEnable, 300);
             Set_USB_Digit_Out(0, 1);
             Bt_LsEnable.BackColor = Color.Plum;
 
             bool rampdac1 = await RampDAC1(0, 5.000, 0.100);//adjust PCON to MAX power
-
-            await Task.Delay(100);
 
             sendCalPw = await SendToSerial(CmdSetPwtoVout, pmonVmax, 600);
             sendCalPw = await ReadAllanlg(true);
@@ -2093,7 +2104,7 @@ namespace iRIS_CLM_GUI_TEST_01
             */
             return rtnAb;
         }
-    //======================================================================
+        //======================================================================
     }
     //======================================================================
     //======================================================================
