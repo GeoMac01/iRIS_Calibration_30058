@@ -123,6 +123,7 @@
             this.tb_TecSerNumb = new System.Windows.Forms.TextBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.TbPg_Results = new System.Windows.Forms.TabPage();
+            this.Bt_SetVGA = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.Tb_TECpoint = new System.Windows.Forms.TextBox();
             this.Tb_Kp = new System.Windows.Forms.TextBox();
@@ -210,7 +211,6 @@
             this.Rt_ReceiveDataUSB = new System.Windows.Forms.RichTextBox();
             this.Bt_RdLaserStatus = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Bt_SetVGA = new System.Windows.Forms.Button();
             this.TbPg_InsTest.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -1314,6 +1314,18 @@
             this.TbPg_Results.Text = "Engineering";
             this.TbPg_Results.UseVisualStyleBackColor = true;
             // 
+            // Bt_SetVGA
+            // 
+            this.Bt_SetVGA.BackColor = System.Drawing.Color.PeachPuff;
+            this.Bt_SetVGA.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Bt_SetVGA.Location = new System.Drawing.Point(357, 191);
+            this.Bt_SetVGA.Name = "Bt_SetVGA";
+            this.Bt_SetVGA.Size = new System.Drawing.Size(68, 25);
+            this.Bt_SetVGA.TabIndex = 343;
+            this.Bt_SetVGA.Text = "Set VGA";
+            this.Bt_SetVGA.UseVisualStyleBackColor = false;
+            this.Bt_SetVGA.Click += new System.EventHandler(this.Bt_SetVGA_Click);
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.Tb_TECpoint);
@@ -1528,7 +1540,7 @@
             this.Tb_NomPw.Name = "Tb_NomPw";
             this.Tb_NomPw.Size = new System.Drawing.Size(46, 20);
             this.Tb_NomPw.TabIndex = 330;
-            this.Tb_NomPw.Text = "40.00";
+            this.Tb_NomPw.Text = "50.00";
             // 
             // label45
             // 
@@ -1545,7 +1557,7 @@
             this.Tb_minMaxPw.Name = "Tb_minMaxPw";
             this.Tb_minMaxPw.Size = new System.Drawing.Size(46, 20);
             this.Tb_minMaxPw.TabIndex = 328;
-            this.Tb_minMaxPw.Text = "40.50";
+            this.Tb_minMaxPw.Text = "50.50";
             // 
             // ChkBx_AnlgModSet
             // 
@@ -1617,7 +1629,7 @@
             this.Tb_maxMaxPw.Name = "Tb_maxMaxPw";
             this.Tb_maxMaxPw.Size = new System.Drawing.Size(46, 20);
             this.Tb_maxMaxPw.TabIndex = 321;
-            this.Tb_maxMaxPw.Text = "42.00";
+            this.Tb_maxMaxPw.Text = "52.00";
             // 
             // Tb_PwToVout
             // 
@@ -2151,18 +2163,6 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(683, 96);
             this.dataGridView1.TabIndex = 6;
-            // 
-            // Bt_SetVGA
-            // 
-            this.Bt_SetVGA.BackColor = System.Drawing.Color.PeachPuff;
-            this.Bt_SetVGA.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Bt_SetVGA.Location = new System.Drawing.Point(357, 191);
-            this.Bt_SetVGA.Name = "Bt_SetVGA";
-            this.Bt_SetVGA.Size = new System.Drawing.Size(68, 25);
-            this.Bt_SetVGA.TabIndex = 343;
-            this.Bt_SetVGA.Text = "Set VGA";
-            this.Bt_SetVGA.UseVisualStyleBackColor = false;
-            this.Bt_SetVGA.Click += new System.EventHandler(this.Bt_SetVGA_Click);
             // 
             // Form_iRIS_Clm_test_01
             // 
