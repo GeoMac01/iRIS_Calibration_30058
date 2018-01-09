@@ -151,10 +151,12 @@ namespace iRIS_CLM_GUI_TEST_01
         string[,] bulkSetVga = new string[6, 2] {
             { CmdLaserEnable,       StrDisable },
             { CmdTestMode,          StrEnable  },
-            { CmdSetInOutPwCtrl,    StrDisable },       //external PCON
-            { CmdAnalgInpt,         StrDisable },       //Non Inv. PCON
-            { CmdEnablLogicvIn,     StrDisable },       //Non Inv. Laser Enable
-            { CmdsetTTL,            StrDisable } };    //Non Inv. TTL line in
+            { CmdSetInOutPwCtrl,    StrDisable },      //external PCON
+            { CmdAnalgInpt,         StrDisable },      //Non Inv. PCON
+            { CmdEnablLogicvIn,     StrDisable },      //Non Inv. Laser Enable
+            { CmdsetTTL,            StrEnable } };    //Inv. TTL line in
+
+        //=================================================
 
         string[,] analogRead = new string[7, 2] {//read all analog inputs
             { CmdTestMode,          StrEnable },
@@ -1641,22 +1643,45 @@ namespace iRIS_CLM_GUI_TEST_01
         private async Task<bool> RampDAC1(double startRp, double stopRp, double stepRp)//external PCON
         {
             double maxPw = Convert.ToDouble(Tb_maxMaxPw.Text);
-            bool rampDAC1task = false;
-
-            int arrIndex = Convert.ToInt16 ((stopRp - stopRp) / stepRp);
-            double[,] dataADC = new double[arrIndex, 3];//could "dynamically" size array....
-            dataADC.Initialize();
+            bool rampDAC1task = false;//cannot initialise in for loop ????
 
             for (double startRpLp = startRp; startRpLp <= stopRp; startRpLp = startRpLp + stepRp)
             {
                     WriteDAC(startRpLp, 0);
                     rampDAC1task = await ReadAllanlg(false);//displays current in bits
 
-                        double pm100Res = Convert.ToDouble(Lbl_PM100rd.Text);//mW
-                        if ( pm100Res > maxPw) {   //not enought gain at VGA 40
-                            WriteDAC(0, 0);
-                            MessageBox.Show("Power Error");
-                            break; }
+                double pm100Res = Convert.ToDouble(Lbl_PM100rd.Text);//mW
+                if (pm100Res > maxPw) {
+                    WriteDAC(0, 0);
+                    MessageBox.Show("Power Error");
+                    return false; }//ramp error
+            }
+            return true;
+        }
+        //======================================================================
+        //======================================================================
+        /*
+        private async Task<bool> RampDAC1(double startRp, double stopRp, double stepRp)//external PCON
+        {
+            double maxPw = Convert.ToDouble(Tb_maxMaxPw.Text);
+            bool rampDAC1task = false;
+
+            int arrIndex = Convert.ToInt16((stopRp - stopRp) / stepRp);
+            double[,] dataADC = new double[arrIndex, 3];//could "dynamically" size array....
+            dataADC.Initialize();
+
+            for (double startRpLp = startRp; startRpLp <= stopRp; startRpLp = startRpLp + stepRp)
+            {
+                WriteDAC(startRpLp, 0);
+
+                rampDAC1task = await ReadAllanlg(false);//displays current in bits
+                double pm100Res = Convert.ToDouble(Lbl_PM100rd.Text);//mW
+                if (pm100Res > maxPw)
+                {   //not enought gain at VGA 40
+                    WriteDAC(0, 0);
+                    MessageBox.Show("Power Error");
+                    break;
+                }
 
                 //populate array with results
                 //dataADC[arrIndex, 0] = pm100Res;
@@ -1665,7 +1690,7 @@ namespace iRIS_CLM_GUI_TEST_01
                 //arrIndex++;
             }
 
-            WriteDAC(startRp,0);//reset ramp to original
+            //WriteDAC(startRp,0);//reset ramp to original
             rampDAC1task = await ReadAllanlg(true);//displays current in bits
 
             Rt_ReceiveDataUSB.Clear();
@@ -1677,6 +1702,7 @@ namespace iRIS_CLM_GUI_TEST_01
 
             return true;
         }
+        */
         //======================================================================
         private async Task<bool> ReadAllanlg(bool fullRd) {//reads all data
 
@@ -1706,7 +1732,7 @@ namespace iRIS_CLM_GUI_TEST_01
 
             if (fullRd == true) { bool readAdc = await LoadGlobalTestArray(analogRead); }//internal uCadc
 
-            await Task.Delay(1);//this is there as the compiler will not see the await in the if statement.
+            await Task.Delay(50);//this is there as the compiler will not see the await in the if statement.
 
             return true;
         }
@@ -1729,10 +1755,13 @@ namespace iRIS_CLM_GUI_TEST_01
             //test2 = await LoadGlobalTestArray(bulkSetdefaultCtrl);
             //test2 = await LoadGlobalTestArray(bulkSetTEC);
 
-            this.Cursor = Cursors.Default;
-            MessageBox.Show("Cycle Laser ower \n" + "Wait for TEC lock LED");
-            //bt_NewTest.BackColor = Color.Coral;
+            Tb_VGASet.Text = "0020";
+            Tb_SetOffset.Text = "02.500";
+            Tb_VPcon.Text = "00.000";
 
+            this.Cursor = Cursors.Default;
+            MessageBox.Show("\n" + "Wait for TEC lock LED");
+            //bt_NewTest.BackColor = Color.Coral;
             return true;
         }
         //======================================================================
@@ -1742,6 +1771,8 @@ namespace iRIS_CLM_GUI_TEST_01
             //if (USB_Port_Open == true) { Task<bool> calvga = CalVGA(); }
             //else MessageBox.Show("USB not connected");
         }
+        //======================================================================
+        private void Bt_SetVGA_Click(object sender, EventArgs e) { Task<bool> setVGA = SendToSerial(CmdSetVgaGain, Tb_VGASet.Text, 300); }
         //======================================================================
         private async Task<bool> CalVGA()
         {
@@ -1753,59 +1784,144 @@ namespace iRIS_CLM_GUI_TEST_01
             double setOffSet = 0;
 
             bool initvga = await LoadGlobalTestArray(bulkSetVga);
-            Set_USB_Digit_Out(0,0);
+            Set_USB_Digit_Out(0, 0);//enable
             Set_USB_Digit_Out(1, 0);
+            Tb_VPcon.Text = "00.000";
             WriteDAC(0, 0);
 
-            if ( Convert.ToBoolean(Read_USB_Digit_in(0)) == false) {//Laser OK //test
-                Set_USB_Digit_Out(1,1);//Laser Enable
+            if (Convert.ToBoolean(Read_USB_Digit_in(0)) == false)
+            {//Laser OK //test
+                initvga = await SendToSerial(CmdSetVgaGain, Tb_VGASet.Text, 300);//default VGA gain 20
                 initvga = await SendToSerial(CmdLaserEnable, StrEnable, 300);//Laser Enable
-                initvga = await ReadAllanlg(true);//test if OK  
+                initvga = await SendToSerial(CmdSetOffstVolt, Tb_SetOffset.Text, 300);
+                Set_USB_Digit_Out(0, 1);//Laser Enable
+                
+                initvga = await ReadAllanlg(true);//test if OK
+                //Add here: test if power OK 
 
                 for (int i = 0; i <= 2; i++)//3 VGA set iteration //test
                 {
-                    bool boolCalVGA = await RampDAC1(0, 4.950, 0.05);//set VGA MAX power
-
-                    boolCalVGA = await RampVGA();
+                    bool boolCalVGA1 = await RampDAC1(0, 4.950, 0.05);//set VGA MAX power
+                    if (boolCalVGA1==true) { bool boolCalVGA2 = await RampVGA(); }//good ramp
+                    else if (boolCalVGA1 == false) {    MessageBox.Show("Ramp Error");
+                                                        break; }
 
                     WriteDAC(0.5, 0);//reset to 0.5 0.1% power
 
-                    boolCalVGA = await ReadAllanlg(false);
+                    bool boolCalVGA3 = await ReadAllanlg(false);
 
-                    calPower = Convert.ToDouble(Lbl_PM100rd.Text);//mW
+                    calPower = Convert.ToDouble(Lbl_PM100rd.Text);//0.1% mW
                     setPower = Convert.ToDouble(Tb_NomPw.Text);
                     setOffSet = Convert.ToDouble(Tb_SetOffset.Text);
 
+                    if (calPower <= (setPower * 0.001))//between 0.1%Pw and 0.1%Pw-0.02 lower limit
+                    {
+                        setOffSet = setOffSet + 0.005;
+                    }
+                    if (calPower > (setPower * 0.001))//between 0.1%Pw+ and 0.1%+0.02 upper limit
+                    {
+                        setOffSet = setOffSet - 0.005;
+                    }
+
+                    string offset = setOffSet.ToString("0.000");
+                    bool boolCalVGA4 = await SendToSerial(CmdSetOffstVolt, offset, 400);
+                    Tb_SetOffset.Text = offset; ;//update offset for next loop
+
+                    /*
                     if (calPower <= (setPower * 0.001) && calPower >= ((setPower * 0.001) - (setPower * 0.0002)))//between 0.1%Pw and 0.1%Pw-0.02 lower limit
                     {
                         setOffSet = setOffSet + 0.002;
                         string offset = setOffSet.ToString("0.000");
-                        boolCalVGA = await SendToSerial(CmdSetOffstVolt, offset, 400);
+                        bool boolCalVGA4 = await SendToSerial(CmdSetOffstVolt, offset, 400);
                     }
                     if (calPower > (setPower * 0.001) && calPower <= ((setPower * 0.001) + (setPower * 0.0002)))//between 0.1%Pw+ and 0.1%+0.02 upper limit
                     {
                         setOffSet = setOffSet - 0.002;
                         string offset = setOffSet.ToString("0.000");
-                        boolCalVGA = await SendToSerial(CmdSetOffstVolt, offset, 400);
+                        bool boolCalVGA5 = await SendToSerial(CmdSetOffstVolt, offset, 400);
                     }
-                    Tb_SetOffset.Text = setOffSet.ToString("0.000");//update offset for next loop
+                    */
                 }
             }
 
-        else MessageBox.Show("Laser NOT OK");
+            else MessageBox.Show("Laser NOT OK");
 
             initvga = await SendToSerial(CmdLaserEnable, StrDisable, 300);
-            WriteDAC(0,0);
+            WriteDAC(0, 0);
 
             Bt_CalVGA.BackColor = Color.Coral;
             this.Cursor = Cursors.Default;
 
             return true;
         }
+        /*
+    private async Task<bool> CalVGA()
+    {
+        Bt_CalVGA.BackColor = Color.LawnGreen;
+        this.Cursor = Cursors.WaitCursor;
+
+        double calPower = 0;
+        double setPower = 0;
+        double setOffSet = 0;
+
+        bool initvga = await LoadGlobalTestArray(bulkSetVga);
+        initvga = await SendToSerial(CmdSetVgaGain, Tb_VGASet.Text, 300);//default VGA gain 20
+        Set_USB_Digit_Out(0, 0);//enable
+        Set_USB_Digit_Out(1, 0);
+        Tb_VPcon.Text = "00.000";
+        WriteDAC(0, 0);
+
+        if ( Convert.ToBoolean(Read_USB_Digit_in(0)) == false) {//Laser OK //test
+            Set_USB_Digit_Out(0, 1);//Laser Enable
+            initvga = await SendToSerial(CmdLaserEnable, StrEnable, 300);//Laser Enable
+            //set offset as well here 
+            initvga = await ReadAllanlg(true);//test if OK  
+
+            for (int i = 0; i <= 2; i++)//3 VGA set iteration //test
+            {
+                bool boolCalVGA1 = await RampDAC1(0, 4.950, 0.05);//set VGA MAX power
+
+                bool boolCalVGA2 = await RampVGA();
+
+                WriteDAC(0.5, 0);//reset to 0.5 0.1% power
+
+                bool boolCalVGA3 = await ReadAllanlg(false);
+
+                calPower = Convert.ToDouble(Lbl_PM100rd.Text);//mW
+                setPower = Convert.ToDouble(Tb_NomPw.Text);
+                setOffSet = Convert.ToDouble(Tb_SetOffset.Text);
+
+                if (calPower <= (setPower * 0.001) && calPower >= ((setPower * 0.001) - (setPower * 0.0002)))//between 0.1%Pw and 0.1%Pw-0.02 lower limit
+                {
+                    setOffSet = setOffSet + 0.002;
+                    string offset = setOffSet.ToString("0.000");
+                    bool boolCalVGA4 = await SendToSerial(CmdSetOffstVolt, offset, 400);
+                }
+                if (calPower > (setPower * 0.001) && calPower <= ((setPower * 0.001) + (setPower * 0.0002)))//between 0.1%Pw+ and 0.1%+0.02 upper limit
+                {
+                    setOffSet = setOffSet - 0.002;
+                    string offset = setOffSet.ToString("0.000");
+                    bool boolCalVGA5 = await SendToSerial(CmdSetOffstVolt, offset, 400);
+                }
+                Tb_SetOffset.Text = setOffSet.ToString("0.000");//update offset for next loop
+            }
+        }
+
+    else MessageBox.Show("Laser NOT OK");
+
+        initvga = await SendToSerial(CmdLaserEnable, StrDisable, 300);
+        WriteDAC(0, 0);
+
+        Bt_CalVGA.BackColor = Color.Coral;
+        this.Cursor = Cursors.Default;
+
+        return true;
+    }
+    */
         //======================================================================
         private async Task<bool> RampVGA()
         {
-            for (int vgaVal = 40; vgaVal <= 79; vgaVal++) {
+            for (int vgaVal = 20; vgaVal <= 79; ) {
 
                 Tb_VGASet.Text = vgaVal.ToString("0000");
                 bool vgaset = await SendToSerial(CmdSetVgaGain, Tb_VGASet.Text, 300);
@@ -1813,16 +1929,19 @@ namespace iRIS_CLM_GUI_TEST_01
                 vgaset = await ReadAllanlg(false);
 
                 double pm100Res = Convert.ToDouble(Lbl_PM100rd.Text);//mW
-                double maxPw = Convert.ToDouble(Tb_maxMaxPw.Text);
+                double maxPw = Convert.ToDouble(Tb_minMaxPw.Text);
 
-                if (maxPw >= pm100Res){
+                if (pm100Res >= maxPw){
                     MessageBox.Show("VGA set pass");
                     break; }
 
                 if (vgaVal >= 80){
                     MessageBox.Show("VGA error");
                     break; }
+
+                vgaVal++;
             }
+
             return true;
         }
         //======================================================================

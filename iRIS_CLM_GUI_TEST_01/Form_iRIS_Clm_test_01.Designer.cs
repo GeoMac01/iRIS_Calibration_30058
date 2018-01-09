@@ -210,6 +210,7 @@
             this.Rt_ReceiveDataUSB = new System.Windows.Forms.RichTextBox();
             this.Bt_RdLaserStatus = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Bt_SetVGA = new System.Windows.Forms.Button();
             this.TbPg_InsTest.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -519,7 +520,8 @@
             "iRIS CLM 780",
             "iRIS CLM 660",
             "iRIS CLM 580",
-            "iRIS CLM 488"});
+            "iRIS CLM 488",
+            "iRIS CLM 405"});
             this.Cb_LaserSelect.Location = new System.Drawing.Point(241, 37);
             this.Cb_LaserSelect.Name = "Cb_LaserSelect";
             this.Cb_LaserSelect.Size = new System.Drawing.Size(99, 21);
@@ -1226,6 +1228,7 @@
             // 
             // TbPg_Results
             // 
+            this.TbPg_Results.Controls.Add(this.Bt_SetVGA);
             this.TbPg_Results.Controls.Add(this.groupBox2);
             this.TbPg_Results.Controls.Add(this.Bt_InvEnable);
             this.TbPg_Results.Controls.Add(this.Bt_SetPwDac);
@@ -1970,7 +1973,7 @@
             this.Tb_VGASet.Name = "Tb_VGASet";
             this.Tb_VGASet.Size = new System.Drawing.Size(46, 20);
             this.Tb_VGASet.TabIndex = 255;
-            this.Tb_VGASet.Text = "0040";
+            this.Tb_VGASet.Text = "0020";
             // 
             // Tb_ServerName
             // 
@@ -2016,7 +2019,7 @@
             this.Tb_SetOffset.Name = "Tb_SetOffset";
             this.Tb_SetOffset.Size = new System.Drawing.Size(43, 20);
             this.Tb_SetOffset.TabIndex = 249;
-            this.Tb_SetOffset.Text = "2.505";
+            this.Tb_SetOffset.Text = "2.500";
             // 
             // Tb_Pw1
             // 
@@ -2148,6 +2151,18 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(683, 96);
             this.dataGridView1.TabIndex = 6;
+            // 
+            // Bt_SetVGA
+            // 
+            this.Bt_SetVGA.BackColor = System.Drawing.Color.PeachPuff;
+            this.Bt_SetVGA.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Bt_SetVGA.Location = new System.Drawing.Point(357, 191);
+            this.Bt_SetVGA.Name = "Bt_SetVGA";
+            this.Bt_SetVGA.Size = new System.Drawing.Size(68, 25);
+            this.Bt_SetVGA.TabIndex = 343;
+            this.Bt_SetVGA.Text = "Set VGA";
+            this.Bt_SetVGA.UseVisualStyleBackColor = false;
+            this.Bt_SetVGA.Click += new System.EventHandler(this.Bt_SetVGA_Click);
             // 
             // Form_iRIS_Clm_test_01
             // 
@@ -2362,6 +2377,7 @@
         private System.Windows.Forms.Label lbl_ADCpconRd;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lbl_LaserPD;
+        private System.Windows.Forms.Button Bt_SetVGA;
     }
 }
 
