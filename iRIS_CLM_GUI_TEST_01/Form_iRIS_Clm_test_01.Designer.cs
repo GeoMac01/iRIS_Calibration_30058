@@ -365,7 +365,7 @@
             // label61
             // 
             this.label61.AutoSize = true;
-            this.label61.Location = new System.Drawing.Point(148, 206);
+            this.label61.Location = new System.Drawing.Point(241, 110);
             this.label61.Name = "label61";
             this.label61.Size = new System.Drawing.Size(86, 13);
             this.label61.TabIndex = 305;
@@ -383,7 +383,7 @@
             // Lbl_WaveLg
             // 
             this.Lbl_WaveLg.AutoSize = true;
-            this.Lbl_WaveLg.Location = new System.Drawing.Point(109, 205);
+            this.Lbl_WaveLg.Location = new System.Drawing.Point(333, 110);
             this.Lbl_WaveLg.Name = "Lbl_WaveLg";
             this.Lbl_WaveLg.Size = new System.Drawing.Size(28, 13);
             this.Lbl_WaveLg.TabIndex = 303;
@@ -473,7 +473,7 @@
             // Bt_USBinterf
             // 
             this.Bt_USBinterf.BackColor = System.Drawing.Color.Coral;
-            this.Bt_USBinterf.Location = new System.Drawing.Point(10, 148);
+            this.Bt_USBinterf.Location = new System.Drawing.Point(10, 193);
             this.Bt_USBinterf.Name = "Bt_USBinterf";
             this.Bt_USBinterf.Size = new System.Drawing.Size(87, 39);
             this.Bt_USBinterf.TabIndex = 294;
@@ -484,7 +484,7 @@
             // Bt_PM100
             // 
             this.Bt_PM100.BackColor = System.Drawing.Color.Coral;
-            this.Bt_PM100.Location = new System.Drawing.Point(10, 193);
+            this.Bt_PM100.Location = new System.Drawing.Point(10, 147);
             this.Bt_PM100.Name = "Bt_PM100";
             this.Bt_PM100.Size = new System.Drawing.Size(87, 39);
             this.Bt_PM100.TabIndex = 293;
@@ -650,9 +650,9 @@
             this.lbl_SWLevel.AutoSize = true;
             this.lbl_SWLevel.Location = new System.Drawing.Point(297, 90);
             this.lbl_SWLevel.Name = "lbl_SWLevel";
-            this.lbl_SWLevel.Size = new System.Drawing.Size(16, 13);
+            this.lbl_SWLevel.Size = new System.Drawing.Size(22, 13);
             this.lbl_SWLevel.TabIndex = 270;
-            this.lbl_SWLevel.Text = "---";
+            this.lbl_SWLevel.Text = "- - -";
             // 
             // label27
             // 
@@ -957,9 +957,9 @@
             this.lbl_SerNbReadBack.AutoSize = true;
             this.lbl_SerNbReadBack.Location = new System.Drawing.Point(325, 67);
             this.lbl_SerNbReadBack.Name = "lbl_SerNbReadBack";
-            this.lbl_SerNbReadBack.Size = new System.Drawing.Size(16, 13);
+            this.lbl_SerNbReadBack.Size = new System.Drawing.Size(22, 13);
             this.lbl_SerNbReadBack.TabIndex = 267;
-            this.lbl_SerNbReadBack.Text = "---";
+            this.lbl_SerNbReadBack.Text = "- - -";
             this.lbl_SerNbReadBack.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label29
@@ -1139,7 +1139,7 @@
             this.Tb_SerNb.Size = new System.Drawing.Size(65, 20);
             this.Tb_SerNb.TabIndex = 285;
             this.Tb_SerNb.TabStop = false;
-            this.Tb_SerNb.Text = "01234567";
+            this.Tb_SerNb.Text = "00597588";
             this.Tb_SerNb.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label6
