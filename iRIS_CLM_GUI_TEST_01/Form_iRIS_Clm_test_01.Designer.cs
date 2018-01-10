@@ -280,9 +280,9 @@
             this.lbl_LaserPD.AutoSize = true;
             this.lbl_LaserPD.Location = new System.Drawing.Point(106, 483);
             this.lbl_LaserPD.Name = "lbl_LaserPD";
-            this.lbl_LaserPD.Size = new System.Drawing.Size(40, 13);
+            this.lbl_LaserPD.Size = new System.Drawing.Size(37, 13);
             this.lbl_LaserPD.TabIndex = 315;
-            this.lbl_LaserPD.Text = " - - - - - ";
+            this.lbl_LaserPD.Text = "00000";
             // 
             // label1
             // 
@@ -298,9 +298,9 @@
             this.lbl_ADCpconRd.AutoSize = true;
             this.lbl_ADCpconRd.Location = new System.Drawing.Point(107, 462);
             this.lbl_ADCpconRd.Name = "lbl_ADCpconRd";
-            this.lbl_ADCpconRd.Size = new System.Drawing.Size(40, 13);
+            this.lbl_ADCpconRd.Size = new System.Drawing.Size(37, 13);
             this.lbl_ADCpconRd.TabIndex = 313;
-            this.lbl_ADCpconRd.Text = " - - - - - ";
+            this.lbl_ADCpconRd.Text = "00000";
             // 
             // Lbl_MaOrBits
             // 
@@ -316,9 +316,9 @@
             this.Lbl_uClsCurrent.AutoSize = true;
             this.Lbl_uClsCurrent.Location = new System.Drawing.Point(109, 354);
             this.Lbl_uClsCurrent.Name = "Lbl_uClsCurrent";
-            this.Lbl_uClsCurrent.Size = new System.Drawing.Size(34, 13);
+            this.Lbl_uClsCurrent.Size = new System.Drawing.Size(31, 13);
             this.Lbl_uClsCurrent.TabIndex = 311;
-            this.Lbl_uClsCurrent.Text = " - - - - ";
+            this.Lbl_uClsCurrent.Text = "0000";
             // 
             // Bt_ReaduCcurrent
             // 
@@ -358,9 +358,9 @@
             this.Lbl_TempBplt.AutoSize = true;
             this.Lbl_TempBplt.Location = new System.Drawing.Point(107, 441);
             this.Lbl_TempBplt.Name = "Lbl_TempBplt";
-            this.Lbl_TempBplt.Size = new System.Drawing.Size(34, 13);
+            this.Lbl_TempBplt.Size = new System.Drawing.Size(31, 13);
             this.Lbl_TempBplt.TabIndex = 306;
-            this.Lbl_TempBplt.Text = " - - - - ";
+            this.Lbl_TempBplt.Text = "0000";
             // 
             // label61
             // 
@@ -376,18 +376,18 @@
             this.Lbl_VGAval.AutoSize = true;
             this.Lbl_VGAval.Location = new System.Drawing.Point(109, 287);
             this.Lbl_VGAval.Name = "Lbl_VGAval";
-            this.Lbl_VGAval.Size = new System.Drawing.Size(28, 13);
+            this.Lbl_VGAval.Size = new System.Drawing.Size(31, 13);
             this.Lbl_VGAval.TabIndex = 304;
-            this.Lbl_VGAval.Text = "- - - -";
+            this.Lbl_VGAval.Text = "0000";
             // 
             // Lbl_WaveLg
             // 
             this.Lbl_WaveLg.AutoSize = true;
             this.Lbl_WaveLg.Location = new System.Drawing.Point(333, 110);
             this.Lbl_WaveLg.Name = "Lbl_WaveLg";
-            this.Lbl_WaveLg.Size = new System.Drawing.Size(28, 13);
+            this.Lbl_WaveLg.Size = new System.Drawing.Size(31, 13);
             this.Lbl_WaveLg.TabIndex = 303;
-            this.Lbl_WaveLg.Text = "- - - -";
+            this.Lbl_WaveLg.Text = "0000";
             // 
             // label41
             // 
@@ -650,9 +650,9 @@
             this.lbl_SWLevel.AutoSize = true;
             this.lbl_SWLevel.Location = new System.Drawing.Point(297, 90);
             this.lbl_SWLevel.Name = "lbl_SWLevel";
-            this.lbl_SWLevel.Size = new System.Drawing.Size(22, 13);
+            this.lbl_SWLevel.Size = new System.Drawing.Size(55, 13);
             this.lbl_SWLevel.TabIndex = 270;
-            this.lbl_SWLevel.Text = "- - -";
+            this.lbl_SWLevel.Text = "00000000";
             // 
             // label27
             // 
@@ -957,9 +957,9 @@
             this.lbl_SerNbReadBack.AutoSize = true;
             this.lbl_SerNbReadBack.Location = new System.Drawing.Point(325, 67);
             this.lbl_SerNbReadBack.Name = "lbl_SerNbReadBack";
-            this.lbl_SerNbReadBack.Size = new System.Drawing.Size(22, 13);
+            this.lbl_SerNbReadBack.Size = new System.Drawing.Size(19, 13);
             this.lbl_SerNbReadBack.TabIndex = 267;
-            this.lbl_SerNbReadBack.Text = "- - -";
+            this.lbl_SerNbReadBack.Text = "00";
             this.lbl_SerNbReadBack.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label29
@@ -1846,7 +1846,7 @@
             this.Tb_CalB_Pw.Name = "Tb_CalB_Pw";
             this.Tb_CalB_Pw.Size = new System.Drawing.Size(46, 20);
             this.Tb_CalB_Pw.TabIndex = 297;
-            this.Tb_CalB_Pw.Text = "0.000";
+            this.Tb_CalB_Pw.Text = "000.0000";
             // 
             // Tb_CalA_Pw
             // 
@@ -1854,7 +1854,7 @@
             this.Tb_CalA_Pw.Name = "Tb_CalA_Pw";
             this.Tb_CalA_Pw.Size = new System.Drawing.Size(46, 20);
             this.Tb_CalA_Pw.TabIndex = 296;
-            this.Tb_CalA_Pw.Text = "1.000";
+            this.Tb_CalA_Pw.Text = "001.0000";
             // 
             // label44
             // 
@@ -1880,7 +1880,7 @@
             this.Tb_CalB_PwToADC.Name = "Tb_CalB_PwToADC";
             this.Tb_CalB_PwToADC.Size = new System.Drawing.Size(46, 20);
             this.Tb_CalB_PwToADC.TabIndex = 293;
-            this.Tb_CalB_PwToADC.Text = "0.000";
+            this.Tb_CalB_PwToADC.Text = "000.0000";
             // 
             // Tb_CalA_PwToADC
             // 
@@ -1888,7 +1888,7 @@
             this.Tb_CalA_PwToADC.Name = "Tb_CalA_PwToADC";
             this.Tb_CalA_PwToADC.Size = new System.Drawing.Size(46, 20);
             this.Tb_CalA_PwToADC.TabIndex = 292;
-            this.Tb_CalA_PwToADC.Text = "1.000";
+            this.Tb_CalA_PwToADC.Text = "001.0000";
             // 
             // label49
             // 
@@ -1914,7 +1914,7 @@
             this.Tb_CalBcmdToPw.Name = "Tb_CalBcmdToPw";
             this.Tb_CalBcmdToPw.Size = new System.Drawing.Size(46, 20);
             this.Tb_CalBcmdToPw.TabIndex = 289;
-            this.Tb_CalBcmdToPw.Text = "0.000";
+            this.Tb_CalBcmdToPw.Text = "000.0000";
             // 
             // Tb_CalAcmdToPw
             // 
@@ -1922,7 +1922,7 @@
             this.Tb_CalAcmdToPw.Name = "Tb_CalAcmdToPw";
             this.Tb_CalAcmdToPw.Size = new System.Drawing.Size(46, 20);
             this.Tb_CalAcmdToPw.TabIndex = 288;
-            this.Tb_CalAcmdToPw.Text = "1.000";
+            this.Tb_CalAcmdToPw.Text = "001.0000";
             // 
             // Tb_VPcon
             // 

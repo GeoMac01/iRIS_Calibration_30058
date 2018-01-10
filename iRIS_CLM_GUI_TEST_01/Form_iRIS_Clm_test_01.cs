@@ -130,11 +130,11 @@ namespace iRIS_CLM_GUI_TEST_01
             //{CmdSeManuDate,       StrDisable},
             //{CmdSetCalDate,       StrDisable},
             //{CmdSetPartNumber,    StrDisable},
-            {CmdSetCalAPw,          StrDisable},
+            {CmdSetCalAPw,          StrEnable},
             {CmdSetCalBPw,          StrDisable},
-            {CmdSetCalAPwtoVint,    StrDisable},
+            {CmdSetCalAPwtoVint,    StrEnable},
             {CmdSetCalBPwtoVint,    StrDisable},
-            {CmdSetCalAVtoPw,       StrDisable},
+            {CmdSetCalAVtoPw,       StrEnable},
             {CmdSetCalBVtoPw,       StrDisable}, };
             //{CmdRdFirmware,       StrDisable} };
 
@@ -151,14 +151,19 @@ namespace iRIS_CLM_GUI_TEST_01
         string[,] bulkSetVga = new string[6, 2] {
             { CmdLaserEnable,       StrDisable },
             { CmdTestMode,          StrEnable  },
-            { CmdSetInOutPwCtrl,    StrDisable },      //external PCON
-            { CmdAnalgInpt,         StrDisable },      //Non Inv. PCON
-            { CmdEnablLogicvIn,     StrDisable },      //Non Inv. Laser Enable
+            { CmdSetInOutPwCtrl,    StrDisable },     //external PCON
+            { CmdAnalgInpt,         StrDisable },     //Non Inv. PCON
+            { CmdEnablLogicvIn,     StrDisable },     //Non Inv. Laser Enable
             { CmdsetTTL,            StrEnable } };    //Inv. TTL line in
 
         //=================================================
 
-        string[,] analogRead = new string[7, 2] {//read all analog inputs
+        string[,] analogRead = new string[3, 2] {//read analog inputs
+            { CmdRdPwSetPcon,       StrDisable },
+            { CmdRdLaserPow,        StrDisable },
+            { CmdCurrentRead,       StrDisable } };
+
+        string[,] analogRead2 = new string[7, 2] {//read all analog inputs
             { CmdTestMode,          StrEnable },
             { CmdRdCmdStautus2,     StrDisable },
             { CmdRdPwSetPcon,       StrDisable },
@@ -184,6 +189,8 @@ namespace iRIS_CLM_GUI_TEST_01
         byte[] byteArrayToTest1 = new byte[8];//reads back "bits"
         byte[] byteArrayToTest2 = new byte[8];//reads back "bits"
         byte[] byteArrayToTest3 = new byte[8];//reads back "bits"
+
+        double[,] dataADC = new double[100, 3];
 
         bool USB_Port_Open =    false;
         bool RS232_Port_Open =  false;
@@ -1634,19 +1641,16 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         #endregion  External Hardware
         //======================================================================
-        private async Task<bool> RampDAC1(double startRp, double stopRp, double stepRp)//external PCON
+        private async Task<bool> RampDAC1(double startRp, double stopRp, double stepRp, bool rdIntADC)//external PCON
         {
             double maxPw = Convert.ToDouble(Tb_maxMaxPw.Text);
             bool rampDAC1task = false;//cannot initialise in "for loop" ????
-
-            int arrIndex = Convert.ToInt16((stopRp - stopRp) / stepRp);
-            double[,] dataADC = new double[arrIndex, 3];//could "dynamically" size array....
-            dataADC.Initialize();
-
+            int arrIndex = 0;
+ 
             for (double startRpLp = startRp; startRpLp <= stopRp; startRpLp = startRpLp + stepRp)
             {
                     WriteDAC(startRpLp, 0);
-                    rampDAC1task = await ReadAllanlg(false);//displays current in bits
+                    rampDAC1task = await ReadAllanlg(rdIntADC);//displays current in bits
                     double pm100Res = Convert.ToDouble(Lbl_PM100rd.Text);//mW
 
                 if (pm100Res > maxPw) {
@@ -1654,18 +1658,18 @@ namespace iRIS_CLM_GUI_TEST_01
                     MessageBox.Show("Power Error");
                     return false; }//ramp error
 
-                //populate array with results
-                //dataADC[arrIndex, 0] = pm100Res;
-                //dataADC[arrIndex, 1] = Convert.ToDouble(lbl_LaserPD.Text);
-                //dataADC[arrIndex, 2] = Convert.ToDouble(lbl_ADCpconRd.Text);
-                //arrIndex++;
+                if (rdIntADC==true) {
+                    dataADC[arrIndex, 0] = (pm100Res*10);
+                    dataADC[arrIndex, 1] = Convert.ToDouble(lbl_LaserPD.Text);
+                    dataADC[arrIndex, 2] = Convert.ToDouble(lbl_ADCpconRd.Text);
+                    arrIndex++; }
             }
-
-            //Rt_ReceiveDataUSB.Clear();
-            //foreach (double dbl in dataADC) {
-            //    Rt_ReceiveDataUSB.AppendText(Convert.ToString(dbl));
-            //    Rt_ReceiveDataUSB.AppendText("\n"); }
-
+            /*
+            Rt_ReceiveDataUSB.Clear();
+            foreach (double dbl in dataADC) {
+                Rt_ReceiveDataUSB.AppendText(Convert.ToString(dbl));
+                Rt_ReceiveDataUSB.AppendText("\n"); }
+                */
             return true;
         }
         //======================================================================
@@ -1697,7 +1701,7 @@ namespace iRIS_CLM_GUI_TEST_01
 
             if (fullRd == true) { bool readAdc = await LoadGlobalTestArray(analogRead); }//internal uCadc
 
-            await Task.Delay(100);//this is there as the compiler will not see the await in the if statement.
+            await Task.Delay(10);//this is there as the compiler will not see the await in the if statement.
 
             return true;
         }
@@ -1752,28 +1756,29 @@ namespace iRIS_CLM_GUI_TEST_01
             bool goodOffset = false;
 
             initvga = await LoadGlobalTestArray(bulkSetVga);
-            Set_USB_Digit_Out(0, 0);//enable
-            Set_USB_Digit_Out(1, 0);
+            initvga = await SendToSerial(CmdSetVgaGain, Tb_VGASet.Text, 300);//default initial VGA gain 20
+            initvga = await SendToSerial(CmdSetOffstVolt, Tb_SetOffset.Text, 300);//sefault initial offset 2.500V
+
+            Set_USB_Digit_Out(0, 0);//enable line
+            Set_USB_Digit_Out(1, 0);//
             Tb_VPcon.Text = "00.000";
             WriteDAC(0, 0);
 
             if (Convert.ToBoolean(Read_USB_Digit_in(0)) == false) {//Laser OK //test
 
-                initvga = await SendToSerial(CmdSetVgaGain, Tb_VGASet.Text, 300);//default initial VGA gain 20
                 initvga = await SendToSerial(CmdLaserEnable, StrEnable, 300);//Laser Enable
-                initvga = await SendToSerial(CmdSetOffstVolt, Tb_SetOffset.Text, 300);//sefault initial offset 2.500V
                 Set_USB_Digit_Out(0, 1);//Laser Enable
                 
                 initvga = await ReadAllanlg(true);//test if OK
  
                 for (int i = 0; i <= 2; i++)//3 VGA set iteration //test
                 {
-                    bool boolCalVGA1 = await RampDAC1(0, 4.950, 0.05);//set VGA MAX power
+                    bool boolCalVGA1 = await RampDAC1(0, 4.950, 0.05, false);//set VGA MAX power
 
                         for (int vgaVal = 20; vgaVal <= 80; vgaVal++)//Ramp and set VGA
                         {
 
-                        if (vgaVal >= 75) { MessageBox.Show("VGA error");
+                        if (vgaVal >= 80) { MessageBox.Show("MAX VGA 80");
                                             break; }
                         else
                         {
@@ -1820,35 +1825,6 @@ namespace iRIS_CLM_GUI_TEST_01
 
             return true;
         }
- 
-        //======================================================================
-        private async Task<bool> RampVGA()
-        {
-            int vgaVal = Convert.ToInt16(Tb_VGASet.Text);//need to be initialised (20)
-
-            for (; vgaVal <= 79; ) {
-
-                Tb_VGASet.Text = vgaVal.ToString("0000");
-                bool vgaset = await SendToSerial(CmdSetVgaGain, Tb_VGASet.Text, 300);
-
-                vgaset = await ReadAllanlg(false);
-
-                double pm100Res = Convert.ToDouble(Lbl_PM100rd.Text);//mW
-                double maxPw = Convert.ToDouble(Tb_minMaxPw.Text);
-
-                if (pm100Res >= maxPw){
-                    MessageBox.Show("VGA set pass");
-                    break; }
-
-                if (vgaVal >= 80){
-                    MessageBox.Show("VGA error");
-                    break; }
-
-                vgaVal++;
-            }
-
-            return true;
-        }
         //======================================================================
         #region Current Zero 
         //======================================================================
@@ -1885,21 +1861,35 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private void Bt_pdCalibration_Click(object sender, EventArgs e) { Task<bool> pdcal = PD_Calibration(); }
         //======================================================================
-        private async Task<bool> PD_Calibration()
-        {
-            bool pdCalTask = false;
+        private async Task<bool> PD_Calibration() {
+             bool pdCalTask = false;
+            const double startRp = 0.600;
+            const double stopRp = 4.800;
+            const double stepRp = 0.100;
+            int arrIndex1 = Convert.ToInt16((stopRp - startRp) / stepRp);
+            double[] abResults = new double[2]; 
+
             Bt_pdCalibration.BackColor = Color.LawnGreen;
             Cursor.Current = Cursors.WaitCursor;
 
             pdCalTask = await LoadGlobalTestArray(bulkSetVarialble);
             
-            Set_USB_Digit_Out(0, 1);                  //Enable laser  
-            pdCalTask = await SendToSerial(CmdLaserEnable, StrEnable, 300);// test disable
+            Set_USB_Digit_Out(0, 1);                                        //Enable laser  
+            pdCalTask = await SendToSerial(CmdLaserEnable, StrEnable, 300); // 
 
-            pdCalTask = await RampDAC1(0, 5.000, 0.1);
+            pdCalTask = await RampDAC1(startRp, stopRp, stepRp, true);
 
+            WriteDAC(0, 0);
             Set_USB_Digit_Out(0, 0);                    
             pdCalTask = await SendToSerial(CmdLaserEnable, StrDisable, 300);
+
+            abResults = FindLinearLeastSquaresFit(dataADC, 0, arrIndex1, 1, 0);
+            Tb_CalA_Pw.Text = abResults[0].ToString("000.0000");
+            Tb_CalB_Pw.Text = abResults[1].ToString("000.0000");
+
+            abResults = FindLinearLeastSquaresFit(dataADC, 0, arrIndex1, 2, 0);
+            Tb_CalA_PwToADC.Text = abResults[0].ToString("000.0000");
+            Tb_CalB_PwToADC.Text = abResults[1].ToString("000.0000");
 
             Cursor.Current = Cursors.Default;
             return true;
@@ -2007,7 +1997,7 @@ namespace iRIS_CLM_GUI_TEST_01
             sendCalPw = await SendToSerial(CmdLaserEnable, StrEnable, 300);
             Set_USB_Digit_Out(0, 1);
 
-            bool rampdac1 = await RampDAC1(0, 5.000, 0.100);//adjust PCON to MAX power
+            bool rampdac1 = await RampDAC1(0, 5.000, 0.100, false);//adjust PCON to MAX power
 
             sendCalPw = await SendToSerial(CmdSetPwtoVout, pmonVmax, 600);
             sendCalPw = await ReadAllanlg(true);
@@ -2071,7 +2061,7 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         #endregion
         //======================================================================
-        private double[] FindLinearLeastSquaresFit(double[,] dataXy, int strtX, int endX)
+        private double[] FindLinearLeastSquaresFit(double[,] dataXy, int strtX, int endX, int xIndx, int yIndx)
         {
             double[] rtnAb = new double[2];
             double S1 = 0;
@@ -2084,14 +2074,14 @@ namespace iRIS_CLM_GUI_TEST_01
             //{
                 for (int lp2 = strtX; lp2 <= endX; lp2++)
                 {
-                    Sx += dataXy[lp2, 0];//x
-                    Sy += dataXy[lp2, 2];//y
+                    Sx += dataXy[lp2, xIndx];//x
+                    Sy += dataXy[lp2, yIndx];//y
 
-                    Sxx += dataXy[lp2, 0] * dataXy[lp2, 0];//xx
-                    Sxy += dataXy[lp2, 0] * dataXy[lp2, 2];//xy
+                    Sxx += dataXy[lp2, xIndx] * dataXy[lp2, xIndx];//xx
+                    Sxy += dataXy[lp2, xIndx] * dataXy[lp2, yIndx];//xy
 
-                    Rt_ReceiveDataUSB.AppendText(   Convert.ToString(dataXy[lp2, 0]) + " " +
-                                                    Convert.ToString(dataXy[lp2, 2]) + " " +
+                    Rt_ReceiveDataUSB.AppendText(   Convert.ToString(dataXy[lp2, xIndx]) + " " +
+                                                    Convert.ToString(dataXy[lp2, yIndx]) + " " +
                                                     Footer);
                     S1++;
                 }
