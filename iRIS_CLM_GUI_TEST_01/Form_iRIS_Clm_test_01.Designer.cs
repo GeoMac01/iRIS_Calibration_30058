@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.TbPg_InsTest = new System.Windows.Forms.TabPage();
+            this.Bt_SetIntPwCal = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.lbl_LaserPD = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -123,6 +124,7 @@
             this.tb_TecSerNumb = new System.Windows.Forms.TextBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.TbPg_Results = new System.Windows.Forms.TabPage();
+            this.Lbl_RtnPwDACvalue = new System.Windows.Forms.Label();
             this.Bt_SetVGA = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.Tb_TECpoint = new System.Windows.Forms.TextBox();
@@ -224,6 +226,7 @@
             // 
             // TbPg_InsTest
             // 
+            this.TbPg_InsTest.Controls.Add(this.Bt_SetIntPwCal);
             this.TbPg_InsTest.Controls.Add(this.label2);
             this.TbPg_InsTest.Controls.Add(this.lbl_LaserPD);
             this.TbPg_InsTest.Controls.Add(this.label1);
@@ -264,12 +267,23 @@
             this.TbPg_InsTest.Size = new System.Drawing.Size(692, 566);
             this.TbPg_InsTest.TabIndex = 1;
             this.TbPg_InsTest.Text = "Laser Calibration";
-            this.TbPg_InsTest.Click += new System.EventHandler(this.TbPg_InsTest_Click);
+            // 
+            // Bt_SetIntPwCal
+            // 
+            this.Bt_SetIntPwCal.BackColor = System.Drawing.Color.Coral;
+            this.Bt_SetIntPwCal.Location = new System.Drawing.Point(10, 499);
+            this.Bt_SetIntPwCal.Name = "Bt_SetIntPwCal";
+            this.Bt_SetIntPwCal.Size = new System.Drawing.Size(87, 39);
+            this.Bt_SetIntPwCal.TabIndex = 317;
+            this.Bt_SetIntPwCal.TabStop = false;
+            this.Bt_SetIntPwCal.Text = "Internal Pw Cal.";
+            this.Bt_SetIntPwCal.UseVisualStyleBackColor = false;
+            this.Bt_SetIntPwCal.Click += new System.EventHandler(this.Bt_SetIntPwCal_Click);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(153, 462);
+            this.label2.Location = new System.Drawing.Point(152, 461);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(62, 13);
             this.label2.TabIndex = 316;
@@ -278,7 +292,7 @@
             // lbl_LaserPD
             // 
             this.lbl_LaserPD.AutoSize = true;
-            this.lbl_LaserPD.Location = new System.Drawing.Point(106, 483);
+            this.lbl_LaserPD.Location = new System.Drawing.Point(107, 480);
             this.lbl_LaserPD.Name = "lbl_LaserPD";
             this.lbl_LaserPD.Size = new System.Drawing.Size(37, 13);
             this.lbl_LaserPD.TabIndex = 315;
@@ -287,7 +301,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(153, 480);
+            this.label1.Location = new System.Drawing.Point(152, 480);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(47, 13);
             this.label1.TabIndex = 314;
@@ -296,7 +310,7 @@
             // lbl_ADCpconRd
             // 
             this.lbl_ADCpconRd.AutoSize = true;
-            this.lbl_ADCpconRd.Location = new System.Drawing.Point(107, 462);
+            this.lbl_ADCpconRd.Location = new System.Drawing.Point(107, 461);
             this.lbl_ADCpconRd.Name = "lbl_ADCpconRd";
             this.lbl_ADCpconRd.Size = new System.Drawing.Size(37, 13);
             this.lbl_ADCpconRd.TabIndex = 313;
@@ -305,7 +319,7 @@
             // Lbl_MaOrBits
             // 
             this.Lbl_MaOrBits.AutoSize = true;
-            this.Lbl_MaOrBits.Location = new System.Drawing.Point(150, 354);
+            this.Lbl_MaOrBits.Location = new System.Drawing.Point(150, 350);
             this.Lbl_MaOrBits.Name = "Lbl_MaOrBits";
             this.Lbl_MaOrBits.Size = new System.Drawing.Size(58, 13);
             this.Lbl_MaOrBits.TabIndex = 312;
@@ -314,7 +328,7 @@
             // Lbl_uClsCurrent
             // 
             this.Lbl_uClsCurrent.AutoSize = true;
-            this.Lbl_uClsCurrent.Location = new System.Drawing.Point(109, 354);
+            this.Lbl_uClsCurrent.Location = new System.Drawing.Point(109, 350);
             this.Lbl_uClsCurrent.Name = "Lbl_uClsCurrent";
             this.Lbl_uClsCurrent.Size = new System.Drawing.Size(31, 13);
             this.Lbl_uClsCurrent.TabIndex = 311;
@@ -335,7 +349,7 @@
             // Bt_BasepltTemp
             // 
             this.Bt_BasepltTemp.BackColor = System.Drawing.Color.Coral;
-            this.Bt_BasepltTemp.Location = new System.Drawing.Point(108, 414);
+            this.Bt_BasepltTemp.Location = new System.Drawing.Point(108, 408);
             this.Bt_BasepltTemp.Name = "Bt_BasepltTemp";
             this.Bt_BasepltTemp.Size = new System.Drawing.Size(104, 24);
             this.Bt_BasepltTemp.TabIndex = 309;
@@ -347,7 +361,7 @@
             // label63
             // 
             this.label63.AutoSize = true;
-            this.label63.Location = new System.Drawing.Point(148, 442);
+            this.label63.Location = new System.Drawing.Point(148, 435);
             this.label63.Name = "label63";
             this.label63.Size = new System.Drawing.Size(108, 13);
             this.label63.TabIndex = 308;
@@ -356,7 +370,7 @@
             // Lbl_TempBplt
             // 
             this.Lbl_TempBplt.AutoSize = true;
-            this.Lbl_TempBplt.Location = new System.Drawing.Point(107, 441);
+            this.Lbl_TempBplt.Location = new System.Drawing.Point(107, 434);
             this.Lbl_TempBplt.Name = "Lbl_TempBplt";
             this.Lbl_TempBplt.Size = new System.Drawing.Size(31, 13);
             this.Lbl_TempBplt.TabIndex = 306;
@@ -401,7 +415,7 @@
             // Bt_FinalLsSetup
             // 
             this.Bt_FinalLsSetup.BackColor = System.Drawing.Color.Coral;
-            this.Bt_FinalLsSetup.Location = new System.Drawing.Point(9, 504);
+            this.Bt_FinalLsSetup.Location = new System.Drawing.Point(370, 524);
             this.Bt_FinalLsSetup.Name = "Bt_FinalLsSetup";
             this.Bt_FinalLsSetup.Size = new System.Drawing.Size(87, 39);
             this.Bt_FinalLsSetup.TabIndex = 300;
@@ -413,7 +427,7 @@
             // Bt_pdCalibration
             // 
             this.Bt_pdCalibration.BackColor = System.Drawing.Color.Coral;
-            this.Bt_pdCalibration.Location = new System.Drawing.Point(9, 460);
+            this.Bt_pdCalibration.Location = new System.Drawing.Point(10, 455);
             this.Bt_pdCalibration.Name = "Bt_pdCalibration";
             this.Bt_pdCalibration.Size = new System.Drawing.Size(87, 39);
             this.Bt_pdCalibration.TabIndex = 299;
@@ -425,7 +439,7 @@
             // Bt_BasePltTempComp
             // 
             this.Bt_BasePltTempComp.BackColor = System.Drawing.Color.Coral;
-            this.Bt_BasePltTempComp.Location = new System.Drawing.Point(10, 418);
+            this.Bt_BasePltTempComp.Location = new System.Drawing.Point(10, 411);
             this.Bt_BasePltTempComp.Name = "Bt_BasePltTempComp";
             this.Bt_BasePltTempComp.Size = new System.Drawing.Size(87, 39);
             this.Bt_BasePltTempComp.TabIndex = 298;
@@ -437,7 +451,7 @@
             // Bt_PwOutMonCal
             // 
             this.Bt_PwOutMonCal.BackColor = System.Drawing.Color.Coral;
-            this.Bt_PwOutMonCal.Location = new System.Drawing.Point(10, 373);
+            this.Bt_PwOutMonCal.Location = new System.Drawing.Point(10, 367);
             this.Bt_PwOutMonCal.Name = "Bt_PwOutMonCal";
             this.Bt_PwOutMonCal.Size = new System.Drawing.Size(87, 39);
             this.Bt_PwOutMonCal.TabIndex = 297;
@@ -449,7 +463,7 @@
             // Bt_ZeroI
             // 
             this.Bt_ZeroI.BackColor = System.Drawing.Color.Coral;
-            this.Bt_ZeroI.Location = new System.Drawing.Point(10, 328);
+            this.Bt_ZeroI.Location = new System.Drawing.Point(10, 323);
             this.Bt_ZeroI.Name = "Bt_ZeroI";
             this.Bt_ZeroI.Size = new System.Drawing.Size(87, 39);
             this.Bt_ZeroI.TabIndex = 296;
@@ -461,7 +475,7 @@
             // Bt_CalVGA
             // 
             this.Bt_CalVGA.BackColor = System.Drawing.Color.Coral;
-            this.Bt_CalVGA.Location = new System.Drawing.Point(10, 283);
+            this.Bt_CalVGA.Location = new System.Drawing.Point(10, 279);
             this.Bt_CalVGA.Name = "Bt_CalVGA";
             this.Bt_CalVGA.Size = new System.Drawing.Size(87, 39);
             this.Bt_CalVGA.TabIndex = 295;
@@ -473,7 +487,7 @@
             // Bt_USBinterf
             // 
             this.Bt_USBinterf.BackColor = System.Drawing.Color.Coral;
-            this.Bt_USBinterf.Location = new System.Drawing.Point(10, 193);
+            this.Bt_USBinterf.Location = new System.Drawing.Point(10, 191);
             this.Bt_USBinterf.Name = "Bt_USBinterf";
             this.Bt_USBinterf.Size = new System.Drawing.Size(87, 39);
             this.Bt_USBinterf.TabIndex = 294;
@@ -495,7 +509,7 @@
             // bt_NewTest
             // 
             this.bt_NewTest.BackColor = System.Drawing.Color.Coral;
-            this.bt_NewTest.Location = new System.Drawing.Point(10, 238);
+            this.bt_NewTest.Location = new System.Drawing.Point(10, 235);
             this.bt_NewTest.Name = "bt_NewTest";
             this.bt_NewTest.Size = new System.Drawing.Size(87, 39);
             this.bt_NewTest.TabIndex = 292;
@@ -1228,6 +1242,7 @@
             // 
             // TbPg_Results
             // 
+            this.TbPg_Results.Controls.Add(this.Lbl_RtnPwDACvalue);
             this.TbPg_Results.Controls.Add(this.Bt_SetVGA);
             this.TbPg_Results.Controls.Add(this.groupBox2);
             this.TbPg_Results.Controls.Add(this.Bt_InvEnable);
@@ -1313,6 +1328,15 @@
             this.TbPg_Results.TabIndex = 3;
             this.TbPg_Results.Text = "Engineering";
             this.TbPg_Results.UseVisualStyleBackColor = true;
+            // 
+            // Lbl_RtnPwDACvalue
+            // 
+            this.Lbl_RtnPwDACvalue.AutoSize = true;
+            this.Lbl_RtnPwDACvalue.Location = new System.Drawing.Point(51, 288);
+            this.Lbl_RtnPwDACvalue.Name = "Lbl_RtnPwDACvalue";
+            this.Lbl_RtnPwDACvalue.Size = new System.Drawing.Size(37, 13);
+            this.Lbl_RtnPwDACvalue.TabIndex = 344;
+            this.Lbl_RtnPwDACvalue.Text = "00000";
             // 
             // Bt_SetVGA
             // 
@@ -1617,7 +1641,7 @@
             // label52
             // 
             this.label52.AutoSize = true;
-            this.label52.Location = new System.Drawing.Point(51, 344);
+            this.label52.Location = new System.Drawing.Point(47, 344);
             this.label52.Name = "label52";
             this.label52.Size = new System.Drawing.Size(58, 13);
             this.label52.TabIndex = 322;
@@ -1635,9 +1659,9 @@
             // 
             this.Tb_PwToVout.Location = new System.Drawing.Point(5, 340);
             this.Tb_PwToVout.Name = "Tb_PwToVout";
-            this.Tb_PwToVout.Size = new System.Drawing.Size(43, 20);
+            this.Tb_PwToVout.Size = new System.Drawing.Size(40, 20);
             this.Tb_PwToVout.TabIndex = 320;
-            this.Tb_PwToVout.Text = "1.000";
+            this.Tb_PwToVout.Text = "01.000";
             // 
             // label53
             // 
@@ -1676,7 +1700,7 @@
             // Lbl_PM100rd
             // 
             this.Lbl_PM100rd.AutoSize = true;
-            this.Lbl_PM100rd.Location = new System.Drawing.Point(180, 326);
+            this.Lbl_PM100rd.Location = new System.Drawing.Point(180, 323);
             this.Lbl_PM100rd.Name = "Lbl_PM100rd";
             this.Lbl_PM100rd.Size = new System.Drawing.Size(40, 13);
             this.Lbl_PM100rd.TabIndex = 315;
@@ -1698,11 +1722,11 @@
             // 
             this.Bt_SetIntPwDAC.BackColor = System.Drawing.Color.SandyBrown;
             this.Bt_SetIntPwDAC.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Bt_SetIntPwDAC.Location = new System.Drawing.Point(3, 261);
+            this.Bt_SetIntPwDAC.Location = new System.Drawing.Point(3, 245);
             this.Bt_SetIntPwDAC.Name = "Bt_SetIntPwDAC";
-            this.Bt_SetIntPwDAC.Size = new System.Drawing.Size(93, 25);
+            this.Bt_SetIntPwDAC.Size = new System.Drawing.Size(93, 38);
             this.Bt_SetIntPwDAC.TabIndex = 311;
-            this.Bt_SetIntPwDAC.Text = "Set Pw DAC";
+            this.Bt_SetIntPwDAC.Text = "Set Int. Pw DAC";
             this.Bt_SetIntPwDAC.UseVisualStyleBackColor = false;
             this.Bt_SetIntPwDAC.Click += new System.EventHandler(this.Bt_SetIntPwDAC_Click);
             // 
@@ -1825,7 +1849,7 @@
             // label48
             // 
             this.label48.AutoSize = true;
-            this.label48.Location = new System.Drawing.Point(322, 286);
+            this.label48.Location = new System.Drawing.Point(335, 286);
             this.label48.Name = "label48";
             this.label48.Size = new System.Drawing.Size(50, 13);
             this.label48.TabIndex = 299;
@@ -1834,7 +1858,7 @@
             // lbl_01
             // 
             this.lbl_01.AutoSize = true;
-            this.lbl_01.Location = new System.Drawing.Point(322, 263);
+            this.lbl_01.Location = new System.Drawing.Point(335, 263);
             this.lbl_01.Name = "lbl_01";
             this.lbl_01.Size = new System.Drawing.Size(50, 13);
             this.lbl_01.TabIndex = 298;
@@ -1844,7 +1868,7 @@
             // 
             this.Tb_CalB_Pw.Location = new System.Drawing.Point(274, 282);
             this.Tb_CalB_Pw.Name = "Tb_CalB_Pw";
-            this.Tb_CalB_Pw.Size = new System.Drawing.Size(46, 20);
+            this.Tb_CalB_Pw.Size = new System.Drawing.Size(55, 20);
             this.Tb_CalB_Pw.TabIndex = 297;
             this.Tb_CalB_Pw.Text = "000.0000";
             // 
@@ -1852,14 +1876,14 @@
             // 
             this.Tb_CalA_Pw.Location = new System.Drawing.Point(274, 260);
             this.Tb_CalA_Pw.Name = "Tb_CalA_Pw";
-            this.Tb_CalA_Pw.Size = new System.Drawing.Size(46, 20);
+            this.Tb_CalA_Pw.Size = new System.Drawing.Size(55, 20);
             this.Tb_CalA_Pw.TabIndex = 296;
             this.Tb_CalA_Pw.Text = "001.0000";
             // 
             // label44
             // 
             this.label44.AutoSize = true;
-            this.label44.Location = new System.Drawing.Point(322, 330);
+            this.label44.Location = new System.Drawing.Point(335, 330);
             this.label44.Name = "label44";
             this.label44.Size = new System.Drawing.Size(80, 13);
             this.label44.TabIndex = 295;
@@ -1868,7 +1892,7 @@
             // label47
             // 
             this.label47.AutoSize = true;
-            this.label47.Location = new System.Drawing.Point(322, 308);
+            this.label47.Location = new System.Drawing.Point(335, 308);
             this.label47.Name = "label47";
             this.label47.Size = new System.Drawing.Size(80, 13);
             this.label47.TabIndex = 294;
@@ -1878,7 +1902,7 @@
             // 
             this.Tb_CalB_PwToADC.Location = new System.Drawing.Point(274, 326);
             this.Tb_CalB_PwToADC.Name = "Tb_CalB_PwToADC";
-            this.Tb_CalB_PwToADC.Size = new System.Drawing.Size(46, 20);
+            this.Tb_CalB_PwToADC.Size = new System.Drawing.Size(55, 20);
             this.Tb_CalB_PwToADC.TabIndex = 293;
             this.Tb_CalB_PwToADC.Text = "000.0000";
             // 
@@ -1886,14 +1910,14 @@
             // 
             this.Tb_CalA_PwToADC.Location = new System.Drawing.Point(274, 304);
             this.Tb_CalA_PwToADC.Name = "Tb_CalA_PwToADC";
-            this.Tb_CalA_PwToADC.Size = new System.Drawing.Size(46, 20);
+            this.Tb_CalA_PwToADC.Size = new System.Drawing.Size(55, 20);
             this.Tb_CalA_PwToADC.TabIndex = 292;
             this.Tb_CalA_PwToADC.Text = "001.0000";
             // 
             // label49
             // 
             this.label49.AutoSize = true;
-            this.label49.Location = new System.Drawing.Point(322, 374);
+            this.label49.Location = new System.Drawing.Point(335, 374);
             this.label49.Name = "label49";
             this.label49.Size = new System.Drawing.Size(74, 13);
             this.label49.TabIndex = 291;
@@ -1902,7 +1926,7 @@
             // label50
             // 
             this.label50.AutoSize = true;
-            this.label50.Location = new System.Drawing.Point(322, 352);
+            this.label50.Location = new System.Drawing.Point(335, 352);
             this.label50.Name = "label50";
             this.label50.Size = new System.Drawing.Size(74, 13);
             this.label50.TabIndex = 290;
@@ -1912,7 +1936,7 @@
             // 
             this.Tb_CalBcmdToPw.Location = new System.Drawing.Point(274, 370);
             this.Tb_CalBcmdToPw.Name = "Tb_CalBcmdToPw";
-            this.Tb_CalBcmdToPw.Size = new System.Drawing.Size(46, 20);
+            this.Tb_CalBcmdToPw.Size = new System.Drawing.Size(55, 20);
             this.Tb_CalBcmdToPw.TabIndex = 289;
             this.Tb_CalBcmdToPw.Text = "000.0000";
             // 
@@ -1920,7 +1944,7 @@
             // 
             this.Tb_CalAcmdToPw.Location = new System.Drawing.Point(274, 348);
             this.Tb_CalAcmdToPw.Name = "Tb_CalAcmdToPw";
-            this.Tb_CalAcmdToPw.Size = new System.Drawing.Size(46, 20);
+            this.Tb_CalAcmdToPw.Size = new System.Drawing.Size(55, 20);
             this.Tb_CalAcmdToPw.TabIndex = 288;
             this.Tb_CalAcmdToPw.Text = "001.0000";
             // 
@@ -1935,7 +1959,7 @@
             // label42
             // 
             this.label42.AutoSize = true;
-            this.label42.Location = new System.Drawing.Point(51, 396);
+            this.label42.Location = new System.Drawing.Point(47, 396);
             this.label42.Name = "label42";
             this.label42.Size = new System.Drawing.Size(45, 13);
             this.label42.TabIndex = 270;
@@ -2009,11 +2033,11 @@
             // 
             // tb_SetIntPw
             // 
-            this.tb_SetIntPw.Location = new System.Drawing.Point(3, 288);
+            this.tb_SetIntPw.Location = new System.Drawing.Point(3, 284);
             this.tb_SetIntPw.Name = "tb_SetIntPw";
-            this.tb_SetIntPw.Size = new System.Drawing.Size(46, 20);
+            this.tb_SetIntPw.Size = new System.Drawing.Size(42, 20);
             this.tb_SetIntPw.TabIndex = 250;
-            this.tb_SetIntPw.Text = "2.500";
+            this.tb_SetIntPw.Text = "02.500";
             // 
             // label38
             // 
@@ -2029,9 +2053,9 @@
             // 
             this.Tb_SetOffset.Location = new System.Drawing.Point(5, 392);
             this.Tb_SetOffset.Name = "Tb_SetOffset";
-            this.Tb_SetOffset.Size = new System.Drawing.Size(43, 20);
+            this.Tb_SetOffset.Size = new System.Drawing.Size(40, 20);
             this.Tb_SetOffset.TabIndex = 249;
-            this.Tb_SetOffset.Text = "2.500";
+            this.Tb_SetOffset.Text = "02.500";
             // 
             // Tb_Pw1
             // 
@@ -2378,6 +2402,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lbl_LaserPD;
         private System.Windows.Forms.Button Bt_SetVGA;
+        private System.Windows.Forms.Button Bt_SetIntPwCal;
+        private System.Windows.Forms.Label Lbl_RtnPwDACvalue;
     }
 }
 

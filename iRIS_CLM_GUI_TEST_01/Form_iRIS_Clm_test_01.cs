@@ -591,6 +591,7 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdSetPwCtrlOut:
+                        Lbl_RtnPwDACvalue.Text= rtnValue;
                         break;
 
                     case CmdSetOffstVolt:
@@ -647,8 +648,7 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdRdPwSetPcon:
-                        if (intExtCmd == true) lbl_ADCpconRd.Text = rtnValue.PadLeft(5,'0');
-                        else if (intExtCmd == false) lbl_ADCpconRd.Text = rtnValue.PadLeft(5,'0');
+                        lbl_ADCpconRd.Text = rtnValue.PadLeft(5,'0');
                         break;
 
                     case CmdRdInitCurrent:
@@ -832,6 +832,7 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdLaserEnable://uses serial send to set
+                    sndDl = 300;
                     break;
 
                 case CmdSetLsPw:
@@ -1643,19 +1644,17 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private async Task<bool> RampDAC1(double startRp, double stopRp, double stepRp, bool rdIntADC)//external PCON
         {
+            bool rampDAC1task = false;
             double maxPw = Convert.ToDouble(Tb_maxMaxPw.Text);
-            bool rampDAC1task = false;//cannot initialise in "for loop" ????
             int arrIndex = 0;
  
-            for (double startRpLp = startRp; startRpLp <= stopRp; startRpLp = startRpLp + stepRp)
-            {
+            for (double startRpLp = startRp; startRpLp <= stopRp; startRpLp = startRpLp + stepRp) {
                     WriteDAC(startRpLp, 0);
                     rampDAC1task = await ReadAllanlg(rdIntADC);//displays current in bits
                     double pm100Res = Convert.ToDouble(Lbl_PM100rd.Text);//mW
 
                 if (pm100Res > maxPw) {
                     WriteDAC(0, 0);
-                    MessageBox.Show("Power Error");
                     return false; }//ramp error
 
                 if (rdIntADC==true) {
@@ -1664,44 +1663,72 @@ namespace iRIS_CLM_GUI_TEST_01
                     dataADC[arrIndex, 2] = Convert.ToDouble(lbl_ADCpconRd.Text);
                     arrIndex++; }
             }
-            /*
-            Rt_ReceiveDataUSB.Clear();
-            foreach (double dbl in dataADC) {
-                Rt_ReceiveDataUSB.AppendText(Convert.ToString(dbl));
-                Rt_ReceiveDataUSB.AppendText("\n"); }
-                */
+
+            await Task.Delay(1);
+            return true;
+        }
+        //======================================================================
+        private async Task<bool> RampDACint(double startRp, double stopRp, double stepRp, bool rdIntADC)
+        {
+            double maxPw = Convert.ToDouble(Tb_maxMaxPw.Text);
+            string intPwVolt = string.Empty;
+            int arrIndex = 0;
+
+            bool rmpInt = await SendToSerial(CmdSetInOutPwCtrl, StrEnable, 300);
+
+            for (double startRpLp = startRp; startRpLp <= stopRp; startRpLp = startRpLp + stepRp) {//in volts
+
+                intPwVolt = startRpLp.ToString("00.000");
+                tb_SetIntPw.Text = intPwVolt;
+                rmpInt = await SendToSerial(CmdSetPwCtrlOut, intPwVolt, 300);
+                rmpInt = await ReadAllanlg(rdIntADC);
+                double pm100Res = Convert.ToDouble(Lbl_PM100rd.Text);//mW
+
+                if (pm100Res > maxPw) {
+                    WriteDAC(0, 0);
+                    MessageBox.Show("Power Error");
+                    return false; }//ramp error
+
+                if (rdIntADC == true) {
+                    dataADC[arrIndex, 0] = (pm100Res * 10);
+                    dataADC[arrIndex, 1] = Convert.ToDouble(lbl_LaserPD.Text);
+                    dataADC[arrIndex, 2] = Convert.ToDouble(Lbl_RtnPwDACvalue.Text);
+                    arrIndex++; }
+            }
+
+            rmpInt = await SendToSerial(CmdSetInOutPwCtrl, StrDisable, 300);
             return true;
         }
         //======================================================================
         private async Task<bool> ReadAllanlg(bool fullRd) {//reads all data
-
+            bool readAdc = false;
             double pwrRead = 0;             //pm100
             double pconRead = ReadADC(0);   //PCON feedback
             double lsrPwRead = ReadADC(1);  //PD Vout
             double lsrCurrRead = ReadADC(2);//Current Vout
 
-            //display ADC results**
+            //if (fullRd == true) { readAdc = await LoadGlobalTestArray(analogRead); }//internal uCadc
+            if (fullRd == true) {
+                readAdc = await SendToSerial(CmdRdPwSetPcon, StrDisable, 300);
+                readAdc = await SendToSerial(CmdRdLaserPow, StrDisable, 300);
+                readAdc = await SendToSerial(CmdCurrentRead, StrDisable, 300); }          
+
             Lbl_Vpcon.Text = pconRead.ToString("00.000");
             Lbl_PwreadV.Text = lsrPwRead.ToString("00.000");//*294.12
-            if (testMode == true)
-            {//test mode
+
+            if (testMode == true) {//test mode
                 Lbl_Viout.Text = lsrCurrRead.ToString("00.000");
-                Lbl_Ma.Text = "Laser I in V /5";
-            }
-            else if (testMode == false)
-            {//run mode
+                Lbl_Ma.Text = "Laser I in V /5"; }
+            else if (testMode == false) {//run mode
                 string currentMa = Convert.ToString(lsrCurrRead * 200);
                 int endIndex = currentMa.LastIndexOf(".");
                 Lbl_Viout.Text = currentMa.Substring(0, endIndex);
-                Lbl_Ma.Text = "Laser I in mA";
-            }
+                Lbl_Ma.Text = "Laser I in mA"; }
  
             if (pm100ok == true) { pwrRead = ReadPM100();
                 Lbl_PM100rd.Text = pwrRead.ToString("00.000"); }//in mW
 
-            if (fullRd == true) { bool readAdc = await LoadGlobalTestArray(analogRead); }//internal uCadc
-
-            await Task.Delay(10);//this is there as the compiler will not see the await in the if statement.
+            await Task.Delay(1);
 
             return true;
         }
@@ -1718,7 +1745,7 @@ namespace iRIS_CLM_GUI_TEST_01
             this.Cursor = Cursors.WaitCursor;
 
             bool test2 = await LoadGlobalTestArray(bulkSetLaserIO);
-            //test2 = await LoadGlobalTestArray(bulkSetVarialble);
+            test2 = await LoadGlobalTestArray(bulkSetVarialble);
             //test2 = await LoadGlobalTestArray(bulkSetdefaultCtrl);
             //test2 = await LoadGlobalTestArray(bulkSetTEC);
 
@@ -1849,30 +1876,21 @@ namespace iRIS_CLM_GUI_TEST_01
         }
         #endregion
         //======================================================================
-        private void TbPg_InsTest_Click(object sender, EventArgs e) { Task<bool> calPwMonOut = CalPwMonOut(); }
-        //======================================================================
-        private async Task<bool> CalPwMonOut()
-        {
-
-            await Task.Delay(1);
-
-            return true;
-        }
+       
         //======================================================================
         private void Bt_pdCalibration_Click(object sender, EventArgs e) { Task<bool> pdcal = PD_Calibration(); }
         //======================================================================
         private async Task<bool> PD_Calibration() {
-             bool pdCalTask = false;
             const double startRp = 0.600;
             const double stopRp = 4.800;
             const double stepRp = 0.100;
             int arrIndex1 = Convert.ToInt16((stopRp - startRp) / stepRp);
-            double[] abResults = new double[2]; 
+            double[] abResults = new double[2];
+
+            bool pdCalTask = false;
 
             Bt_pdCalibration.BackColor = Color.LawnGreen;
             Cursor.Current = Cursors.WaitCursor;
-
-            pdCalTask = await LoadGlobalTestArray(bulkSetVarialble);
             
             Set_USB_Digit_Out(0, 1);                                        //Enable laser  
             pdCalTask = await SendToSerial(CmdLaserEnable, StrEnable, 300); // 
@@ -1882,6 +1900,7 @@ namespace iRIS_CLM_GUI_TEST_01
             WriteDAC(0, 0);
             Set_USB_Digit_Out(0, 0);                    
             pdCalTask = await SendToSerial(CmdLaserEnable, StrDisable, 300);
+            pdCalTask = await ReadAllanlg(true);
 
             abResults = FindLinearLeastSquaresFit(dataADC, 0, arrIndex1, 1, 0);
             Tb_CalA_Pw.Text = abResults[0].ToString("000.0000");
@@ -1890,7 +1909,7 @@ namespace iRIS_CLM_GUI_TEST_01
             abResults = FindLinearLeastSquaresFit(dataADC, 0, arrIndex1, 2, 0);
             Tb_CalA_PwToADC.Text = abResults[0].ToString("000.0000");
             Tb_CalB_PwToADC.Text = abResults[1].ToString("000.0000");
-
+ 
             Cursor.Current = Cursors.Default;
             return true;
         }
@@ -2015,6 +2034,38 @@ namespace iRIS_CLM_GUI_TEST_01
             return true;
         }
         #endregion
+        //======================================================================
+        private void Bt_SetIntPwCal_Click(object sender, EventArgs e) { Task<bool> calIntPw = CalIntPwSet(); }
+        //======================================================================
+        private async Task<bool> CalIntPwSet()
+        {
+            bool pdCalTask = false;
+            const double startRp = 02.600;
+            const double stopRp =  03.950;
+            const double stepRp = 0.050;
+            int arrIndex1 = Convert.ToInt16((stopRp - startRp) / stepRp);
+            double[] abResults = new double[2];
+
+            Bt_SetIntPwCal.BackColor = Color.LawnGreen;
+            Cursor.Current = Cursors.WaitCursor;
+
+            Set_USB_Digit_Out(0, 1);                                        //Enable laser  
+            pdCalTask = await SendToSerial(CmdLaserEnable, StrEnable, 300); // 
+            pdCalTask = await RampDACint(startRp, stopRp, stepRp, true);
+
+            Set_USB_Digit_Out(0, 0);
+            pdCalTask = await SendToSerial(CmdLaserEnable, StrDisable, 300);
+            tb_SetIntPw.Text = "02.500";
+            pdCalTask = await SendToSerial(CmdSetPwCtrlOut, tb_SetIntPw.Text, 300);
+            pdCalTask = await ReadAllanlg(false);
+
+            abResults = FindLinearLeastSquaresFit(dataADC, 0, arrIndex1, 0, 2);
+            Tb_CalAcmdToPw.Text = abResults[0].ToString("000.0000");
+            Tb_CalBcmdToPw.Text = abResults[1].ToString("000.0000");
+
+            Cursor.Current = Cursors.Default;
+            return true;
+        }
         //======================================================================
         #region Temp Comp Base plate
         //======================================================================
