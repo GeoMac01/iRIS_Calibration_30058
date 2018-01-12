@@ -832,7 +832,6 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdLaserEnable://uses serial send to set
-                    sndDl = 300;
                     break;
 
                 case CmdSetLsPw:
@@ -1644,17 +1643,18 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private async Task<bool> RampDAC1(double startRp, double stopRp, double stepRp, bool rdIntADC)//external PCON
         {
-            //bool rampDAC1task = false;
             double maxPw = Convert.ToDouble(Tb_maxMaxPw.Text);
+            bool rampDAC1task = false;
             int arrIndex = 0;
  
             for (double startRpLp = startRp; startRpLp <= stopRp; startRpLp = startRpLp + stepRp) {
                     WriteDAC(startRpLp, 0);
-                    //rampDAC1task = await ReadAllanlg(rdIntADC);//displays current in bits
+                    rampDAC1task = await ReadAllanlg(rdIntADC);//displays current in bits
                     double pm100Res = Convert.ToDouble(Lbl_PM100rd.Text);//mW
 
                 if (pm100Res > maxPw) {
                     WriteDAC(0, 0);
+                    MessageBox.Show("Power Error");
                     return false; }//ramp error
 
                 if (rdIntADC==true) {
@@ -1663,8 +1663,6 @@ namespace iRIS_CLM_GUI_TEST_01
                     dataADC[arrIndex, 2] = Convert.ToDouble(lbl_ADCpconRd.Text);
                     arrIndex++; }
             }
-
-            await Task.Delay(100);
             return true;
         }
         //======================================================================
@@ -1701,17 +1699,11 @@ namespace iRIS_CLM_GUI_TEST_01
         }
         //======================================================================
         private async Task<bool> ReadAllanlg(bool fullRd) {//reads all data
-            bool readAdc = false;
+
             double pwrRead = 0;             //pm100
             double pconRead = ReadADC(0);   //PCON feedback
             double lsrPwRead = ReadADC(1);  //PD Vout
             double lsrCurrRead = ReadADC(2);//Current Vout
-
-            //if (fullRd == true) { readAdc = await LoadGlobalTestArray(analogRead); }//internal uCadc
-            if (fullRd == true) {
-                readAdc = await SendToSerial(CmdRdPwSetPcon, StrDisable, 300);
-                readAdc = await SendToSerial(CmdRdLaserPow, StrDisable, 300);
-                readAdc = await SendToSerial(CmdCurrentRead, StrDisable, 300); }          
 
             Lbl_Vpcon.Text = pconRead.ToString("00.000");
             Lbl_PwreadV.Text = lsrPwRead.ToString("00.000");//*294.12
@@ -1728,7 +1720,16 @@ namespace iRIS_CLM_GUI_TEST_01
             if (pm100ok == true) { pwrRead = ReadPM100();
                 Lbl_PM100rd.Text = pwrRead.ToString("00.000"); }//in mW
 
-            await Task.Delay(1);
+            if (fullRd == true) { bool readAdc = await LoadGlobalTestArray(analogRead); }//internal uCadc
+           /*
+            {
+                readAdc = await SendToSerial(CmdRdPwSetPcon, StrDisable, 300);
+                readAdc = await SendToSerial(CmdRdLaserPow, StrDisable, 300);
+                readAdc = await SendToSerial(CmdCurrentRead, StrDisable, 300);
+            }
+            */
+
+            await Task.Delay(10);
 
             return true;
         }
@@ -1882,6 +1883,7 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private async Task<bool> PD_Calibration() {
 
+            bool pdCalTask = false;
             const double startRp = 0.600;
             const double stopRp = 4.800;
             const double stepRp = 0.100;
@@ -1889,17 +1891,18 @@ namespace iRIS_CLM_GUI_TEST_01
             double[] abResults = new double[2];
 
             Bt_pdCalibration.BackColor = Color.LawnGreen;
-            Cursor.Current = Cursors.WaitCursor;
-            
-            Set_USB_Digit_Out(0, 1);                                        //Enable laser  
-            bool pdCalTask = await SendToSerial(CmdLaserEnable, StrEnable, 300); // 
+            this.Cursor = Cursors.WaitCursor;
 
-            //pdCalTask = await RampDAC1(startRp, stopRp, stepRp, true);
+            pdCalTask = await LoadGlobalTestArray(bulkSetVarialble);
+
+            Set_USB_Digit_Out(0, 1);                                        //Enable laser  
+            pdCalTask = await SendToSerial(CmdLaserEnable, StrEnable, 300); // 
+
+            pdCalTask = await RampDAC1(startRp, stopRp, stepRp, true);
 
             WriteDAC(0, 0);
             Set_USB_Digit_Out(0, 0);                    
             pdCalTask = await SendToSerial(CmdLaserEnable, StrDisable, 300);
-            //pdCalTask = await ReadAllanlg(true);
 
             abResults = FindLinearLeastSquaresFit(dataADC, 0, arrIndex1, 1, 0);
             Tb_CalA_Pw.Text = abResults[0].ToString("000.0000");
@@ -1909,9 +1912,7 @@ namespace iRIS_CLM_GUI_TEST_01
             Tb_CalA_PwToADC.Text = abResults[0].ToString("000.0000");
             Tb_CalB_PwToADC.Text = abResults[1].ToString("000.0000");
 
-            await Task.Delay(2000);
-
-            Cursor.Current = Cursors.Default;
+            this.Cursor = Cursors.Default;
             return true;
         }
         //======================================================================
@@ -2048,7 +2049,7 @@ namespace iRIS_CLM_GUI_TEST_01
             double[] abResults = new double[2];
 
             Bt_SetIntPwCal.BackColor = Color.LawnGreen;
-            Cursor.Current = Cursors.WaitCursor;
+            this.Cursor = Cursors.WaitCursor;
 
             Set_USB_Digit_Out(0, 1);                                        //Enable laser  
             pdCalTask = await SendToSerial(CmdLaserEnable, StrEnable, 300); // 
@@ -2064,7 +2065,7 @@ namespace iRIS_CLM_GUI_TEST_01
             Tb_CalAcmdToPw.Text = abResults[0].ToString("000.0000");
             Tb_CalBcmdToPw.Text = abResults[1].ToString("000.0000");
 
-            Cursor.Current = Cursors.Default;
+            this.Cursor = Cursors.Default;
             return true;
         }
         //======================================================================
