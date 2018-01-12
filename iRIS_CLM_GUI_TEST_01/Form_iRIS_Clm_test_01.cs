@@ -1666,6 +1666,32 @@ namespace iRIS_CLM_GUI_TEST_01
             return true;
         }
         //======================================================================
+        private async Task<bool> RampDAC1toPower(double startRp, double stopRp, double stepRp, bool rdIntADC)//external PCON
+        {
+            double minmaxPw = Convert.ToDouble(Tb_minMaxPw.Text);
+            bool rampDAC1task = false;
+            int arrIndex = 0;
+
+            for (double startRpLp = startRp; startRpLp <= stopRp; startRpLp = startRpLp + stepRp)
+            {
+                WriteDAC(startRpLp, 0);
+                rampDAC1task = await ReadAllanlg(rdIntADC);//displays current in bits
+                double pm100Res = Convert.ToDouble(Lbl_PM100rd.Text);//mW
+
+                if (pm100Res >= minmaxPw) { return true; }//power good
+
+                if (rdIntADC == true)
+                {
+                    dataADC[arrIndex, 0] = (pm100Res * 10);
+                    dataADC[arrIndex, 1] = Convert.ToDouble(lbl_LaserPD.Text);
+                    dataADC[arrIndex, 2] = Convert.ToDouble(lbl_ADCpconRd.Text);
+                    arrIndex++;
+                }
+            }
+            MessageBox.Show("MinMaxPw Ramp Error");
+            return false;
+        }
+        //======================================================================
         private async Task<bool> RampDACint(double startRp, double stopRp, double stepRp, bool rdIntADC)
         {
             double maxPw = Convert.ToDouble(Tb_maxMaxPw.Text);
@@ -1792,10 +1818,12 @@ namespace iRIS_CLM_GUI_TEST_01
             Bt_CalVGA.BackColor = Color.LawnGreen;
             this.Cursor = Cursors.WaitCursor;
 
+            const double startRp = 00.000;
+            const double stopRp = 5.000;
+            const double stepRp = 0.050;
             double calPower = 0;
             double setOffSet = 0;
-            double setPower =   Convert.ToDouble(Tb_NomPw.Text);
-            double maxPw =      Convert.ToDouble(Tb_minMaxPw.Text);
+            double setPower =   Convert.ToDouble(Tb_minMaxPw.Text);
 
             string offset = string.Empty;
             bool initvga = false;
@@ -1819,7 +1847,7 @@ namespace iRIS_CLM_GUI_TEST_01
  
                 for (int i = 0; i <= 2; i++)//3 VGA set iteration //test
                 {
-                    bool boolCalVGA1 = await RampDAC1(0, 4.950, 0.05, false);//set VGA MAX power
+                    bool boolCalVGA1 = await RampDAC1(startRp, stopRp, stepRp, false);//set VGA MAX power
 
                         for (int vgaVal = 20; vgaVal <= 80; vgaVal++)//Ramp and set VGA
                         {
@@ -1833,7 +1861,7 @@ namespace iRIS_CLM_GUI_TEST_01
                             vgaset = await ReadAllanlg(false);
                             double pm100Res = Convert.ToDouble(Lbl_PM100rd.Text);//mW
 
-                            if (pm100Res >= maxPw) {    MessageBox.Show("VGA set pass");
+                            if (pm100Res >= setPower) {    MessageBox.Show("VGA set pass");
                                                         break; }
                         }
                         }
@@ -2053,13 +2081,17 @@ namespace iRIS_CLM_GUI_TEST_01
 
                 this.Cursor = Cursors.WaitCursor;
 
+                const double startRp = 00.000;
+                const double stopRp = 5.000;
+                const double stepRp = 0.050;
                 string pmonVmax = Tb_PwToVcal.Text;
+
                 WriteDAC(00.000, 0);
                 bool sendCalPw = await SendToSerial(CmdTestMode, StrEnable, 300);
                 sendCalPw = await SendToSerial(CmdLaserEnable, StrEnable, 300);
                 Set_USB_Digit_Out(0, 1);
 
-                bool rampdac1 = await RampDAC1(0, 4.950, 0.100, false);//adjust PCON to MAX power
+                bool rampdac1 = await RampDAC1toPower(startRp, stopRp, stepRp, false);//adjust PCON to MAX power
 
                 sendCalPw = await SendToSerial(CmdSetPwtoVout, pmonVmax, 600);
                 sendCalPw = await ReadAllanlg(true);
