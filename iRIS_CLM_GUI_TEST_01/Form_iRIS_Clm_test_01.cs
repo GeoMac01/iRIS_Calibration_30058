@@ -1885,7 +1885,7 @@ namespace iRIS_CLM_GUI_TEST_01
 
             bool pdCalTask = false;
             const double startRp = 0.600;
-            const double stopRp = 4.800;
+            const double stopRp = 4.900;
             const double stepRp = 0.100;
             int arrIndex1 = Convert.ToInt16((stopRp - startRp) / stepRp);
             double[] abResults = new double[2];
@@ -1893,7 +1893,7 @@ namespace iRIS_CLM_GUI_TEST_01
             Bt_pdCalibration.BackColor = Color.LawnGreen;
             this.Cursor = Cursors.WaitCursor;
 
-            pdCalTask = await LoadGlobalTestArray(bulkSetVarialble);
+            //pdCalTask = await LoadGlobalTestArray(bulkSetVarialble);
 
             Set_USB_Digit_Out(0, 1);                                        //Enable laser  
             pdCalTask = await SendToSerial(CmdLaserEnable, StrEnable, 300); // 
@@ -1903,6 +1903,7 @@ namespace iRIS_CLM_GUI_TEST_01
             WriteDAC(0, 0);
             Set_USB_Digit_Out(0, 0);                    
             pdCalTask = await SendToSerial(CmdLaserEnable, StrDisable, 300);
+            pdCalTask = await ReadAllanlg(false);
 
             abResults = FindLinearLeastSquaresFit(dataADC, 0, arrIndex1, 1, 0);
             Tb_CalA_Pw.Text = abResults[0].ToString("000.0000");
