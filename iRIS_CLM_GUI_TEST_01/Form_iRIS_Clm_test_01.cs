@@ -1670,9 +1670,10 @@ namespace iRIS_CLM_GUI_TEST_01
         {
             double maxPw = Convert.ToDouble(Tb_maxMaxPw.Text);
             string intPwVolt = string.Empty;
+            bool rmpInt = false;
             int arrIndex = 0;
 
-            bool rmpInt = await SendToSerial(CmdSetInOutPwCtrl, StrEnable, 300);
+            rmpInt = await SendToSerial(CmdSetInOutPwCtrl, StrEnable, 300);
 
             for (double startRpLp = startRp; startRpLp <= stopRp; startRpLp = startRpLp + stepRp) {//in volts
 
@@ -1742,21 +1743,38 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private async Task<bool> FirtInit()
         {
-            bt_NewTest.BackColor = Color.LawnGreen;
-            this.Cursor = Cursors.WaitCursor;
+            if (bt_NewTest.BackColor == Color.Coral)
+            {
+                this.Cursor = Cursors.WaitCursor;
 
-            bool test2 = await LoadGlobalTestArray(bulkSetLaserIO);
-            test2 = await LoadGlobalTestArray(bulkSetVarialble);
-            //test2 = await LoadGlobalTestArray(bulkSetdefaultCtrl);
-            //test2 = await LoadGlobalTestArray(bulkSetTEC);
+                bool test2 = await LoadGlobalTestArray(bulkSetLaserIO);
+                test2 = await LoadGlobalTestArray(bulkSetVarialble);
+                //test2 = await LoadGlobalTestArray(bulkSetdefaultCtrl);
+                //test2 = await LoadGlobalTestArray(bulkSetTEC);
 
-            Tb_VGASet.Text = "0020";
-            Tb_SetOffset.Text = "02.500";
-            Tb_VPcon.Text = "00.000";
+                Tb_VGASet.Text      = "0020";
+                Tb_SetOffset.Text   = "02.500";
+                Tb_VPcon.Text       = "00.000";
+                tb_SetIntPw.Text    = "02.500";
 
-            this.Cursor = Cursors.Default;
-            MessageBox.Show("Wait for TEC lock LED");
-            //bt_NewTest.BackColor = Color.Coral;
+                Tb_CalA_PwToADC.Text = "01.000";
+                Tb_CalB_PwToADC.Text = "00.000";
+                Tb_CalA_Pw.Text     = "01.000";
+                Tb_CalB_Pw.Text     = "00.000";
+                Tb_CalAcmdToPw.Text = "01.000";
+                Tb_CalAcmdToPw.Text = "00.000";
+
+                this.Cursor = Cursors.Default;
+                bt_NewTest.BackColor = Color.LawnGreen;
+                MessageBox.Show("Wait for TEC lock LED");
+            }
+
+            else if (bt_NewTest.BackColor == Color.LawnGreen)
+            {
+                bt_NewTest.BackColor = Color.Coral;
+                MessageBox.Show("Click again to re-initialise test");
+            }
+
             return true;
         }
         //======================================================================
@@ -1862,17 +1880,29 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private async Task<bool> ZerroCurrent() {
 
-            Bt_ZeroI.BackColor = Color.LawnGreen;
-            Set_USB_Digit_Out(0, 1);//Laser OFF
+            if (Bt_ZeroI.BackColor == Color.Coral) {
+            this.Cursor = Cursors.WaitCursor;
+
             WriteDAC(0, 0);//Pcon Channel = 0V
-           
-            bool rdIcal = await SendToSerial(CmdCurrentRead, StrDisable, 300);//read current value from cpu displayed on label
+            Set_USB_Digit_Out(0, 1);//Laser ON
+            bool rdIcal = await SendToSerial(CmdLaserEnable, StrEnable, 300);
+
             double lsrCurrRead = ReadADC(2);//Current monitor voltage
-
+            Lbl_V_I_out.Text = lsrCurrRead.ToString("00.000");
+            rdIcal = await SendToSerial(CmdCurrentRead, StrDisable, 300);//read current value from cpu displayed on label
             rdIcal = await SendToSerial(CmdSet0mA, StrDisable ,600);//zero value cal
-
             rdIcal = await SendToSerial(CmdCurrentRead, StrDisable, 300);//recheck new cpu value...same voltage offset at Imon OUT
 
+                this.Cursor = Cursors.Default;
+                Bt_ZeroI.BackColor = Color.LawnGreen;
+                Bt_PwOutMonCal.Enabled = true;
+            }
+
+            else if (Bt_ZeroI.BackColor == Color.LawnGreen)
+            {
+                Bt_ZeroI.BackColor = Color.Coral;
+                Bt_PwOutMonCal.Enabled = false;
+            }
             return true;
         }
         #endregion
@@ -1883,6 +1913,8 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private async Task<bool> PD_Calibration() {
 
+            if (Bt_pdCalibration.BackColor == Color.Coral)
+            {
             bool pdCalTask = false;
             const double startRp = 0.600;
             const double stopRp = 4.900;
@@ -1890,10 +1922,7 @@ namespace iRIS_CLM_GUI_TEST_01
             int arrIndex1 = Convert.ToInt16((stopRp - startRp) / stepRp);
             double[] abResults = new double[2];
 
-            Bt_pdCalibration.BackColor = Color.LawnGreen;
             this.Cursor = Cursors.WaitCursor;
-
-            //pdCalTask = await LoadGlobalTestArray(bulkSetVarialble);
 
             Set_USB_Digit_Out(0, 1);                                        //Enable laser  
             pdCalTask = await SendToSerial(CmdLaserEnable, StrEnable, 300); // 
@@ -1913,7 +1942,16 @@ namespace iRIS_CLM_GUI_TEST_01
             Tb_CalA_PwToADC.Text = abResults[0].ToString("000.0000");
             Tb_CalB_PwToADC.Text = abResults[1].ToString("000.0000");
 
+
+            Bt_pdCalibration.BackColor = Color.LawnGreen;
             this.Cursor = Cursors.Default;
+            }
+            
+            else if (Bt_pdCalibration.BackColor == Color.LawnGreen) {
+                MessageBox.Show("restart calibration");
+                Bt_pdCalibration.BackColor = Color.Coral; ;
+            }
+
             return true;
         }
         //======================================================================
@@ -2009,31 +2047,40 @@ namespace iRIS_CLM_GUI_TEST_01
         #region Calibrate Power Monitor Output
         private void Bt_PwOutMonCal_Click(object sender, EventArgs e) { Task<bool> runPwCal = PwMonOutCal(); }
         //======================================================================
-        private async Task<bool> PwMonOutCal()
-        {
-            Bt_PwOutMonCal.BackColor = Color.LawnGreen;
+        private async Task<bool> PwMonOutCal() {
 
-            string pmonVmax = Tb_PwToVcal.Text;
-            WriteDAC(00.000, 0);
-            bool sendCalPw = await SendToSerial(CmdTestMode, StrEnable, 300);
-            sendCalPw = await SendToSerial(CmdLaserEnable, StrEnable, 300);
-            Set_USB_Digit_Out(0, 1);
+            if (Bt_PwOutMonCal.BackColor == Color.Coral) {
 
-            bool rampdac1 = await RampDAC1(0, 5.000, 0.100, false);//adjust PCON to MAX power
+                this.Cursor = Cursors.WaitCursor;
 
-            sendCalPw = await SendToSerial(CmdSetPwtoVout, pmonVmax, 600);
-            sendCalPw = await ReadAllanlg(true);
+                string pmonVmax = Tb_PwToVcal.Text;
+                WriteDAC(00.000, 0);
+                bool sendCalPw = await SendToSerial(CmdTestMode, StrEnable, 300);
+                sendCalPw = await SendToSerial(CmdLaserEnable, StrEnable, 300);
+                Set_USB_Digit_Out(0, 1);
 
-            MessageBox.Show("Pw Mon. Vmax");
+                bool rampdac1 = await RampDAC1(0, 4.950, 0.100, false);//adjust PCON to MAX power
 
-            Set_USB_Digit_Out(0, 0);
-            sendCalPw = await SendToSerial(CmdLaserEnable, StrDisable, 300);
-            WriteDAC(00.000, 0);
+                sendCalPw = await SendToSerial(CmdSetPwtoVout, pmonVmax, 600);
+                sendCalPw = await ReadAllanlg(true);
+
+                MessageBox.Show("Pw Mon. Vmax");
+
+                Set_USB_Digit_Out(0, 0);
+                sendCalPw = await SendToSerial(CmdLaserEnable, StrDisable, 300);
+                WriteDAC(00.000, 0);
  
-            sendCalPw = await ReadAllanlg(true);
+                sendCalPw = await ReadAllanlg(true);
 
-            MessageBox.Show("Pw Mon. Vmin");
- 
+                this.Cursor = Cursors.Default;
+                Bt_PwOutMonCal.BackColor = Color.LawnGreen;
+                Bt_PwOutMonCal.Enabled = false;
+            }
+            
+            else if (Bt_PwOutMonCal.BackColor == Color.LawnGreen) {
+                MessageBox.Show("End cal.");
+                Bt_PwOutMonCal.BackColor = Color.Coral; }
+
             return true;
         }
         #endregion
@@ -2042,31 +2089,40 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private async Task<bool> CalIntPwSet()
         {
-            bool pdCalTask = false;
-            const double startRp = 02.600;
-            const double stopRp =  03.950;
-            const double stepRp = 0.050;
-            int arrIndex1 = Convert.ToInt16((stopRp - startRp) / stepRp);
-            double[] abResults = new double[2];
+            if (Bt_SetIntPwCal.BackColor == Color.Coral) {
+                bool pdCalTask = false;
+                const double startRp = 02.600;
+                const double stopRp =  03.950;
+                const double stepRp = 0.050;
+                int arrIndex1 = Convert.ToInt16((stopRp - startRp) / stepRp);
+                double[] abResults = new double[2];
 
-            Bt_SetIntPwCal.BackColor = Color.LawnGreen;
-            this.Cursor = Cursors.WaitCursor;
+                this.Cursor = Cursors.WaitCursor;
 
-            Set_USB_Digit_Out(0, 1);                                        //Enable laser  
-            pdCalTask = await SendToSerial(CmdLaserEnable, StrEnable, 300); // 
-            pdCalTask = await RampDACint(startRp, stopRp, stepRp, true);
+                Set_USB_Digit_Out(0, 1);                                        //Enable laser  
+                pdCalTask = await SendToSerial(CmdLaserEnable, StrEnable, 300); // 
+                pdCalTask = await RampDACint(startRp, stopRp, stepRp, true);
 
-            Set_USB_Digit_Out(0, 0);
-            pdCalTask = await SendToSerial(CmdLaserEnable, StrDisable, 300);
-            tb_SetIntPw.Text = "02.500";
-            pdCalTask = await SendToSerial(CmdSetPwCtrlOut, tb_SetIntPw.Text, 300);
-            pdCalTask = await ReadAllanlg(false);
+                Set_USB_Digit_Out(0, 0);
+                pdCalTask = await SendToSerial(CmdLaserEnable, StrDisable, 300);
+                tb_SetIntPw.Text = "02.500";
+                pdCalTask = await SendToSerial(CmdSetPwCtrlOut, tb_SetIntPw.Text, 300);
+                pdCalTask = await ReadAllanlg(false);
 
-            abResults = FindLinearLeastSquaresFit(dataADC, 0, arrIndex1, 0, 2);
-            Tb_CalAcmdToPw.Text = abResults[0].ToString("000.0000");
-            Tb_CalBcmdToPw.Text = abResults[1].ToString("000.0000");
+                abResults = FindLinearLeastSquaresFit(dataADC, 0, arrIndex1, 0, 2);
+                Tb_CalAcmdToPw.Text = abResults[0].ToString("000.0000");
+                Tb_CalBcmdToPw.Text = abResults[1].ToString("000.0000");
 
-            this.Cursor = Cursors.Default;
+                Bt_SetIntPwCal.BackColor = Color.LawnGreen;
+                this.Cursor = Cursors.Default;
+            }
+
+            else if (Bt_SetIntPwCal.BackColor == Color.LawnGreen)
+            {
+                MessageBox.Show("restart calibration");
+                Bt_SetIntPwCal.BackColor = Color.Coral; ;
+            }
+
             return true;
         }
         //======================================================================
@@ -2078,7 +2134,8 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private async Task<bool> CompBpltTemp() {
 
-            Bt_BasepltTemp.BackColor = Color.LawnGreen;
+            if (Bt_BasepltTemp.BackColor == Color.Coral)
+            {
             bool setCompT =     await SendToSerial(CmdSetBaseTempCal, "0000", 300);                         //set init comp to 0000 remember to reset for next init.
             setCompT =          await SendToSerial(CmdRdBplateTemp, StrDisable, 300);                       //read initial value
             
@@ -2087,6 +2144,15 @@ namespace iRIS_CLM_GUI_TEST_01
             setCompT =         await SendToSerial(CmdSetBaseTempCal, tempComp1.ToString("0000"), 300);      //set init comp to 0000 remember to reset for next init.
             
             setCompT =      await SendToSerial(CmdRdBplateTemp, StrDisable, 300);                            //read comp data
+
+            Bt_BasepltTemp.BackColor = Color.LawnGreen;
+            }
+            else if (Bt_BasepltTemp.BackColor == Color.LawnGreen)
+            {
+                MessageBox.Show("Base plate Cal.");
+                Bt_BasepltTemp.BackColor = Color.Coral;
+            }
+
             return true;
         }
          //======================================================================
