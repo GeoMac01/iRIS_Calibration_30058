@@ -1644,13 +1644,13 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private async Task<bool> RampDAC1(double startRp, double stopRp, double stepRp, bool rdIntADC)//external PCON
         {
-            bool rampDAC1task = false;
+            //bool rampDAC1task = false;
             double maxPw = Convert.ToDouble(Tb_maxMaxPw.Text);
             int arrIndex = 0;
  
             for (double startRpLp = startRp; startRpLp <= stopRp; startRpLp = startRpLp + stepRp) {
                     WriteDAC(startRpLp, 0);
-                    rampDAC1task = await ReadAllanlg(rdIntADC);//displays current in bits
+                    //rampDAC1task = await ReadAllanlg(rdIntADC);//displays current in bits
                     double pm100Res = Convert.ToDouble(Lbl_PM100rd.Text);//mW
 
                 if (pm100Res > maxPw) {
@@ -1664,7 +1664,7 @@ namespace iRIS_CLM_GUI_TEST_01
                     arrIndex++; }
             }
 
-            await Task.Delay(1);
+            await Task.Delay(100);
             return true;
         }
         //======================================================================
@@ -1881,26 +1881,25 @@ namespace iRIS_CLM_GUI_TEST_01
         private void Bt_pdCalibration_Click(object sender, EventArgs e) { Task<bool> pdcal = PD_Calibration(); }
         //======================================================================
         private async Task<bool> PD_Calibration() {
+
             const double startRp = 0.600;
             const double stopRp = 4.800;
             const double stepRp = 0.100;
             int arrIndex1 = Convert.ToInt16((stopRp - startRp) / stepRp);
             double[] abResults = new double[2];
 
-            bool pdCalTask = false;
-
             Bt_pdCalibration.BackColor = Color.LawnGreen;
             Cursor.Current = Cursors.WaitCursor;
             
             Set_USB_Digit_Out(0, 1);                                        //Enable laser  
-            pdCalTask = await SendToSerial(CmdLaserEnable, StrEnable, 300); // 
+            bool pdCalTask = await SendToSerial(CmdLaserEnable, StrEnable, 300); // 
 
-            pdCalTask = await RampDAC1(startRp, stopRp, stepRp, true);
+            //pdCalTask = await RampDAC1(startRp, stopRp, stepRp, true);
 
             WriteDAC(0, 0);
             Set_USB_Digit_Out(0, 0);                    
             pdCalTask = await SendToSerial(CmdLaserEnable, StrDisable, 300);
-            pdCalTask = await ReadAllanlg(true);
+            //pdCalTask = await ReadAllanlg(true);
 
             abResults = FindLinearLeastSquaresFit(dataADC, 0, arrIndex1, 1, 0);
             Tb_CalA_Pw.Text = abResults[0].ToString("000.0000");
@@ -1909,7 +1908,9 @@ namespace iRIS_CLM_GUI_TEST_01
             abResults = FindLinearLeastSquaresFit(dataADC, 0, arrIndex1, 2, 0);
             Tb_CalA_PwToADC.Text = abResults[0].ToString("000.0000");
             Tb_CalB_PwToADC.Text = abResults[1].ToString("000.0000");
- 
+
+            await Task.Delay(2000);
+
             Cursor.Current = Cursors.Default;
             return true;
         }
