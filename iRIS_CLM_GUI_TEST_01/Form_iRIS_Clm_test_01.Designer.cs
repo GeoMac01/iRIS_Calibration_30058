@@ -55,8 +55,6 @@
             this.Bt_USBinterf = new System.Windows.Forms.Button();
             this.Bt_PM100 = new System.Windows.Forms.Button();
             this.bt_NewTest = new System.Windows.Forms.Button();
-            this.label34 = new System.Windows.Forms.Label();
-            this.Cb_LaserSelect = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lbl_RdAdd = new System.Windows.Forms.Label();
             this.Tb_RSConnect = new System.Windows.Forms.TextBox();
@@ -215,6 +213,8 @@
             this.Rt_ReceiveDataUSB = new System.Windows.Forms.RichTextBox();
             this.Bt_RdLaserStatus = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.label34 = new System.Windows.Forms.Label();
+            this.Cb_LaserSelect = new System.Windows.Forms.ComboBox();
             this.TbPg_InsTest.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -254,8 +254,6 @@
             this.TbPg_InsTest.Controls.Add(this.Bt_USBinterf);
             this.TbPg_InsTest.Controls.Add(this.Bt_PM100);
             this.TbPg_InsTest.Controls.Add(this.bt_NewTest);
-            this.TbPg_InsTest.Controls.Add(this.label34);
-            this.TbPg_InsTest.Controls.Add(this.Cb_LaserSelect);
             this.TbPg_InsTest.Controls.Add(this.groupBox1);
             this.TbPg_InsTest.Controls.Add(this.lbl_SWLevel);
             this.TbPg_InsTest.Controls.Add(this.label27);
@@ -361,7 +359,7 @@
             this.Bt_ReaduCcurrent.BackColor = System.Drawing.Color.Coral;
             this.Bt_ReaduCcurrent.Location = new System.Drawing.Point(103, 206);
             this.Bt_ReaduCcurrent.Name = "Bt_ReaduCcurrent";
-            this.Bt_ReaduCcurrent.Size = new System.Drawing.Size(102, 23);
+            this.Bt_ReaduCcurrent.Size = new System.Drawing.Size(105, 23);
             this.Bt_ReaduCcurrent.TabIndex = 310;
             this.Bt_ReaduCcurrent.TabStop = false;
             this.Bt_ReaduCcurrent.Text = "uC Current";
@@ -371,9 +369,9 @@
             // Bt_BasepltTemp
             // 
             this.Bt_BasepltTemp.BackColor = System.Drawing.Color.Coral;
-            this.Bt_BasepltTemp.Location = new System.Drawing.Point(103, 274);
+            this.Bt_BasepltTemp.Location = new System.Drawing.Point(106, 278);
             this.Bt_BasepltTemp.Name = "Bt_BasepltTemp";
-            this.Bt_BasepltTemp.Size = new System.Drawing.Size(102, 24);
+            this.Bt_BasepltTemp.Size = new System.Drawing.Size(102, 22);
             this.Bt_BasepltTemp.TabIndex = 309;
             this.Bt_BasepltTemp.TabStop = false;
             this.Bt_BasepltTemp.Text = "Baseplate Temp.";
@@ -383,7 +381,7 @@
             // label63
             // 
             this.label63.AutoSize = true;
-            this.label63.Location = new System.Drawing.Point(148, 302);
+            this.label63.Location = new System.Drawing.Point(145, 303);
             this.label63.Name = "label63";
             this.label63.Size = new System.Drawing.Size(108, 13);
             this.label63.TabIndex = 308;
@@ -392,7 +390,7 @@
             // Lbl_TempBplt
             // 
             this.Lbl_TempBplt.AutoSize = true;
-            this.Lbl_TempBplt.Location = new System.Drawing.Point(107, 301);
+            this.Lbl_TempBplt.Location = new System.Drawing.Point(104, 303);
             this.Lbl_TempBplt.Name = "Lbl_TempBplt";
             this.Lbl_TempBplt.Size = new System.Drawing.Size(31, 13);
             this.Lbl_TempBplt.TabIndex = 306;
@@ -540,30 +538,6 @@
             this.bt_NewTest.Text = "New Test";
             this.bt_NewTest.UseVisualStyleBackColor = false;
             this.bt_NewTest.Click += new System.EventHandler(this.Bt_NewTest_Click);
-            // 
-            // label34
-            // 
-            this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(241, 21);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(89, 13);
-            this.label34.TabIndex = 283;
-            this.label34.Text = "iRIS Laser Select";
-            // 
-            // Cb_LaserSelect
-            // 
-            this.Cb_LaserSelect.FormattingEnabled = true;
-            this.Cb_LaserSelect.Items.AddRange(new object[] {
-            "iRIS CLM 780",
-            "iRIS CLM 660",
-            "iRIS CLM 580",
-            "iRIS CLM 488",
-            "iRIS CLM 405"});
-            this.Cb_LaserSelect.Location = new System.Drawing.Point(241, 37);
-            this.Cb_LaserSelect.Name = "Cb_LaserSelect";
-            this.Cb_LaserSelect.Size = new System.Drawing.Size(99, 21);
-            this.Cb_LaserSelect.TabIndex = 282;
-            this.Cb_LaserSelect.Text = "Select Laser";
             // 
             // groupBox1
             // 
@@ -1108,6 +1082,8 @@
             // 
             // TbPg_Iris_Init
             // 
+            this.TbPg_Iris_Init.Controls.Add(this.label34);
+            this.TbPg_Iris_Init.Controls.Add(this.Cb_LaserSelect);
             this.TbPg_Iris_Init.Controls.Add(this.Lbl_MdlName);
             this.TbPg_Iris_Init.Controls.Add(this.label58);
             this.TbPg_Iris_Init.Controls.Add(this.Tb_LaserPN);
@@ -1940,7 +1916,7 @@
             // label49
             // 
             this.label49.AutoSize = true;
-            this.label49.Location = new System.Drawing.Point(336, 374);
+            this.label49.Location = new System.Drawing.Point(347, 374);
             this.label49.Name = "label49";
             this.label49.Size = new System.Drawing.Size(74, 13);
             this.label49.TabIndex = 291;
@@ -1949,7 +1925,7 @@
             // label50
             // 
             this.label50.AutoSize = true;
-            this.label50.Location = new System.Drawing.Point(336, 352);
+            this.label50.Location = new System.Drawing.Point(347, 352);
             this.label50.Name = "label50";
             this.label50.Size = new System.Drawing.Size(74, 13);
             this.label50.TabIndex = 290;
@@ -1959,15 +1935,15 @@
             // 
             this.Tb_CalBcmdToPw.Location = new System.Drawing.Point(274, 370);
             this.Tb_CalBcmdToPw.Name = "Tb_CalBcmdToPw";
-            this.Tb_CalBcmdToPw.Size = new System.Drawing.Size(60, 20);
+            this.Tb_CalBcmdToPw.Size = new System.Drawing.Size(67, 20);
             this.Tb_CalBcmdToPw.TabIndex = 289;
-            this.Tb_CalBcmdToPw.Text = "000.0000";
+            this.Tb_CalBcmdToPw.Text = "00000.0000";
             // 
             // Tb_CalAcmdToPw
             // 
             this.Tb_CalAcmdToPw.Location = new System.Drawing.Point(274, 348);
             this.Tb_CalAcmdToPw.Name = "Tb_CalAcmdToPw";
-            this.Tb_CalAcmdToPw.Size = new System.Drawing.Size(60, 20);
+            this.Tb_CalAcmdToPw.Size = new System.Drawing.Size(67, 20);
             this.Tb_CalAcmdToPw.TabIndex = 288;
             this.Tb_CalAcmdToPw.Text = "001.0000";
             // 
@@ -2211,6 +2187,30 @@
             this.dataGridView1.Size = new System.Drawing.Size(683, 96);
             this.dataGridView1.TabIndex = 6;
             // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(273, 184);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(89, 13);
+            this.label34.TabIndex = 291;
+            this.label34.Text = "iRIS Laser Select";
+            // 
+            // Cb_LaserSelect
+            // 
+            this.Cb_LaserSelect.FormattingEnabled = true;
+            this.Cb_LaserSelect.Items.AddRange(new object[] {
+            "iRIS CLM 780",
+            "iRIS CLM 660",
+            "iRIS CLM 580",
+            "iRIS CLM 488",
+            "iRIS CLM 405"});
+            this.Cb_LaserSelect.Location = new System.Drawing.Point(273, 200);
+            this.Cb_LaserSelect.Name = "Cb_LaserSelect";
+            this.Cb_LaserSelect.Size = new System.Drawing.Size(99, 21);
+            this.Cb_LaserSelect.TabIndex = 290;
+            this.Cb_LaserSelect.Text = "Select Laser";
+            // 
             // Form_iRIS_Clm_test_01
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2306,8 +2306,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label34;
-        private System.Windows.Forms.ComboBox Cb_LaserSelect;
         private System.Windows.Forms.TabPage TbPg_Results;
         private System.Windows.Forms.Label label42;
         private System.Windows.Forms.Label label43;
@@ -2429,6 +2427,8 @@
         private System.Windows.Forms.Label Lbl_RtnPwDACvalue;
         private System.Windows.Forms.Label Lbl_V_I_out;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.ComboBox Cb_LaserSelect;
     }
 }
 
