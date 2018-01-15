@@ -110,6 +110,13 @@
             this.tb_Cmd34Bit3 = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.TbPg_Iris_Init = new System.Windows.Forms.TabPage();
+            this.ChkBx_AnlgModSet = new System.Windows.Forms.CheckBox();
+            this.ChkBx_DigitModSet = new System.Windows.Forms.CheckBox();
+            this.ChkBx_EnableSet = new System.Windows.Forms.CheckBox();
+            this.ChkBx_ExtPwCtrl = new System.Windows.Forms.CheckBox();
+            this.Bt_CreateFile = new System.Windows.Forms.Button();
+            this.label34 = new System.Windows.Forms.Label();
+            this.Cb_LaserSelect = new System.Windows.Forms.ComboBox();
             this.Lbl_MdlName = new System.Windows.Forms.Label();
             this.label58 = new System.Windows.Forms.Label();
             this.Tb_LaserPN = new System.Windows.Forms.TextBox();
@@ -150,10 +157,6 @@
             this.Tb_NomPw = new System.Windows.Forms.TextBox();
             this.label45 = new System.Windows.Forms.Label();
             this.Tb_minMaxPw = new System.Windows.Forms.TextBox();
-            this.ChkBx_AnlgModSet = new System.Windows.Forms.CheckBox();
-            this.ChkBx_DigitModSet = new System.Windows.Forms.CheckBox();
-            this.ChkBx_EnableSet = new System.Windows.Forms.CheckBox();
-            this.ChkBx_ExtPwCtrl = new System.Windows.Forms.CheckBox();
             this.label46 = new System.Windows.Forms.Label();
             this.label52 = new System.Windows.Forms.Label();
             this.Tb_maxMaxPw = new System.Windows.Forms.TextBox();
@@ -213,8 +216,6 @@
             this.Rt_ReceiveDataUSB = new System.Windows.Forms.RichTextBox();
             this.Bt_RdLaserStatus = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.label34 = new System.Windows.Forms.Label();
-            this.Cb_LaserSelect = new System.Windows.Forms.ComboBox();
             this.TbPg_InsTest.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -1082,6 +1083,11 @@
             // 
             // TbPg_Iris_Init
             // 
+            this.TbPg_Iris_Init.Controls.Add(this.ChkBx_AnlgModSet);
+            this.TbPg_Iris_Init.Controls.Add(this.ChkBx_DigitModSet);
+            this.TbPg_Iris_Init.Controls.Add(this.ChkBx_EnableSet);
+            this.TbPg_Iris_Init.Controls.Add(this.ChkBx_ExtPwCtrl);
+            this.TbPg_Iris_Init.Controls.Add(this.Bt_CreateFile);
             this.TbPg_Iris_Init.Controls.Add(this.label34);
             this.TbPg_Iris_Init.Controls.Add(this.Cb_LaserSelect);
             this.TbPg_Iris_Init.Controls.Add(this.Lbl_MdlName);
@@ -1104,6 +1110,86 @@
             this.TbPg_Iris_Init.TabIndex = 0;
             this.TbPg_Iris_Init.Text = "iRIS Laser Init.";
             this.TbPg_Iris_Init.UseVisualStyleBackColor = true;
+            // 
+            // ChkBx_AnlgModSet
+            // 
+            this.ChkBx_AnlgModSet.AutoSize = true;
+            this.ChkBx_AnlgModSet.Checked = true;
+            this.ChkBx_AnlgModSet.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ChkBx_AnlgModSet.Location = new System.Drawing.Point(485, 241);
+            this.ChkBx_AnlgModSet.Name = "ChkBx_AnlgModSet";
+            this.ChkBx_AnlgModSet.Size = new System.Drawing.Size(127, 17);
+            this.ChkBx_AnlgModSet.TabIndex = 331;
+            this.ChkBx_AnlgModSet.Text = "Anlg. Mod. Set Norm.";
+            this.ChkBx_AnlgModSet.UseVisualStyleBackColor = true;
+            // 
+            // ChkBx_DigitModSet
+            // 
+            this.ChkBx_DigitModSet.AutoSize = true;
+            this.ChkBx_DigitModSet.Location = new System.Drawing.Point(485, 222);
+            this.ChkBx_DigitModSet.Name = "ChkBx_DigitModSet";
+            this.ChkBx_DigitModSet.Size = new System.Drawing.Size(127, 17);
+            this.ChkBx_DigitModSet.TabIndex = 330;
+            this.ChkBx_DigitModSet.Text = "Digit. Mod. Set Norm.";
+            this.ChkBx_DigitModSet.UseVisualStyleBackColor = true;
+            // 
+            // ChkBx_EnableSet
+            // 
+            this.ChkBx_EnableSet.AutoSize = true;
+            this.ChkBx_EnableSet.Checked = true;
+            this.ChkBx_EnableSet.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ChkBx_EnableSet.Location = new System.Drawing.Point(485, 203);
+            this.ChkBx_EnableSet.Name = "ChkBx_EnableSet";
+            this.ChkBx_EnableSet.Size = new System.Drawing.Size(109, 17);
+            this.ChkBx_EnableSet.TabIndex = 329;
+            this.ChkBx_EnableSet.Text = "Enable Set Norm.";
+            this.ChkBx_EnableSet.UseVisualStyleBackColor = true;
+            // 
+            // ChkBx_ExtPwCtrl
+            // 
+            this.ChkBx_ExtPwCtrl.AutoSize = true;
+            this.ChkBx_ExtPwCtrl.Checked = true;
+            this.ChkBx_ExtPwCtrl.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ChkBx_ExtPwCtrl.Location = new System.Drawing.Point(485, 184);
+            this.ChkBx_ExtPwCtrl.Name = "ChkBx_ExtPwCtrl";
+            this.ChkBx_ExtPwCtrl.Size = new System.Drawing.Size(103, 17);
+            this.ChkBx_ExtPwCtrl.TabIndex = 328;
+            this.ChkBx_ExtPwCtrl.Text = "External Pw Ctrl.";
+            this.ChkBx_ExtPwCtrl.UseVisualStyleBackColor = true;
+            // 
+            // Bt_CreateFile
+            // 
+            this.Bt_CreateFile.Location = new System.Drawing.Point(41, 126);
+            this.Bt_CreateFile.Name = "Bt_CreateFile";
+            this.Bt_CreateFile.Size = new System.Drawing.Size(96, 36);
+            this.Bt_CreateFile.TabIndex = 292;
+            this.Bt_CreateFile.Text = "*.txt test file";
+            this.Bt_CreateFile.UseVisualStyleBackColor = true;
+            this.Bt_CreateFile.Click += new System.EventHandler(this.Bt_CreateFile_Click);
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(273, 184);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(89, 13);
+            this.label34.TabIndex = 291;
+            this.label34.Text = "iRIS Laser Select";
+            // 
+            // Cb_LaserSelect
+            // 
+            this.Cb_LaserSelect.FormattingEnabled = true;
+            this.Cb_LaserSelect.Items.AddRange(new object[] {
+            "iRIS CLM 780",
+            "iRIS CLM 660",
+            "iRIS CLM 580",
+            "iRIS CLM 488",
+            "iRIS CLM 405"});
+            this.Cb_LaserSelect.Location = new System.Drawing.Point(273, 200);
+            this.Cb_LaserSelect.Name = "Cb_LaserSelect";
+            this.Cb_LaserSelect.Size = new System.Drawing.Size(99, 21);
+            this.Cb_LaserSelect.TabIndex = 290;
+            this.Cb_LaserSelect.Text = "Select Laser";
             // 
             // Lbl_MdlName
             // 
@@ -1258,10 +1344,6 @@
             this.TbPg_Results.Controls.Add(this.Tb_NomPw);
             this.TbPg_Results.Controls.Add(this.label45);
             this.TbPg_Results.Controls.Add(this.Tb_minMaxPw);
-            this.TbPg_Results.Controls.Add(this.ChkBx_AnlgModSet);
-            this.TbPg_Results.Controls.Add(this.ChkBx_DigitModSet);
-            this.TbPg_Results.Controls.Add(this.ChkBx_EnableSet);
-            this.TbPg_Results.Controls.Add(this.ChkBx_ExtPwCtrl);
             this.TbPg_Results.Controls.Add(this.label46);
             this.TbPg_Results.Controls.Add(this.label52);
             this.TbPg_Results.Controls.Add(this.Tb_maxMaxPw);
@@ -1563,7 +1645,7 @@
             this.Tb_NomPw.Name = "Tb_NomPw";
             this.Tb_NomPw.Size = new System.Drawing.Size(46, 20);
             this.Tb_NomPw.TabIndex = 330;
-            this.Tb_NomPw.Text = "50.00";
+            this.Tb_NomPw.Text = "51.0";
             // 
             // label45
             // 
@@ -1580,53 +1662,7 @@
             this.Tb_minMaxPw.Name = "Tb_minMaxPw";
             this.Tb_minMaxPw.Size = new System.Drawing.Size(46, 20);
             this.Tb_minMaxPw.TabIndex = 328;
-            this.Tb_minMaxPw.Text = "50.10";
-            // 
-            // ChkBx_AnlgModSet
-            // 
-            this.ChkBx_AnlgModSet.AutoSize = true;
-            this.ChkBx_AnlgModSet.Checked = true;
-            this.ChkBx_AnlgModSet.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ChkBx_AnlgModSet.Location = new System.Drawing.Point(274, 449);
-            this.ChkBx_AnlgModSet.Name = "ChkBx_AnlgModSet";
-            this.ChkBx_AnlgModSet.Size = new System.Drawing.Size(127, 17);
-            this.ChkBx_AnlgModSet.TabIndex = 327;
-            this.ChkBx_AnlgModSet.Text = "Anlg. Mod. Set Norm.";
-            this.ChkBx_AnlgModSet.UseVisualStyleBackColor = true;
-            // 
-            // ChkBx_DigitModSet
-            // 
-            this.ChkBx_DigitModSet.AutoSize = true;
-            this.ChkBx_DigitModSet.Location = new System.Drawing.Point(274, 430);
-            this.ChkBx_DigitModSet.Name = "ChkBx_DigitModSet";
-            this.ChkBx_DigitModSet.Size = new System.Drawing.Size(127, 17);
-            this.ChkBx_DigitModSet.TabIndex = 326;
-            this.ChkBx_DigitModSet.Text = "Digit. Mod. Set Norm.";
-            this.ChkBx_DigitModSet.UseVisualStyleBackColor = true;
-            // 
-            // ChkBx_EnableSet
-            // 
-            this.ChkBx_EnableSet.AutoSize = true;
-            this.ChkBx_EnableSet.Checked = true;
-            this.ChkBx_EnableSet.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ChkBx_EnableSet.Location = new System.Drawing.Point(274, 411);
-            this.ChkBx_EnableSet.Name = "ChkBx_EnableSet";
-            this.ChkBx_EnableSet.Size = new System.Drawing.Size(109, 17);
-            this.ChkBx_EnableSet.TabIndex = 325;
-            this.ChkBx_EnableSet.Text = "Enable Set Norm.";
-            this.ChkBx_EnableSet.UseVisualStyleBackColor = true;
-            // 
-            // ChkBx_ExtPwCtrl
-            // 
-            this.ChkBx_ExtPwCtrl.AutoSize = true;
-            this.ChkBx_ExtPwCtrl.Checked = true;
-            this.ChkBx_ExtPwCtrl.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ChkBx_ExtPwCtrl.Location = new System.Drawing.Point(274, 392);
-            this.ChkBx_ExtPwCtrl.Name = "ChkBx_ExtPwCtrl";
-            this.ChkBx_ExtPwCtrl.Size = new System.Drawing.Size(103, 17);
-            this.ChkBx_ExtPwCtrl.TabIndex = 324;
-            this.ChkBx_ExtPwCtrl.Text = "External Pw Ctrl.";
-            this.ChkBx_ExtPwCtrl.UseVisualStyleBackColor = true;
+            this.Tb_minMaxPw.Text = "50.1";
             // 
             // label46
             // 
@@ -1652,7 +1688,7 @@
             this.Tb_maxMaxPw.Name = "Tb_maxMaxPw";
             this.Tb_maxMaxPw.Size = new System.Drawing.Size(46, 20);
             this.Tb_maxMaxPw.TabIndex = 321;
-            this.Tb_maxMaxPw.Text = "52.00";
+            this.Tb_maxMaxPw.Text = "52.0";
             // 
             // Tb_PwToVout
             // 
@@ -2187,30 +2223,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(683, 96);
             this.dataGridView1.TabIndex = 6;
             // 
-            // label34
-            // 
-            this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(273, 184);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(89, 13);
-            this.label34.TabIndex = 291;
-            this.label34.Text = "iRIS Laser Select";
-            // 
-            // Cb_LaserSelect
-            // 
-            this.Cb_LaserSelect.FormattingEnabled = true;
-            this.Cb_LaserSelect.Items.AddRange(new object[] {
-            "iRIS CLM 780",
-            "iRIS CLM 660",
-            "iRIS CLM 580",
-            "iRIS CLM 488",
-            "iRIS CLM 405"});
-            this.Cb_LaserSelect.Location = new System.Drawing.Point(273, 200);
-            this.Cb_LaserSelect.Name = "Cb_LaserSelect";
-            this.Cb_LaserSelect.Size = new System.Drawing.Size(99, 21);
-            this.Cb_LaserSelect.TabIndex = 290;
-            this.Cb_LaserSelect.Text = "Select Laser";
-            // 
             // Form_iRIS_Clm_test_01
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2375,10 +2387,6 @@
         private System.Windows.Forms.TextBox Tb_SerNb;
         private System.Windows.Forms.Label label45;
         private System.Windows.Forms.TextBox Tb_minMaxPw;
-        private System.Windows.Forms.CheckBox ChkBx_AnlgModSet;
-        private System.Windows.Forms.CheckBox ChkBx_DigitModSet;
-        private System.Windows.Forms.CheckBox ChkBx_EnableSet;
-        private System.Windows.Forms.CheckBox ChkBx_ExtPwCtrl;
         private System.Windows.Forms.Label label57;
         private System.Windows.Forms.TextBox Tb_NomPw;
         private System.Windows.Forms.Label label58;
@@ -2429,6 +2437,11 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label34;
         private System.Windows.Forms.ComboBox Cb_LaserSelect;
+        private System.Windows.Forms.Button Bt_CreateFile;
+        private System.Windows.Forms.CheckBox ChkBx_AnlgModSet;
+        private System.Windows.Forms.CheckBox ChkBx_DigitModSet;
+        private System.Windows.Forms.CheckBox ChkBx_EnableSet;
+        private System.Windows.Forms.CheckBox ChkBx_ExtPwCtrl;
     }
 }
 

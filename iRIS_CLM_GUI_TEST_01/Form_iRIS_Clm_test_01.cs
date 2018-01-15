@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.IO.Ports;
+using System.IO;
 using System.Data;
 using System.Data.Sql;
 using System.Data.SqlClient;
@@ -1643,7 +1644,7 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         #endregion  External Hardware
         //======================================================================
-        private async Task<bool> RampDAC1(double startRp, double stopRp, double stepRp, bool rdIntADC)//external PCON
+        private async Task<bool> RampDAC1(Ref<double> startRp, Ref<double> stopRp, double stepRp, bool rdIntADC)//external PCON
         {
             double maxPw = Convert.ToDouble(Tb_maxMaxPw.Text);
             bool rampDAC1task = false;
@@ -1806,6 +1807,8 @@ namespace iRIS_CLM_GUI_TEST_01
             return true;
         }
         //======================================================================
+        private void Bt_SetVGA_Click(object sender, EventArgs e) { Task<bool> setVGA = SendToSerial(CmdSetVgaGain, Tb_VGASet.Text, 300); }
+        //======================================================================
         private void Bt_CalVGA_Click(object sender, EventArgs e) {
             //if green stop ramp....
             Task<bool> calvga = CalVGA();
@@ -1813,12 +1816,34 @@ namespace iRIS_CLM_GUI_TEST_01
             //else MessageBox.Show("USB not connected");
         }
         //======================================================================
-        private void Bt_SetVGA_Click(object sender, EventArgs e) { Task<bool> setVGA = SendToSerial(CmdSetVgaGain, Tb_VGASet.Text, 300); }
+        public class Ref<T>
+        {
+            public Ref() { }
+            public Ref(T value) { Value = value; }
+            public T Value { get; set; }
+ 
+            public override string ToString()
+            {
+                T value = Value;
+                return value == null ? "" : value.ToString();
+            }
+            public static implicit operator T(Ref<T> r) { return r.Value; }
+            public static implicit operator Ref<T>(T value) { return new Ref<T>(value); }
+        }
+        //Passing parameters by reference to an asynchronous method
         //======================================================================
         private async Task<bool> CalVGA()
         {
-            const double startRp = 00.000;
-            const double stopRp = 5.000;
+            var startRp = new Ref<double>();
+            var stopRp = new Ref<double>();
+
+            if (ChkBx_AnlgModSet.Checked == true) {
+                startRp = 00.000;
+                stopRp = 5.000; }
+            else if (ChkBx_AnlgModSet.Checked == false) {
+                startRp = 5.000;
+                stopRp = 00.000; }
+
             const double stepRp = 0.050;
             double calPower = 0;
             double setOffSet = 0;
@@ -2275,6 +2300,63 @@ namespace iRIS_CLM_GUI_TEST_01
             }
             */
             return rtnAb;
+        }
+        //======================================================================
+        private void Bt_CreateFile_Click(object sender, EventArgs e)
+        {
+            Stream myStream;
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+
+            saveFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            saveFileDialog1.FilterIndex = 2;
+            saveFileDialog1.RestoreDirectory = true;
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                if ((myStream = saveFileDialog1.OpenFile()) != null)
+                {
+                    // Code to write the stream goes here.
+                    myStream.Close();
+                }
+            }
+
+            /*
+            // Displays a SaveFileDialog so the user can save the Image  
+            // assigned to Button2.  
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "JPeg Image|*.jpg|Bitmap Image|*.bmp|Gif Image|*.gif";
+            saveFileDialog1.Title = "Save an Image File";
+            saveFileDialog1.ShowDialog();
+
+            // If the file name is not an empty string open it for saving.  
+            if (saveFileDialog1.FileName != "")
+            {
+                // Saves the Image via a FileStream created by the OpenFile method.  
+                System.IO.FileStream fs =
+                   (System.IO.FileStream)saveFileDialog1.OpenFile();
+                // Saves the Image in the appropriate ImageFormat based upon the  
+                // File type selected in the dialog box.  
+                // NOTE that the FilterIndex property is one-based.  
+                switch (saveFileDialog1.FilterIndex)
+                {
+                    case 1:
+                        this.button1.Image.Save(fs,
+                           System.Drawing.Imaging.ImageFormat.Jpeg);
+                        break;
+
+                    case 2:
+                        this.button1.Image.Save(fs,
+                           System.Drawing.Imaging.ImageFormat.Bmp);
+                        break;
+
+                    case 3:
+                        this.button1.Image.Save(fs,
+                           System.Drawing.Imaging.ImageFormat.Gif);
+                        break;
+                }
+                fs.Close();
+            }
+            */
         }
         //======================================================================
     }
