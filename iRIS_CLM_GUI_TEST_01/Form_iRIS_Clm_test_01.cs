@@ -103,15 +103,14 @@ namespace iRIS_CLM_GUI_TEST_01
         #region Test Sequence Definition
         //=================================================
 
-        string[,] bulkSetLaserIO = new string[8, 2] {   //the rest of the string is build with case...
+        string[,] bulkSetLaserIO = new string[7, 2] {   //the rest of the string is build with case...
             { CmdLaserEnable,       StrDisable },
             { CmdTestMode,          StrEnable  },
             { CmdSetTECena_dis,     StrDisable},
             { CmdSetInOutPwCtrl,    StrDisable },       //external PCON
             { CmdAnalgInpt,         StrDisable },       //Non Inv. PCON
             { CmdEnablLogicvIn,     StrDisable },       //Non Inv. Laser Enable
-            { CmdsetTTL,            StrEnable },        //Inv. TTL line in nothing connected
-            { CmdRdWavelen,         StrDisable }, };    
+            { CmdsetTTL,            StrEnable } };      //Inv. TTL line in nothing connected
  
         string[,] bulkSetTEC = new string[6, 2] {
             { CmdTestMode,          StrEnable  },
@@ -121,7 +120,7 @@ namespace iRIS_CLM_GUI_TEST_01
             { CmdSetTECsmpTime,     StrDisable },
             { CmdSetTECena_dis,     StrEnable} };
 
-        string[,] bulkSetVarialble = new string[16, 2] {
+        string[,] bulkSetVarialble = new string[14, 2] {
             {CmdTestMode,       StrEnable },
             {CmdSetWavelenght,    StrDisable},
             {CmdSetLsMominalPw,   StrDisable},
@@ -135,9 +134,7 @@ namespace iRIS_CLM_GUI_TEST_01
             {CmdSetCalAPwtoVint,    StrEnable},
             {CmdSetCalBPwtoVint,    StrDisable},
             {CmdSetCalAVtoPw,       StrEnable},
-            {CmdSetCalBVtoPw,       StrDisable},
-            {CmdRdSerialNo,         StrDisable},
-            {CmdRdFirmware,         StrDisable} };
+            {CmdSetCalBVtoPw,       StrDisable} };
 
         string[,] bulkSetdefaultCtrl = new string[6, 2] {
             {CmdTestMode,       StrEnable  },
@@ -269,7 +266,7 @@ namespace iRIS_CLM_GUI_TEST_01
                 MessageBox.Show("  ServerVersion: " + con.ServerVersion + "  State: " + con.State);
                 con.Close();
             }
-            catch (Exception e) {MessageBox.Show("Dtb Error " + e.ToString()); }
+            catch (Exception e) { MessageBox.Show("Dtb Error " + e.ToString() + "\nInter Laser Parameters Manually"); }
          }
         //================================================================================
         private string GetConnectionString() {
@@ -365,9 +362,8 @@ namespace iRIS_CLM_GUI_TEST_01
             Rt_ReceiveDataUSB.AppendText("<<  " + strRcv); //displays anything....
             returnChop = SendRecvCOM.ChopString(strRcv);
             rtnHeader = returnChop[0];
-            rtnCmd = returnChop[1];
-
-            rtnValue = returnChop[2];
+            rtnCmd =    returnChop[1];
+            rtnValue =  returnChop[2];
 
             if (rtnCmd=="00") MessageBox.Show("rtn null CMD");
             else if (rtnCmd == cmdTrack)
@@ -376,7 +372,6 @@ namespace iRIS_CLM_GUI_TEST_01
 
                 switch (rtnCmd)
                 {
-
                     case CmdRdUnitNo://99
                         if (RS232_Port_Open == true)
                         {
@@ -1149,7 +1144,9 @@ namespace iRIS_CLM_GUI_TEST_01
                 Tb_USBConnect.BackColor = Color.Red;
                 Bt_SetAddr.Enabled = false;
                 Tb_EepromGood.BackColor = Color.Red;
-                lbl_RdAdd.Text = "--";
+                lbl_RdAdd.Text = "00";
+                lbl_SerNbReadBack.Text = "00000000";
+                lbl_SWLevel.Text = "00000000";
             }
             else {
                 if (RS232.IsOpen) {
@@ -1198,7 +1195,9 @@ namespace iRIS_CLM_GUI_TEST_01
                     Bt_USBcom.Text = "USB Connect";
                     Tb_USBConnect.BackColor = Color.Red;
                     Tb_EepromGood.BackColor = Color.Red;
-                    lbl_RdAdd.Text = "--";
+                    lbl_RdAdd.Text = "00";
+                    lbl_SerNbReadBack.Text = "00000000";
+                    lbl_SWLevel.Text = "00000000";
                     MessageBox.Show("USB_Port_Open COM Error");
                 }
             }
@@ -1304,6 +1303,8 @@ namespace iRIS_CLM_GUI_TEST_01
             bool setad = await BuildSendString(sentobuild);//use polymorphism...
             sentobuild[0] = CmdRdUnitNo;
             setad = await BuildSendString(sentobuild);
+            setad = await SendToSerial(CmdRdSerialNo, StrDisable, 300);
+            setad = await SendToSerial(CmdRdFirmware, StrDisable, 300);
             return true;
         }
         //======================================================================
@@ -1330,7 +1331,9 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private void Form_iRIS_Clm_01_Load(object sender, EventArgs e)
         {
-            //MessageBox.Show(" Enter Boards serial numbers\n Validate entry press ENTER\n", "Initial Set");
+            this.Cursor = Cursors.WaitCursor;
+            OpenSqlConnection();
+            this.Cursor = Cursors.Default;
         }
         //======================================================================
        /*
@@ -1810,7 +1813,7 @@ namespace iRIS_CLM_GUI_TEST_01
             {
                 this.Cursor = Cursors.WaitCursor;
 
-                bool test2 = await CreateRepFile();
+                bool test2 = await CreateRepFile();//generate new .txt file
 
                 test2 = await LoadGlobalTestArray(bulkSetLaserIO);
                 test2 = await LoadGlobalTestArray(bulkSetTEC);
@@ -1818,22 +1821,24 @@ namespace iRIS_CLM_GUI_TEST_01
                 //test2 = await LoadGlobalTestArray(bulkSetdefaultCtrl);
 
                 Tb_VGASet.Text      = "0020";
-                Tb_SetOffset.Text   = "2.500";
-                Tb_VPcon.Text       = "0.000";
-                tb_SetIntPw.Text    = "2.500";
+                tb_SetIntPw.Text    = "02.500";
+                Tb_SetOffset.Text   = "02.500";
+                Tb_VPcon.Text       = "00.000";
 
-                Tb_CalA_PwToADC.Text = "1.000";
-                Tb_CalB_PwToADC.Text = "0.000";
-                Tb_CalA_Pw.Text     = "1.000";
-                Tb_CalB_Pw.Text     = "0.000";
-                Tb_CalAcmdToPw.Text = "1.000";
-                Tb_CalAcmdToPw.Text = "0.000";
+                Tb_CalA_PwToADC.Text = "001.000";
+                Tb_CalB_PwToADC.Text = "000.000";
+                Tb_CalA_Pw.Text      = "001.000";
+                Tb_CalB_Pw.Text      = "000.000";
+                Tb_CalAcmdToPw.Text  = "001.000";
+                Tb_CalBcmdToPw.Text  = "000.000";
+
+                Lbl_VGAval.Text = "0000";
 
                 this.Cursor = Cursors.Default;
                 bt_NewTest.BackColor = Color.LawnGreen;
-                MessageBox.Show("Wait for TEC lock LED");
-            }
 
+                MessageBox.Show("Disconnect USB\nPower Cycle laser\nWait for TEC lock LED\nStart 'Cal VGA'");
+            }
             else if (bt_NewTest.BackColor == Color.LawnGreen)
             {
                 bt_NewTest.BackColor = Color.Coral;
@@ -1895,6 +1900,7 @@ namespace iRIS_CLM_GUI_TEST_01
             {
                 this.Cursor = Cursors.WaitCursor;
 
+                initvga = await LoadGlobalTestArray(bulkSetLaserIO);
                 initvga = await LoadGlobalTestArray(bulkSetVga);
                 initvga = await SendToSerial(CmdSetVgaGain, Tb_VGASet.Text, 300);//default initial VGA gain 20
                 initvga = await SendToSerial(CmdSetOffstVolt, Tb_SetOffset.Text, 300);//sefault initial offset 2.500V
@@ -2071,7 +2077,37 @@ namespace iRIS_CLM_GUI_TEST_01
             if (Bt_FinalLsSetup.BackColor == Color.Coral) {
                 this.Cursor = Cursors.WaitCursor;
                 finalSet = await LoadGlobalTestArray(bulkSetFinalSetup);
-                this.Cursor = Cursors.Default; }
+
+                try {
+
+                    if (File.Exists(filePath)) {
+
+                        using (StreamWriter fs = File.AppendText(filePath)) {
+
+                            fs.WriteLine("DATE: " + dateTimePicker1.Value.ToString());
+                            fs.WriteLine("User: " + Tb_User.Text);
+                            fs.WriteLine("PCB SN: " + lbl_SerNbReadBack.Text);
+                            fs.WriteLine("TEC SN: " + tb_TecSerNumb.Text);
+                            fs.WriteLine("PCB SN: " + lbl_SerNbReadBack.Text);
+                            fs.WriteLine("Wavelength: " + Lbl_WaveLg.Text);
+                            fs.WriteLine("Nominal power: " + Tb_NomPw.Text);
+                            fs.WriteLine("Set Add.: " + lbl_RdAdd.Text);
+                            fs.WriteLine("VGA value: " + Lbl_VGAval.Text);
+                            fs.WriteLine("A Pw Cal: " + Tb_CalA_Pw.Text);
+                            fs.WriteLine("B Pw Cal: " + Tb_CalB_Pw.Text);
+                            fs.WriteLine("A Pw to ADC in: " + Tb_CalA_PwToADC.Text);
+                            fs.WriteLine("B Pw to ADC in: " + Tb_CalB_PwToADC.Text);
+                            fs.WriteLine("A Pcon to Pw: " + Tb_CalAcmdToPw.Text);
+                            fs.WriteLine("B Pcon to Pw: " + Tb_CalAcmdToPw.Text);
+                            //if check box set/reset IO status read...
+                        }
+                    }
+                }
+                catch (Exception err1) { MessageBox.Show(err1.Message); }
+
+                this.Cursor = Cursors.Default;
+                Bt_FinalLsSetup.BackColor = Color.LawnGreen; }
+
             else if (Bt_FinalLsSetup.BackColor == Color.LawnGreen) { Bt_FinalLsSetup.BackColor = Color.Coral; } 
             return true; 
         }
@@ -2440,6 +2476,14 @@ namespace iRIS_CLM_GUI_TEST_01
             catch (Exception err) {
                 MessageBox.Show(err.Message);
                 return false; }
+        }
+        //======================================================================
+        private void Tb_LaserPN_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar==Convert.ToChar(Keys.Return))
+            {
+                MessageBox.Show("Enter");
+            }
         }
         //======================================================================
         //======================================================================

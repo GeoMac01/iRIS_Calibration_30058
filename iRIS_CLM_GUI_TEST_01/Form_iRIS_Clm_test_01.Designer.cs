@@ -74,7 +74,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.TbPg_Iris_Init = new System.Windows.Forms.TabPage();
             this.label5 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.Lbl_Wlgth1 = new System.Windows.Forms.Label();
             this.ChkBx_AnlgModSet = new System.Windows.Forms.CheckBox();
             this.ChkBx_DigitModSet = new System.Windows.Forms.CheckBox();
             this.ChkBx_EnableSet = new System.Windows.Forms.CheckBox();
@@ -178,6 +178,8 @@
             this.Rt_ReceiveDataUSB = new System.Windows.Forms.RichTextBox();
             this.Bt_RdLaserStatus = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.TbPg_InsTest.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -238,7 +240,7 @@
             this.Bt_LiPlot.Size = new System.Drawing.Size(87, 39);
             this.Bt_LiPlot.TabIndex = 320;
             this.Bt_LiPlot.TabStop = false;
-            this.Bt_LiPlot.Text = "Final Check   LI plot";
+            this.Bt_LiPlot.Text = "Final Check   LI Plot";
             this.Bt_LiPlot.UseVisualStyleBackColor = false;
             this.Bt_LiPlot.Click += new System.EventHandler(this.Bt_LiPlot_Click);
             // 
@@ -256,9 +258,9 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(240, 248);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(67, 13);
+            this.label4.Size = new System.Drawing.Size(106, 13);
             this.label4.TabIndex = 318;
-            this.label4.Text = "I = V/5.01 rd";
+            this.label4.Text = "I = V/5.01 read back";
             // 
             // Bt_SetIntPwCal
             // 
@@ -284,7 +286,7 @@
             // lbl_LaserPD
             // 
             this.lbl_LaserPD.AutoSize = true;
-            this.lbl_LaserPD.Location = new System.Drawing.Point(107, 369);
+            this.lbl_LaserPD.Location = new System.Drawing.Point(104, 369);
             this.lbl_LaserPD.Name = "lbl_LaserPD";
             this.lbl_LaserPD.Size = new System.Drawing.Size(37, 13);
             this.lbl_LaserPD.TabIndex = 315;
@@ -302,7 +304,7 @@
             // lbl_ADCpconRd
             // 
             this.lbl_ADCpconRd.AutoSize = true;
-            this.lbl_ADCpconRd.Location = new System.Drawing.Point(107, 350);
+            this.lbl_ADCpconRd.Location = new System.Drawing.Point(104, 350);
             this.lbl_ADCpconRd.Name = "lbl_ADCpconRd";
             this.lbl_ADCpconRd.Size = new System.Drawing.Size(37, 13);
             this.lbl_ADCpconRd.TabIndex = 313;
@@ -380,7 +382,7 @@
             // Lbl_VGAval
             // 
             this.Lbl_VGAval.AutoSize = true;
-            this.Lbl_VGAval.Location = new System.Drawing.Point(199, 172);
+            this.Lbl_VGAval.Location = new System.Drawing.Point(196, 167);
             this.Lbl_VGAval.Name = "Lbl_VGAval";
             this.Lbl_VGAval.Size = new System.Drawing.Size(31, 13);
             this.Lbl_VGAval.TabIndex = 304;
@@ -398,7 +400,7 @@
             // label41
             // 
             this.label41.AutoSize = true;
-            this.label41.Location = new System.Drawing.Point(238, 172);
+            this.label41.Location = new System.Drawing.Point(233, 167);
             this.label41.Name = "label41";
             this.label41.Size = new System.Drawing.Size(29, 13);
             this.label41.TabIndex = 302;
@@ -678,8 +680,10 @@
             // 
             // TbPg_Iris_Init
             // 
-            this.TbPg_Iris_Init.Controls.Add(this.label5);
             this.TbPg_Iris_Init.Controls.Add(this.label3);
+            this.TbPg_Iris_Init.Controls.Add(this.label7);
+            this.TbPg_Iris_Init.Controls.Add(this.label5);
+            this.TbPg_Iris_Init.Controls.Add(this.Lbl_Wlgth1);
             this.TbPg_Iris_Init.Controls.Add(this.ChkBx_AnlgModSet);
             this.TbPg_Iris_Init.Controls.Add(this.ChkBx_DigitModSet);
             this.TbPg_Iris_Init.Controls.Add(this.ChkBx_EnableSet);
@@ -707,21 +711,21 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(497, 119);
+            this.label5.Location = new System.Drawing.Point(517, 118);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(56, 20);
+            this.label5.Size = new System.Drawing.Size(37, 20);
             this.label5.TabIndex = 333;
-            this.label5.Text = "- - - mW";
+            this.label5.Text = "0000";
             // 
-            // label3
+            // Lbl_Wlgth1
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(433, 118);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(55, 20);
-            this.label3.TabIndex = 332;
-            this.label3.Text = " - - - nm";
+            this.Lbl_Wlgth1.AutoSize = true;
+            this.Lbl_Wlgth1.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Lbl_Wlgth1.Location = new System.Drawing.Point(432, 118);
+            this.Lbl_Wlgth1.Name = "Lbl_Wlgth1";
+            this.Lbl_Wlgth1.Size = new System.Drawing.Size(37, 20);
+            this.Lbl_Wlgth1.TabIndex = 332;
+            this.Lbl_Wlgth1.Text = "0000";
             // 
             // ChkBx_AnlgModSet
             // 
@@ -798,6 +802,7 @@
             this.Tb_LaserPN.TabStop = false;
             this.Tb_LaserPN.Text = "015240";
             this.Tb_LaserPN.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Tb_LaserPN.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_LaserPN_KeyPress);
             // 
             // label33
             // 
@@ -1531,18 +1536,18 @@
             this.label49.AutoSize = true;
             this.label49.Location = new System.Drawing.Point(347, 374);
             this.label49.Name = "label49";
-            this.label49.Size = new System.Drawing.Size(74, 13);
+            this.label49.Size = new System.Drawing.Size(72, 13);
             this.label49.TabIndex = 291;
-            this.label49.Text = "B CMD to PW";
+            this.label49.Text = "B Pcon to Pw";
             // 
             // label50
             // 
             this.label50.AutoSize = true;
             this.label50.Location = new System.Drawing.Point(347, 352);
             this.label50.Name = "label50";
-            this.label50.Size = new System.Drawing.Size(74, 13);
+            this.label50.Size = new System.Drawing.Size(72, 13);
             this.label50.TabIndex = 290;
-            this.label50.Text = "A CMD to PW";
+            this.label50.Text = "A Pcon to Pw";
             // 
             // Tb_CalBcmdToPw
             // 
@@ -1800,6 +1805,26 @@
             this.dataGridView1.Size = new System.Drawing.Size(683, 96);
             this.dataGridView1.TabIndex = 6;
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(467, 118);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(31, 20);
+            this.label7.TabIndex = 334;
+            this.label7.Text = " nm";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(557, 118);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(32, 20);
+            this.label3.TabIndex = 335;
+            this.label3.Text = "mW";
+            // 
             // Form_iRIS_Clm_test_01
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1974,9 +1999,11 @@
         private System.Windows.Forms.CheckBox ChkBx_ExtPwCtrl;
         private System.Windows.Forms.Button Bt_LiPlot;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label Lbl_Wlgth1;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.TextBox Tb_txtFilePath;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label3;
     }
 }
 
