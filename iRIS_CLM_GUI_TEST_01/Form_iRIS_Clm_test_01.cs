@@ -195,11 +195,13 @@ namespace iRIS_CLM_GUI_TEST_01
         string  rtnValue =      string.Empty;
         string dataBaseName =   string.Empty;
 
+        string filePath = string.Empty;
+
         byte[] byteArrayToTest1 = new byte[8];//reads back "bits"
         byte[] byteArrayToTest2 = new byte[8];//reads back "bits"
         byte[] byteArrayToTest3 = new byte[8];//reads back "bits"
 
-        double[,] dataADC = new double[100, 4];
+        double[,] dataADC = new double[120, 4];
 
         bool USB_Port_Open =    false;
         bool RS232_Port_Open =  false;
@@ -358,7 +360,7 @@ namespace iRIS_CLM_GUI_TEST_01
         {
             string[] returnChop = new string[3];  // 0/Header, 1/cmd, 2/value
             string rbCmd = string.Empty;
-            int rtnValueInt = 0;
+            //int rtnValueInt = 0;
 
             Rt_ReceiveDataUSB.AppendText("<<  " + strRcv); //displays anything....
             returnChop = SendRecvCOM.ChopString(strRcv);
@@ -465,7 +467,7 @@ namespace iRIS_CLM_GUI_TEST_01
                     case CmdLaserStatus:
 
                         byteArrayToTest1 = ConvertToByteArr(rtnValue);
-
+                        /*
                         rtnValueInt = byteArrayToTest1[7];
                         if (rtnValueInt == 0)
                         {
@@ -507,7 +509,7 @@ namespace iRIS_CLM_GUI_TEST_01
                             tb_Cmd14Bit5.BackColor = Color.Red;
                         }
                         else tb_Cmd14Bit5.BackColor = Color.LawnGreen;
-
+                        */
                         break;
 
                     case CmdRdTecTemprt:
@@ -535,7 +537,7 @@ namespace iRIS_CLM_GUI_TEST_01
                     case CmdRdLsrStatus:
 
                         byteArrayToTest2 = ConvertToByteArr(rtnValue);
-
+                        /*
                         rtnValueInt = byteArrayToTest2[7];
                         if (rtnValueInt == 0)
                         {
@@ -591,7 +593,7 @@ namespace iRIS_CLM_GUI_TEST_01
                             tb_Cmd20Bit7.BackColor = Color.Red;
                         }
                         else tb_Cmd20Bit7.BackColor = Color.LawnGreen;
-
+                        */
                         break;
 
                     case CmdSetPwMonOut:
@@ -635,7 +637,7 @@ namespace iRIS_CLM_GUI_TEST_01
                    case CmdRdCmdStautus2://cmd 34 note the array starts from 7 to 0....
 
                         byteArrayToTest3 = ConvertToByteArr(rtnValue);
-
+                        /*
                         rtnValueInt = byteArrayToTest3[7];
                         if (rtnValueInt == 0) { tb_Cmd34Bit0.BackColor = Color.Red; }
                         else tb_Cmd34Bit0.BackColor = Color.LawnGreen;
@@ -651,7 +653,7 @@ namespace iRIS_CLM_GUI_TEST_01
                         rtnValueInt = byteArrayToTest3[4];// Bit indicating status of the CPU control line LASER_EN_OUT_CPU
                         if (rtnValueInt == 0) tb_Cmd34Bit3.BackColor = Color.Red;
                         else tb_Cmd34Bit3.BackColor = Color.LawnGreen;
-
+                        */
                         break;
 
                     case CmdManufDate:
@@ -1672,7 +1674,7 @@ namespace iRIS_CLM_GUI_TEST_01
                     MessageBox.Show("Power Error");
                     return false; }
 
-                if ((laserCurrent*1000/5.01) > maxCurr) {
+                if (((laserCurrent*1000)/5.01) > maxCurr) {
                     Set_USB_Digit_Out(0, 0);//Laser disable
                     WriteDAC(0, 0);
                     MessageBox.Show("Current Error");
@@ -1682,7 +1684,8 @@ namespace iRIS_CLM_GUI_TEST_01
                     dataADC[arrIndex, 0] = (pm100Res*10);
                     dataADC[arrIndex, 1] = Convert.ToDouble(lbl_LaserPD.Text);
                     dataADC[arrIndex, 2] = Convert.ToDouble(lbl_ADCpconRd.Text);
-                    dataADC[arrIndex, 3] = (Convert.ToDouble(Lbl_Viout.Text))*1000/5.01; 
+                    dataADC[arrIndex, 3] = ((Convert.ToDouble(Lbl_Viout.Text))*1000)/5.01; 
+
                     arrIndex++; }
             }
             return true;
@@ -1714,6 +1717,7 @@ namespace iRIS_CLM_GUI_TEST_01
                     dataADC[arrIndex, 0] = (pm100Res * 10);
                     dataADC[arrIndex, 1] = Convert.ToDouble(lbl_LaserPD.Text);
                     dataADC[arrIndex, 2] = Convert.ToDouble(lbl_ADCpconRd.Text);
+                    dataADC[arrIndex, 3] = ((Convert.ToDouble(Lbl_Viout.Text)) * 1000) / 5.01;
                     arrIndex++; }
 
             }
@@ -1755,6 +1759,7 @@ namespace iRIS_CLM_GUI_TEST_01
                     dataADC[arrIndex, 0] = (pm100Res * 10);
                     dataADC[arrIndex, 1] = Convert.ToDouble(lbl_LaserPD.Text);
                     dataADC[arrIndex, 2] = Convert.ToDouble(Lbl_RtnPwDACvalue.Text);
+                    dataADC[arrIndex, 3] = ((Convert.ToDouble(Lbl_Viout.Text)) * 1000)/5.01;
                     arrIndex++; }
             }
 
@@ -1793,10 +1798,10 @@ namespace iRIS_CLM_GUI_TEST_01
             return true;
         }
         //======================================================================
-        private void Bt_NewTest_Click(object sender, EventArgs e)
-        {
+        private void Bt_NewTest_Click(object sender, EventArgs e) {
             if (USB_Port_Open == true) { Task<bool> test2 = FirtInit(); }
             else MessageBox.Show("USB not connected");
+            //Task<bool> test2 = FirtInit();
         }
         //======================================================================
         private async Task<bool> FirtInit()
@@ -1805,7 +1810,9 @@ namespace iRIS_CLM_GUI_TEST_01
             {
                 this.Cursor = Cursors.WaitCursor;
 
-                bool test2 = await LoadGlobalTestArray(bulkSetLaserIO);
+                bool test2 = await CreateRepFile();
+
+                test2 = await LoadGlobalTestArray(bulkSetLaserIO);
                 test2 = await LoadGlobalTestArray(bulkSetTEC);
                 test2 = await LoadGlobalTestArray(bulkSetVarialble);
                 //test2 = await LoadGlobalTestArray(bulkSetdefaultCtrl);
@@ -2193,53 +2200,76 @@ namespace iRIS_CLM_GUI_TEST_01
             //======================================================================
         private async Task<bool> LIplot()
         {
-            int indx = dataADC.GetLength(1);
-            Rt_ReceiveDataUSB.AppendText(indx.ToString());
+                int indx = dataADC.GetLength(0);
 
-            const double startRp = 0.000;
-            const double stopRp =  5.000;
-            const double stepRp = 0.050;
+                const double startRp = 0.000;
+                const double stopRp = 5.000;
+                const double stepRp = 0.050;
 
-            bool initvga = false;
+                bool initvga = false;
 
-            if (Bt_LiPlot.BackColor == Color.Coral)
-            {
-                this.Cursor = Cursors.WaitCursor;
+                if (Bt_LiPlot.BackColor == Color.Coral) {
+                    this.Cursor = Cursors.WaitCursor;
 
-                Set_USB_Digit_Out(0, 0);//enable line
-                Set_USB_Digit_Out(1, 0);//
-                Tb_VPcon.Text = "00.000";
-                WriteDAC(0, 0);
-
-                if (Convert.ToBoolean(Read_USB_Digit_in(0)) == false)
-                {//Laser OK //test
-
-                    initvga = await SendToSerial(CmdLaserEnable, StrEnable, 300);//Laser Enable
-                    Set_USB_Digit_Out(0, 1);//Laser Enable
-                    //initvga = await ReadAllanlg(false);//test if OK
-                    bool boolCalVGA1 = await RampDAC1(startRp, stopRp, stepRp, true);//set VGA MAX power
-                    initvga = await SendToSerial(CmdLaserEnable, StrDisable, 300); //end VGA stop test
-                    Set_USB_Digit_Out(0, 0); //Laser Disable
+                    Set_USB_Digit_Out(0, 0);//enable line
+                    Set_USB_Digit_Out(1, 0);//
+                    Tb_VPcon.Text = "00.000";
                     WriteDAC(0, 0);
-                    //bool rdAnlg = await ReadAllanlg(false);
 
-                    Rt_ReceiveDataUSB.Clear();
+                    if (Convert.ToBoolean(Read_USB_Digit_in(0)) == false)
+                    {//Laser OK //test
 
-                    for (int arrLp = 0; arrLp < indx; arrLp++) {
-                        Rt_ReceiveDataUSB.AppendText(dataADC[arrLp, 0].ToString() + " " +
-                                                     dataADC[arrLp, 1].ToString() + " " +
-                                                     dataADC[arrLp, 3].ToString() + " " +
-                                                     Footer); }
+                        initvga = await SendToSerial(CmdLaserEnable, StrEnable, 300);//Laser Enable
+                        Set_USB_Digit_Out(0, 1);//Laser Enable
+                        initvga = await ReadAllanlg(false);//test if OK
 
-                    this.Cursor = Cursors.Default;
-                    Bt_LiPlot.BackColor = Color.LawnGreen;
+                        bool boolCalVGA1 = await RampDAC1(startRp, stopRp, stepRp, true);//set VGA MAX power
+
+                        initvga = await SendToSerial(CmdLaserEnable, StrDisable, 300); //end VGA stop test
+                        Set_USB_Digit_Out(0, 0); //Laser Disable
+                        WriteDAC(0, 0);
+                        bool rdAnlg = await ReadAllanlg(false);
+
+                        Rt_ReceiveDataUSB.Clear();
+
+                        for (int arrLp = 0; arrLp < indx; arrLp++) {
+                            Rt_ReceiveDataUSB.AppendText(dataADC[arrLp, 3].ToString() + " " +
+                                                         dataADC[arrLp, 0].ToString() + " " +
+                                                         dataADC[arrLp, 2].ToString() + " " +
+                                                         dataADC[arrLp, 1].ToString() + " " +
+                                                         Footer); }
+
+
+                    try
+                    {
+                            if (File.Exists(filePath))
+                            {
+
+                            using (StreamWriter fs = File.AppendText(filePath))
+                            {
+
+                                for (int arrLp = 0; arrLp < 100; arrLp++)
+                                {
+                                    fs.WriteLine(dataADC[arrLp, 3].ToString() + " " +
+                                                 dataADC[arrLp, 0].ToString() + " " +
+                                                 dataADC[arrLp, 2].ToString() + " " +
+                                                 dataADC[arrLp, 1].ToString());
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception err1) { MessageBox.Show(err1.Message); }
+
+                        this.Cursor = Cursors.Default;
+                        Bt_LiPlot.BackColor = Color.LawnGreen;
+                    }
+
                 }
-            }
-            else if (Bt_LiPlot.BackColor == Color.LawnGreen)
-            {
-                Bt_LiPlot.BackColor = Color.Coral;
-            }
-
+                else if (Bt_LiPlot.BackColor == Color.LawnGreen)
+                {
+                    Bt_LiPlot.BackColor = Color.Coral;
+                }
+ 
             return true;
         }
         //======================================================================
@@ -2392,62 +2422,26 @@ namespace iRIS_CLM_GUI_TEST_01
             return rtnAb;
         }
         //======================================================================
-        private void Bt_CreateFile_Click(object sender, EventArgs e)
+        private async Task<bool> CreateRepFile()
         {
-            Stream myStream;
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            string txtName = "Test Results " + Tb_SerNb.Text + ".txt";
+            filePath = "C:\\Log_01\\" + txtName;
+            Tb_txtFilePath.Text = filePath;
 
-            saveFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-            saveFileDialog1.FilterIndex = 2;
-            saveFileDialog1.RestoreDirectory = true;
+            await Task.Delay(1);
 
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            try
             {
-                if ((myStream = saveFileDialog1.OpenFile()) != null)
-                {
-                    // Code to write the stream goes here.
-                    myStream.Close();
-                }
+                using (FileStream fs = File.Create(filePath)) {
+                    Byte[] info = new UTF8Encoding(true).GetBytes(txtName + Footer + Footer);
+                    fs.Write(info, 0, info.Length);
+                    return true; }
             }
-
-            /*
-            // Displays a SaveFileDialog so the user can save the Image  
-            // assigned to Button2.  
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.Filter = "JPeg Image|*.jpg|Bitmap Image|*.bmp|Gif Image|*.gif";
-            saveFileDialog1.Title = "Save an Image File";
-            saveFileDialog1.ShowDialog();
-
-            // If the file name is not an empty string open it for saving.  
-            if (saveFileDialog1.FileName != "")
-            {
-                // Saves the Image via a FileStream created by the OpenFile method.  
-                System.IO.FileStream fs =
-                   (System.IO.FileStream)saveFileDialog1.OpenFile();
-                // Saves the Image in the appropriate ImageFormat based upon the  
-                // File type selected in the dialog box.  
-                // NOTE that the FilterIndex property is one-based.  
-                switch (saveFileDialog1.FilterIndex)
-                {
-                    case 1:
-                        this.button1.Image.Save(fs,
-                           System.Drawing.Imaging.ImageFormat.Jpeg);
-                        break;
-
-                    case 2:
-                        this.button1.Image.Save(fs,
-                           System.Drawing.Imaging.ImageFormat.Bmp);
-                        break;
-
-                    case 3:
-                        this.button1.Image.Save(fs,
-                           System.Drawing.Imaging.ImageFormat.Gif);
-                        break;
-                }
-                fs.Close();
-            }
-            */
+            catch (Exception err) {
+                MessageBox.Show(err.Message);
+                return false; }
         }
+        //======================================================================
         //======================================================================
     }
     //======================================================================

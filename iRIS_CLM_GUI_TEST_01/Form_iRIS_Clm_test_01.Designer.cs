@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.TbPg_InsTest = new System.Windows.Forms.TabPage();
+            this.Bt_LiPlot = new System.Windows.Forms.Button();
             this.Lbl_V_I_out = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.Bt_SetIntPwCal = new System.Windows.Forms.Button();
@@ -68,53 +69,16 @@
             this.Bt_RefrCOMs = new System.Windows.Forms.Button();
             this.lbl_SWLevel = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.tb_Cmd20Bit3 = new System.Windows.Forms.TextBox();
-            this.label21 = new System.Windows.Forms.Label();
-            this.tb_Cmd20Bit7 = new System.Windows.Forms.TextBox();
-            this.label20 = new System.Windows.Forms.Label();
-            this.tb_Cmd20Bit6 = new System.Windows.Forms.TextBox();
-            this.label19 = new System.Windows.Forms.Label();
-            this.tb_Cmd20Bit5 = new System.Windows.Forms.TextBox();
-            this.label18 = new System.Windows.Forms.Label();
-            this.tb_Cmd20Bit4 = new System.Windows.Forms.TextBox();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.tb_Cmd20Bit2 = new System.Windows.Forms.TextBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.tb_Cmd20Bit1 = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.tb_Cmd20Bit0 = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.tb_Cmd14Bit5 = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.tb_Cmd14Bit4 = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.tb_Cmd14Bit3 = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.tb_Cmd14Bit2 = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.tb_Cmd14Bit1 = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.tb_Cmd14Bit0 = new System.Windows.Forms.TextBox();
             this.lbl_SerNbReadBack = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label25 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
-            this.tb_Cmd34Bit0 = new System.Windows.Forms.TextBox();
-            this.tb_Cmd34Bit1 = new System.Windows.Forms.TextBox();
-            this.label23 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
-            this.tb_Cmd34Bit2 = new System.Windows.Forms.TextBox();
-            this.tb_Cmd34Bit3 = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.TbPg_Iris_Init = new System.Windows.Forms.TabPage();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.ChkBx_AnlgModSet = new System.Windows.Forms.CheckBox();
             this.ChkBx_DigitModSet = new System.Windows.Forms.CheckBox();
             this.ChkBx_EnableSet = new System.Windows.Forms.CheckBox();
             this.ChkBx_ExtPwCtrl = new System.Windows.Forms.CheckBox();
-            this.Bt_CreateFile = new System.Windows.Forms.Button();
             this.Lbl_MdlName = new System.Windows.Forms.Label();
             this.label58 = new System.Windows.Forms.Label();
             this.Tb_LaserPN = new System.Windows.Forms.TextBox();
@@ -127,6 +91,8 @@
             this.tb_TecSerNumb = new System.Windows.Forms.TextBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.TbPg_Results = new System.Windows.Forms.TabPage();
+            this.label28 = new System.Windows.Forms.Label();
+            this.Tb_txtFilePath = new System.Windows.Forms.TextBox();
             this.Lbl_RtnPwDACvalue = new System.Windows.Forms.Label();
             this.Bt_SetVGA = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -212,13 +178,8 @@
             this.Rt_ReceiveDataUSB = new System.Windows.Forms.RichTextBox();
             this.Bt_RdLaserStatus = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Bt_LiPlot = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.TbPg_InsTest.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.groupBox5.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.TbPg_Iris_Init.SuspendLayout();
             this.TbPg_Results.SuspendLayout();
@@ -258,10 +219,8 @@
             this.TbPg_InsTest.Controls.Add(this.groupBox1);
             this.TbPg_InsTest.Controls.Add(this.lbl_SWLevel);
             this.TbPg_InsTest.Controls.Add(this.label27);
-            this.TbPg_InsTest.Controls.Add(this.groupBox5);
             this.TbPg_InsTest.Controls.Add(this.lbl_SerNbReadBack);
             this.TbPg_InsTest.Controls.Add(this.label29);
-            this.TbPg_InsTest.Controls.Add(this.groupBox3);
             this.TbPg_InsTest.ForeColor = System.Drawing.Color.DarkBlue;
             this.TbPg_InsTest.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.TbPg_InsTest.Location = new System.Drawing.Point(4, 22);
@@ -270,6 +229,18 @@
             this.TbPg_InsTest.Size = new System.Drawing.Size(692, 566);
             this.TbPg_InsTest.TabIndex = 1;
             this.TbPg_InsTest.Text = "Laser Calibration";
+            // 
+            // Bt_LiPlot
+            // 
+            this.Bt_LiPlot.BackColor = System.Drawing.Color.Coral;
+            this.Bt_LiPlot.Location = new System.Drawing.Point(221, 407);
+            this.Bt_LiPlot.Name = "Bt_LiPlot";
+            this.Bt_LiPlot.Size = new System.Drawing.Size(87, 39);
+            this.Bt_LiPlot.TabIndex = 320;
+            this.Bt_LiPlot.TabStop = false;
+            this.Bt_LiPlot.Text = "Final Check   LI plot";
+            this.Bt_LiPlot.UseVisualStyleBackColor = false;
+            this.Bt_LiPlot.Click += new System.EventHandler(this.Bt_LiPlot_Click);
             // 
             // Lbl_V_I_out
             // 
@@ -675,295 +646,6 @@
             this.label27.TabIndex = 269;
             this.label27.Text = "SW Level:";
             // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.tb_Cmd20Bit3);
-            this.groupBox5.Controls.Add(this.label21);
-            this.groupBox5.Controls.Add(this.tb_Cmd20Bit7);
-            this.groupBox5.Controls.Add(this.label20);
-            this.groupBox5.Controls.Add(this.tb_Cmd20Bit6);
-            this.groupBox5.Controls.Add(this.label19);
-            this.groupBox5.Controls.Add(this.tb_Cmd20Bit5);
-            this.groupBox5.Controls.Add(this.label18);
-            this.groupBox5.Controls.Add(this.tb_Cmd20Bit4);
-            this.groupBox5.Controls.Add(this.label17);
-            this.groupBox5.Controls.Add(this.label16);
-            this.groupBox5.Controls.Add(this.tb_Cmd20Bit2);
-            this.groupBox5.Controls.Add(this.label15);
-            this.groupBox5.Controls.Add(this.tb_Cmd20Bit1);
-            this.groupBox5.Controls.Add(this.label14);
-            this.groupBox5.Controls.Add(this.tb_Cmd20Bit0);
-            this.groupBox5.Controls.Add(this.label13);
-            this.groupBox5.Controls.Add(this.tb_Cmd14Bit5);
-            this.groupBox5.Controls.Add(this.label12);
-            this.groupBox5.Controls.Add(this.tb_Cmd14Bit4);
-            this.groupBox5.Controls.Add(this.label11);
-            this.groupBox5.Controls.Add(this.tb_Cmd14Bit3);
-            this.groupBox5.Controls.Add(this.label10);
-            this.groupBox5.Controls.Add(this.tb_Cmd14Bit2);
-            this.groupBox5.Controls.Add(this.label9);
-            this.groupBox5.Controls.Add(this.tb_Cmd14Bit1);
-            this.groupBox5.Controls.Add(this.label7);
-            this.groupBox5.Controls.Add(this.tb_Cmd14Bit0);
-            this.groupBox5.Location = new System.Drawing.Point(463, 346);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(226, 217);
-            this.groupBox5.TabIndex = 268;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Set & Test";
-            // 
-            // tb_Cmd20Bit3
-            // 
-            this.tb_Cmd20Bit3.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd20Bit3.Location = new System.Drawing.Point(114, 80);
-            this.tb_Cmd20Bit3.Name = "tb_Cmd20Bit3";
-            this.tb_Cmd20Bit3.Size = new System.Drawing.Size(11, 20);
-            this.tb_Cmd20Bit3.TabIndex = 195;
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.BackColor = System.Drawing.Color.Transparent;
-            this.label21.Location = new System.Drawing.Point(135, 189);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(64, 13);
-            this.label21.TabIndex = 222;
-            this.label21.Text = "Int. Pw. Ctrl.";
-            // 
-            // tb_Cmd20Bit7
-            // 
-            this.tb_Cmd20Bit7.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd20Bit7.Location = new System.Drawing.Point(114, 186);
-            this.tb_Cmd20Bit7.Name = "tb_Cmd20Bit7";
-            this.tb_Cmd20Bit7.Size = new System.Drawing.Size(11, 20);
-            this.tb_Cmd20Bit7.TabIndex = 221;
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.BackColor = System.Drawing.Color.Transparent;
-            this.label20.Location = new System.Drawing.Point(135, 163);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(68, 13);
-            this.label20.TabIndex = 220;
-            this.label20.Text = "VGA Pw. OK";
-            // 
-            // tb_Cmd20Bit6
-            // 
-            this.tb_Cmd20Bit6.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd20Bit6.Location = new System.Drawing.Point(114, 160);
-            this.tb_Cmd20Bit6.Name = "tb_Cmd20Bit6";
-            this.tb_Cmd20Bit6.Size = new System.Drawing.Size(11, 20);
-            this.tb_Cmd20Bit6.TabIndex = 219;
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.BackColor = System.Drawing.Color.Transparent;
-            this.label19.Location = new System.Drawing.Point(135, 137);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(72, 13);
-            this.label19.TabIndex = 218;
-            this.label19.Text = "VGA Gain OK";
-            // 
-            // tb_Cmd20Bit5
-            // 
-            this.tb_Cmd20Bit5.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd20Bit5.Location = new System.Drawing.Point(114, 134);
-            this.tb_Cmd20Bit5.Name = "tb_Cmd20Bit5";
-            this.tb_Cmd20Bit5.Size = new System.Drawing.Size(11, 20);
-            this.tb_Cmd20Bit5.TabIndex = 217;
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.BackColor = System.Drawing.Color.Transparent;
-            this.label18.Location = new System.Drawing.Point(135, 111);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(65, 13);
-            this.label18.TabIndex = 216;
-            this.label18.Text = "PSU Enable";
-            // 
-            // tb_Cmd20Bit4
-            // 
-            this.tb_Cmd20Bit4.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd20Bit4.Location = new System.Drawing.Point(114, 108);
-            this.tb_Cmd20Bit4.Name = "tb_Cmd20Bit4";
-            this.tb_Cmd20Bit4.Size = new System.Drawing.Size(11, 20);
-            this.tb_Cmd20Bit4.TabIndex = 215;
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.BackColor = System.Drawing.Color.Transparent;
-            this.label17.Location = new System.Drawing.Point(135, 83);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(47, 13);
-            this.label17.TabIndex = 214;
-            this.label17.Text = "PSU OK";
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.BackColor = System.Drawing.Color.Transparent;
-            this.label16.Location = new System.Drawing.Point(135, 57);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(79, 13);
-            this.label16.TabIndex = 212;
-            this.label16.Text = "Anlg. Mod. Inv.";
-            // 
-            // tb_Cmd20Bit2
-            // 
-            this.tb_Cmd20Bit2.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd20Bit2.Location = new System.Drawing.Point(114, 54);
-            this.tb_Cmd20Bit2.Name = "tb_Cmd20Bit2";
-            this.tb_Cmd20Bit2.Size = new System.Drawing.Size(11, 20);
-            this.tb_Cmd20Bit2.TabIndex = 211;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.BackColor = System.Drawing.Color.Transparent;
-            this.label15.Location = new System.Drawing.Point(135, 31);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(59, 13);
-            this.label15.TabIndex = 210;
-            this.label15.Text = "Enable Set";
-            // 
-            // tb_Cmd20Bit1
-            // 
-            this.tb_Cmd20Bit1.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd20Bit1.Location = new System.Drawing.Point(114, 28);
-            this.tb_Cmd20Bit1.Name = "tb_Cmd20Bit1";
-            this.tb_Cmd20Bit1.Size = new System.Drawing.Size(11, 20);
-            this.tb_Cmd20Bit1.TabIndex = 209;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.BackColor = System.Drawing.Color.Transparent;
-            this.label14.Location = new System.Drawing.Point(33, 31);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(69, 13);
-            this.label14.TabIndex = 208;
-            this.label14.Text = "TTL Inverted";
-            // 
-            // tb_Cmd20Bit0
-            // 
-            this.tb_Cmd20Bit0.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd20Bit0.Location = new System.Drawing.Point(12, 28);
-            this.tb_Cmd20Bit0.Name = "tb_Cmd20Bit0";
-            this.tb_Cmd20Bit0.Size = new System.Drawing.Size(11, 20);
-            this.tb_Cmd20Bit0.TabIndex = 207;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.BackColor = System.Drawing.Color.Transparent;
-            this.label13.Location = new System.Drawing.Point(33, 189);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(69, 13);
-            this.label13.TabIndex = 206;
-            this.label13.Text = "Laser Enable";
-            // 
-            // tb_Cmd14Bit5
-            // 
-            this.tb_Cmd14Bit5.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd14Bit5.Location = new System.Drawing.Point(12, 186);
-            this.tb_Cmd14Bit5.Name = "tb_Cmd14Bit5";
-            this.tb_Cmd14Bit5.Size = new System.Drawing.Size(11, 20);
-            this.tb_Cmd14Bit5.TabIndex = 205;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.BackColor = System.Drawing.Color.Transparent;
-            this.label12.Location = new System.Drawing.Point(33, 163);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(54, 13);
-            this.label12.TabIndex = 204;
-            this.label12.Text = "Boot Error";
-            // 
-            // tb_Cmd14Bit4
-            // 
-            this.tb_Cmd14Bit4.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd14Bit4.Location = new System.Drawing.Point(12, 160);
-            this.tb_Cmd14Bit4.Name = "tb_Cmd14Bit4";
-            this.tb_Cmd14Bit4.Size = new System.Drawing.Size(11, 20);
-            this.tb_Cmd14Bit4.TabIndex = 203;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.BackColor = System.Drawing.Color.Transparent;
-            this.label11.Location = new System.Drawing.Point(33, 135);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(56, 13);
-            this.label11.TabIndex = 202;
-            this.label11.Text = "Lock Error";
-            // 
-            // tb_Cmd14Bit3
-            // 
-            this.tb_Cmd14Bit3.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd14Bit3.Location = new System.Drawing.Point(12, 132);
-            this.tb_Cmd14Bit3.Name = "tb_Cmd14Bit3";
-            this.tb_Cmd14Bit3.Size = new System.Drawing.Size(11, 20);
-            this.tb_Cmd14Bit3.TabIndex = 201;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.BackColor = System.Drawing.Color.Transparent;
-            this.label10.Location = new System.Drawing.Point(33, 109);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(62, 13);
-            this.label10.TabIndex = 200;
-            this.label10.Text = "Temp. Error";
-            // 
-            // tb_Cmd14Bit2
-            // 
-            this.tb_Cmd14Bit2.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd14Bit2.Location = new System.Drawing.Point(12, 106);
-            this.tb_Cmd14Bit2.Name = "tb_Cmd14Bit2";
-            this.tb_Cmd14Bit2.Size = new System.Drawing.Size(11, 20);
-            this.tb_Cmd14Bit2.TabIndex = 199;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.BackColor = System.Drawing.Color.Transparent;
-            this.label9.Location = new System.Drawing.Point(33, 83);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(66, 13);
-            this.label9.TabIndex = 198;
-            this.label9.Text = "Current Error";
-            // 
-            // tb_Cmd14Bit1
-            // 
-            this.tb_Cmd14Bit1.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd14Bit1.Location = new System.Drawing.Point(12, 80);
-            this.tb_Cmd14Bit1.Name = "tb_Cmd14Bit1";
-            this.tb_Cmd14Bit1.Size = new System.Drawing.Size(11, 20);
-            this.tb_Cmd14Bit1.TabIndex = 197;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.BackColor = System.Drawing.Color.Transparent;
-            this.label7.Location = new System.Drawing.Point(33, 57);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(62, 13);
-            this.label7.TabIndex = 194;
-            this.label7.Text = "Power Error";
-            // 
-            // tb_Cmd14Bit0
-            // 
-            this.tb_Cmd14Bit0.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd14Bit0.Location = new System.Drawing.Point(12, 54);
-            this.tb_Cmd14Bit0.Name = "tb_Cmd14Bit0";
-            this.tb_Cmd14Bit0.Size = new System.Drawing.Size(11, 20);
-            this.tb_Cmd14Bit0.TabIndex = 190;
-            // 
             // lbl_SerNbReadBack
             // 
             this.lbl_SerNbReadBack.AutoSize = true;
@@ -971,7 +653,7 @@
             this.lbl_SerNbReadBack.Name = "lbl_SerNbReadBack";
             this.lbl_SerNbReadBack.Size = new System.Drawing.Size(55, 13);
             this.lbl_SerNbReadBack.TabIndex = 267;
-            this.lbl_SerNbReadBack.Text = "12345678";
+            this.lbl_SerNbReadBack.Text = "00000000";
             this.lbl_SerNbReadBack.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label29
@@ -982,93 +664,6 @@
             this.label29.Size = new System.Drawing.Size(84, 13);
             this.label29.TabIndex = 266;
             this.label29.Text = "Board Serial Nb:";
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.BackColor = System.Drawing.Color.Transparent;
-            this.groupBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.groupBox3.Controls.Add(this.label25);
-            this.groupBox3.Controls.Add(this.label24);
-            this.groupBox3.Controls.Add(this.tb_Cmd34Bit0);
-            this.groupBox3.Controls.Add(this.tb_Cmd34Bit1);
-            this.groupBox3.Controls.Add(this.label23);
-            this.groupBox3.Controls.Add(this.label22);
-            this.groupBox3.Controls.Add(this.tb_Cmd34Bit2);
-            this.groupBox3.Controls.Add(this.tb_Cmd34Bit3);
-            this.groupBox3.Location = new System.Drawing.Point(554, 206);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(135, 140);
-            this.groupBox3.TabIndex = 231;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Status bits";
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(33, 110);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(87, 13);
-            this.label25.TabIndex = 230;
-            this.label25.Text = "Lsr. EN Out CPU";
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(33, 85);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(67, 13);
-            this.label24.TabIndex = 228;
-            this.label24.Text = "TEC Fault_Z";
-            // 
-            // tb_Cmd34Bit0
-            // 
-            this.tb_Cmd34Bit0.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd34Bit0.Location = new System.Drawing.Point(16, 28);
-            this.tb_Cmd34Bit0.Name = "tb_Cmd34Bit0";
-            this.tb_Cmd34Bit0.Size = new System.Drawing.Size(11, 20);
-            this.tb_Cmd34Bit0.TabIndex = 223;
-            // 
-            // tb_Cmd34Bit1
-            // 
-            this.tb_Cmd34Bit1.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd34Bit1.Location = new System.Drawing.Point(16, 54);
-            this.tb_Cmd34Bit1.Name = "tb_Cmd34Bit1";
-            this.tb_Cmd34Bit1.Size = new System.Drawing.Size(11, 20);
-            this.tb_Cmd34Bit1.TabIndex = 225;
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(33, 58);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(72, 13);
-            this.label23.TabIndex = 226;
-            this.label23.Text = "Dig. Mod. Set";
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(33, 33);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(71, 13);
-            this.label22.TabIndex = 224;
-            this.label22.Text = "Laser En. Set";
-            // 
-            // tb_Cmd34Bit2
-            // 
-            this.tb_Cmd34Bit2.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd34Bit2.Location = new System.Drawing.Point(16, 80);
-            this.tb_Cmd34Bit2.Name = "tb_Cmd34Bit2";
-            this.tb_Cmd34Bit2.Size = new System.Drawing.Size(11, 20);
-            this.tb_Cmd34Bit2.TabIndex = 227;
-            // 
-            // tb_Cmd34Bit3
-            // 
-            this.tb_Cmd34Bit3.BackColor = System.Drawing.Color.Red;
-            this.tb_Cmd34Bit3.Location = new System.Drawing.Point(16, 107);
-            this.tb_Cmd34Bit3.Name = "tb_Cmd34Bit3";
-            this.tb_Cmd34Bit3.Size = new System.Drawing.Size(11, 20);
-            this.tb_Cmd34Bit3.TabIndex = 229;
             // 
             // tabControl1
             // 
@@ -1089,7 +684,6 @@
             this.TbPg_Iris_Init.Controls.Add(this.ChkBx_DigitModSet);
             this.TbPg_Iris_Init.Controls.Add(this.ChkBx_EnableSet);
             this.TbPg_Iris_Init.Controls.Add(this.ChkBx_ExtPwCtrl);
-            this.TbPg_Iris_Init.Controls.Add(this.Bt_CreateFile);
             this.TbPg_Iris_Init.Controls.Add(this.Lbl_MdlName);
             this.TbPg_Iris_Init.Controls.Add(this.label58);
             this.TbPg_Iris_Init.Controls.Add(this.Tb_LaserPN);
@@ -1108,6 +702,26 @@
             this.TbPg_Iris_Init.TabIndex = 0;
             this.TbPg_Iris_Init.Text = "iRIS Laser Init.";
             this.TbPg_Iris_Init.UseVisualStyleBackColor = true;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(497, 119);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(56, 20);
+            this.label5.TabIndex = 333;
+            this.label5.Text = "- - - mW";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(433, 118);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(55, 20);
+            this.label3.TabIndex = 332;
+            this.label3.Text = " - - - nm";
             // 
             // ChkBx_AnlgModSet
             // 
@@ -1155,16 +769,6 @@
             this.ChkBx_ExtPwCtrl.Text = "External Pw Ctrl.";
             this.ChkBx_ExtPwCtrl.UseVisualStyleBackColor = true;
             // 
-            // Bt_CreateFile
-            // 
-            this.Bt_CreateFile.Location = new System.Drawing.Point(41, 126);
-            this.Bt_CreateFile.Name = "Bt_CreateFile";
-            this.Bt_CreateFile.Size = new System.Drawing.Size(96, 36);
-            this.Bt_CreateFile.TabIndex = 292;
-            this.Bt_CreateFile.Text = "*.txt test file";
-            this.Bt_CreateFile.UseVisualStyleBackColor = true;
-            this.Bt_CreateFile.Click += new System.EventHandler(this.Bt_CreateFile_Click);
-            // 
             // Lbl_MdlName
             // 
             this.Lbl_MdlName.AutoSize = true;
@@ -1186,7 +790,7 @@
             // 
             // Tb_LaserPN
             // 
-            this.Tb_LaserPN.BackColor = System.Drawing.Color.Thistle;
+            this.Tb_LaserPN.BackColor = System.Drawing.Color.White;
             this.Tb_LaserPN.Location = new System.Drawing.Point(286, 117);
             this.Tb_LaserPN.Name = "Tb_LaserPN";
             this.Tb_LaserPN.Size = new System.Drawing.Size(65, 20);
@@ -1206,7 +810,7 @@
             // 
             // Tb_SerNb
             // 
-            this.Tb_SerNb.BackColor = System.Drawing.Color.Thistle;
+            this.Tb_SerNb.BackColor = System.Drawing.Color.White;
             this.Tb_SerNb.Location = new System.Drawing.Point(286, 66);
             this.Tb_SerNb.Name = "Tb_SerNb";
             this.Tb_SerNb.Size = new System.Drawing.Size(65, 20);
@@ -1257,7 +861,7 @@
             // 
             // tb_TecSerNumb
             // 
-            this.tb_TecSerNumb.BackColor = System.Drawing.Color.Thistle;
+            this.tb_TecSerNumb.BackColor = System.Drawing.Color.White;
             this.tb_TecSerNumb.Location = new System.Drawing.Point(286, 92);
             this.tb_TecSerNumb.Name = "tb_TecSerNumb";
             this.tb_TecSerNumb.Size = new System.Drawing.Size(65, 20);
@@ -1281,6 +885,8 @@
             // 
             // TbPg_Results
             // 
+            this.TbPg_Results.Controls.Add(this.label28);
+            this.TbPg_Results.Controls.Add(this.Tb_txtFilePath);
             this.TbPg_Results.Controls.Add(this.Lbl_RtnPwDACvalue);
             this.TbPg_Results.Controls.Add(this.Bt_SetVGA);
             this.TbPg_Results.Controls.Add(this.groupBox2);
@@ -1363,6 +969,23 @@
             this.TbPg_Results.TabIndex = 3;
             this.TbPg_Results.Text = "Engineering";
             this.TbPg_Results.UseVisualStyleBackColor = true;
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(307, 525);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(65, 13);
+            this.label28.TabIndex = 346;
+            this.label28.Text = "*.txt file path";
+            // 
+            // Tb_txtFilePath
+            // 
+            this.Tb_txtFilePath.Location = new System.Drawing.Point(304, 541);
+            this.Tb_txtFilePath.Name = "Tb_txtFilePath";
+            this.Tb_txtFilePath.Size = new System.Drawing.Size(220, 20);
+            this.Tb_txtFilePath.TabIndex = 345;
+            this.Tb_txtFilePath.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // Lbl_RtnPwDACvalue
             // 
@@ -2177,38 +1800,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(683, 96);
             this.dataGridView1.TabIndex = 6;
             // 
-            // Bt_LiPlot
-            // 
-            this.Bt_LiPlot.BackColor = System.Drawing.Color.Coral;
-            this.Bt_LiPlot.Location = new System.Drawing.Point(221, 407);
-            this.Bt_LiPlot.Name = "Bt_LiPlot";
-            this.Bt_LiPlot.Size = new System.Drawing.Size(87, 39);
-            this.Bt_LiPlot.TabIndex = 320;
-            this.Bt_LiPlot.TabStop = false;
-            this.Bt_LiPlot.Text = "LI plot";
-            this.Bt_LiPlot.UseVisualStyleBackColor = false;
-            this.Bt_LiPlot.Click += new System.EventHandler(this.Bt_LiPlot_Click);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(433, 118);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(55, 20);
-            this.label3.TabIndex = 332;
-            this.label3.Text = " - - - nm";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(497, 119);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(56, 20);
-            this.label5.TabIndex = 333;
-            this.label5.Text = "- - - mW";
-            // 
             // Form_iRIS_Clm_test_01
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2223,10 +1814,6 @@
             this.TbPg_InsTest.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.TbPg_Iris_Init.ResumeLayout(false);
             this.TbPg_Iris_Init.PerformLayout();
@@ -2243,35 +1830,6 @@
         private System.Windows.Forms.TabPage TbPg_InsTest;
         private System.Windows.Forms.Label lbl_SWLevel;
         private System.Windows.Forms.Label label27;
-        private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.TextBox tb_Cmd20Bit3;
-        private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.TextBox tb_Cmd20Bit7;
-        private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.TextBox tb_Cmd20Bit6;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.TextBox tb_Cmd20Bit5;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.TextBox tb_Cmd20Bit4;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.TextBox tb_Cmd20Bit2;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.TextBox tb_Cmd20Bit1;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.TextBox tb_Cmd20Bit0;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.TextBox tb_Cmd14Bit5;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox tb_Cmd14Bit4;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox tb_Cmd14Bit3;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox tb_Cmd14Bit2;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox tb_Cmd14Bit1;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox tb_Cmd14Bit0;
         private System.Windows.Forms.Label lbl_SerNbReadBack;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Label lbl_RdAdd;
@@ -2284,15 +1842,6 @@
         private System.Windows.Forms.Button Bt_USBcom;
         private System.Windows.Forms.ComboBox Cb_USB;
         private System.Windows.Forms.Button Bt_RefrCOMs;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.TextBox tb_Cmd34Bit0;
-        private System.Windows.Forms.TextBox tb_Cmd34Bit1;
-        private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.TextBox tb_Cmd34Bit2;
-        private System.Windows.Forms.TextBox tb_Cmd34Bit3;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage TbPg_Iris_Init;
         private System.Windows.Forms.TextBox tb_TecSerNumb;
@@ -2419,7 +1968,6 @@
         private System.Windows.Forms.Label Lbl_RtnPwDACvalue;
         private System.Windows.Forms.Label Lbl_V_I_out;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button Bt_CreateFile;
         private System.Windows.Forms.CheckBox ChkBx_AnlgModSet;
         private System.Windows.Forms.CheckBox ChkBx_DigitModSet;
         private System.Windows.Forms.CheckBox ChkBx_EnableSet;
@@ -2427,6 +1975,8 @@
         private System.Windows.Forms.Button Bt_LiPlot;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.TextBox Tb_txtFilePath;
     }
 }
 
