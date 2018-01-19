@@ -1875,6 +1875,7 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private async Task<bool> CalVGA()
         {
+            /* this is used to pass by reference(?) but not used for the monent
             var startRp = new Ref<double>();
             var stopRp = new Ref<double>();
 
@@ -1884,13 +1885,19 @@ namespace iRIS_CLM_GUI_TEST_01
             else if (ChkBx_AnlgModSet.Checked == false) {
                 startRp = 5.000;
                 stopRp =  0.000; }
+            */
 
-            //const double startRp = 0.000;
-            //const double stopRp =  5.000;
-            const double stepRp =  0.050;
+            const double startRp = 0.000;
+            const double stopRp =  5.000;
+            const double stepRp =  0.020;//value 0.01..0.05..
             double calPower = 0;
             double setOffSet = 0;
             double setPower = Convert.ToDouble(Tb_minMaxPw.Text);
+
+            string Pw_Pcon_0V = string.Empty;
+            string Pw_Pcon_055V = string.Empty;
+            string Pw_Pcon_500V = string.Empty;
+            string Pw_EnOff = string.Empty;
 
             string offset = string.Empty;
             bool initvga = false;
@@ -1943,7 +1950,7 @@ namespace iRIS_CLM_GUI_TEST_01
                         }
 
                         WriteDAC(0.500, 0); //set to 0.5V PCON with above VGA
-                        await Task.Delay(100);
+                        await Task.Delay(200);
 
                         for (int j = 0; j < 59; j++) //adjust V offset
                         {
@@ -1965,12 +1972,47 @@ namespace iRIS_CLM_GUI_TEST_01
                 }
                 else MessageBox.Show("Laser NOT OK");
 
-                initvga = await SendToSerial(CmdLaserEnable, StrDisable, 300); //end VGA stop test
-                Set_USB_Digit_Out(0, 0); //Laser Disable
-                WriteDAC(0, 0);
-                Lbl_VGAval.Text = Tb_VGASet.Text; //actualise VGA value on TAB2
-                bool rdAnlg = await ReadAllanlg(false);
+                WriteDAC(5, 0);
+                await Task.Delay(300);
+                initvga = await ReadAllanlg(false);
+                Pw_Pcon_500V = Lbl_PM100rd.Text;
+
+                WriteDAC(0.55, 0);
+                await Task.Delay(300);
+                initvga = await ReadAllanlg(false);
+                Pw_Pcon_055V = Lbl_PM100rd.Text;
                 
+                WriteDAC(0, 0);
+                await Task.Delay(300);
+                initvga = await ReadAllanlg(false);
+                Pw_Pcon_0V = Lbl_PM100rd.Text;
+
+                Set_USB_Digit_Out(0, 0); //Laser Disable
+                await Task.Delay(300);
+                initvga = await ReadAllanlg(false);
+                Pw_EnOff = Lbl_PM100rd.Text;
+
+                initvga = await SendToSerial(CmdLaserEnable, StrDisable, 300); //end VGA stop test
+                
+                Lbl_VGAval.Text = Tb_VGASet.Text; //actualise VGA value on TAB2
+
+                /*************************************************/
+                try
+                {
+                    if (File.Exists(filePath))
+                    {
+                        using (StreamWriter fs = File.AppendText(filePath))
+                        {
+                            fs.WriteLine("Power @ 5V Pcon: " + Pw_Pcon_500V);
+                            fs.WriteLine("Power @ 0.55V Pcon: " + Pw_Pcon_055V);
+                            fs.WriteLine("Power @ 0V Pcon: " + Pw_Pcon_0V);
+                            fs.WriteLine("Power @ En. Off: " + Pw_EnOff);
+                        }
+                    }
+                }
+                catch (Exception err1) { MessageBox.Show(err1.Message); }
+                /*************************************************/
+
                 this.Cursor = Cursors.Default;
                 Bt_CalVGA.BackColor = Color.LawnGreen;
             }
@@ -1998,12 +2040,16 @@ namespace iRIS_CLM_GUI_TEST_01
             bool rdIcal = await SendToSerial(CmdLaserEnable, StrEnable, 300);
 
             double lsrCurrRead = ReadADC(2);//Current monitor voltage
-            Lbl_V_I_out.Text = lsrCurrRead.ToString("00.000");
+            Lbl_V_I_out.Text = lsrCurrRead.ToString("00.000");//make sure it is the right label updated...
             rdIcal = await SendToSerial(CmdCurrentRead, StrDisable, 300);//read current value from cpu displayed on label
 
             rdIcal = await SendToSerial(CmdSet0mA, StrDisable ,600);//zero value cal
             rdIcal = await SendToSerial(CmdCurrentRead, StrDisable, 300);//recheck new cpu value...same voltage offset at Imon OUT
             rdIcal = await ReadAllanlg(false);
+
+                /*************************************************/
+                try { if (File.Exists(filePath)) { using (StreamWriter fs = File.AppendText(filePath)) { fs.WriteLine("Vout I Mon @ 0V Pcon: " + Lbl_V_I_out.Text); } } }
+                catch (Exception err1) { MessageBox.Show(err1.Message); }
 
                 this.Cursor = Cursors.Default;
                 Bt_ZeroI.BackColor = Color.LawnGreen;
@@ -2068,13 +2114,16 @@ namespace iRIS_CLM_GUI_TEST_01
             return true;
         }
         //======================================================================
-        private void Bt_FinalLsSetup_Click(object sender, EventArgs e) { Task<bool> endSetup = LsFinalSet(); }
+        private void Bt_FinalLsSetup_Click(object sender, EventArgs e)
+        {
+            if (Bt_FinalLsSetup.BackColor == Color.Coral) { Task<bool> endSetup = LsFinalSet(); }
+            else if (Bt_FinalLsSetup.BackColor == Color.LawnGreen) { Bt_FinalLsSetup.BackColor = Color.Coral; }
+        }
         //======================================================================
-        private async Task<bool> LsFinalSet()//load data in laser
+        private async Task<bool> LsFinalSet() //load data in laser
         {
             bool finalSet = false;
-
-            if (Bt_FinalLsSetup.BackColor == Color.Coral) {
+            
                 this.Cursor = Cursors.WaitCursor;
                 finalSet = await LoadGlobalTestArray(bulkSetFinalSetup);
 
@@ -2106,9 +2155,8 @@ namespace iRIS_CLM_GUI_TEST_01
                 catch (Exception err1) { MessageBox.Show(err1.Message); }
 
                 this.Cursor = Cursors.Default;
-                Bt_FinalLsSetup.BackColor = Color.LawnGreen; }
+                Bt_FinalLsSetup.BackColor = Color.LawnGreen;
 
-            else if (Bt_FinalLsSetup.BackColor == Color.LawnGreen) { Bt_FinalLsSetup.BackColor = Color.Coral; } 
             return true; 
         }
         //======================================================================
