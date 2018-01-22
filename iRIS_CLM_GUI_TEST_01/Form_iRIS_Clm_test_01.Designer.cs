@@ -73,6 +73,8 @@
             this.label29 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.TbPg_Iris_Init = new System.Windows.Forms.TabPage();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.Lbl_Wlgth1 = new System.Windows.Forms.Label();
             this.ChkBx_AnlgModSet = new System.Windows.Forms.CheckBox();
@@ -178,8 +180,7 @@
             this.Rt_ReceiveDataUSB = new System.Windows.Forms.RichTextBox();
             this.Bt_RdLaserStatus = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.Bt_ShipState = new System.Windows.Forms.Button();
             this.TbPg_InsTest.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -191,6 +192,7 @@
             // 
             // TbPg_InsTest
             // 
+            this.TbPg_InsTest.Controls.Add(this.Bt_ShipState);
             this.TbPg_InsTest.Controls.Add(this.Bt_LiPlot);
             this.TbPg_InsTest.Controls.Add(this.Lbl_V_I_out);
             this.TbPg_InsTest.Controls.Add(this.label4);
@@ -235,12 +237,12 @@
             // Bt_LiPlot
             // 
             this.Bt_LiPlot.BackColor = System.Drawing.Color.Coral;
-            this.Bt_LiPlot.Location = new System.Drawing.Point(221, 407);
+            this.Bt_LiPlot.Location = new System.Drawing.Point(108, 407);
             this.Bt_LiPlot.Name = "Bt_LiPlot";
             this.Bt_LiPlot.Size = new System.Drawing.Size(87, 39);
             this.Bt_LiPlot.TabIndex = 320;
             this.Bt_LiPlot.TabStop = false;
-            this.Bt_LiPlot.Text = "Final Check   LI Plot";
+            this.Bt_LiPlot.Text = "LI Plot";
             this.Bt_LiPlot.UseVisualStyleBackColor = false;
             this.Bt_LiPlot.Click += new System.EventHandler(this.Bt_LiPlot_Click);
             // 
@@ -414,7 +416,7 @@
             this.Bt_FinalLsSetup.Size = new System.Drawing.Size(87, 39);
             this.Bt_FinalLsSetup.TabIndex = 300;
             this.Bt_FinalLsSetup.TabStop = false;
-            this.Bt_FinalLsSetup.Text = "Final Laser Setup";
+            this.Bt_FinalLsSetup.Text = "Load Data Set 01";
             this.Bt_FinalLsSetup.UseVisualStyleBackColor = false;
             this.Bt_FinalLsSetup.Click += new System.EventHandler(this.Bt_FinalLsSetup_Click);
             // 
@@ -707,6 +709,26 @@
             this.TbPg_Iris_Init.Text = "iRIS Laser Init.";
             this.TbPg_Iris_Init.UseVisualStyleBackColor = true;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(557, 118);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(32, 20);
+            this.label3.TabIndex = 335;
+            this.label3.Text = "mW";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(467, 118);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(31, 20);
+            this.label7.TabIndex = 334;
+            this.label7.Text = " nm";
+            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -990,7 +1012,6 @@
             this.Tb_txtFilePath.Name = "Tb_txtFilePath";
             this.Tb_txtFilePath.Size = new System.Drawing.Size(220, 20);
             this.Tb_txtFilePath.TabIndex = 345;
-            this.Tb_txtFilePath.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // Lbl_RtnPwDACvalue
             // 
@@ -1805,25 +1826,17 @@
             this.dataGridView1.Size = new System.Drawing.Size(683, 96);
             this.dataGridView1.TabIndex = 6;
             // 
-            // label7
+            // Bt_ShipState
             // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(467, 118);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(31, 20);
-            this.label7.TabIndex = 334;
-            this.label7.Text = " nm";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(557, 118);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(32, 20);
-            this.label3.TabIndex = 335;
-            this.label3.Text = "mW";
+            this.Bt_ShipState.BackColor = System.Drawing.Color.Coral;
+            this.Bt_ShipState.Location = new System.Drawing.Point(10, 481);
+            this.Bt_ShipState.Name = "Bt_ShipState";
+            this.Bt_ShipState.Size = new System.Drawing.Size(87, 39);
+            this.Bt_ShipState.TabIndex = 321;
+            this.Bt_ShipState.TabStop = false;
+            this.Bt_ShipState.Text = "Shiping State";
+            this.Bt_ShipState.UseVisualStyleBackColor = false;
+            this.Bt_ShipState.Click += new System.EventHandler(this.Bt_ShipState_Click);
             // 
             // Form_iRIS_Clm_test_01
             // 
@@ -2004,6 +2017,7 @@
         private System.Windows.Forms.TextBox Tb_txtFilePath;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button Bt_ShipState;
     }
 }
 

@@ -121,14 +121,14 @@ namespace iRIS_CLM_GUI_TEST_01
             { CmdSetTECena_dis,     StrEnable} };
 
         string[,] bulkSetVarialble = new string[14, 2] {
-            {CmdTestMode,       StrEnable },
-            {CmdSetWavelenght,    StrDisable},
-            {CmdSetLsMominalPw,   StrDisable},
-            {CmdSetMaxIop,        StrDisable},
-            {CmdSetModel,         StrDisable},
-            {CmdSeManuDate,       StrDisable},
-            {CmdSetCalDate,       StrDisable},
-            {CmdSetPartNumber,    StrDisable},
+            {CmdTestMode,           StrEnable },
+            {CmdSetWavelenght,      StrDisable},
+            {CmdSetLsMominalPw,     StrDisable},
+            {CmdSetMaxIop,          StrDisable},
+            {CmdSetModel,           StrDisable},
+            {CmdSeManuDate,         StrDisable},
+            {CmdSetCalDate,         StrDisable},
+            {CmdSetPartNumber,      StrDisable},
             {CmdSetCalAPw,          StrEnable},
             {CmdSetCalBPw,          StrDisable},
             {CmdSetCalAPwtoVint,    StrEnable},
@@ -144,13 +144,15 @@ namespace iRIS_CLM_GUI_TEST_01
             {CmdSetOffstVolt,   StrDisable },      //Offset 2.500V
             {CmdSetPwCtrlOut,   StrDisable } };    //Internal PCON 2.500V
 
-        string[,] bulkSetFinalSetup = new string[6,2] {
+        string[,] bulkSetFinalSetup = new string[7, 2] {
+            {CmdTestMode,           StrEnable},
             {CmdSetCalAPw,          StrEnable},
             {CmdSetCalBPw,          StrDisable},
             {CmdSetCalAPwtoVint,    StrEnable},
             {CmdSetCalBPwtoVint,    StrDisable},
             {CmdSetCalAVtoPw,       StrEnable},
-            {CmdSetCalBVtoPw,       StrDisable} };
+            {CmdSetCalBVtoPw,       StrDisable}, };
+            //{CmdRstTime,            StrEnable } };
         
         //=================================================
 
@@ -202,7 +204,6 @@ namespace iRIS_CLM_GUI_TEST_01
 
         bool USB_Port_Open =    false;
         bool RS232_Port_Open =  false;
-        bool intExtCmd =        false;
         bool engFlag =          false;
         bool testMode =         false;
             
@@ -614,12 +615,8 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdSetInOutPwCtrl:
-                        if (rtnValue == StrDisable) {
-                            intExtCmd = false;//used to select text box
-                            Bt_IntExtPw.BackColor = Color.SandyBrown; }
-                        else if (rtnValue == StrEnable) {
-                            intExtCmd = true;
-                            Bt_IntExtPw.BackColor = Color.LawnGreen; }
+                        if (rtnValue == StrDisable) { Bt_IntExtPw.BackColor = Color.SandyBrown; }
+                        else if (rtnValue == StrEnable) { Bt_IntExtPw.BackColor = Color.LawnGreen; }
                         break;
 
                     case CmdSet0mA:
@@ -683,7 +680,7 @@ namespace iRIS_CLM_GUI_TEST_01
                             Lbl_uClsCurrent.Text = rtnValue.PadLeft(5, '0');
                             Lbl_MaOrBits.Text = "uC Ls. bits";
                         }
-                        else if (testMode==false)
+                        else if (testMode == false)
                         {
                             Lbl_uClsCurrent.Text = rtnValue.PadLeft(4, '0');
                             Lbl_MaOrBits.Text = "uC Ls. ImA";
@@ -985,6 +982,8 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdRstTime:
+                    sndDl = 8000;
+                    comThresh = 14;
                     break;
 
                 case CmdSetSerNumber:
@@ -1028,7 +1027,7 @@ namespace iRIS_CLM_GUI_TEST_01
                 case CmdSetModel:
                     dataToAppd = Lbl_MdlName.Text;
                     sndDl = 600;
-                    comThresh = 14;
+                    comThresh = 16;
                     break;
 
                 case CmdTestMode:
@@ -1722,9 +1721,8 @@ namespace iRIS_CLM_GUI_TEST_01
                     dataADC[arrIndex, 2] = Convert.ToDouble(lbl_ADCpconRd.Text);
                     dataADC[arrIndex, 3] = ((Convert.ToDouble(Lbl_Viout.Text)) * 1000) / 5.01;
                     arrIndex++; }
-
             }
-            MessageBox.Show("MinMaxPw Ramp Error");
+
             return false;
         }
         //======================================================================
@@ -2048,8 +2046,9 @@ namespace iRIS_CLM_GUI_TEST_01
             rdIcal = await ReadAllanlg(false);
 
                 /*************************************************/
-                try { if (File.Exists(filePath)) { using (StreamWriter fs = File.AppendText(filePath)) { fs.WriteLine("Vout I Mon @ 0V Pcon: " + Lbl_V_I_out.Text); } } }
+                try { if (File.Exists(filePath)) { using (StreamWriter fs = File.AppendText(filePath)) { fs.WriteLine("Vout I Mon  @ 0V Pcon: " + Lbl_V_I_out.Text); } } }
                 catch (Exception err1) { MessageBox.Show(err1.Message); }
+                /*************************************************/
 
                 this.Cursor = Cursors.Default;
                 Bt_ZeroI.BackColor = Color.LawnGreen;
@@ -2114,24 +2113,47 @@ namespace iRIS_CLM_GUI_TEST_01
             return true;
         }
         //======================================================================
-        private void Bt_FinalLsSetup_Click(object sender, EventArgs e)
-        {
-            if (Bt_FinalLsSetup.BackColor == Color.Coral) { Task<bool> endSetup = LsFinalSet(); }
-            else if (Bt_FinalLsSetup.BackColor == Color.LawnGreen) { Bt_FinalLsSetup.BackColor = Color.Coral; }
-        }
+        private void Bt_FinalLsSetup_Click(object sender, EventArgs e) { Task<bool> endSetup = LsFinalSet(); }
+ 
         //======================================================================
         private async Task<bool> LsFinalSet() //load data in laser
         {
-            bool finalSet = false;
-            
+            if (Bt_FinalLsSetup.BackColor == Color.Coral)
+            {
+                string chkBxStateExtPwCtrl = StrDisable;
+                string chkBxStateEnblSet = StrDisable;
+                string chkBxStateDigitModSet = StrDisable;
+                string chkBxStateAnlgModSet = StrDisable;
+                
                 this.Cursor = Cursors.WaitCursor;
+
+                if (ChkBx_ExtPwCtrl.Checked == true) { chkBxStateExtPwCtrl = StrEnable; }
+                else { chkBxStateExtPwCtrl = StrDisable; }
+
+                if (ChkBx_EnableSet.Checked == true) { chkBxStateEnblSet = StrEnable; }
+                else { chkBxStateEnblSet = StrDisable; }
+
+                if (ChkBx_DigitModSet.Checked == true) { chkBxStateDigitModSet = StrEnable; }
+                else { chkBxStateDigitModSet = StrDisable; }
+
+                if (ChkBx_AnlgModSet.Checked == true) { chkBxStateAnlgModSet = StrEnable; }
+                else { chkBxStateAnlgModSet = StrDisable; }
+
+                bool finalSet = await SendToSerial(CmdTestMode, chkBxStateExtPwCtrl, 300);
+                finalSet = await SendToSerial(CmdSetInOutPwCtrl, chkBxStateExtPwCtrl, 300);
+                finalSet = await SendToSerial(CmdEnablLogicvIn, chkBxStateEnblSet, 300);
+                finalSet = await SendToSerial(CmdsetTTL, chkBxStateDigitModSet, 300);
+                finalSet = await SendToSerial(CmdAnalgInpt, chkBxStateAnlgModSet, 300);
+
                 finalSet = await LoadGlobalTestArray(bulkSetFinalSetup);
 
-                try {
+                try
+                {
+                    if (File.Exists(filePath))
+                    {
 
-                    if (File.Exists(filePath)) {
-
-                        using (StreamWriter fs = File.AppendText(filePath)) {
+                        using (StreamWriter fs = File.AppendText(filePath))
+                        {
 
                             fs.WriteLine("DATE: " + dateTimePicker1.Value.ToString());
                             fs.WriteLine("User: " + Tb_User.Text);
@@ -2148,7 +2170,10 @@ namespace iRIS_CLM_GUI_TEST_01
                             fs.WriteLine("B Pw to ADC in: " + Tb_CalB_PwToADC.Text);
                             fs.WriteLine("A Pcon to Pw: " + Tb_CalAcmdToPw.Text);
                             fs.WriteLine("B Pcon to Pw: " + Tb_CalAcmdToPw.Text);
-                            //if check box set/reset IO status read...
+                            fs.WriteLine("External Power Control: " + chkBxStateExtPwCtrl);
+                            fs.WriteLine("Enable Set Non-Inverted: " + chkBxStateEnblSet);
+                            fs.WriteLine("Digital Modulation Non-Inverted: " + chkBxStateDigitModSet);
+                            fs.WriteLine("Analog Modulation Non-Inverted: " + chkBxStateAnlgModSet);
                         }
                     }
                 }
@@ -2156,6 +2181,9 @@ namespace iRIS_CLM_GUI_TEST_01
 
                 this.Cursor = Cursors.Default;
                 Bt_FinalLsSetup.BackColor = Color.LawnGreen;
+            }
+
+            else if (Bt_FinalLsSetup.BackColor == Color.LawnGreen) { Bt_FinalLsSetup.BackColor = Color.Coral; }
 
             return true; 
         }
@@ -2244,6 +2272,7 @@ namespace iRIS_CLM_GUI_TEST_01
             const double stopRp = 5.000;
             const double stepRp = 0.050;
             string pmonVmax = Tb_PwToVcal.Text;
+            double pmonVmaxDlb = Convert.ToDouble(Tb_PwToVcal.Text);
 
             if (Bt_PwOutMonCal.BackColor == Color.Coral) {
 
@@ -2258,14 +2287,25 @@ namespace iRIS_CLM_GUI_TEST_01
 
                 sendCalPw = await SendToSerial(CmdSetPwtoVout, pmonVmax, 600);
                 sendCalPw = await ReadAllanlg(true);
+                
+                double pmonRd = Convert.ToDouble(Lbl_PwreadV.Text);
+                if (pmonRd > pmonVmaxDlb + 0.2 || pmonRd < pmonVmaxDlb - 0.2) { MessageBox.Show("Pmon Calibration Error"); }
 
-                MessageBox.Show("Record Pw Mon. V_max");
+                /*************************************************/
+                try { if (File.Exists(filePath)) { using (StreamWriter fs = File.AppendText(filePath)) { fs.WriteLine("Vout PD Mon @ Max. Pw: " + Lbl_PwreadV.Text); } } }
+                catch (Exception err1) { MessageBox.Show(err1.Message); }
+                /*************************************************/
 
                 Set_USB_Digit_Out(0, 0);
                 sendCalPw = await SendToSerial(CmdLaserEnable, StrDisable, 300);
                 WriteDAC(00.000, 0);
  
                 sendCalPw = await ReadAllanlg(true);
+
+                /*************************************************/
+                try { if (File.Exists(filePath)) { using (StreamWriter fs = File.AppendText(filePath)) { fs.WriteLine("Vout PD Mon @ Max. Pw: " + Lbl_PwreadV.Text); } } }
+                catch (Exception err1) { MessageBox.Show(err1.Message); }
+                /*************************************************/
 
                 this.Cursor = Cursors.Default;
                 Bt_PwOutMonCal.BackColor = Color.LawnGreen;
@@ -2286,6 +2326,18 @@ namespace iRIS_CLM_GUI_TEST_01
         {
                 int indx = dataADC.GetLength(0);
 
+            /* this is used to pass by reference(?) but not used for the monent
+            var startRp = new Ref<double>();
+            var stopRp = new Ref<double>();
+
+            if (ChkBx_AnlgModSet.Checked == true) {
+                startRp = 0.000;
+                stopRp =  5.000; }
+            else if (ChkBx_AnlgModSet.Checked == false) {
+                startRp = 5.000;
+                stopRp =  0.000; }
+            */
+
                 const double startRp = 0.000;
                 const double stopRp = 5.000;
                 const double stepRp = 0.050;
@@ -2302,6 +2354,8 @@ namespace iRIS_CLM_GUI_TEST_01
 
                     if (Convert.ToBoolean(Read_USB_Digit_in(0)) == false)
                     {//Laser OK //test
+
+                        bool liFile = await CreateRepFileLI();
 
                         initvga = await SendToSerial(CmdLaserEnable, StrEnable, 300);//Laser Enable
                         Set_USB_Digit_Out(0, 1);//Laser Enable
@@ -2323,18 +2377,18 @@ namespace iRIS_CLM_GUI_TEST_01
                                                          dataADC[arrLp, 1].ToString() + " " +
                                                          Footer); }
 
-
                     try
                     {
                             if (File.Exists(filePath))
                             {
 
-                            using (StreamWriter fs = File.AppendText(filePath))
+                            using (StreamWriter fsLI = File.AppendText(filePath))
                             {
+                                fsLI.WriteLine("\n");
 
                                 for (int arrLp = 0; arrLp < 100; arrLp++)
                                 {
-                                    fs.WriteLine(dataADC[arrLp, 3].ToString() + " " +
+                                    fsLI.WriteLine(dataADC[arrLp, 3].ToString() + " " +
                                                  dataADC[arrLp, 0].ToString() + " " +
                                                  dataADC[arrLp, 2].ToString() + " " +
                                                  dataADC[arrLp, 1].ToString());
@@ -2526,6 +2580,30 @@ namespace iRIS_CLM_GUI_TEST_01
                 return false; }
         }
         //======================================================================
+        private async Task<bool> CreateRepFileLI()
+        {
+            string txtName = "LI PLOT " + Tb_SerNb.Text + ".txt " + dateTimePicker1.Value.Date.ToString("yyyyMMdd"); ;
+            filePath = "C:\\Log_01\\" + txtName;
+            Tb_txtFilePath.Text = filePath;
+
+            await Task.Delay(1);
+
+            try
+            {
+                using (FileStream fsLI = File.Create(filePath))
+                {
+                    Byte[] info = new UTF8Encoding(true).GetBytes(txtName + Footer + Footer);
+                    fsLI.Write(info, 0, info.Length);
+                    return true;
+                }
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message);
+                return false;
+            }
+        }
+        //======================================================================
         private void Tb_LaserPN_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar==Convert.ToChar(Keys.Return))
@@ -2533,6 +2611,36 @@ namespace iRIS_CLM_GUI_TEST_01
                 MessageBox.Show("Enter");
             }
         }
+        //======================================================================
+        private void Bt_ShipState_Click(object sender, EventArgs e) { Task<bool> sendShpData = SendShpData(); }
+        //======================================================================
+        private async Task<bool> SendShpData()
+        {
+            string chkBxStateExtPwCtrl = StrDisable;
+            string chkBxStateEnblSet = StrDisable;
+            string chkBxStateDigitModSet = StrDisable;
+            string chkBxStateAnlgModSet = StrDisable;
+            
+            if (ChkBx_ExtPwCtrl.Checked == true) { chkBxStateExtPwCtrl = StrEnable; }
+            else { chkBxStateExtPwCtrl = StrDisable; }
+
+            if (ChkBx_EnableSet.Checked == true) { chkBxStateEnblSet = StrEnable; }
+            else { chkBxStateEnblSet = StrDisable; }
+
+            if (ChkBx_DigitModSet.Checked == true) { chkBxStateDigitModSet = StrEnable; }
+            else { chkBxStateDigitModSet = StrDisable; }
+
+            if (ChkBx_AnlgModSet.Checked == true) { chkBxStateAnlgModSet = StrEnable; }
+            else { chkBxStateAnlgModSet = StrDisable; }
+ 
+            bool finalSet = await SendToSerial(CmdTestMode, StrEnable, 300);
+            finalSet = await SendToSerial(CmdSetInOutPwCtrl, chkBxStateExtPwCtrl, 300);
+            finalSet = await SendToSerial(CmdEnablLogicvIn, chkBxStateEnblSet, 300);
+            finalSet = await SendToSerial(CmdsetTTL, chkBxStateDigitModSet, 300);
+            finalSet = await SendToSerial(CmdAnalgInpt, chkBxStateAnlgModSet, 300);
+
+            return true;
+        } 
         //======================================================================
         //======================================================================
     }
