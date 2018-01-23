@@ -144,14 +144,14 @@ namespace iRIS_CLM_GUI_TEST_01
             {CmdSetOffstVolt,   StrDisable },      //Offset 2.500V
             {CmdSetPwCtrlOut,   StrDisable } };    //Internal PCON 2.500V
 
-        string[,] bulkSetFinalSetup = new string[7, 2] {
+        string[,] bulkSetFinalSetup = new string[2, 2] {
             {CmdTestMode,           StrEnable},
-            {CmdSetCalAPw,          StrEnable},
-            {CmdSetCalBPw,          StrDisable},
-            {CmdSetCalAPwtoVint,    StrEnable},
-            {CmdSetCalBPwtoVint,    StrDisable},
-            {CmdSetCalAVtoPw,       StrEnable},
-            {CmdSetCalBVtoPw,       StrDisable}, };
+            {CmdSetCalAPw,          StrEnable},};
+            //{CmdSetCalBPw,          StrDisable},
+            //{CmdSetCalAPwtoVint,    StrEnable},
+            //{CmdSetCalBPwtoVint,    StrDisable},
+            //{CmdSetCalAVtoPw,       StrEnable},
+            //{CmdSetCalBVtoPw,       StrDisable}, };
             //{CmdRstTime,            StrEnable } };
         
         //=================================================
@@ -185,6 +185,7 @@ namespace iRIS_CLM_GUI_TEST_01
         string[]  testStringArr   =     new string[2];//used to load commands in bulk send
         
         string indata_USB =     string.Empty;
+        string indata_RS232 =   string.Empty;
         string outdata_RS232 =  string.Empty;
         string rString =        string.Empty;
         string cmdTrack =       string.Empty;
@@ -304,7 +305,7 @@ namespace iRIS_CLM_GUI_TEST_01
         //================================================================================
         private void CDCDataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
         {
-            string indata_USB = string.Empty;
+            indata_USB = string.Empty;
             indata_USB = USB_CDC.ReadExisting();  
             this.BeginInvoke(new Action(() => Process_String(indata_USB)));
             //this.BeginInvoke(new EventHandler(delegate { Process_String(indata_USB); }));
@@ -313,7 +314,7 @@ namespace iRIS_CLM_GUI_TEST_01
         //================================================================================
         private void RS232DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
         {
-            string indata_RS232 = string.Empty;
+            indata_RS232 = string.Empty;
             indata_RS232 = RS232.ReadExisting();  //read data to string 
             this.BeginInvoke(new Action(() => Process_String(indata_RS232)));
         }
@@ -366,10 +367,12 @@ namespace iRIS_CLM_GUI_TEST_01
             rtnCmd =    returnChop[1];
             rtnValue =  returnChop[2];
 
-            if (rtnCmd=="00") MessageBox.Show("rtn null CMD");
-            else if (rtnCmd == cmdTrack)
-            //if (rtnCmd == cmdTrack)
-            {   cmdTrack = string.Empty;
+            //if (rtnCmd == "00") { MessageBox.Show("rtn null CMD"); }
+            //else if (rtnCmd == cmdTrack)
+            if (rtnCmd == cmdTrack)
+            {
+                //cmdTrack = string.Empty;
+                cmdTrack = null;
 
                 switch (rtnCmd)
                 {
@@ -422,7 +425,7 @@ namespace iRIS_CLM_GUI_TEST_01
                             DisplayData();
                             */
                         }
-                        else {Tb_EepromGood.BackColor = Color.Red; } 
+                        else { Tb_EepromGood.BackColor = Color.Red; }
                         break;
 
                     case CmdRdWavelen:
@@ -439,12 +442,12 @@ namespace iRIS_CLM_GUI_TEST_01
 
                     case CmdRdSerialNo:
                         lbl_SerNbReadBack.ForeColor = Color.Green;
-                        lbl_SerNbReadBack.Text = rtnValue.PadLeft(8,'0');
+                        lbl_SerNbReadBack.Text = rtnValue.PadLeft(8, '0');
                         break;
 
                     case CmdRdFirmware:
                         lbl_SWLevel.ForeColor = Color.Green;
-                        lbl_SWLevel.Text = rtnValue.PadLeft(8,'0');
+                        lbl_SWLevel.Text = rtnValue.PadLeft(8, '0');
                         /*
                         con.Open();
                         cmd = new SqlCommand("update " + dataBaseName + " set SwLevel = @SwLevel where LaserId = @LaserId", con);
@@ -457,7 +460,7 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdRdBplateTemp:
-                        Lbl_TempBplt.Text = rtnValue.PadLeft(4,'0');
+                        Lbl_TempBplt.Text = rtnValue.PadLeft(4, '0');
                         break;
 
                     case CmdLaserStatus:
@@ -599,7 +602,7 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdSetPwCtrlOut:
-                        Lbl_RtnPwDACvalue.Text= rtnValue;
+                        Lbl_RtnPwDACvalue.Text = rtnValue;
                         break;
 
                     case CmdSetOffstVolt:
@@ -626,7 +629,7 @@ namespace iRIS_CLM_GUI_TEST_01
                     case CmdSetStramind:
                         break;
 
-                   case CmdRdCmdStautus2://cmd 34 note the array starts from 7 to 0....
+                    case CmdRdCmdStautus2://cmd 34 note the array starts from 7 to 0....
 
                         byteArrayToTest3 = ConvertToByteArr(rtnValue);
                         /*
@@ -652,7 +655,7 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdRdPwSetPcon:
-                        lbl_ADCpconRd.Text = rtnValue.PadLeft(5,'0');
+                        lbl_ADCpconRd.Text = rtnValue.PadLeft(5, '0');
                         break;
 
                     case CmdRdInitCurrent:
@@ -662,7 +665,7 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdRdLaserPow:
-                        lbl_LaserPD.Text = rtnValue.PadLeft(5,'0');
+                        lbl_LaserPD.Text = rtnValue.PadLeft(5, '0');
                         break;
 
                     case CmdRdPnNb:
@@ -711,7 +714,7 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdSetSerNumber:
-                        Tb_SerNb.Text = rtnValue.PadLeft(8, '0');                      
+                        Tb_SerNb.Text = rtnValue.PadLeft(8, '0');
                         break;
 
                     case CmdSetWavelenght:
@@ -740,12 +743,16 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdTestMode:
-                        if (rtnValue == "0000") {
+                        if (rtnValue == "0000")
+                        {
                             testMode = false;
-                            Bt_EnableTest.BackColor = Color.SandyBrown; }
-                        else if (rtnValue == "0001") {
+                            Bt_EnableTest.BackColor = Color.SandyBrown;
+                        }
+                        else if (rtnValue == "0001")
+                        {
                             testMode = true;
-                            Bt_EnableTest.BackColor = Color.LawnGreen; }
+                            Bt_EnableTest.BackColor = Color.LawnGreen;
+                        }
                         break;
 
                     case CmdSetPSU:
@@ -799,7 +806,7 @@ namespace iRIS_CLM_GUI_TEST_01
             else
             {
                 Tb_RSConnect.BackColor = Color.Red;
-                Tb_USBConnect.BackColor = Color.Red;
+                Tb_USBConnect.BackColor = Color.Pink;
                 MessageBox.Show("Read Back Missmatch");
             }
         }//end of "ProcessString"
@@ -828,7 +835,7 @@ namespace iRIS_CLM_GUI_TEST_01
 
                 case CmdSetPartNumber:
                     dataToAppd = Tb_LaserPN.Text;
-                    sndDl = 600;
+                    sndDl = 800;
                     comThresh = 14;
                     break;
 
@@ -916,7 +923,7 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdManufDate:
-                    sndDl = 600;
+                    sndDl = 800;
                     comThresh = 14;
                     break;
 
@@ -927,7 +934,7 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdRdModelName:
-                    sndDl = 600;
+                    sndDl = 800;
                     comThresh = 14;
                     break;
 
@@ -935,12 +942,12 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdRdPnNb:
-                    sndDl = 600;
+                    sndDl = 800;
                     comThresh = 14;
                     break;
 
                 case CmdRdCustomerPm:
-                    sndDl = 600;
+                    sndDl = 800;
                     comThresh = 14;
                     break;
 
@@ -959,25 +966,25 @@ namespace iRIS_CLM_GUI_TEST_01
 
                 case CmdSetCalAPw:
                     dataToAppd = Tb_CalA_Pw.Text;
-                    sndDl = 600;
+                    sndDl = 800;
                     comThresh = 14;
                     break;
 
                 case CmdSetCalBPw:
                     dataToAppd = Tb_CalB_Pw.Text;
-                    sndDl = 600;
+                    sndDl = 800;
                     comThresh = 14;
                     break;
 
                 case CmdSetCalAVtoPw:
                     dataToAppd = Tb_CalAcmdToPw.Text;
-                    sndDl = 600;
+                    sndDl = 800;
                     comThresh = 14;
                     break;
 
                 case CmdSetCalBVtoPw:
                     dataToAppd = Tb_CalBcmdToPw.Text;
-                    sndDl = 600;
+                    sndDl = 800;
                     comThresh = 14;
                     break;
 
@@ -988,7 +995,7 @@ namespace iRIS_CLM_GUI_TEST_01
 
                 case CmdSetSerNumber:
                     dataToAppd = Tb_SerNb.Text;
-                    sndDl = 600;
+                    sndDl = 800;
                     comThresh = 14;
                     break;
 
@@ -1003,7 +1010,7 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdSetCustomerPm:
-                    sndDl = 600;
+                    sndDl = 800;
                     comThresh = 14;
                     break;
 
@@ -1014,19 +1021,19 @@ namespace iRIS_CLM_GUI_TEST_01
 
                 case CmdSetCalDate:
                     dataToAppd = dateTimePicker1.Value.Date.ToString("yyyyMMdd");
-                    sndDl = 600;
+                    sndDl = 800;
                     comThresh = 15;
                     break;
 
                 case CmdSeManuDate:
                     dataToAppd = dateTimePicker1.Value.Date.ToString("yyyyMMdd");
-                    sndDl = 600;
+                    sndDl = 800;
                     comThresh = 15;
                     break;
 
                 case CmdSetModel:
                     dataToAppd = Lbl_MdlName.Text;
-                    sndDl = 600;
+                    sndDl = 800;
                     comThresh = 16;
                     break;
 
@@ -1042,13 +1049,13 @@ namespace iRIS_CLM_GUI_TEST_01
 
                 case CmdSetCalAPwtoVint:
                     dataToAppd = Tb_CalA_PwToADC.Text;
-                    sndDl = 600;
+                    sndDl = 800;
                     comThresh = 14;
                     break;
 
                 case CmdSetCalBPwtoVint:
                     dataToAppd = Tb_CalB_PwToADC.Text;
-                    sndDl = 600;
+                    sndDl = 800;
                     comThresh = 14;
                     break;
 
@@ -2616,10 +2623,10 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private async Task<bool> SendShpData()
         {
-            string chkBxStateExtPwCtrl = StrDisable;
-            string chkBxStateEnblSet = StrDisable;
-            string chkBxStateDigitModSet = StrDisable;
-            string chkBxStateAnlgModSet = StrDisable;
+            string chkBxStateExtPwCtrl = string.Empty;//null
+            string chkBxStateEnblSet = string.Empty;
+            string chkBxStateDigitModSet = string.Empty;
+            string chkBxStateAnlgModSet = string.Empty;
             
             if (ChkBx_ExtPwCtrl.Checked == true) { chkBxStateExtPwCtrl = StrEnable; }
             else { chkBxStateExtPwCtrl = StrDisable; }
