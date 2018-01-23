@@ -10,7 +10,6 @@ namespace iRIS_CLM_GUI_TEST_01
 
     public class SendRecvCOM
     {
-
         //====================================================================
         public static string[] ChopString(string stringToChop)
         {
@@ -28,6 +27,6 @@ namespace iRIS_CLM_GUI_TEST_01
 
         //====================================================================
 
-        
+
     }
 }
