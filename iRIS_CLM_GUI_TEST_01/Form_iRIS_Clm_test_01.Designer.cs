@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.TbPg_InsTest = new System.Windows.Forms.TabPage();
+            this.Bt_ShipState = new System.Windows.Forms.Button();
             this.Bt_LiPlot = new System.Windows.Forms.Button();
             this.Lbl_V_I_out = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -180,7 +181,6 @@
             this.Rt_ReceiveDataUSB = new System.Windows.Forms.RichTextBox();
             this.Bt_RdLaserStatus = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Bt_ShipState = new System.Windows.Forms.Button();
             this.TbPg_InsTest.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -233,6 +233,18 @@
             this.TbPg_InsTest.Size = new System.Drawing.Size(692, 566);
             this.TbPg_InsTest.TabIndex = 1;
             this.TbPg_InsTest.Text = "Laser Calibration";
+            // 
+            // Bt_ShipState
+            // 
+            this.Bt_ShipState.BackColor = System.Drawing.Color.Coral;
+            this.Bt_ShipState.Location = new System.Drawing.Point(10, 481);
+            this.Bt_ShipState.Name = "Bt_ShipState";
+            this.Bt_ShipState.Size = new System.Drawing.Size(87, 39);
+            this.Bt_ShipState.TabIndex = 321;
+            this.Bt_ShipState.TabStop = false;
+            this.Bt_ShipState.Text = "Shiping State";
+            this.Bt_ShipState.UseVisualStyleBackColor = false;
+            this.Bt_ShipState.Click += new System.EventHandler(this.Bt_ShipState_Click);
             // 
             // Bt_LiPlot
             // 
@@ -495,6 +507,7 @@
             // Bt_PM100
             // 
             this.Bt_PM100.BackColor = System.Drawing.Color.Coral;
+            this.Bt_PM100.ForeColor = System.Drawing.Color.DarkBlue;
             this.Bt_PM100.Location = new System.Drawing.Point(416, 12);
             this.Bt_PM100.Name = "Bt_PM100";
             this.Bt_PM100.Size = new System.Drawing.Size(87, 39);
@@ -591,7 +604,6 @@
             // Bt_Rs232com
             // 
             this.Bt_Rs232com.BackColor = System.Drawing.Color.SandyBrown;
-            this.Bt_Rs232com.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Bt_Rs232com.Location = new System.Drawing.Point(112, 21);
             this.Bt_Rs232com.Name = "Bt_Rs232com";
             this.Bt_Rs232com.Size = new System.Drawing.Size(99, 27);
@@ -604,7 +616,6 @@
             // Bt_USBcom
             // 
             this.Bt_USBcom.BackColor = System.Drawing.Color.SandyBrown;
-            this.Bt_USBcom.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Bt_USBcom.Location = new System.Drawing.Point(112, 51);
             this.Bt_USBcom.Name = "Bt_USBcom";
             this.Bt_USBcom.Size = new System.Drawing.Size(99, 27);
@@ -752,47 +763,43 @@
             // ChkBx_AnlgModSet
             // 
             this.ChkBx_AnlgModSet.AutoSize = true;
-            this.ChkBx_AnlgModSet.Checked = true;
-            this.ChkBx_AnlgModSet.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ChkBx_AnlgModSet.Location = new System.Drawing.Point(286, 202);
+            this.ChkBx_AnlgModSet.Location = new System.Drawing.Point(286, 164);
             this.ChkBx_AnlgModSet.Name = "ChkBx_AnlgModSet";
-            this.ChkBx_AnlgModSet.Size = new System.Drawing.Size(127, 17);
+            this.ChkBx_AnlgModSet.Size = new System.Drawing.Size(119, 17);
             this.ChkBx_AnlgModSet.TabIndex = 331;
-            this.ChkBx_AnlgModSet.Text = "Anlg. Mod. Set Norm.";
+            this.ChkBx_AnlgModSet.Text = "Anlg. Mod. Inverted";
             this.ChkBx_AnlgModSet.UseVisualStyleBackColor = true;
             // 
             // ChkBx_DigitModSet
             // 
             this.ChkBx_DigitModSet.AutoSize = true;
-            this.ChkBx_DigitModSet.Location = new System.Drawing.Point(286, 183);
+            this.ChkBx_DigitModSet.Checked = true;
+            this.ChkBx_DigitModSet.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ChkBx_DigitModSet.Location = new System.Drawing.Point(286, 182);
             this.ChkBx_DigitModSet.Name = "ChkBx_DigitModSet";
-            this.ChkBx_DigitModSet.Size = new System.Drawing.Size(127, 17);
+            this.ChkBx_DigitModSet.Size = new System.Drawing.Size(119, 17);
             this.ChkBx_DigitModSet.TabIndex = 330;
-            this.ChkBx_DigitModSet.Text = "Digit. Mod. Set Norm.";
+            this.ChkBx_DigitModSet.Text = "Digit. Mod. Inverted";
             this.ChkBx_DigitModSet.UseVisualStyleBackColor = true;
             // 
             // ChkBx_EnableSet
             // 
             this.ChkBx_EnableSet.AutoSize = true;
-            this.ChkBx_EnableSet.Checked = true;
-            this.ChkBx_EnableSet.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ChkBx_EnableSet.Location = new System.Drawing.Point(286, 164);
+            this.ChkBx_EnableSet.Location = new System.Drawing.Point(286, 200);
             this.ChkBx_EnableSet.Name = "ChkBx_EnableSet";
-            this.ChkBx_EnableSet.Size = new System.Drawing.Size(109, 17);
+            this.ChkBx_EnableSet.Size = new System.Drawing.Size(101, 17);
             this.ChkBx_EnableSet.TabIndex = 329;
-            this.ChkBx_EnableSet.Text = "Enable Set Norm.";
+            this.ChkBx_EnableSet.Text = "Enable Inverted";
             this.ChkBx_EnableSet.UseVisualStyleBackColor = true;
             // 
             // ChkBx_ExtPwCtrl
             // 
             this.ChkBx_ExtPwCtrl.AutoSize = true;
-            this.ChkBx_ExtPwCtrl.Checked = true;
-            this.ChkBx_ExtPwCtrl.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ChkBx_ExtPwCtrl.Location = new System.Drawing.Point(286, 145);
+            this.ChkBx_ExtPwCtrl.Location = new System.Drawing.Point(286, 146);
             this.ChkBx_ExtPwCtrl.Name = "ChkBx_ExtPwCtrl";
             this.ChkBx_ExtPwCtrl.Size = new System.Drawing.Size(103, 17);
             this.ChkBx_ExtPwCtrl.TabIndex = 328;
-            this.ChkBx_ExtPwCtrl.Text = "External Pw Ctrl.";
+            this.ChkBx_ExtPwCtrl.Text = "Internal Pw. Ctrl.";
             this.ChkBx_ExtPwCtrl.UseVisualStyleBackColor = true;
             // 
             // Lbl_MdlName
@@ -1508,7 +1515,7 @@
             this.Tb_CalB_Pw.Name = "Tb_CalB_Pw";
             this.Tb_CalB_Pw.Size = new System.Drawing.Size(60, 20);
             this.Tb_CalB_Pw.TabIndex = 297;
-            this.Tb_CalB_Pw.Text = "000.0000";
+            this.Tb_CalB_Pw.Text = "0.0000";
             // 
             // Tb_CalA_Pw
             // 
@@ -1516,7 +1523,7 @@
             this.Tb_CalA_Pw.Name = "Tb_CalA_Pw";
             this.Tb_CalA_Pw.Size = new System.Drawing.Size(60, 20);
             this.Tb_CalA_Pw.TabIndex = 296;
-            this.Tb_CalA_Pw.Text = "001.0000";
+            this.Tb_CalA_Pw.Text = "1.0000";
             // 
             // label44
             // 
@@ -1542,7 +1549,7 @@
             this.Tb_CalB_PwToADC.Name = "Tb_CalB_PwToADC";
             this.Tb_CalB_PwToADC.Size = new System.Drawing.Size(60, 20);
             this.Tb_CalB_PwToADC.TabIndex = 293;
-            this.Tb_CalB_PwToADC.Text = "000.0000";
+            this.Tb_CalB_PwToADC.Text = "0.0000";
             // 
             // Tb_CalA_PwToADC
             // 
@@ -1550,7 +1557,7 @@
             this.Tb_CalA_PwToADC.Name = "Tb_CalA_PwToADC";
             this.Tb_CalA_PwToADC.Size = new System.Drawing.Size(60, 20);
             this.Tb_CalA_PwToADC.TabIndex = 292;
-            this.Tb_CalA_PwToADC.Text = "001.0000";
+            this.Tb_CalA_PwToADC.Text = "1.0000";
             // 
             // label49
             // 
@@ -1576,7 +1583,7 @@
             this.Tb_CalBcmdToPw.Name = "Tb_CalBcmdToPw";
             this.Tb_CalBcmdToPw.Size = new System.Drawing.Size(67, 20);
             this.Tb_CalBcmdToPw.TabIndex = 289;
-            this.Tb_CalBcmdToPw.Text = "00000.0000";
+            this.Tb_CalBcmdToPw.Text = "0.0000";
             // 
             // Tb_CalAcmdToPw
             // 
@@ -1584,7 +1591,7 @@
             this.Tb_CalAcmdToPw.Name = "Tb_CalAcmdToPw";
             this.Tb_CalAcmdToPw.Size = new System.Drawing.Size(67, 20);
             this.Tb_CalAcmdToPw.TabIndex = 288;
-            this.Tb_CalAcmdToPw.Text = "001.0000";
+            this.Tb_CalAcmdToPw.Text = "1.0000";
             // 
             // Tb_VPcon
             // 
@@ -1825,18 +1832,6 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(683, 96);
             this.dataGridView1.TabIndex = 6;
-            // 
-            // Bt_ShipState
-            // 
-            this.Bt_ShipState.BackColor = System.Drawing.Color.Coral;
-            this.Bt_ShipState.Location = new System.Drawing.Point(10, 481);
-            this.Bt_ShipState.Name = "Bt_ShipState";
-            this.Bt_ShipState.Size = new System.Drawing.Size(87, 39);
-            this.Bt_ShipState.TabIndex = 321;
-            this.Bt_ShipState.TabStop = false;
-            this.Bt_ShipState.Text = "Shiping State";
-            this.Bt_ShipState.UseVisualStyleBackColor = false;
-            this.Bt_ShipState.Click += new System.EventHandler(this.Bt_ShipState_Click);
             // 
             // Form_iRIS_Clm_test_01
             // 

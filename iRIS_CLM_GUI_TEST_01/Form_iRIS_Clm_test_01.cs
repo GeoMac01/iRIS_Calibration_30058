@@ -208,8 +208,8 @@ namespace iRIS_CLM_GUI_TEST_01
         //bool engFlag =          false;
         bool testMode =         false;
             
-        int arrayLgth =         0;
-        
+        int arrayLgth   = 0;
+
         //======================================================================
         //SendRecvCOM sendRcv = new SendRecvCOM();
         //======================================================================
@@ -321,16 +321,18 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private async Task<bool> SendToSerial(string strCmd, string strData, int sendDelay, int intThreshold)
         {
-            string mdlNumb = Tb_SetAdd.Text;
-            string stuffToSend = string.Empty;
-            int dly = 300;
+            string mdlNumb      = Tb_SetAdd.Text;
+            string stuffToSend  = string.Empty;
+            int dly             = 300; //wait delay to fire next instruction send/process/receive time... only set here
+            int threshldInt     = 9; //buffer threshold interrupt needs to be review as how to impement... only set here 
 
             if (sendDelay > 300 ) {dly = sendDelay; }
-            else dly = Convert.ToInt16(Tb_RsDelay.Text);
-            
-            cmdTrack = strCmd;//used for the read back test
+            else dly = Convert.ToInt16(Tb_RsDelay.Text);//300
 
-            USB_CDC.ReceivedBytesThreshold = intThreshold;
+            if(intThreshold > 9) { threshldInt = intThreshold; } //long string read back
+            USB_CDC.ReceivedBytesThreshold = threshldInt;
+
+            cmdTrack = strCmd;//used for the read back test
 
             stuffToSend = Header + mdlNumb + strCmd + strData + Footer;
             Rt_ReceiveDataUSB.AppendText(">>  " + stuffToSend); //displays anything....
@@ -477,49 +479,6 @@ namespace iRIS_CLM_GUI_TEST_01
                     case CmdLaserStatus:
 
                         byteArrayToTest1 = ConvertToByteArr(rtnValue);
-                        /*
-                        rtnValueInt = byteArrayToTest1[7];
-                        if (rtnValueInt == 0)
-                        {
-                            tb_Cmd14Bit0.BackColor = Color.Red;
-                        }
-                        else tb_Cmd14Bit0.BackColor = Color.LawnGreen;
-
-                        rtnValueInt = byteArrayToTest1[6];
-                        if (rtnValueInt == 0)
-                        {
-                            tb_Cmd14Bit1.BackColor = Color.Red;
-                        }
-                        else tb_Cmd14Bit1.BackColor = Color.LawnGreen;
-
-                        rtnValueInt = byteArrayToTest1[5];
-                        if (rtnValueInt == 0)
-                        {
-                            tb_Cmd14Bit2.BackColor = Color.Red;
-                        }
-                        else tb_Cmd14Bit2.BackColor = Color.LawnGreen;
-
-                        rtnValueInt = byteArrayToTest1[4];
-                        if (rtnValueInt == 0)
-                        {
-                            tb_Cmd14Bit3.BackColor = Color.Red;
-                        }
-                        else tb_Cmd14Bit3.BackColor = Color.LawnGreen;
-
-                        rtnValueInt = byteArrayToTest1[3];
-                        if (rtnValueInt == 0)
-                        {
-                            tb_Cmd14Bit4.BackColor = Color.Red;
-                        }
-                        else tb_Cmd14Bit4.BackColor = Color.LawnGreen;
-
-                        rtnValueInt = byteArrayToTest1[2];
-                        if (rtnValueInt == 0)
-                        {
-                            tb_Cmd14Bit5.BackColor = Color.Red;
-                        }
-                        else tb_Cmd14Bit5.BackColor = Color.LawnGreen;
-                        */
                         break;
 
                     case CmdRdTecTemprt:
@@ -545,65 +504,7 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdRdLsrStatus:
-
                         byteArrayToTest2 = ConvertToByteArr(rtnValue);
-                        /*
-                        rtnValueInt = byteArrayToTest2[7];
-                        if (rtnValueInt == 0)
-                        {
-                            tb_Cmd20Bit0.BackColor = Color.Red;
-                        }
-                        else tb_Cmd20Bit0.BackColor = Color.LawnGreen;
-
-                        rtnValueInt = byteArrayToTest2[6];
-                        if (rtnValueInt == 0)
-                        {
-                            tb_Cmd20Bit1.BackColor = Color.Red;
-                        }
-                        else tb_Cmd20Bit1.BackColor = Color.LawnGreen;
-
-                        rtnValueInt = byteArrayToTest2[5];
-                        if (rtnValueInt == 0)
-                        {
-                            tb_Cmd20Bit2.BackColor = Color.Red;
-                        }
-                        else tb_Cmd20Bit2.BackColor = Color.LawnGreen;
-
-                        rtnValueInt = byteArrayToTest2[4];
-                        if (rtnValueInt == 0)
-                        {
-                            tb_Cmd20Bit3.BackColor = Color.Red;
-                        }
-                        else tb_Cmd20Bit3.BackColor = Color.LawnGreen;
-
-                        rtnValueInt = byteArrayToTest2[3];
-                        if (rtnValueInt == 0)
-                        {
-                            tb_Cmd20Bit4.BackColor = Color.Red;
-                        }
-                        else tb_Cmd20Bit4.BackColor = Color.LawnGreen;
-
-                        rtnValueInt = byteArrayToTest2[2];
-                        if (rtnValueInt == 0)
-                        {
-                            tb_Cmd20Bit5.BackColor = Color.Red;
-                        }
-                        else tb_Cmd20Bit5.BackColor = Color.LawnGreen;
-
-                        rtnValueInt = byteArrayToTest2[1];
-                        if (rtnValueInt == 0)
-                        {
-                            tb_Cmd20Bit6.BackColor = Color.Red;
-                        }
-                        else tb_Cmd20Bit6.BackColor = Color.LawnGreen;
-
-                        rtnValueInt = byteArrayToTest2[0];
-                        if (rtnValueInt == 0)
-                        {
-                            tb_Cmd20Bit7.BackColor = Color.Red;
-                        }
-                        else tb_Cmd20Bit7.BackColor = Color.LawnGreen;
-                        */
                         break;
 
                     case CmdSetPwMonOut:
@@ -641,25 +542,7 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdRdCmdStautus2://cmd 34 note the array starts from 7 to 0....
-
                         byteArrayToTest3 = ConvertToByteArr(rtnValue);
-                        /*
-                        rtnValueInt = byteArrayToTest3[7];
-                        if (rtnValueInt == 0) { tb_Cmd34Bit0.BackColor = Color.Red; }
-                        else tb_Cmd34Bit0.BackColor = Color.LawnGreen;
-
-                        rtnValueInt = byteArrayToTest3[6];
-                        if (rtnValueInt == 0) { tb_Cmd34Bit1.BackColor = Color.Red; }
-                        else tb_Cmd34Bit1.BackColor = Color.LawnGreen;
-
-                        rtnValueInt = byteArrayToTest3[5];
-                        if (rtnValueInt == 0) { tb_Cmd34Bit2.BackColor = Color.Red; }
-                        else tb_Cmd34Bit2.BackColor = Color.LawnGreen;
-
-                        rtnValueInt = byteArrayToTest3[4];// Bit indicating status of the CPU control line LASER_EN_OUT_CPU
-                        if (rtnValueInt == 0) tb_Cmd34Bit3.BackColor = Color.Red;
-                        else tb_Cmd34Bit3.BackColor = Color.LawnGreen;
-                        */
                         break;
 
                     case CmdManufDate:
@@ -828,6 +711,7 @@ namespace iRIS_CLM_GUI_TEST_01
         {
             string dataToAppd = string.Empty;
             string cmdToTest = string.Empty;
+
             int sndDl = 300;
             int comThresh = 9;
 
@@ -841,12 +725,11 @@ namespace iRIS_CLM_GUI_TEST_01
 
                 case CmdSetUnitNo:
                     dataToAppd = "00" + Tb_SetAdd.Text;//0002 i.e.
-                    sndDl = 300;
                     break;
 
                 case CmdSetPartNumber:
                     dataToAppd = Tb_LaserPN.Text;
-                    sndDl = 800;
+                    sndDl = 600;
                     comThresh = 14;
                     break;
 
@@ -1012,12 +895,10 @@ namespace iRIS_CLM_GUI_TEST_01
 
                 case CmdSetWavelenght:
                     dataToAppd = Tb_Wavelength.Text;
-                    sndDl = 300;
                     break;
 
                 case CmdSetLsMominalPw:
                     dataToAppd = Tb_NomPw.Text;
-                    sndDl = 300;
                     break;
 
                 case CmdSetCustomerPm:
@@ -1027,7 +908,6 @@ namespace iRIS_CLM_GUI_TEST_01
 
                 case CmdSetMaxIop:
                     dataToAppd = Tb_MaxLsCurrent.Text;
-                    sndDl = 300;
                     break;
 
                 case CmdSetCalDate:
@@ -1072,22 +952,18 @@ namespace iRIS_CLM_GUI_TEST_01
 
                 case CmdSetTECTemp:
                     dataToAppd = Tb_TECpoint.Text;
-                    sndDl = 300;
                     break;
 
                 case CmdSetTECkp:
                     dataToAppd = Tb_Kp.Text;
-                    sndDl = 300;
-                    break;
+                     break;
 
                 case CmdSetTECki:
                     dataToAppd = Tb_Ki.Text;
-                    sndDl = 300;
-                    break;
+                     break;
 
                 case CmdSetTECsmpTime:
                     dataToAppd = Tb_LoopT.Text;
-                    sndDl = 300;
                     break;
 
                 case CmdRdTECsetTemp:
@@ -1826,26 +1702,25 @@ namespace iRIS_CLM_GUI_TEST_01
             {
                 this.Cursor = Cursors.WaitCursor;
 
+                Tb_VGASet.Text = "0020";
+                tb_SetIntPw.Text = "2.500";
+                Tb_SetOffset.Text = "2.500";
+                Tb_VPcon.Text = "0.000";
+                Lbl_VGAval.Text = "0000";
+
+                Tb_CalA_PwToADC.Text = "1.0000";
+                Tb_CalB_PwToADC.Text = "0.0000";
+                Tb_CalA_Pw.Text = "1.0000";
+                Tb_CalB_Pw.Text = "0.0000";
+                Tb_CalAcmdToPw.Text = "1.0000";
+                Tb_CalBcmdToPw.Text = "0.0000";
+
                 bool test2 = await CreateRepFile();//generate new .txt file
 
                 test2 = await LoadGlobalTestArray(bulkSetLaserIO);
                 test2 = await LoadGlobalTestArray(bulkSetTEC);
                 test2 = await LoadGlobalTestArray(bulkSetVarialble);
                 //test2 = await LoadGlobalTestArray(bulkSetdefaultCtrl);
-
-                Tb_VGASet.Text      = "0020";
-                tb_SetIntPw.Text    = "02.500";
-                Tb_SetOffset.Text   = "02.500";
-                Tb_VPcon.Text       = "00.000";
-
-                Tb_CalA_PwToADC.Text = "001.000";
-                Tb_CalB_PwToADC.Text = "000.000";
-                Tb_CalA_Pw.Text      = "001.000";
-                Tb_CalB_Pw.Text      = "000.000";
-                Tb_CalAcmdToPw.Text  = "001.000";
-                Tb_CalBcmdToPw.Text  = "000.000";
-
-                Lbl_VGAval.Text = "0000";
 
                 this.Cursor = Cursors.Default;
                 bt_NewTest.BackColor = Color.LawnGreen;
@@ -1865,9 +1740,8 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private void Bt_CalVGA_Click(object sender, EventArgs e) {
             //if green stop ramp....
-            Task<bool> calvga = CalVGA();
-            //if (USB_Port_Open == true) { Task<bool> calvga = CalVGA(); }
-            //else MessageBox.Show("USB not connected");
+            if (USB_Port_Open == true) { Task<bool> calvga = CalVGA(); }
+            else MessageBox.Show("USB not connected");
         }
         //======================================================================
         public class Ref<T>
@@ -1888,7 +1762,9 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private async Task<bool> CalVGA()
         {
-            /* this is used to pass by reference(?) but not used for the monent
+            if (Bt_CalVGA.BackColor == Color.Coral)
+            {
+                /* this is used to pass by reference(?) but not used for the monent
             var startRp = new Ref<double>();
             var stopRp = new Ref<double>();
 
@@ -1900,24 +1776,22 @@ namespace iRIS_CLM_GUI_TEST_01
                 stopRp =  0.000; }
             */
 
-            const double startRp = 0.000;
-            const double stopRp =  5.000;
-            const double stepRp =  0.020;//value 0.01..0.05..
-            double calPower = 0;
-            double setOffSet = 0;
-            double setPower = Convert.ToDouble(Tb_minMaxPw.Text);
+                const double startRp = 0.000;
+                const double stopRp = 5.000;
+                const double stepRp = 0.020;//value 0.01..0.05..
+                double calPower = 0;
+                double setOffSet = 0;
+                double setPower = Convert.ToDouble(Tb_minMaxPw.Text);
 
-            string Pw_Pcon_0V = string.Empty;
-            string Pw_Pcon_055V = string.Empty;
-            string Pw_Pcon_500V = string.Empty;
-            string Pw_EnOff = string.Empty;
+                string Pw_Pcon_0V = string.Empty;
+                string Pw_Pcon_055V = string.Empty;
+                string Pw_Pcon_500V = string.Empty;
+                string Pw_EnOff = string.Empty;
 
-            string offset = string.Empty;
-            bool initvga = false;
-            bool goodOffset = false;
+                string offset = string.Empty;
+                bool initvga = false;
+                bool goodOffset = false;
 
-            if (Bt_CalVGA.BackColor == Color.Coral)
-            {
                 this.Cursor = Cursors.WaitCursor;
 
                 initvga = await LoadGlobalTestArray(bulkSetLaserIO);
@@ -2079,8 +1953,7 @@ namespace iRIS_CLM_GUI_TEST_01
             return true;
         }
         #endregion
-        //======================================================================
-       
+        //======================================================================     
         //======================================================================
         private void Bt_pdCalibration_Click(object sender, EventArgs e) { Task<bool> pdcal = PD_Calibration(); }
         //======================================================================
@@ -2129,7 +2002,6 @@ namespace iRIS_CLM_GUI_TEST_01
         }
         //======================================================================
         private void Bt_FinalLsSetup_Click(object sender, EventArgs e) { Task<bool> endSetup = LsFinalSet(); }
- 
         //======================================================================
         private async Task<bool> LsFinalSet() //load data in laser
         {
@@ -2155,7 +2027,6 @@ namespace iRIS_CLM_GUI_TEST_01
                 else { chkBxStateAnlgModSet = StrDisable; }
 
                 bool finalSet = await SendToSerial(CmdTestMode, chkBxStateExtPwCtrl, 300, 9);
-                finalSet = await SendToSerial(CmdSetInOutPwCtrl, chkBxStateExtPwCtrl, 300, 9);
                 finalSet = await SendToSerial(CmdEnablLogicvIn, chkBxStateEnblSet, 300, 9);
                 finalSet = await SendToSerial(CmdsetTTL, chkBxStateDigitModSet, 300, 9);
                 finalSet = await SendToSerial(CmdAnalgInpt, chkBxStateAnlgModSet, 300, 9);
@@ -2283,13 +2154,13 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private async Task<bool> PwMonOutCal() {
 
-            const double startRp = 00.000;
-            const double stopRp = 5.000;
-            const double stepRp = 0.050;
-            string pmonVmax = Tb_PwToVcal.Text;
-            double pmonVmaxDlb = Convert.ToDouble(Tb_PwToVcal.Text);
-
             if (Bt_PwOutMonCal.BackColor == Color.Coral) {
+
+                const double startRp = 00.000;
+                const double stopRp = 5.000;
+                const double stepRp = 0.050;
+                string pmonVmax = Tb_PwToVcal.Text;
+                double pmonVmaxDlb = Convert.ToDouble(Tb_PwToVcal.Text);
 
                 this.Cursor = Cursors.WaitCursor;
 
@@ -2336,22 +2207,24 @@ namespace iRIS_CLM_GUI_TEST_01
         #endregion
         //======================================================================
         private void Bt_LiPlot_Click(object sender, EventArgs e) { Task<bool> liplotseq = LIplot(); }
-            //======================================================================
+        //======================================================================
         private async Task<bool> LIplot()
         {
+             if (Bt_LiPlot.BackColor == Color.Coral) {
+
                 int indx = dataADC.GetLength(0);
 
-            /* this is used to pass by reference(?) but not used for the monent
-            var startRp = new Ref<double>();
-            var stopRp = new Ref<double>();
+                /* this is used to pass by reference(?) but not used for the monent
+                var startRp = new Ref<double>();
+                var stopRp = new Ref<double>();
 
-            if (ChkBx_AnlgModSet.Checked == true) {
-                startRp = 0.000;
-                stopRp =  5.000; }
-            else if (ChkBx_AnlgModSet.Checked == false) {
-                startRp = 5.000;
-                stopRp =  0.000; }
-            */
+                if (ChkBx_AnlgModSet.Checked == true) {
+                    startRp = 0.000;
+                    stopRp =  5.000; }
+                else if (ChkBx_AnlgModSet.Checked == false) {
+                    startRp = 5.000;
+                    stopRp =  0.000; }
+                */
 
                 const double startRp = 0.000;
                 const double stopRp = 5.000;
@@ -2359,8 +2232,7 @@ namespace iRIS_CLM_GUI_TEST_01
 
                 bool initvga = false;
 
-                if (Bt_LiPlot.BackColor == Color.Coral) {
-                    this.Cursor = Cursors.WaitCursor;
+                this.Cursor = Cursors.WaitCursor;
 
                     Set_USB_Digit_Out(0, 0);//enable line
                     Set_USB_Digit_Out(1, 0);//
@@ -2431,6 +2303,7 @@ namespace iRIS_CLM_GUI_TEST_01
         private async Task<bool> CalIntPwSet()
         {
             if (Bt_SetIntPwCal.BackColor == Color.Coral) {
+
                 bool pdCalTask = false;
                 const double startRp = 02.600;
                 const double stopRp =  03.950;
@@ -2631,28 +2504,38 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private async Task<bool> SendShpData()
         {
-            string chkBxStateExtPwCtrl = string.Empty;//null
-            string chkBxStateEnblSet = string.Empty;
-            string chkBxStateDigitModSet = string.Empty;
-            string chkBxStateAnlgModSet = string.Empty;
-            
-            if (ChkBx_ExtPwCtrl.Checked == true) { chkBxStateExtPwCtrl = StrEnable; }
-            else { chkBxStateExtPwCtrl = StrDisable; }
+            if (Bt_ShipState.BackColor == Color.Coral) {
 
-            if (ChkBx_EnableSet.Checked == true) { chkBxStateEnblSet = StrEnable; }
-            else { chkBxStateEnblSet = StrDisable; }
+                string chkBxStateExtPwCtrl = string.Empty;//null
+                string chkBxStateEnblSet = string.Empty;
+                string chkBxStateDigitModSet = string.Empty;
+                string chkBxStateAnlgModSet = string.Empty;
 
-            if (ChkBx_DigitModSet.Checked == true) { chkBxStateDigitModSet = StrEnable; }
-            else { chkBxStateDigitModSet = StrDisable; }
+                this.Cursor = Cursors.WaitCursor;
 
-            if (ChkBx_AnlgModSet.Checked == true) { chkBxStateAnlgModSet = StrEnable; }
-            else { chkBxStateAnlgModSet = StrDisable; }
- 
-            bool finalSet = await SendToSerial(CmdTestMode, StrEnable, 300, 9);
-            finalSet = await SendToSerial(CmdSetInOutPwCtrl, chkBxStateExtPwCtrl, 300, 9);
-            finalSet = await SendToSerial(CmdEnablLogicvIn, chkBxStateEnblSet, 300, 9);
-            finalSet = await SendToSerial(CmdsetTTL, chkBxStateDigitModSet, 300, 9);
-            finalSet = await SendToSerial(CmdAnalgInpt, chkBxStateAnlgModSet, 300, 9);
+                if (ChkBx_ExtPwCtrl.Checked == true) { chkBxStateExtPwCtrl = StrEnable; }
+                else { chkBxStateExtPwCtrl = StrDisable; }
+
+                if (ChkBx_EnableSet.Checked == true) { chkBxStateEnblSet = StrEnable; }
+                else { chkBxStateEnblSet = StrDisable; }
+
+                if (ChkBx_DigitModSet.Checked == true) { chkBxStateDigitModSet = StrEnable; }
+                else { chkBxStateDigitModSet = StrDisable; }
+
+                if (ChkBx_AnlgModSet.Checked == true) { chkBxStateAnlgModSet = StrEnable; }
+                else { chkBxStateAnlgModSet = StrDisable; }
+
+                bool finalSet = await SendToSerial(CmdTestMode, StrEnable, 300, 9);
+                finalSet = await SendToSerial(CmdSetInOutPwCtrl, chkBxStateExtPwCtrl, 300, 9);
+                finalSet = await SendToSerial(CmdEnablLogicvIn, chkBxStateEnblSet, 300, 9);
+                finalSet = await SendToSerial(CmdsetTTL, chkBxStateDigitModSet, 300, 9);
+                finalSet = await SendToSerial(CmdAnalgInpt, chkBxStateAnlgModSet, 300, 9);
+
+                this.Cursor = Cursors.Default;
+                Bt_ShipState.BackColor = Color.LawnGreen;
+            }
+
+            else if (Bt_ShipState.BackColor==Color.LawnGreen) { Bt_ShipState.BackColor = Color.Coral; }
 
             return true;
         } 
