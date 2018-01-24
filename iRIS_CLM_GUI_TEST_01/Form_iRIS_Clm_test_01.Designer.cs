@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.TbPg_InsTest = new System.Windows.Forms.TabPage();
+            this.ChkBx_IntDacPcon = new System.Windows.Forms.CheckBox();
             this.Bt_ShipState = new System.Windows.Forms.Button();
             this.Bt_LiPlot = new System.Windows.Forms.Button();
             this.Lbl_V_I_out = new System.Windows.Forms.Label();
@@ -181,7 +182,9 @@
             this.Rt_ReceiveDataUSB = new System.Windows.Forms.RichTextBox();
             this.Bt_RdLaserStatus = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.ChkBx_InvExtPcon = new System.Windows.Forms.CheckBox();
+            this.Prg_Bar01 = new System.Windows.Forms.ProgressBar();
+            this.label9 = new System.Windows.Forms.Label();
             this.TbPg_InsTest.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -193,7 +196,10 @@
             // 
             // TbPg_InsTest
             // 
-            this.TbPg_InsTest.Controls.Add(this.checkBox1);
+            this.TbPg_InsTest.Controls.Add(this.label9);
+            this.TbPg_InsTest.Controls.Add(this.Prg_Bar01);
+            this.TbPg_InsTest.Controls.Add(this.ChkBx_InvExtPcon);
+            this.TbPg_InsTest.Controls.Add(this.ChkBx_IntDacPcon);
             this.TbPg_InsTest.Controls.Add(this.Bt_ShipState);
             this.TbPg_InsTest.Controls.Add(this.Bt_LiPlot);
             this.TbPg_InsTest.Controls.Add(this.Lbl_V_I_out);
@@ -236,10 +242,20 @@
             this.TbPg_InsTest.TabIndex = 1;
             this.TbPg_InsTest.Text = "Laser Calibration";
             // 
+            // ChkBx_IntDacPcon
+            // 
+            this.ChkBx_IntDacPcon.AutoSize = true;
+            this.ChkBx_IntDacPcon.Location = new System.Drawing.Point(427, 363);
+            this.ChkBx_IntDacPcon.Name = "ChkBx_IntDacPcon";
+            this.ChkBx_IntDacPcon.Size = new System.Drawing.Size(119, 17);
+            this.ChkBx_IntDacPcon.TabIndex = 322;
+            this.ChkBx_IntDacPcon.Text = "Internal PCON DAC";
+            this.ChkBx_IntDacPcon.UseVisualStyleBackColor = true;
+            // 
             // Bt_ShipState
             // 
             this.Bt_ShipState.BackColor = System.Drawing.Color.Coral;
-            this.Bt_ShipState.Location = new System.Drawing.Point(360, 407);
+            this.Bt_ShipState.Location = new System.Drawing.Point(9, 471);
             this.Bt_ShipState.Name = "Bt_ShipState";
             this.Bt_ShipState.Size = new System.Drawing.Size(87, 39);
             this.Bt_ShipState.TabIndex = 321;
@@ -251,7 +267,7 @@
             // Bt_LiPlot
             // 
             this.Bt_LiPlot.BackColor = System.Drawing.Color.Coral;
-            this.Bt_LiPlot.Location = new System.Drawing.Point(360, 346);
+            this.Bt_LiPlot.Location = new System.Drawing.Point(336, 341);
             this.Bt_LiPlot.Name = "Bt_LiPlot";
             this.Bt_LiPlot.Size = new System.Drawing.Size(87, 39);
             this.Bt_LiPlot.TabIndex = 320;
@@ -281,7 +297,7 @@
             // Bt_SetIntPwCal
             // 
             this.Bt_SetIntPwCal.BackColor = System.Drawing.Color.Coral;
-            this.Bt_SetIntPwCal.Location = new System.Drawing.Point(221, 346);
+            this.Bt_SetIntPwCal.Location = new System.Drawing.Point(214, 341);
             this.Bt_SetIntPwCal.Name = "Bt_SetIntPwCal";
             this.Bt_SetIntPwCal.Size = new System.Drawing.Size(87, 39);
             this.Bt_SetIntPwCal.TabIndex = 317;
@@ -293,7 +309,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(152, 350);
+            this.label2.Location = new System.Drawing.Point(144, 344);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(62, 13);
             this.label2.TabIndex = 316;
@@ -302,7 +318,7 @@
             // lbl_LaserPD
             // 
             this.lbl_LaserPD.AutoSize = true;
-            this.lbl_LaserPD.Location = new System.Drawing.Point(113, 369);
+            this.lbl_LaserPD.Location = new System.Drawing.Point(104, 364);
             this.lbl_LaserPD.Name = "lbl_LaserPD";
             this.lbl_LaserPD.Size = new System.Drawing.Size(37, 13);
             this.lbl_LaserPD.TabIndex = 315;
@@ -311,7 +327,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(152, 369);
+            this.label1.Location = new System.Drawing.Point(144, 363);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(47, 13);
             this.label1.TabIndex = 314;
@@ -320,7 +336,7 @@
             // lbl_ADCpconRd
             // 
             this.lbl_ADCpconRd.AutoSize = true;
-            this.lbl_ADCpconRd.Location = new System.Drawing.Point(113, 350);
+            this.lbl_ADCpconRd.Location = new System.Drawing.Point(104, 345);
             this.lbl_ADCpconRd.Name = "lbl_ADCpconRd";
             this.lbl_ADCpconRd.Size = new System.Drawing.Size(37, 13);
             this.lbl_ADCpconRd.TabIndex = 313;
@@ -359,7 +375,7 @@
             // Bt_BasepltTemp
             // 
             this.Bt_BasepltTemp.BackColor = System.Drawing.Color.Coral;
-            this.Bt_BasepltTemp.Location = new System.Drawing.Point(106, 278);
+            this.Bt_BasepltTemp.Location = new System.Drawing.Point(103, 276);
             this.Bt_BasepltTemp.Name = "Bt_BasepltTemp";
             this.Bt_BasepltTemp.Size = new System.Drawing.Size(102, 22);
             this.Bt_BasepltTemp.TabIndex = 309;
@@ -425,7 +441,7 @@
             // Bt_FinalLsSetup
             // 
             this.Bt_FinalLsSetup.BackColor = System.Drawing.Color.Coral;
-            this.Bt_FinalLsSetup.Location = new System.Drawing.Point(10, 407);
+            this.Bt_FinalLsSetup.Location = new System.Drawing.Point(9, 406);
             this.Bt_FinalLsSetup.Name = "Bt_FinalLsSetup";
             this.Bt_FinalLsSetup.Size = new System.Drawing.Size(87, 39);
             this.Bt_FinalLsSetup.TabIndex = 300;
@@ -437,7 +453,7 @@
             // Bt_pdCalibration
             // 
             this.Bt_pdCalibration.BackColor = System.Drawing.Color.Coral;
-            this.Bt_pdCalibration.Location = new System.Drawing.Point(10, 346);
+            this.Bt_pdCalibration.Location = new System.Drawing.Point(9, 341);
             this.Bt_pdCalibration.Name = "Bt_pdCalibration";
             this.Bt_pdCalibration.Size = new System.Drawing.Size(87, 39);
             this.Bt_pdCalibration.TabIndex = 299;
@@ -449,7 +465,7 @@
             // Bt_BasePltTempComp
             // 
             this.Bt_BasePltTempComp.BackColor = System.Drawing.Color.Coral;
-            this.Bt_BasePltTempComp.Location = new System.Drawing.Point(10, 278);
+            this.Bt_BasePltTempComp.Location = new System.Drawing.Point(9, 276);
             this.Bt_BasePltTempComp.Name = "Bt_BasePltTempComp";
             this.Bt_BasePltTempComp.Size = new System.Drawing.Size(86, 39);
             this.Bt_BasePltTempComp.TabIndex = 298;
@@ -462,7 +478,7 @@
             // 
             this.Bt_PwOutMonCal.BackColor = System.Drawing.Color.Coral;
             this.Bt_PwOutMonCal.Enabled = false;
-            this.Bt_PwOutMonCal.Location = new System.Drawing.Point(103, 206);
+            this.Bt_PwOutMonCal.Location = new System.Drawing.Point(103, 211);
             this.Bt_PwOutMonCal.Name = "Bt_PwOutMonCal";
             this.Bt_PwOutMonCal.Size = new System.Drawing.Size(87, 39);
             this.Bt_PwOutMonCal.TabIndex = 297;
@@ -474,7 +490,7 @@
             // Bt_ZeroI
             // 
             this.Bt_ZeroI.BackColor = System.Drawing.Color.Coral;
-            this.Bt_ZeroI.Location = new System.Drawing.Point(9, 206);
+            this.Bt_ZeroI.Location = new System.Drawing.Point(9, 211);
             this.Bt_ZeroI.Name = "Bt_ZeroI";
             this.Bt_ZeroI.Size = new System.Drawing.Size(87, 39);
             this.Bt_ZeroI.TabIndex = 296;
@@ -521,7 +537,7 @@
             // bt_NewTest
             // 
             this.bt_NewTest.BackColor = System.Drawing.Color.Coral;
-            this.bt_NewTest.Location = new System.Drawing.Point(10, 146);
+            this.bt_NewTest.Location = new System.Drawing.Point(9, 146);
             this.bt_NewTest.Name = "bt_NewTest";
             this.bt_NewTest.Size = new System.Drawing.Size(87, 39);
             this.bt_NewTest.TabIndex = 292;
@@ -1794,7 +1810,7 @@
             this.Tb_DatabaseString.Name = "Tb_DatabaseString";
             this.Tb_DatabaseString.Size = new System.Drawing.Size(111, 20);
             this.Tb_DatabaseString.TabIndex = 187;
-            this.Tb_DatabaseString.Text = "CLM_PCB_Test";
+            this.Tb_DatabaseString.Text = "Laser_Setup_Config";
             this.Tb_DatabaseString.Visible = false;
             // 
             // Bt_IntExtPw
@@ -1835,15 +1851,33 @@
             this.dataGridView1.Size = new System.Drawing.Size(683, 96);
             this.dataGridView1.TabIndex = 6;
             // 
-            // checkBox1
+            // ChkBx_InvExtPcon
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(453, 364);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(119, 17);
-            this.checkBox1.TabIndex = 322;
-            this.checkBox1.Text = "Internal PCON DAC";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.ChkBx_InvExtPcon.AutoSize = true;
+            this.ChkBx_InvExtPcon.Location = new System.Drawing.Point(427, 342);
+            this.ChkBx_InvExtPcon.Name = "ChkBx_InvExtPcon";
+            this.ChkBx_InvExtPcon.Size = new System.Drawing.Size(117, 17);
+            this.ChkBx_InvExtPcon.TabIndex = 323;
+            this.ChkBx_InvExtPcon.Text = "lnv. External PCON";
+            this.ChkBx_InvExtPcon.UseVisualStyleBackColor = true;
+            // 
+            // Prg_Bar01
+            // 
+            this.Prg_Bar01.Location = new System.Drawing.Point(9, 542);
+            this.Prg_Bar01.Name = "Prg_Bar01";
+            this.Prg_Bar01.Size = new System.Drawing.Size(180, 13);
+            this.Prg_Bar01.Step = 1;
+            this.Prg_Bar01.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.Prg_Bar01.TabIndex = 324;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(14, 525);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(67, 13);
+            this.label9.TabIndex = 325;
+            this.label9.Text = "Progress Bar";
             // 
             // Form_iRIS_Clm_test_01
             // 
@@ -2025,7 +2059,10 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button Bt_ShipState;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox ChkBx_IntDacPcon;
+        private System.Windows.Forms.CheckBox ChkBx_InvExtPcon;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ProgressBar Prg_Bar01;
     }
 }
 
