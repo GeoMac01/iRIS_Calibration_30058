@@ -181,6 +181,7 @@
             this.Rt_ReceiveDataUSB = new System.Windows.Forms.RichTextBox();
             this.Bt_RdLaserStatus = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.TbPg_InsTest.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -192,6 +193,7 @@
             // 
             // TbPg_InsTest
             // 
+            this.TbPg_InsTest.Controls.Add(this.checkBox1);
             this.TbPg_InsTest.Controls.Add(this.Bt_ShipState);
             this.TbPg_InsTest.Controls.Add(this.Bt_LiPlot);
             this.TbPg_InsTest.Controls.Add(this.Lbl_V_I_out);
@@ -237,7 +239,7 @@
             // Bt_ShipState
             // 
             this.Bt_ShipState.BackColor = System.Drawing.Color.Coral;
-            this.Bt_ShipState.Location = new System.Drawing.Point(10, 481);
+            this.Bt_ShipState.Location = new System.Drawing.Point(360, 407);
             this.Bt_ShipState.Name = "Bt_ShipState";
             this.Bt_ShipState.Size = new System.Drawing.Size(87, 39);
             this.Bt_ShipState.TabIndex = 321;
@@ -249,7 +251,7 @@
             // Bt_LiPlot
             // 
             this.Bt_LiPlot.BackColor = System.Drawing.Color.Coral;
-            this.Bt_LiPlot.Location = new System.Drawing.Point(108, 407);
+            this.Bt_LiPlot.Location = new System.Drawing.Point(360, 346);
             this.Bt_LiPlot.Name = "Bt_LiPlot";
             this.Bt_LiPlot.Size = new System.Drawing.Size(87, 39);
             this.Bt_LiPlot.TabIndex = 320;
@@ -300,7 +302,7 @@
             // lbl_LaserPD
             // 
             this.lbl_LaserPD.AutoSize = true;
-            this.lbl_LaserPD.Location = new System.Drawing.Point(104, 369);
+            this.lbl_LaserPD.Location = new System.Drawing.Point(113, 369);
             this.lbl_LaserPD.Name = "lbl_LaserPD";
             this.lbl_LaserPD.Size = new System.Drawing.Size(37, 13);
             this.lbl_LaserPD.TabIndex = 315;
@@ -318,7 +320,7 @@
             // lbl_ADCpconRd
             // 
             this.lbl_ADCpconRd.AutoSize = true;
-            this.lbl_ADCpconRd.Location = new System.Drawing.Point(104, 350);
+            this.lbl_ADCpconRd.Location = new System.Drawing.Point(113, 350);
             this.lbl_ADCpconRd.Name = "lbl_ADCpconRd";
             this.lbl_ADCpconRd.Size = new System.Drawing.Size(37, 13);
             this.lbl_ADCpconRd.TabIndex = 313;
@@ -1833,6 +1835,16 @@
             this.dataGridView1.Size = new System.Drawing.Size(683, 96);
             this.dataGridView1.TabIndex = 6;
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(453, 364);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(119, 17);
+            this.checkBox1.TabIndex = 322;
+            this.checkBox1.Text = "Internal PCON DAC";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // Form_iRIS_Clm_test_01
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2013,6 +2025,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button Bt_ShipState;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 

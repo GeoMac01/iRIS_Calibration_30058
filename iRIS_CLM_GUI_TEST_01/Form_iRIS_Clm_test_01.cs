@@ -153,7 +153,6 @@ namespace iRIS_CLM_GUI_TEST_01
             {CmdSetCalAVtoPw,       StrEnable},
             {CmdSetCalBVtoPw,       StrDisable},
             {CmdRstTime,            StrEnable } };
-        
         //=================================================
 
         string[,] bulkSetVga = new string[6, 2] {
@@ -163,7 +162,6 @@ namespace iRIS_CLM_GUI_TEST_01
             { CmdAnalgInpt,         StrDisable },     //Non Inv. PCON
             { CmdEnablLogicvIn,     StrDisable },     //Non Inv. Laser Enable
             { CmdsetTTL,            StrEnable } };    //Inv. TTL line in
-
         //=================================================
 
         string[,] analogRead = new string[3, 2] {//read analog inputs
@@ -179,7 +177,6 @@ namespace iRIS_CLM_GUI_TEST_01
             { CmdCurrentRead,       StrDisable },
             { CmdRdTecTemprt,       StrDisable },
             { CmdRdBplateTemp,      StrDisable } };
-
         #endregion
         //=================================================
         string[]  testStringArr   =     new string[2];//used to load commands in bulk send
@@ -382,6 +379,8 @@ namespace iRIS_CLM_GUI_TEST_01
             rtnHeader = returnChop[0];
             rtnCmd =    returnChop[1];
             rtnValue =  returnChop[2];
+
+
 
             if (rtnCmd == cmdTrack)
             {
@@ -698,11 +697,12 @@ namespace iRIS_CLM_GUI_TEST_01
 
             else
             {
-                MessageBox.Show("Read Back Missmatch");
-                Tb_RSConnect.BackColor = Color.Red;
-                Tb_USBConnect.BackColor = Color.Red;
+                if (rtnCmd == "00") { /* do nothing */ }
+                else {
+                    MessageBox.Show("Read Back Missmatch");
+                    Tb_RSConnect.BackColor = Color.Red;
+                    Tb_USBConnect.BackColor = Color.Red; }
             }
-
         }//end of "ProcessString"
         #endregion
         //======================================================================
@@ -1720,12 +1720,11 @@ namespace iRIS_CLM_GUI_TEST_01
                 test2 = await LoadGlobalTestArray(bulkSetLaserIO);
                 test2 = await LoadGlobalTestArray(bulkSetTEC);
                 test2 = await LoadGlobalTestArray(bulkSetVarialble);
-                //test2 = await LoadGlobalTestArray(bulkSetdefaultCtrl);
 
                 this.Cursor = Cursors.Default;
                 bt_NewTest.BackColor = Color.LawnGreen;
 
-                MessageBox.Show("Disconnect USB\nPower Cycle laser\nWait for TEC lock LED\nStart 'Cal VGA'");
+                MessageBox.Show("Button Disconnect USB\nPower Cycle laser\nButton Re-connect USB\nWait for TEC lock LED\nStart 'Cal VGA'");
             }
             else if (bt_NewTest.BackColor == Color.LawnGreen)
             {
@@ -1804,8 +1803,9 @@ namespace iRIS_CLM_GUI_TEST_01
                 Tb_VPcon.Text = "00.000";
                 WriteDAC(0, 0);
 
-                if (Convert.ToBoolean(Read_USB_Digit_in(0)) == false)
+                if (Convert.ToBoolean(Read_USB_Digit_in(2)) == true)
                 {//Laser OK //test
+                    Tb_LaserOK.BackColor = Color.Green;
 
                     initvga = await SendToSerial(CmdLaserEnable, StrEnable, 300, 9);//Laser Enable
                     Set_USB_Digit_Out(0, 1);//Laser Enable
@@ -1857,7 +1857,9 @@ namespace iRIS_CLM_GUI_TEST_01
                         }
                     }
                 }
-                else MessageBox.Show("Laser NOT OK");
+                else if (Convert.ToBoolean(Read_USB_Digit_in(2)) == false) {
+                Tb_LaserOK.BackColor = Color.Red;
+                MessageBox.Show("Laser NOT OK"); }
 
                 WriteDAC(5, 0);
                 await Task.Delay(300);
@@ -2239,8 +2241,9 @@ namespace iRIS_CLM_GUI_TEST_01
                     Tb_VPcon.Text = "00.000";
                     WriteDAC(0, 0);
 
-                    if (Convert.ToBoolean(Read_USB_Digit_in(0)) == false)
+                    if (Convert.ToBoolean(Read_USB_Digit_in(2)) == true)
                     {//Laser OK //test
+                        Tb_LaserOK.BackColor = Color.Green;
 
                         bool liFile = await CreateRepFileLI();
 
@@ -2288,7 +2291,9 @@ namespace iRIS_CLM_GUI_TEST_01
                         this.Cursor = Cursors.Default;
                         Bt_LiPlot.BackColor = Color.LawnGreen;
                     }
-
+                    else if (Convert.ToBoolean(Read_USB_Digit_in(2)) == false) {
+                    Tb_LaserOK.BackColor = Color.Red;
+                    MessageBox.Show("Laser NOT OK"); }
                 }
                 else if (Bt_LiPlot.BackColor == Color.LawnGreen)
                 {
@@ -2530,6 +2535,7 @@ namespace iRIS_CLM_GUI_TEST_01
                 finalSet = await SendToSerial(CmdEnablLogicvIn, chkBxStateEnblSet, 300, 9);
                 finalSet = await SendToSerial(CmdsetTTL, chkBxStateDigitModSet, 300, 9);
                 finalSet = await SendToSerial(CmdAnalgInpt, chkBxStateAnlgModSet, 300, 9);
+                finalSet = await SendToSerial(CmdTestMode, StrDisable, 300, 9);
 
                 this.Cursor = Cursors.Default;
                 Bt_ShipState.BackColor = Color.LawnGreen;
