@@ -1547,6 +1547,51 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         #endregion  External Hardware
         //======================================================================
+        private async Task<bool> RampDACLI(double startRp, double stopRp, double stepRp, bool rdIntADC, bool invertedRamp)//external PCON
+        {
+            double maxPw = Convert.ToDouble(Tb_maxMaxPw.Text);
+            double maxCurr = Convert.ToDouble(Tb_MaxLsCurrent.Text);
+            bool rampDAC1task = false;
+            int arrIndex = 0;
+
+            for (double startRpLp = startRp; startRpLp <= stopRp; startRpLp = startRpLp + stepRp)
+            {
+                WriteDAC(startRpLp, 0);
+                rampDAC1task = await ReadAllanlg(rdIntADC);//displays current in bits
+
+                double pm100Res = Convert.ToDouble(Lbl_PM100rd.Text);//mW
+                double laserCurrent = Convert.ToDouble(Lbl_Viout.Text);
+
+                if (pm100Res > maxPw)
+                {
+                    Set_USB_Digit_Out(0, 0);//Laser disable
+                    WriteDAC(0, 0);
+                    MessageBox.Show("Power Error");
+                    return false;
+                }
+
+                if (((laserCurrent * 1000) / 5.01) > maxCurr)
+                {
+                    Set_USB_Digit_Out(0, 0);//Laser disable
+                    WriteDAC(0, 0);
+                    MessageBox.Show("Current Error");
+                    return false;
+                }
+
+                if (rdIntADC == true)
+                {
+                    dataADC[arrIndex, 0] = (pm100Res * 10);
+                    dataADC[arrIndex, 1] = Convert.ToDouble(lbl_LaserPD.Text);
+                    dataADC[arrIndex, 2] = Convert.ToDouble(lbl_ADCpconRd.Text);
+                    dataADC[arrIndex, 3] = ((Convert.ToDouble(Lbl_Viout.Text)) * 1000) / 5.01;
+                    dataADC[arrIndex, 4] = Convert.ToDouble(Lbl_Vpcon.Text);
+
+                    arrIndex++;
+                }
+            }
+            return true;
+        }
+        //======================================================================
         private async Task<bool> RampDAC1(double startRp, double stopRp, double stepRp, bool rdIntADC)//external PCON
         {
             double maxPw = Convert.ToDouble(Tb_maxMaxPw.Text);
@@ -2235,6 +2280,7 @@ namespace iRIS_CLM_GUI_TEST_01
                 double startRp  = 0.000;
                 double stopRp   =  0.000;
                 bool initvga    = false;//async methods
+                bool invRamp    = false;
 
                 dataADC.Initialize();
                 
@@ -2250,6 +2296,7 @@ namespace iRIS_CLM_GUI_TEST_01
 
                     if (ChkBx_InvExtPcon.Checked == false) //non inverted ramp
                     {
+                        invRamp = false;
                         startRp =   0.000;
                         stopRp =    5.000;
                         stepRp =    0.050;
@@ -2257,6 +2304,7 @@ namespace iRIS_CLM_GUI_TEST_01
                     }
                     else if(ChkBx_InvExtPcon.Checked == true) //inverted ramp
                     {
+                        invRamp = true;
                         startRp =   4.950;
                         stopRp =    0.000;
                         stepRp =    -0.050;
@@ -2270,9 +2318,6 @@ namespace iRIS_CLM_GUI_TEST_01
                     {
                         Tb_LaserOK.BackColor = Color.Green; //Laser OK 
 
-                        bool liFile = await CreateRepFileLI();
-
-                        WriteDAC(startRp, 0);
                         Set_USB_Digit_Out(1, 1);//digital modulation line
                         initvga = await SendToSerial(CmdLaserEnable, StrEnable, 300, 9);//Laser Enable
                         Set_USB_Digit_Out(0, 1);//Laser Enable
@@ -2280,13 +2325,15 @@ namespace iRIS_CLM_GUI_TEST_01
 
                         MessageBox.Show("Enable Laser");
 
-                        bool boolCalVGA1 = await RampDAC1(startRp, stopRp, stepRp, true);//set VGA MAX power
+                        bool boolCalVGA1 = await RampDACLI(startRp, stopRp, stepRp, true, invRamp);//an other ramp method to be on "safe side"...just not time now to consolidate
 
                         initvga = await SendToSerial(CmdLaserEnable, StrDisable, 300, 9); //end VGA stop test
                         Set_USB_Digit_Out(0, 0); //Laser Disable
                         Set_USB_Digit_Out(1, 0);//digital modulation line
                         WriteDAC(0, 0);
                         bool rdAnlg = await ReadAllanlg(false);
+
+                        bool liFile = await CreateRepFileLI();
 
                         Rt_ReceiveDataUSB.Clear();
 

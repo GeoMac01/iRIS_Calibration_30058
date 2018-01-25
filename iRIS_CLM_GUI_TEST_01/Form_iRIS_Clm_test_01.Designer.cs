@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.TbPg_InsTest = new System.Windows.Forms.TabPage();
+            this.label9 = new System.Windows.Forms.Label();
+            this.Prg_Bar01 = new System.Windows.Forms.ProgressBar();
+            this.ChkBx_InvExtPcon = new System.Windows.Forms.CheckBox();
             this.ChkBx_IntDacPcon = new System.Windows.Forms.CheckBox();
             this.Bt_ShipState = new System.Windows.Forms.Button();
             this.Bt_LiPlot = new System.Windows.Forms.Button();
@@ -182,9 +185,6 @@
             this.Rt_ReceiveDataUSB = new System.Windows.Forms.RichTextBox();
             this.Bt_RdLaserStatus = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.ChkBx_InvExtPcon = new System.Windows.Forms.CheckBox();
-            this.Prg_Bar01 = new System.Windows.Forms.ProgressBar();
-            this.label9 = new System.Windows.Forms.Label();
             this.TbPg_InsTest.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -241,6 +241,34 @@
             this.TbPg_InsTest.Size = new System.Drawing.Size(692, 566);
             this.TbPg_InsTest.TabIndex = 1;
             this.TbPg_InsTest.Text = "Laser Calibration";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(199, 542);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(67, 13);
+            this.label9.TabIndex = 325;
+            this.label9.Text = "Progress Bar";
+            // 
+            // Prg_Bar01
+            // 
+            this.Prg_Bar01.Location = new System.Drawing.Point(9, 542);
+            this.Prg_Bar01.Name = "Prg_Bar01";
+            this.Prg_Bar01.Size = new System.Drawing.Size(180, 13);
+            this.Prg_Bar01.Step = 1;
+            this.Prg_Bar01.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.Prg_Bar01.TabIndex = 324;
+            // 
+            // ChkBx_InvExtPcon
+            // 
+            this.ChkBx_InvExtPcon.AutoSize = true;
+            this.ChkBx_InvExtPcon.Location = new System.Drawing.Point(427, 342);
+            this.ChkBx_InvExtPcon.Name = "ChkBx_InvExtPcon";
+            this.ChkBx_InvExtPcon.Size = new System.Drawing.Size(117, 17);
+            this.ChkBx_InvExtPcon.TabIndex = 323;
+            this.ChkBx_InvExtPcon.Text = "lnv. External PCON";
+            this.ChkBx_InvExtPcon.UseVisualStyleBackColor = true;
             // 
             // ChkBx_IntDacPcon
             // 
@@ -1850,34 +1878,6 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(683, 96);
             this.dataGridView1.TabIndex = 6;
-            // 
-            // ChkBx_InvExtPcon
-            // 
-            this.ChkBx_InvExtPcon.AutoSize = true;
-            this.ChkBx_InvExtPcon.Location = new System.Drawing.Point(427, 342);
-            this.ChkBx_InvExtPcon.Name = "ChkBx_InvExtPcon";
-            this.ChkBx_InvExtPcon.Size = new System.Drawing.Size(117, 17);
-            this.ChkBx_InvExtPcon.TabIndex = 323;
-            this.ChkBx_InvExtPcon.Text = "lnv. External PCON";
-            this.ChkBx_InvExtPcon.UseVisualStyleBackColor = true;
-            // 
-            // Prg_Bar01
-            // 
-            this.Prg_Bar01.Location = new System.Drawing.Point(9, 542);
-            this.Prg_Bar01.Name = "Prg_Bar01";
-            this.Prg_Bar01.Size = new System.Drawing.Size(180, 13);
-            this.Prg_Bar01.Step = 1;
-            this.Prg_Bar01.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.Prg_Bar01.TabIndex = 324;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(14, 525);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(67, 13);
-            this.label9.TabIndex = 325;
-            this.label9.Text = "Progress Bar";
             // 
             // Form_iRIS_Clm_test_01
             // 
