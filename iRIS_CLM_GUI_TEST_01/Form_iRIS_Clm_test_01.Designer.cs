@@ -318,9 +318,9 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(240, 248);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(106, 13);
+            this.label4.Size = new System.Drawing.Size(134, 13);
             this.label4.TabIndex = 318;
-            this.label4.Text = "I = V/5.01 read back";
+            this.label4.Text = "I mA ( x5.01mv ) read back";
             // 
             // Bt_SetIntPwCal
             // 
@@ -1445,18 +1445,18 @@
             this.Lbl_Viout.AutoSize = true;
             this.Lbl_Viout.Location = new System.Drawing.Point(102, 280);
             this.Lbl_Viout.Name = "Lbl_Viout";
-            this.Lbl_Viout.Size = new System.Drawing.Size(40, 13);
+            this.Lbl_Viout.Size = new System.Drawing.Size(34, 13);
             this.Lbl_Viout.TabIndex = 308;
-            this.Lbl_Viout.Text = "00.000";
+            this.Lbl_Viout.Text = "000.0";
             // 
             // Lbl_Ma
             // 
             this.Lbl_Ma.AutoSize = true;
             this.Lbl_Ma.Location = new System.Drawing.Point(153, 281);
             this.Lbl_Ma.Name = "Lbl_Ma";
-            this.Lbl_Ma.Size = new System.Drawing.Size(55, 13);
+            this.Lbl_Ma.Size = new System.Drawing.Size(83, 13);
             this.Lbl_Ma.TabIndex = 307;
-            this.Lbl_Ma.Text = "I = V/5.01";
+            this.Lbl_Ma.Text = "I mA ( x5.01mv )";
             // 
             // Bt_SetPcon
             // 

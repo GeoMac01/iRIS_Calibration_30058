@@ -199,6 +199,8 @@ namespace iRIS_CLM_GUI_TEST_01
         byte[] byteArrayToTest3 = new byte[8];//reads back "bits"
 
         double[,] dataADC = new double[120, 5];
+        double maxPw = 0;
+        double maxCurr = 0;
 
         bool USB_Port_Open =    false;
         bool RS232_Port_Open =  false;
@@ -206,6 +208,7 @@ namespace iRIS_CLM_GUI_TEST_01
         bool testMode =         false;
             
         int arrayLgth   = 0;
+        int arrIndex    = 0;
 
         //======================================================================
         //SendRecvCOM sendRcv = new SendRecvCOM();
@@ -1549,80 +1552,64 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private async Task<bool> RampDACLI(double startRp, double stopRp, double stepRp, bool rdIntADC, bool invertedRamp)//external PCON
         {
-            double maxPw = Convert.ToDouble(Tb_maxMaxPw.Text);
-            double maxCurr = Convert.ToDouble(Tb_MaxLsCurrent.Text);
-            bool rampDAC1task = false;
-            int arrIndex = 0;
+            arrIndex = 0;
 
-            for (double startRpLp = startRp; startRpLp <= stopRp; startRpLp = startRpLp + stepRp)
-            {
-                WriteDAC(startRpLp, 0);
-                rampDAC1task = await ReadAllanlg(rdIntADC);//displays current in bits
+            if (invertedRamp == false) {//non inverted ramp 0V-5V
 
-                double pm100Res = Convert.ToDouble(Lbl_PM100rd.Text);//mW
-                double laserCurrent = Convert.ToDouble(Lbl_Viout.Text);
-
-                if (pm100Res > maxPw)
+                for (double startRpLp = startRp; startRpLp <= stopRp; startRpLp = startRpLp + stepRp)
                 {
-                    Set_USB_Digit_Out(0, 0);//Laser disable
-                    WriteDAC(0, 0);
-                    MessageBox.Show("Power Error");
-                    return false;
-                }
-
-                if (((laserCurrent * 1000) / 5.01) > maxCurr)
-                {
-                    Set_USB_Digit_Out(0, 0);//Laser disable
-                    WriteDAC(0, 0);
-                    MessageBox.Show("Current Error");
-                    return false;
-                }
-
-                if (rdIntADC == true)
-                {
-                    dataADC[arrIndex, 0] = (pm100Res * 10);
-                    dataADC[arrIndex, 1] = Convert.ToDouble(lbl_LaserPD.Text);
-                    dataADC[arrIndex, 2] = Convert.ToDouble(lbl_ADCpconRd.Text);
-                    dataADC[arrIndex, 3] = ((Convert.ToDouble(Lbl_Viout.Text)) * 1000) / 5.01;
-                    dataADC[arrIndex, 4] = Convert.ToDouble(Lbl_Vpcon.Text);
-
-                    arrIndex++;
+                    bool rampDAC1task = await RampExtPcon(startRpLp, true);
+                    if (rampDAC1task == false) { break; }
+                    else if (rampDAC1task == true) { continue; }
                 }
             }
+            else if (invertedRamp == true) {//inverted ramp 5V-0V
+                for (double startRpLp = startRp; startRpLp >= stopRp; startRpLp = startRpLp - stepRp)
+                {
+                    bool rampDAC1task = await RampExtPcon(startRpLp, true);
+                    if (rampDAC1task == false) { break; }
+                    else if (rampDAC1task == true) { continue; }
+                }
+            }
+
             return true;
         }
         //======================================================================
-        private async Task<bool> RampDAC1(double startRp, double stopRp, double stepRp, bool rdIntADC)//external PCON
+        private async Task<bool> RampExtPcon(double extDacValue, bool readAll)
         {
-            double maxPw = Convert.ToDouble(Tb_maxMaxPw.Text);
-            double maxCurr = Convert.ToDouble(Tb_MaxLsCurrent.Text);
+            WriteDAC(extDacValue, 0);//update Pcon DAC
+
+            bool rampDAC1task = await ReadAllanlg(readAll);//displays current in bits
+
+            if (readAll == true)
+            {
+                dataADC[arrIndex, 0] = Convert.ToDouble(Lbl_PM100rd.Text)*10;
+                dataADC[arrIndex, 1] = Convert.ToDouble(lbl_LaserPD.Text);
+                dataADC[arrIndex, 2] = Convert.ToDouble(lbl_ADCpconRd.Text);
+                dataADC[arrIndex, 3] = Convert.ToDouble(Lbl_Viout.Text);
+                dataADC[arrIndex, 4] = Convert.ToDouble(Lbl_Vpcon.Text);
+
+                arrIndex++;
+            }
+
+            return true;
+        }
+        //======================================================================
+        private async Task<bool> RampDAC1(double startRp, double stopRp, double stepRp, bool rdIntADC)//external PCON  can be replaced....
+        {
             bool rampDAC1task = false;
-            int arrIndex = 0;
+            arrIndex = 0;
  
             for (double startRpLp = startRp; startRpLp <= stopRp; startRpLp = startRpLp + stepRp) {
+
                     WriteDAC(startRpLp, 0);
                     rampDAC1task = await ReadAllanlg(rdIntADC);//displays current in bits
 
-                    double pm100Res = Convert.ToDouble(Lbl_PM100rd.Text);//mW
-                    double laserCurrent = Convert.ToDouble(Lbl_Viout.Text);
-
-                if (pm100Res > maxPw) {
-                    Set_USB_Digit_Out(0, 0);//Laser disable
-                    WriteDAC(0, 0);
-                    MessageBox.Show("Power Error");
-                    return false; }
-
-                if (((laserCurrent*1000)/5.01) > maxCurr) {
-                    Set_USB_Digit_Out(0, 0);//Laser disable
-                    WriteDAC(0, 0);
-                    MessageBox.Show("Current Error");
-                    return false; }
-
                 if (rdIntADC == true) {
-                    dataADC[arrIndex, 0] = (pm100Res*10);
+                    dataADC[arrIndex, 0] = Convert.ToDouble(Lbl_PM100rd.Text)*10; ;
                     dataADC[arrIndex, 1] = Convert.ToDouble(lbl_LaserPD.Text);
                     dataADC[arrIndex, 2] = Convert.ToDouble(lbl_ADCpconRd.Text);
-                    dataADC[arrIndex, 3] = ((Convert.ToDouble(Lbl_Viout.Text))*1000)/5.01;
+                    dataADC[arrIndex, 3] = Convert.ToDouble(Lbl_Viout.Text);
                     dataADC[arrIndex, 4] = Convert.ToDouble(Lbl_Vpcon.Text);
 
                     arrIndex++; }
@@ -1630,33 +1617,26 @@ namespace iRIS_CLM_GUI_TEST_01
             return true;
         }
         //======================================================================
-        private async Task<bool> RampDAC1toPower(double startRp, double stopRp, double stepRp, bool rdIntADC)//external PCON
+        private async Task<bool> RampDAC1toPower(double startRp, double stopRp, double stepRp, bool rdIntADC)//external PCON can be simplified
         {
             double minmaxPw = Convert.ToDouble(Tb_minMaxPw.Text);
             double maxCurr = Convert.ToDouble(Tb_MaxLsCurrent.Text);
             bool rampDAC1task = false;
-            int arrIndex = 0;
+            arrIndex = 0;
 
             for (double startRpLp = startRp; startRpLp <= stopRp; startRpLp = startRpLp + stepRp)
             {
                 WriteDAC(startRpLp, 0);
                 rampDAC1task = await ReadAllanlg(rdIntADC);//displays current in bits
+
                 double pm100Res = Convert.ToDouble(Lbl_PM100rd.Text);//mW
-                double laserCurrent = Convert.ToDouble(Lbl_Viout.Text);
-
-                if ((laserCurrent*1000/5.01) > maxCurr) {
-                    Set_USB_Digit_Out(0, 0);//Laser disable
-                    WriteDAC(0, 0);
-                    MessageBox.Show("Current Error");
-                    return false; }
-
                 if (pm100Res >= minmaxPw) { return true; }//power good
 
                 if (rdIntADC == true) {
-                    dataADC[arrIndex, 0] = (pm100Res * 10);
+                    dataADC[arrIndex, 0] = pm100Res*10;
                     dataADC[arrIndex, 1] = Convert.ToDouble(lbl_LaserPD.Text);
                     dataADC[arrIndex, 2] = Convert.ToDouble(lbl_ADCpconRd.Text);
-                    dataADC[arrIndex, 3] = ((Convert.ToDouble(Lbl_Viout.Text)) * 1000) / 5.01;
+                    dataADC[arrIndex, 3] = Convert.ToDouble(Lbl_Viout.Text);
                     dataADC[arrIndex, 4] = Convert.ToDouble(Lbl_Vpcon.Text);
                     arrIndex++; }
             }
@@ -1664,13 +1644,11 @@ namespace iRIS_CLM_GUI_TEST_01
             return false;
         }
         //======================================================================
-        private async Task<bool> RampDACint(double startRp, double stopRp, double stepRp, bool rdIntADC)
+        private async Task<bool> RampDACint(double startRp, double stopRp, double stepRp, bool rdIntADC)//can be simplified
         {
-            double maxPw = Convert.ToDouble(Tb_maxMaxPw.Text);
-            double maxCurr = Convert.ToDouble(Tb_MaxLsCurrent.Text);
             string intPwVolt = string.Empty;
             bool rmpInt = false;
-            int arrIndex = 0;
+            arrIndex = 0;
 
             rmpInt = await SendToSerial(CmdSetInOutPwCtrl, StrEnable, 300, 9);
 
@@ -1680,25 +1658,12 @@ namespace iRIS_CLM_GUI_TEST_01
                 tb_SetIntPw.Text = intPwVolt;
                 rmpInt = await SendToSerial(CmdSetPwCtrlOut, intPwVolt, 300, 9);
                 rmpInt = await ReadAllanlg(rdIntADC);
-                double pm100Res = Convert.ToDouble(Lbl_PM100rd.Text);//mW
-                double laserCurrent = Convert.ToDouble(Lbl_Viout.Text);
-
-                if (pm100Res > maxPw) {
-                    WriteDAC(0, 0);
-                    MessageBox.Show("Power Error");
-                    return false; }//ramp error
-
-                if ((laserCurrent*1000/5.01) > maxCurr) {
-                    Set_USB_Digit_Out(0, 0);//Laser disable
-                    WriteDAC(0, 0);
-                    MessageBox.Show("Current Error");
-                    return false; }
 
                 if (rdIntADC == true) {
-                    dataADC[arrIndex, 0] = (pm100Res * 10);
+                    dataADC[arrIndex, 0] = Convert.ToDouble(Lbl_PM100rd.Text)*10;
                     dataADC[arrIndex, 1] = Convert.ToDouble(lbl_LaserPD.Text);
                     dataADC[arrIndex, 2] = Convert.ToDouble(Lbl_RtnPwDACvalue.Text);
-                    dataADC[arrIndex, 3] = ((Convert.ToDouble(Lbl_Viout.Text)) * 1000)/5.01;
+                    dataADC[arrIndex, 3] = Convert.ToDouble(Lbl_Viout.Text);
                     dataADC[arrIndex, 4] = Convert.ToDouble(Lbl_Vpcon.Text);
                     arrIndex++; }
             }
@@ -1712,24 +1677,33 @@ namespace iRIS_CLM_GUI_TEST_01
             double pwrRead = 0;             //pm100
             double pconRead = ReadADC(0);   //PCON feedback
             double lsrPwRead = ReadADC(1);  //PD Vout
-            double lsrCurrRead = ReadADC(2);//Current Vout
+            double lsrCurrRead = (ReadADC(2) * 1000) / 5.01; ; //Current Vout converted to mA compatible with laser setup data
+
+            if (pm100ok == true) {//PM100 Connected
+                pwrRead = ReadPM100();
+                Lbl_PM100rd.Text = pwrRead.ToString("00.000");  } //update label in mW
+            else if (pm100ok == false) {
+                MessageBox.Show("PM100 not connected");
+                return false; }
 
             Lbl_Vpcon.Text = pconRead.ToString("00.000");
             Lbl_PwreadV.Text = lsrPwRead.ToString("00.000");//*294.12
-            Lbl_Viout.Text = lsrCurrRead.ToString("00.000");
+            Lbl_Viout.Text = lsrCurrRead.ToString("000.0");
             Lbl_V_I_out.Text = Lbl_Viout.Text;
-            /*
-            if (testMode == true) {//test mode
-                Lbl_Viout.Text = lsrCurrRead.ToString("00.000");
-                Lbl_Ma.Text = "Laser I in V /5"; }
-            else if (testMode == false) {//run mode
-                string currentMa = Convert.ToString(lsrCurrRead * 200);
-                int endIndex = currentMa.LastIndexOf(".");
-                Lbl_Viout.Text = currentMa.Substring(0, endIndex);
-                Lbl_Ma.Text = "Laser I in mA"; }
-            */
-             if (pm100ok == true) { pwrRead = ReadPM100();
-                Lbl_PM100rd.Text = pwrRead.ToString("00.000"); }//in mW
+
+            if (lsrCurrRead > maxCurr)
+            {
+                Set_USB_Digit_Out(0, 0);//Laser disable
+                WriteDAC(0, 0);
+                MessageBox.Show("Current Error");
+                return false;
+            }
+
+            if (pwrRead > maxPw) {
+                Set_USB_Digit_Out(0, 0);//Laser disable
+                WriteDAC(0, 0);
+                MessageBox.Show("Power Error");
+                return false; }
 
             if (fullRd == true) { bool readAdc = await LoadGlobalTestArray(analogRead); }//internal uCadc
 
@@ -1750,6 +1724,9 @@ namespace iRIS_CLM_GUI_TEST_01
             if (bt_NewTest.BackColor == Color.Coral)
             {
                 this.Cursor = Cursors.WaitCursor;
+
+                maxPw = Convert.ToDouble(Tb_maxMaxPw.Text);
+                maxCurr = Convert.ToDouble(Tb_MaxLsCurrent.Text);
 
                 Tb_VGASet.Text = "0020";
                 tb_SetIntPw.Text = "2.500";
@@ -1779,6 +1756,7 @@ namespace iRIS_CLM_GUI_TEST_01
                 bt_NewTest.BackColor = Color.LawnGreen;
                 Prg_Bar01.Value = 0;
                 MessageBox.Show("Button Disconnect USB\nPower Cycle laser\nButton Re-connect USB\nWait for TEC lock LED\nStart 'Cal VGA'");
+
             }
             else if (bt_NewTest.BackColor == Color.LawnGreen)
             {
@@ -2246,7 +2224,7 @@ namespace iRIS_CLM_GUI_TEST_01
                 sendCalPw = await ReadAllanlg(true);
 
                 /*************************************************/
-                try { if (File.Exists(filePath)) { using (StreamWriter fs = File.AppendText(filePath)) { fs.WriteLine("Vout PD Mon @ Max. Pw: " + Lbl_PwreadV.Text); } } }
+                try { if (File.Exists(filePath)) { using (StreamWriter fs = File.AppendText(filePath)) { fs.WriteLine("Vout PD Mon @ Min. Pw: " + Lbl_PwreadV.Text); } } }
                 catch (Exception err1) { MessageBox.Show(err1.Message); }
                 /*************************************************/
 
@@ -2276,9 +2254,9 @@ namespace iRIS_CLM_GUI_TEST_01
                 this.Cursor = Cursors.WaitCursor;
 
                 int indx = dataADC.GetLength(0);
-                double stepRp   = 0.000;
+                double stepRp   = 0.050;
                 double startRp  = 0.000;
-                double stopRp   =  0.000;
+                double stopRp   = 0.000;
                 bool initvga    = false;//async methods
                 bool invRamp    = false;
 
@@ -2299,15 +2277,13 @@ namespace iRIS_CLM_GUI_TEST_01
                         invRamp = false;
                         startRp =   0.000;
                         stopRp =    5.000;
-                        stepRp =    0.050;
                         iniLItest = await SendToSerial(CmdAnalgInpt, StrDisable, 300, 9); //Non Inv. PCON
                     }
                     else if(ChkBx_InvExtPcon.Checked == true) //inverted ramp
                     {
                         invRamp = true;
-                        startRp =   4.950;
+                        startRp =   5.000;
                         stopRp =    0.000;
-                        stepRp =    -0.050;
                         iniLItest = await SendToSerial(CmdAnalgInpt, StrEnable, 300, 9); //Inv. PCON
                     }
                 }
@@ -2353,7 +2329,7 @@ namespace iRIS_CLM_GUI_TEST_01
                             {
                                 fsLI.WriteLine("\n");
 
-                                for (int arrLp = 0; arrLp < 100; arrLp++)
+                                for (int arrLp = 0; arrLp <= 100; arrLp++)//auto size...???
                                 {
                                     fsLI.WriteLine( dataADC[arrLp, 3].ToString() + " " +
                                                     dataADC[arrLp, 0].ToString() + " " +
@@ -2434,13 +2410,13 @@ namespace iRIS_CLM_GUI_TEST_01
 
             if (Bt_BasePltTempComp.BackColor == Color.Coral)
             {
-            bool setCompT =     await SendToSerial(CmdSetBaseTempCal, "0000", 300, 9);                         //set init comp to 0000 remember to reset for next init.
-            setCompT =          await SendToSerial(CmdRdBplateTemp, StrDisable, 300, 9);                       //read initial value
+            bool setCompT =     await SendToSerial(CmdSetBaseTempCal, "0000", 300, 9);                      //set init comp to 0000 remember to reset for next init.
+            setCompT =          await SendToSerial(CmdRdBplateTemp, StrDisable, 300, 9);                    //read initial value
             
             int measTemp =  ReadExtTemp();                                                                  //get user temp //wait
             int tempComp1 = Convert.ToInt16(Lbl_TempBplt.Text) - measTemp;
-            setCompT = await SendToSerial(CmdSetBaseTempCal, tempComp1.ToString("0000"), 300, 9);      //set init comp to 0000 remember to reset for next init.
-            setCompT = await SendToSerial(CmdRdBplateTemp, StrDisable, 300, 9);                            //read comp data
+            setCompT = await SendToSerial(CmdSetBaseTempCal, tempComp1.ToString("0000"), 300, 9);           //set init comp to 0000 remember to reset for next init.
+            setCompT = await SendToSerial(CmdRdBplateTemp, StrDisable, 300, 9);                             //read comp data
 
             Bt_BasePltTempComp.BackColor = Color.LawnGreen;
             }
