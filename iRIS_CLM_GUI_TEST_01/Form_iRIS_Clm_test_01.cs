@@ -383,8 +383,6 @@ namespace iRIS_CLM_GUI_TEST_01
             rtnCmd =    returnChop[1];
             rtnValue =  returnChop[2];
 
-
-
             if (rtnCmd == cmdTrack)
             {
                 cmdTrack = string.Empty;
@@ -445,6 +443,7 @@ namespace iRIS_CLM_GUI_TEST_01
 
                     case CmdRdWavelen:
                         Lbl_WaveLg.Text = rtnValue;
+                        Lbl_WaveLg.ForeColor = Color.Green;
                         break;
 
                     case CmdLaserEnable://uses serial send to set
@@ -599,10 +598,18 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdSetCalAVtoPw:
-                        Tb_CalAcmdToPw.Text = rtnValue;
+                        Tb_CalA_PwToADC.Text = rtnValue;              
                         break;
 
                     case CmdSetCalBVtoPw:
+                        Tb_CalB_PwToADC.Text = rtnValue;                      
+                        break;
+
+                    case CmdSetCalAPwtoVint:
+                        Tb_CalAcmdToPw.Text = rtnValue;
+                        break;
+
+                    case CmdSetCalBPwtoVint:
                         Tb_CalBcmdToPw.Text = rtnValue;
                         break;
 
@@ -655,14 +662,6 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdSetBaseTempCal:
-                        break;
-
-                    case CmdSetCalAPwtoVint:
-                        Tb_CalA_PwToADC.Text = rtnValue;
-                        break;
-
-                    case CmdSetCalBPwtoVint:
-                        Tb_CalB_PwToADC.Text = rtnValue;
                         break;
 
                     case CmdSetTECTemp:
@@ -874,12 +873,24 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdSetCalAVtoPw:
-                    dataToAppd = Tb_CalAcmdToPw.Text;
+                    dataToAppd = Tb_CalA_PwToADC.Text;
                     sndDl = 600;
                     comThresh = 14;
                     break;
 
                 case CmdSetCalBVtoPw:
+                    dataToAppd = Tb_CalB_PwToADC.Text;
+                    sndDl = 600;
+                    comThresh = 14;
+                    break;
+
+                case CmdSetCalAPwtoVint:
+                    dataToAppd = Tb_CalAcmdToPw.Text;
+                    sndDl = 600;
+                    comThresh = 14;
+                    break;
+
+                case CmdSetCalBPwtoVint:
                     dataToAppd = Tb_CalBcmdToPw.Text;
                     sndDl = 600;
                     comThresh = 14;
@@ -897,11 +908,12 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdSetWavelenght:
-                    dataToAppd = Tb_Wavelength.Text;
+                    dataToAppd = Lbl_Wlgth1.Text;
                     break;
 
                 case CmdSetLsMominalPw:
-                    dataToAppd = Tb_NomPw.Text;
+                    double nomPw = (Convert.ToDouble(Tb_NomPw.Text))*10;
+                    dataToAppd = nomPw.ToString("0000");
                     break;
 
                 case CmdSetCustomerPm:
@@ -939,18 +951,6 @@ namespace iRIS_CLM_GUI_TEST_01
 
                 case CmdSetBaseTempCal:
                     //compensation value for temperature
-                    break;
-
-                case CmdSetCalAPwtoVint:
-                    dataToAppd = Tb_CalA_PwToADC.Text;
-                    sndDl = 600;
-                    comThresh = 14;
-                    break;
-
-                case CmdSetCalBPwtoVint:
-                    dataToAppd = Tb_CalB_PwToADC.Text;
-                    sndDl = 600;
-                    comThresh = 14;
                     break;
 
                 case CmdSetTECTemp:
@@ -1073,7 +1073,6 @@ namespace iRIS_CLM_GUI_TEST_01
                     Bt_RefrCOMs.Enabled = false;
                     Bt_SetAddr.Enabled = true;
                     Task<bool> usbadd = SetAddress();
-                    MessageBox.Show(" Connect PM100 \n" + " Connect USB IO interface \n");
                     //Reset_Form();
                 }
                 catch (Exception)
@@ -1253,8 +1252,6 @@ namespace iRIS_CLM_GUI_TEST_01
                         DisplayData();
                         */
         //======================================================================
-        private void Tb_TecSerNumb_MouseClick(object sender, MouseEventArgs e) { tb_TecSerNumb.Clear(); }
-        //======================================================================
         private void Tb_TecSerNumb_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -1283,8 +1280,6 @@ namespace iRIS_CLM_GUI_TEST_01
                 else { MessageBox.Show("Provide Details!"); }
             }
         }
-        //======================================================================
-        private void Tb_User_MouseClick(object sender, MouseEventArgs e) { Tb_User.Clear(); }
         //======================================================================
         private void Tb_User_KeyDown(object sender, KeyEventArgs e)
         {
@@ -1377,6 +1372,7 @@ namespace iRIS_CLM_GUI_TEST_01
                 {
                     MessageBox.Show("Thorlab resources " + Convert.ToString(rsrc));
                     pm.setWavelength(Convert.ToInt16(Tb_Wavelength.Text));
+                    //Set Zero / Dark adjustment
                     //pm.setPowerAutoRange(true);
                     pm100cnt = true;
                 }
@@ -1688,7 +1684,8 @@ namespace iRIS_CLM_GUI_TEST_01
 
             Lbl_Vpcon.Text = pconRead.ToString("00.000");
             Lbl_PwreadV.Text = lsrPwRead.ToString("00.000");//*294.12
-            Lbl_Viout.Text = lsrCurrRead.ToString("000.0");
+            Lbl_Viout.Text = lsrCurrRead.ToString("000.0");//already converted to mA
+            label4.Text = " Imon mA";
             Lbl_V_I_out.Text = Lbl_Viout.Text;
 
             if (lsrCurrRead > maxCurr)
@@ -1728,6 +1725,8 @@ namespace iRIS_CLM_GUI_TEST_01
                 maxPw = Convert.ToDouble(Tb_maxMaxPw.Text);
                 maxCurr = Convert.ToDouble(Tb_MaxLsCurrent.Text);
 
+                Lbl_WaveLg.Text = "0000";
+                Lbl_WaveLg.ForeColor = Color.DarkBlue;
                 Tb_VGASet.Text = "0020";
                 tb_SetIntPw.Text = "2.500";
                 Tb_SetOffset.Text = "2.500";
@@ -1755,8 +1754,8 @@ namespace iRIS_CLM_GUI_TEST_01
                 this.Cursor = Cursors.Default;
                 bt_NewTest.BackColor = Color.LawnGreen;
                 Prg_Bar01.Value = 0;
-                MessageBox.Show("Button Disconnect USB\nPower Cycle laser\nButton Re-connect USB\nWait for TEC lock LED\nStart 'Cal VGA'");
-
+                MessageBox.Show(" Now \n" + " Connect PM100 and \n" + " Connect USB IO interface \n");
+                MessageBox.Show(" Button Disconnect USB \n Power Cycle laser \n Button Re-connect USB \n Wait for TEC lock LED \n Start 'Cal VGA' \n");
             }
             else if (bt_NewTest.BackColor == Color.LawnGreen)
             {
@@ -1963,6 +1962,7 @@ namespace iRIS_CLM_GUI_TEST_01
 
             double lsrCurrRead = ReadADC(2);//Current monitor voltage
             Lbl_V_I_out.Text = lsrCurrRead.ToString("00.000");//make sure it is the right label updated...
+            label4.Text = " Imon Volts";
             rdIcal = await SendToSerial(CmdCurrentRead, StrDisable, 300, 9);//read current value from cpu displayed on label
 
             rdIcal = await SendToSerial(CmdSet0mA, StrDisable , 300, 9);//zero value cal
@@ -2008,7 +2008,8 @@ namespace iRIS_CLM_GUI_TEST_01
             Set_USB_Digit_Out(0, 1);                                        //Enable laser  
             pdCalTask = await SendToSerial(CmdLaserEnable, StrEnable, 300, 9); // 
 
-            pdCalTask = await RampDAC1(startRp, stopRp, stepRp, true);
+                //pdCalTask = await RampDAC1(startRp, stopRp, stepRp, true);replaced with below
+                pdCalTask = await RampDACLI(startRp, stopRp, stepRp, true, false);//external PCON
 
             WriteDAC(0, 0);
             Set_USB_Digit_Out(0, 0);                    
@@ -2075,26 +2076,26 @@ namespace iRIS_CLM_GUI_TEST_01
 
                         using (StreamWriter fs = File.AppendText(filePath))
                         {
-
-                            fs.WriteLine("DATE: " + dateTimePicker1.Value.ToString());
+                            fs.WriteLine("\nDATE: " + dateTimePicker1.Value.ToString());
                             fs.WriteLine("User: " + Tb_User.Text);
                             fs.WriteLine("PCB SN: " + lbl_SerNbReadBack.Text);
                             fs.WriteLine("TEC SN: " + tb_TecSerNumb.Text);
-                            fs.WriteLine("PCB SN: " + lbl_SerNbReadBack.Text);
+                            fs.WriteLine("Firmware: " + lbl_SWLevel.Text);
                             fs.WriteLine("Wavelength: " + Lbl_WaveLg.Text);
                             fs.WriteLine("Nominal power: " + Tb_NomPw.Text);
                             fs.WriteLine("Set Add.: " + lbl_RdAdd.Text);
                             fs.WriteLine("VGA value: " + Lbl_VGAval.Text);
+                            fs.WriteLine("Offset value: " + Tb_SetOffset.Text);
                             fs.WriteLine("A Pw Cal: " + Tb_CalA_Pw.Text);
                             fs.WriteLine("B Pw Cal: " + Tb_CalB_Pw.Text);
-                            fs.WriteLine("A Pw to ADC in: " + Tb_CalA_PwToADC.Text);
-                            fs.WriteLine("B Pw to ADC in: " + Tb_CalB_PwToADC.Text);
-                            fs.WriteLine("A Pcon to Pw: " + Tb_CalAcmdToPw.Text);
-                            fs.WriteLine("B Pcon to Pw: " + Tb_CalAcmdToPw.Text);
-                            fs.WriteLine("External Power Control: " + chkBxStateExtPwCtrl);
-                            fs.WriteLine("Enable Set Non-Inverted: " + chkBxStateEnblSet);
-                            fs.WriteLine("Digital Modulation Non-Inverted: " + chkBxStateDigitModSet);
-                            fs.WriteLine("Analog Modulation Non-Inverted: " + chkBxStateAnlgModSet);
+                            fs.WriteLine("A Pw to ADC in: " + Tb_CalAcmdToPw.Text);
+                            fs.WriteLine("B Pw to ADC in: " + Tb_CalBcmdToPw.Text);
+                            fs.WriteLine("A Pcon to Pw: " + Tb_CalA_PwToADC.Text);
+                            fs.WriteLine("B Pcon to Pw: " + Tb_CalB_PwToADC.Text);
+                            fs.WriteLine("Internal Power Control: " + chkBxStateExtPwCtrl);
+                            fs.WriteLine("Analog Modulation set to Inverted: " + chkBxStateAnlgModSet);
+                            fs.WriteLine("Digital Modulation set to Inverted: " + chkBxStateDigitModSet);
+                            fs.WriteLine("Enable set to Inverted: " + chkBxStateEnblSet);
                         }
                     }
                 }
