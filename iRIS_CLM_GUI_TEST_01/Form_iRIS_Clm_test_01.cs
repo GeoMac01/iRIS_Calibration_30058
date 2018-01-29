@@ -848,7 +848,8 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdRatedPower:
-                    dataToAppd = Tb_NomPw.Text;
+                    double RtPw = (Convert.ToDouble(Tb_RatedPower.Text)) * 10;
+                    dataToAppd = RtPw.ToString("0000");
                     break;
 
                 case CmdCurrentRead:
@@ -1613,6 +1614,7 @@ namespace iRIS_CLM_GUI_TEST_01
             return true;
         }
         //======================================================================
+        /*
         private async Task<bool> RampDAC1toPower(double startRp, double stopRp, double stepRp, bool rdIntADC)//external PCON can be simplified
         {
             double minmaxPw = Convert.ToDouble(Tb_minMaxPw.Text);
@@ -1637,6 +1639,34 @@ namespace iRIS_CLM_GUI_TEST_01
                     arrIndex++; }
             }
 
+            return false;
+        }
+        */
+        private async Task<bool> RampDAC1toPower(double toPower, double startRp, double stopRp, double stepRp, bool rdIntADC)//external PCON can be simplified
+        {
+            //double minmaxPw = Convert.ToDouble(Tb_minMaxPw.Text);
+            double maxCurr = Convert.ToDouble(Tb_MaxLsCurrent.Text);
+            bool rampDAC1task = false;
+            arrIndex = 0;
+
+            for (double startRpLp = startRp; startRpLp <= stopRp; startRpLp = startRpLp + stepRp)
+            {
+                WriteDAC(startRpLp, 0);
+                rampDAC1task = await ReadAllanlg(rdIntADC);//displays current in bits
+
+                double pm100Res = Convert.ToDouble(Lbl_PM100rd.Text);//mW
+                if (pm100Res >= toPower) { return true; }//power good
+
+                if (rdIntADC == true)
+                {
+                    dataADC[arrIndex, 0] = pm100Res * 10;
+                    dataADC[arrIndex, 1] = Convert.ToDouble(lbl_LaserPD.Text);
+                    dataADC[arrIndex, 2] = Convert.ToDouble(lbl_ADCpconRd.Text);
+                    dataADC[arrIndex, 3] = Convert.ToDouble(Lbl_Viout.Text);
+                    dataADC[arrIndex, 4] = Convert.ToDouble(Lbl_Vpcon.Text);
+                    arrIndex++;
+                }
+            }
             return false;
         }
         //======================================================================
@@ -1817,6 +1847,7 @@ namespace iRIS_CLM_GUI_TEST_01
                 string Pw_Pcon_055V = string.Empty;
                 string Pw_Pcon_500V = string.Empty;
                 string Pw_EnOff = string.Empty;
+                string Pw_05vPCON = string.Empty;
 
                 string offset = string.Empty;
                 bool initvga = false;
@@ -1907,6 +1938,10 @@ namespace iRIS_CLM_GUI_TEST_01
                 initvga = await ReadAllanlg(false);
                 Pw_Pcon_0V = Lbl_PM100rd.Text;
 
+                bool rampdac11 = await RampDAC1toPower(00.050, 0.450, 00.700, 0.005, false);//adjust PCON to MAX power
+                initvga = await ReadAllanlg(false);
+                Pw_05vPCON = lbl_ADCpconRd.Text;
+
                 Set_USB_Digit_Out(0, 0); //Laser Disable
                 await Task.Delay(300);
                 initvga = await ReadAllanlg(false);
@@ -1928,6 +1963,7 @@ namespace iRIS_CLM_GUI_TEST_01
                             fs.WriteLine("Power @ 0.55V Pcon: " + Pw_Pcon_055V);
                             fs.WriteLine("Power @ 0V Pcon: " + Pw_Pcon_0V);
                             fs.WriteLine("Power @ En. Off: " + Pw_EnOff);
+                            fs.WriteLine("PCON Voltage @ 0.1% power: " + Pw_05vPCON);
                         }
                     }
                 }
@@ -2195,8 +2231,10 @@ namespace iRIS_CLM_GUI_TEST_01
                 const double startRp = 00.000;
                 const double stopRp = 5.000;
                 const double stepRp = 0.050;
-                string pmonVmax = Tb_PwToVcal.Text;
+                string pmonVmax = Tb_PwToVcal.Text;//4V 
                 double pmonVmaxDlb = Convert.ToDouble(Tb_PwToVcal.Text);
+
+                double RatedPw = Convert.ToDouble(Tb_RatedPower.Text);
 
                 this.Cursor = Cursors.WaitCursor;
 
@@ -2205,7 +2243,7 @@ namespace iRIS_CLM_GUI_TEST_01
                 sendCalPw = await SendToSerial(CmdLaserEnable, StrEnable, 300, 9);
                 Set_USB_Digit_Out(0, 1);
 
-                bool rampdac1 = await RampDAC1toPower(startRp, stopRp, stepRp, false);//adjust PCON to MAX power
+                bool rampdac1 = await RampDAC1toPower(RatedPw, startRp, stopRp, stepRp, false);//adjust PCON to MAX power
 
                 sendCalPw = await SendToSerial(CmdSetPwtoVout, pmonVmax, 600, 9);
                 sendCalPw = await ReadAllanlg(true);
