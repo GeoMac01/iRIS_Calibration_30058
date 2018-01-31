@@ -80,7 +80,7 @@
             this.TbPg_Iris_Init = new System.Windows.Forms.TabPage();
             this.label3 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.Lbl_MonPowerDtbas = new System.Windows.Forms.Label();
             this.Lbl_Wlgth1 = new System.Windows.Forms.Label();
             this.ChkBx_AnlgModSet = new System.Windows.Forms.CheckBox();
             this.ChkBx_DigitModSet = new System.Windows.Forms.CheckBox();
@@ -98,8 +98,12 @@
             this.tb_TecSerNumb = new System.Windows.Forms.TextBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.TbPg_Results = new System.Windows.Forms.TabPage();
+            this.label5 = new System.Windows.Forms.Label();
+            this.Tb_txtFilePathRep = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.Tb_RatedPower = new System.Windows.Forms.TextBox();
             this.label28 = new System.Windows.Forms.Label();
-            this.Tb_txtFilePath = new System.Windows.Forms.TextBox();
+            this.Tb_txtFilePathLI = new System.Windows.Forms.TextBox();
             this.Lbl_RtnPwDACvalue = new System.Windows.Forms.Label();
             this.Bt_SetVGA = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -185,8 +189,6 @@
             this.Rt_ReceiveDataUSB = new System.Windows.Forms.RichTextBox();
             this.Bt_RdLaserStatus = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.label10 = new System.Windows.Forms.Label();
-            this.Tb_RatedPower = new System.Windows.Forms.TextBox();
             this.TbPg_InsTest.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -555,6 +557,7 @@
             // Bt_PM100
             // 
             this.Bt_PM100.BackColor = System.Drawing.Color.Coral;
+            this.Bt_PM100.Enabled = false;
             this.Bt_PM100.ForeColor = System.Drawing.Color.DarkBlue;
             this.Bt_PM100.Location = new System.Drawing.Point(416, 12);
             this.Bt_PM100.Name = "Bt_PM100";
@@ -724,9 +727,9 @@
             this.label29.AutoSize = true;
             this.label29.Location = new System.Drawing.Point(248, 12);
             this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(84, 13);
+            this.label29.Size = new System.Drawing.Size(82, 13);
             this.label29.TabIndex = 266;
-            this.label29.Text = "Board Serial Nb:";
+            this.label29.Text = "Laser Serial Nb:";
             // 
             // tabControl1
             // 
@@ -743,7 +746,7 @@
             // 
             this.TbPg_Iris_Init.Controls.Add(this.label3);
             this.TbPg_Iris_Init.Controls.Add(this.label7);
-            this.TbPg_Iris_Init.Controls.Add(this.label5);
+            this.TbPg_Iris_Init.Controls.Add(this.Lbl_MonPowerDtbas);
             this.TbPg_Iris_Init.Controls.Add(this.Lbl_Wlgth1);
             this.TbPg_Iris_Init.Controls.Add(this.ChkBx_AnlgModSet);
             this.TbPg_Iris_Init.Controls.Add(this.ChkBx_DigitModSet);
@@ -788,15 +791,15 @@
             this.label7.TabIndex = 334;
             this.label7.Text = " nm";
             // 
-            // label5
+            // Lbl_MonPowerDtbas
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(517, 118);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(37, 20);
-            this.label5.TabIndex = 333;
-            this.label5.Text = "0050";
+            this.Lbl_MonPowerDtbas.AutoSize = true;
+            this.Lbl_MonPowerDtbas.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Lbl_MonPowerDtbas.Location = new System.Drawing.Point(517, 118);
+            this.Lbl_MonPowerDtbas.Name = "Lbl_MonPowerDtbas";
+            this.Lbl_MonPowerDtbas.Size = new System.Drawing.Size(37, 20);
+            this.Lbl_MonPowerDtbas.TabIndex = 333;
+            this.Lbl_MonPowerDtbas.Text = "0050";
             // 
             // Lbl_Wlgth1
             // 
@@ -965,10 +968,12 @@
             // 
             // TbPg_Results
             // 
+            this.TbPg_Results.Controls.Add(this.label5);
+            this.TbPg_Results.Controls.Add(this.Tb_txtFilePathRep);
             this.TbPg_Results.Controls.Add(this.label10);
             this.TbPg_Results.Controls.Add(this.Tb_RatedPower);
             this.TbPg_Results.Controls.Add(this.label28);
-            this.TbPg_Results.Controls.Add(this.Tb_txtFilePath);
+            this.TbPg_Results.Controls.Add(this.Tb_txtFilePathLI);
             this.TbPg_Results.Controls.Add(this.Lbl_RtnPwDACvalue);
             this.TbPg_Results.Controls.Add(this.Bt_SetVGA);
             this.TbPg_Results.Controls.Add(this.groupBox2);
@@ -1052,21 +1057,54 @@
             this.TbPg_Results.Text = "Engineering";
             this.TbPg_Results.UseVisualStyleBackColor = true;
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(208, 485);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(91, 13);
+            this.label5.TabIndex = 350;
+            this.label5.Text = "Rep. *.txt file path";
+            // 
+            // Tb_txtFilePathRep
+            // 
+            this.Tb_txtFilePathRep.Location = new System.Drawing.Point(205, 501);
+            this.Tb_txtFilePathRep.Name = "Tb_txtFilePathRep";
+            this.Tb_txtFilePathRep.Size = new System.Drawing.Size(236, 20);
+            this.Tb_txtFilePathRep.TabIndex = 349;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(322, 176);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(76, 13);
+            this.label10.TabIndex = 348;
+            this.label10.Text = "Rated Pw mW";
+            // 
+            // Tb_RatedPower
+            // 
+            this.Tb_RatedPower.Location = new System.Drawing.Point(274, 173);
+            this.Tb_RatedPower.Name = "Tb_RatedPower";
+            this.Tb_RatedPower.Size = new System.Drawing.Size(46, 20);
+            this.Tb_RatedPower.TabIndex = 347;
+            this.Tb_RatedPower.Text = "000.0";
+            // 
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(307, 525);
+            this.label28.Location = new System.Drawing.Point(208, 524);
             this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(65, 13);
+            this.label28.Size = new System.Drawing.Size(77, 13);
             this.label28.TabIndex = 346;
-            this.label28.Text = "*.txt file path";
+            this.label28.Text = "LI *.txt file path";
             // 
-            // Tb_txtFilePath
+            // Tb_txtFilePathLI
             // 
-            this.Tb_txtFilePath.Location = new System.Drawing.Point(304, 541);
-            this.Tb_txtFilePath.Name = "Tb_txtFilePath";
-            this.Tb_txtFilePath.Size = new System.Drawing.Size(220, 20);
-            this.Tb_txtFilePath.TabIndex = 345;
+            this.Tb_txtFilePathLI.Location = new System.Drawing.Point(205, 540);
+            this.Tb_txtFilePathLI.Name = "Tb_txtFilePathLI";
+            this.Tb_txtFilePathLI.Size = new System.Drawing.Size(236, 20);
+            this.Tb_txtFilePathLI.TabIndex = 345;
             // 
             // Lbl_RtnPwDACvalue
             // 
@@ -1388,7 +1426,7 @@
             this.Tb_Wavelength.Name = "Tb_Wavelength";
             this.Tb_Wavelength.Size = new System.Drawing.Size(46, 20);
             this.Tb_Wavelength.TabIndex = 316;
-            this.Tb_Wavelength.Text = "0405";
+            this.Tb_Wavelength.Text = "0000";
             // 
             // Lbl_PM100rd
             // 
@@ -1882,23 +1920,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(683, 96);
             this.dataGridView1.TabIndex = 6;
             // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(322, 176);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(76, 13);
-            this.label10.TabIndex = 348;
-            this.label10.Text = "Rated Pw mW";
-            // 
-            // Tb_RatedPower
-            // 
-            this.Tb_RatedPower.Location = new System.Drawing.Point(274, 173);
-            this.Tb_RatedPower.Name = "Tb_RatedPower";
-            this.Tb_RatedPower.Size = new System.Drawing.Size(46, 20);
-            this.Tb_RatedPower.TabIndex = 347;
-            this.Tb_RatedPower.Text = "50.0";
-            // 
             // Form_iRIS_Clm_test_01
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2072,10 +2093,10 @@
         private System.Windows.Forms.CheckBox ChkBx_EnableSet;
         private System.Windows.Forms.CheckBox ChkBx_ExtPwCtrl;
         private System.Windows.Forms.Button Bt_LiPlot;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label Lbl_MonPowerDtbas;
         private System.Windows.Forms.Label Lbl_Wlgth1;
         private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.TextBox Tb_txtFilePath;
+        private System.Windows.Forms.TextBox Tb_txtFilePathLI;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button Bt_ShipState;
@@ -2085,6 +2106,8 @@
         private System.Windows.Forms.ProgressBar Prg_Bar01;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox Tb_RatedPower;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox Tb_txtFilePathRep;
     }
 }
 
