@@ -63,10 +63,6 @@ namespace iRIS_CLM_GUI_TEST_01
         const string CmdSetCalAPwtoVint = "62";
         const string CmdSetCalBPwtoVint = "63";
         const string CmdRstTime = "66";
-        //const string CmdRstPtr          = "67";
-        //const string CmdRstTon          = "68";
-        //const string CmdRstCntr1000     = "69";
-        //const string CmdSetFirmware     = "70";
         const string CmdSetSerNumber = "71";
         const string CmdSetWavelenght = "72";
         const string CmdSetLsMominalPw = "73";
@@ -80,7 +76,6 @@ namespace iRIS_CLM_GUI_TEST_01
         const string CmdSetCalBVtoPw = "82";
         const string CmdTestMode = "83";
         const string CmdSetPSU = "84";
-        //const string CmdRdPSUvolt       = "85";//check cmd 86 / 85
         const string CmdReadPSU = "86";
         const string CmdSetBaseTempCal = "87";
         const string CmdSetTECTemp = "90";
@@ -205,14 +200,12 @@ namespace iRIS_CLM_GUI_TEST_01
 
         bool USB_Port_Open =    false;
         bool RS232_Port_Open =  false;
-        //bool engFlag =          false;
         bool testMode =         false;
             
         int arrayLgth   = 0;
         int arrIndex    = 0;
 
         //======================================================================
-        //SendRecvCOM sendRcv = new SendRecvCOM();
         //======================================================================
         StringBuilder LogString_01 = new StringBuilder();
         //======================================================================
@@ -222,9 +215,10 @@ namespace iRIS_CLM_GUI_TEST_01
         SerialPort USB_CDC =        new SerialPort();
         SerialPort RS232 =          new SerialPort();
         //======================================================================
-        SqlConnection con;
-        SqlCommand cmd;
-        SqlDataAdapter adapt;
+        SqlConnection con = null;
+        SqlCommand cmd = null;
+        SqlDataAdapter adapt = null;
+        SqlDataReader rdr = null;
         int iD = 0; //loaded with the new row index
         //======================================================================
     #region// Setting ADCDAC IO USB Interface
@@ -251,11 +245,9 @@ namespace iRIS_CLM_GUI_TEST_01
 
             USB_CDC.DataReceived += new SerialDataReceivedEventHandler(CDCDataReceivedHandler);
             RS232.DataReceived   += new SerialDataReceivedEventHandler(RS232DataReceivedHandler);
-            //OpenSqlConnection();
-            //DisplayData();
+            //OpenSqlConnection();//done when loading form
+            //DisplayData();//not used here
         }
-        //================================================================================
-
         //================================================================================
         #region SQL stuff
         private void OpenSqlConnection()
@@ -269,7 +261,7 @@ namespace iRIS_CLM_GUI_TEST_01
                 MessageBox.Show("  ServerVersion: " + con.ServerVersion + "  State: " + con.State);
                 con.Close();
             }
-            catch (Exception e) { MessageBox.Show("Dtb Error " + e.ToString() + "\nInter Laser Parameters Manually"); }
+            catch (Exception e) { MessageBox.Show("Dtb Open Error " + e.ToString() + "\nInter Laser Parameters Manually"); }
          }
         //================================================================================
         private string GetConnectionString() {
@@ -286,6 +278,7 @@ namespace iRIS_CLM_GUI_TEST_01
             return connectionString;
         }
         //================================================================================
+        /*
         private void DisplayData() {
 
             string adapterString = "SELECT * FROM" + dataBaseName + "WHERE LaserDriverBdTestId = (SELECT max(LaserDriverBdTestId) FROM" + dataBaseName +")";
@@ -301,6 +294,7 @@ namespace iRIS_CLM_GUI_TEST_01
 
             con.Close();
             }
+         */
         //================================================================================
         #endregion SQL stuff
         //================================================================================
@@ -310,6 +304,7 @@ namespace iRIS_CLM_GUI_TEST_01
             indata_USB = USB_CDC.ReadExisting();  
             this.BeginInvoke(new Action(() => Process_String(indata_USB)));
             //this.BeginInvoke(new EventHandler(delegate { Process_String(indata_USB); }));
+            //this.BeginInvoke(new SetTextCallback(SetText), new object[] { InputData });
             //Application.DoEvents();
         }
         //================================================================================
@@ -443,8 +438,8 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdRdWavelen:
-                        Lbl_WaveLg.Text = rtnValue;
                         Lbl_WaveLg.ForeColor = Color.Green;
+                        Lbl_WaveLg.Text = rtnValue;
                         break;
 
                     case CmdLaserEnable://uses serial send to set
@@ -1210,6 +1205,12 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private void Frm_iRIS_Prod_FormClosing(object sender, FormClosingEventArgs e)
         {
+            Task<bool> exitAll = ExitPgm();
+            Application.Exit();
+        }
+        //======================================================================
+        private async Task<bool> ExitPgm()
+        {
             if (USB_CDC.IsOpen)
             {
                 USB_CDC.Close();
@@ -1220,10 +1221,11 @@ namespace iRIS_CLM_GUI_TEST_01
                 RS232.Close();
                 RS232.Dispose();
             }
-            //con.Close();
-            //PM100 close    
-            Thread.Sleep(100);
-            Application.Exit();
+            if (Bt_PM100.BackColor == Color.LawnGreen) { bool closePM = await PM100Button(); }
+            if (Bt_USBinterf.BackColor == Color.LawnGreen) { bool closeUSBint = await SetUsbInterface(); }
+
+            await Task.Delay(100);
+            return true;
         }
         //======================================================================
         private void Form_iRIS_Clm_01_Load(object sender, EventArgs e)
@@ -1232,30 +1234,6 @@ namespace iRIS_CLM_GUI_TEST_01
             OpenSqlConnection();
             this.Cursor = Cursors.Default;
         }
-        //======================================================================
-       /*
-                        int TbRow = 0;
-                        con.Open();
-                        cmd = new SqlCommand("select count(*) from " + dataBaseName , con);
-                        TbRow = ((int)cmd.ExecuteScalar()) + 1;
-                        iD = TbRow;
-                        cmd = new SqlCommand("insert into " + dataBaseName + "(SerialNb, LaserDriverBdTestId, LaserId, TestDate, AnalogTestPass, DigitalTestPass, RS232Connet, USBConnect, LedOn, LaserDriverBdPgm, TecName)"
-                            + " values(@BdSn, @LaserDriverBdTestId, @LaserId, @TestDate, @AnalogTestPass, @DigitalTestPass, @RS232Connet, @USBConnect, @LedOn, @LaserDriverBdPgm, @TecName)", con);
-                        
-                        cmd.Parameters.AddWithValue("@LaserDriverBdTestId", TbRow);
-                        cmd.Parameters.AddWithValue("@LaserId", TbRow);
-                        cmd.Parameters.AddWithValue("@TestDate", dateTimePicker1.Text);
-                        cmd.Parameters.AddWithValue("@AnalogTestPass", 0);
-                        cmd.Parameters.AddWithValue("@DigitalTestPass", 0);
-                        cmd.Parameters.AddWithValue("@RS232Connet", 0);
-                        cmd.Parameters.AddWithValue("@USBConnect", 0);
-                        cmd.Parameters.AddWithValue("@LedOn", 0);
-                        cmd.Parameters.AddWithValue("@LaserDriverBdPgm", 1);
-                        cmd.Parameters.AddWithValue("@TecName", Tb_User.Text);
-                        cmd.ExecuteNonQuery();
-                        con.Close();
-                        DisplayData();
-                        */
         //======================================================================
         private void Tb_TecSerNumb_KeyDown(object sender, KeyEventArgs e)
         {
@@ -1379,10 +1357,10 @@ namespace iRIS_CLM_GUI_TEST_01
 
                     Int16 rdWavelgth = Convert.ToInt16(Tb_Wavelength.Text);
 
-                    if (rdWavelgth == 0) { return pm100cnt = false; }
+                    if (rdWavelgth <= 300 || rdWavelgth >= 900) { return pm100cnt = false; }//no wavelengh to set PM100
                     else
                     {
-                        pm.setWavelength(Convert.ToInt16(Tb_Wavelength.Text));
+                        pm.setWavelength(rdWavelgth);
                         //Set Zero / Dark adjustment
                         //pm.setPowerAutoRange(true);
                         pm100cnt = true;
@@ -1475,11 +1453,9 @@ namespace iRIS_CLM_GUI_TEST_01
 
                     String mystring = DaqBoard.BoardName.Substring(DaqBoard.BoardName.Trim().Length) +
                     " board number: " + BoardNum.ToString() + nudAInChannel.ToString();
-                    //Text = mystring;
-
-                    //MessageBox.Show(Text + " " + "");
-                    MessageBox.Show(mystring + " " + "");
+                     MessageBox.Show(mystring + " " + "");
                 }
+
                 Bt_USBinterf.BackColor = Color.LawnGreen;
                 Bt_USBinterf.Text = "USB Interface Connected";
             }
@@ -1607,7 +1583,7 @@ namespace iRIS_CLM_GUI_TEST_01
         {
             bool rampDAC1task = false;
             arrIndex = 0;
- 
+
             for (double startRpLp = startRp; startRpLp <= stopRp; startRpLp = startRpLp + stepRp) {
 
                     WriteDAC(startRpLp, 0);
@@ -1627,8 +1603,6 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private async Task<bool> RampDAC1toPower(double toPower, double startRp, double stopRp, double stepRp, bool rdIntADC)//external PCON can be simplified
         {
-            //double minmaxPw = Convert.ToDouble(Tb_minMaxPw.Text);
-            //double maxCurr = Convert.ToDouble(Tb_MaxLsCurrent.Text);
             bool rampDAC1task = false;
             arrIndex = 0;
 
@@ -1730,14 +1704,15 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private async Task<bool> FirtInit()
         {
-
             if (bt_NewTest.BackColor == Color.Coral)
             {
                 this.Cursor = Cursors.WaitCursor;
+                Prg_Bar01.Maximum = 60;
 
                 maxPw = Convert.ToDouble(Tb_maxMaxPw.Text);
                 maxCurr = Convert.ToDouble(Tb_MaxLsCurrent.Text);
 
+                Prg_Bar01.Increment(10);
                 Lbl_WaveLg.Text = "0000";
                 Lbl_WaveLg.ForeColor = Color.DarkBlue;
                 Tb_VGASet.Text = "0020";
@@ -1764,18 +1739,18 @@ namespace iRIS_CLM_GUI_TEST_01
                 test2 = await LoadGlobalTestArray(bulkSetVarialble);
                 Prg_Bar01.Increment(10);
 
+                //Bt_PM100.Enabled = true;
+                test2 = await PM100Button();
+
                 this.Cursor = Cursors.Default;
                 bt_NewTest.BackColor = Color.LawnGreen;
-                Prg_Bar01.Value = 0;
-                
+
                 MessageBox.Show(" Button Disconnect USB \n Power Cycle laser \n Button Re-connect USB \n Wait for TEC lock LED \n Start 'Cal VGA' \n");
 
-                //MessageBox.Show(" Now \n Connect PM100\n" );
-
-                Bt_PM100.Enabled = true;
-                test2 = await PM100Button();
+                Prg_Bar01.Value = 0;
             }
             else if (bt_NewTest.BackColor == Color.LawnGreen) {
+                if (Bt_PM100.BackColor == Color.LawnGreen) { bool closePM = await PM100Button(); }
                 bt_NewTest.BackColor = Color.Coral;
                 MessageBox.Show("Click again to re-initialise test");
             }
@@ -1811,18 +1786,6 @@ namespace iRIS_CLM_GUI_TEST_01
         {
             if (Bt_CalVGA.BackColor == Color.Coral)
             {
-                /* this is used to pass by reference(?) but not used for the monent
-            var startRp = new Ref<double>();
-            var stopRp = new Ref<double>();
-
-            if (ChkBx_AnlgModSet.Checked == true) {
-                startRp = 0.000;
-                stopRp =  5.000; }
-            else if (ChkBx_AnlgModSet.Checked == false) {
-                startRp = 5.000;
-                stopRp =  0.000; }
-            */
-
                 const double startRp = 0.000;
                 const double stopRp = 5.000;
                 const double stepRp = 0.020;//value 0.01..0.05..
@@ -1840,13 +1803,18 @@ namespace iRIS_CLM_GUI_TEST_01
                 bool initvga = false;
                 bool goodOffset = false;
 
+                Prg_Bar01.Maximum = 120;
+
                 this.Cursor = Cursors.WaitCursor;
 
                 initvga = await LoadGlobalTestArray(bulkSetLaserIO);
+                Prg_Bar01.Increment(10);
                 initvga = await LoadGlobalTestArray(bulkSetVga);
+                Prg_Bar01.Increment(10);
                 initvga = await SendToSerial(CmdSetVgaGain, Tb_VGASet.Text, 300, 9);//default initial VGA gain 20
+                Prg_Bar01.Increment(10);
                 initvga = await SendToSerial(CmdSetOffstVolt, Tb_SetOffset.Text, 300, 9);//sefault initial offset 2.500V
-
+                Prg_Bar01.Increment(10);
                 Set_USB_Digit_Out(0, 0);//enable line
                 Set_USB_Digit_Out(1, 0);//
                 Tb_VPcon.Text = "00.000";
@@ -1860,7 +1828,7 @@ namespace iRIS_CLM_GUI_TEST_01
                     Set_USB_Digit_Out(0, 1);//Laser Enable
 
                     initvga = await ReadAllanlg(true);//test if OK
-
+                    Prg_Bar01.Increment(10);
                     for (int i = 0; i <= 2; i++)//3 VGA set iteration //test
                     {
                         bool boolCalVGA1 = await RampDAC1(startRp, stopRp, stepRp, false);//set VGA MAX power
@@ -1904,6 +1872,7 @@ namespace iRIS_CLM_GUI_TEST_01
 
                             if (goodOffset == true) break;
                         }
+                     Prg_Bar01.Increment(10);
                     }
                 }
                 else if (Convert.ToBoolean(Read_USB_Digit_in(2)) == false) {
@@ -1914,20 +1883,24 @@ namespace iRIS_CLM_GUI_TEST_01
                 await Task.Delay(300);
                 initvga = await ReadAllanlg(false);
                 Pw_Pcon_500V = Lbl_PM100rd.Text;
+                Prg_Bar01.Increment(10);
 
                 WriteDAC(0.55, 0);
                 await Task.Delay(300);
                 initvga = await ReadAllanlg(false);
                 Pw_Pcon_055V = Lbl_PM100rd.Text;
-                
+                Prg_Bar01.Increment(10);
+
                 WriteDAC(0, 0);
                 await Task.Delay(300);
                 initvga = await ReadAllanlg(false);
                 Pw_Pcon_0V = Lbl_PM100rd.Text;
+                Prg_Bar01.Increment(10);
 
                 bool rampdac11 = await RampDAC1toPower(00.050, 0.450, 00.700, 0.005, false);//adjust PCON to MAX power
                 initvga = await ReadAllanlg(false);
                 Pw_05vPCON = Lbl_Vpcon.Text;
+                Prg_Bar01.Increment(10);
 
                 WriteDAC(0, 0);
                 Set_USB_Digit_Out(0, 0); //Laser Disable
@@ -1995,10 +1968,7 @@ namespace iRIS_CLM_GUI_TEST_01
             bool rdIcal = await SendToSerial(CmdLaserEnable, StrEnable, 300, 9);
 
             rdIcal = await ReadAllanlg(false);
-            //double lsrCurrRead1 = ReadADC(2);//Current monitor voltage
-            //Lbl_V_I_out.Text = lsrCurrRead1.ToString("00.000");//make sure it is the right label updated...
-            //label4.Text = " Imon Volts";
-
+ 
             rdIcal = await SendToSerial(CmdCurrentRead, StrDisable, 300, 9);//read current value from cpu displayed on label
 
             rdIcal = await SendToSerial(CmdSet0mA, StrDisable , 300, 9);//zero value cal
@@ -2023,8 +1993,7 @@ namespace iRIS_CLM_GUI_TEST_01
             }
             return true;
         }
-        #endregion
-        //======================================================================     
+        #endregion 
         //======================================================================
         private void Bt_pdCalibration_Click(object sender, EventArgs e) { Task<bool> pdcal = PD_Calibration(); }
         //======================================================================
@@ -2044,8 +2013,7 @@ namespace iRIS_CLM_GUI_TEST_01
             Set_USB_Digit_Out(0, 1);                                        //Enable laser  
             pdCalTask = await SendToSerial(CmdLaserEnable, StrEnable, 300, 9); // 
 
-                //pdCalTask = await RampDAC1(startRp, stopRp, stepRp, true);replaced with below
-                pdCalTask = await RampDACLI(startRp, stopRp, stepRp, true, false);//external PCON
+            pdCalTask = await RampDACLI(startRp, stopRp, stepRp, true, false);//external PCON
 
             WriteDAC(0, 0);
             Set_USB_Digit_Out(0, 0);                    
@@ -2251,7 +2219,6 @@ namespace iRIS_CLM_GUI_TEST_01
                 sendCalPw = await SendToSerial(CmdLaserEnable, StrDisable, 300, 9);
                 Set_USB_Digit_Out(0, 0);
                 sendCalPw = await ReadAllanlg(true);
-                //MessageBox.Show("V pd min");
                 /*************************************************/
                 try { if (File.Exists(filePathRep)) { using (StreamWriter fs = File.AppendText(filePathRep)) { fs.WriteLine("Vout PD Mon @ Min. Pw: " + Lbl_PwreadV.Text); } } }
                 catch (Exception err1) { MessageBox.Show(err1.Message); }
@@ -2274,54 +2241,77 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private async Task<bool> LIplot()
         {
+
             Set_USB_Digit_Out(0, 0);//enable line
             Set_USB_Digit_Out(1, 0);//digital modulation line
             WriteDAC(0, 0);
-
+    
             if (Bt_LiPlot.BackColor == Color.Coral) {
 
                 this.Cursor = Cursors.WaitCursor;
+                Array.Clear(dataADC, 0, dataADC.Length);//clear array with 0 to start with
 
-                int indx = dataADC.GetLength(0);
-                double stepRp   = 0.050;
-                double startRp  = 0.000;
-                double stopRp   = 0.000;
-                bool initvga    = false;//async methods
-                bool invRamp    = false;
+                bool initvga = false;//async methods
+                bool invRamp = false;
 
-                dataADC.Initialize();
-                
                 bool iniLItest = await LoadGlobalTestArray(bulkSetVga);
 
-                if (ChkBx_IntDacPcon.Checked == true) //internal PCON DAC 2.500-4.000
+                if (Convert.ToBoolean(Read_USB_Digit_in(2)) == true) //Laser OK 
                 {
-                    iniLItest = await SendToSerial(CmdSetInOutPwCtrl, StrEnable, 300, 9); //External PCON
-                }
-                else if(ChkBx_IntDacPcon.Checked == false) //external PCON 0-5
-                {
-                    iniLItest = await SendToSerial(CmdSetInOutPwCtrl, StrDisable, 300, 9); //External PCON
+                    Tb_LaserOK.BackColor = Color.Green; 
 
-                    if (ChkBx_InvExtPcon.Checked == false) //non inverted ramp
+                    if (ChkBx_IntDacPcon.Checked == true) //internal PCON DAC 2.500-4.000
                     {
-                        invRamp = false;
-                        startRp =   0.000;
-                        stopRp =    5.000;
-                        iniLItest = await SendToSerial(CmdAnalgInpt, StrDisable, 300, 9); //Non Inv. PCON
+                        double stepRp =     0.020;
+                        double startRp =    2.500;
+                        double stopRp =     4.000;
+
+                        iniLItest = await SendToSerial(CmdSetInOutPwCtrl, StrEnable, 300, 9);
+
+                        tb_SetIntPw.Text = startRp.ToString();//reset internal DAC
+
+                        Set_USB_Digit_Out(1, 1);//digital modulation line
+                        initvga = await SendToSerial(CmdLaserEnable, StrEnable, 300, 9);//Laser Enable
+                        Set_USB_Digit_Out(0, 1);//Laser Enable
+                        initvga = await ReadAllanlg(true);//test if OK
+
+                        MessageBox.Show("Enable Laser");
+
+                        bool boolCalVGA2 = await RampDACint(startRp, stopRp, stepRp, true);
+
+                        initvga = await SendToSerial(CmdLaserEnable, StrDisable, 300, 9);
+                        Set_USB_Digit_Out(0, 0); //Laser Disable
+                        Set_USB_Digit_Out(1, 0);//digital modulation line
+
+                        tb_SetIntPw.Text = startRp.ToString();//reset internal DAC
+                        boolCalVGA2 = await SendToSerial(CmdSetPwCtrlOut, tb_SetIntPw.Text, 300, 9);
+
+                        bool rdAnlg = await ReadAllanlg(false);
                     }
-                    else if(ChkBx_InvExtPcon.Checked == true) //inverted ramp
-                    {
-                        invRamp = true;
-                        startRp =   5.000;
-                        stopRp =    0.000;
-                        iniLItest = await SendToSerial(CmdAnalgInpt, StrEnable, 300, 9); //Inv. PCON
-                    }
-                }
 
-                Tb_VPcon.Text = startRp.ToString();
-
-                if (Convert.ToBoolean(Read_USB_Digit_in(2)) == true)
+                    else if (ChkBx_IntDacPcon.Checked == false) //external PCON 0-5
                     {
-                        Tb_LaserOK.BackColor = Color.Green; //Laser OK 
+                        double stepRp = 0.050;
+                        double startRp = 0.000;
+                        double stopRp = 0.000;
+
+                        if (ChkBx_InvExtPcon.Checked == false) //non inverted ramp
+                        {
+                            invRamp = false;
+                            startRp = 0.000;
+                            stopRp = 5.000;
+                            iniLItest = await SendToSerial(CmdAnalgInpt, StrDisable, 300, 9); //Non Inv. PCON
+                        }
+                        else if (ChkBx_InvExtPcon.Checked == true) //inverted ramp
+                        {
+                            invRamp = true;
+                            startRp = 5.000;
+                            stopRp = 0.000;
+                            iniLItest = await SendToSerial(CmdAnalgInpt, StrEnable, 300, 9); //Inv. PCON
+                        }
+
+                        iniLItest = await SendToSerial(CmdSetInOutPwCtrl, StrDisable, 300, 9); //External PCON
+                        Tb_VPcon.Text = startRp.ToString();//reset external DAC
 
                         Set_USB_Digit_Out(1, 1);//digital modulation line
                         initvga = await SendToSerial(CmdLaserEnable, StrEnable, 300, 9);//Laser Enable
@@ -2337,52 +2327,66 @@ namespace iRIS_CLM_GUI_TEST_01
                         Set_USB_Digit_Out(1, 0);//digital modulation line
                         WriteDAC(0, 0);
                         bool rdAnlg = await ReadAllanlg(false);
+                    }
 
-                        bool liFile = await CreateRepFileLI();
+                    /**********************************************************************************/
 
-                        Rt_ReceiveDataUSB.Clear();
+                    int indx1 = dataADC.GetLength(0);//arrays lenght 120
+                    int indx = indx1;
 
-                        for (int arrLp = 0; arrLp < indx; arrLp++) {
-                            Rt_ReceiveDataUSB.AppendText(dataADC[arrLp, 3].ToString() + " " +
-                                                         dataADC[arrLp, 0].ToString() + " " +
-                                                         dataADC[arrLp, 2].ToString() + " " +
-                                                         dataADC[arrLp, 1].ToString() + " " +
-                                                         dataADC[arrLp, 4].ToString() + " " +
-                                                         Footer); }
+                    for (int indx2 = 0; indx2 < indx1; indx2++) {//eliminates trailling 0 as it is cleared with 0 to start with ...?
+                        if (dataADC[indx2, 3] == 0) {
+                            indx = indx2;
+                            break; }
+                        else continue; }
+
+                    Rt_ReceiveDataUSB.Clear();
+
+                    for (int arrLp = 0; arrLp < indx; arrLp++) {
+                        Rt_ReceiveDataUSB.AppendText(dataADC[arrLp, 3].ToString() + " " +
+                                                     dataADC[arrLp, 0].ToString() + " " +
+                                                     dataADC[arrLp, 2].ToString() + " " +
+                                                     dataADC[arrLp, 1].ToString() + " " +
+                                                     dataADC[arrLp, 4].ToString() + " " +
+                                                     Footer); }
+
+                    bool liFile = await CreateRepFileLI();
+
                     try
                     {
-                            if (File.Exists(filePathLI))
-                            {
-
+                        if (File.Exists(filePathLI))
+                        {
                             using (StreamWriter fsLI = File.AppendText(filePathLI))
                             {
                                 fsLI.WriteLine("\n");
 
-                                for (int arrLp = 0; arrLp <= 100; arrLp++)//auto size...???
+                                for (int arrLp = 0; arrLp < indx; arrLp++)
                                 {
-                                    fsLI.WriteLine( dataADC[arrLp, 3].ToString() + " " +
-                                                    dataADC[arrLp, 0].ToString() + " " +
-                                                    dataADC[arrLp, 2].ToString() + " " +
-                                                    dataADC[arrLp, 1].ToString() + " " +
-                                                    dataADC[arrLp, 4].ToString() ) ; }
+                                    fsLI.WriteLine(dataADC[arrLp, 3].ToString() + " " +
+                                                   dataADC[arrLp, 0].ToString() + " " +
+                                                   dataADC[arrLp, 2].ToString() + " " +
+                                                   dataADC[arrLp, 1].ToString() + " " +
+                                                   dataADC[arrLp, 4].ToString());
+                                }
                             }
                         }
                     }
                     catch (Exception err1) { MessageBox.Show(err1.Message); }
+                    /**********************************************************************************/
 
-                        this.Cursor = Cursors.Default;
-                        Bt_LiPlot.BackColor = Color.LawnGreen;
-                    }
-                    else if (Convert.ToBoolean(Read_USB_Digit_in(2)) == false) {
-
-                    Tb_LaserOK.BackColor = Color.Red;
-                    MessageBox.Show("Laser NOT OK"); }
+                this.Cursor = Cursors.Default;
+                Bt_LiPlot.BackColor = Color.LawnGreen;                
+                Tb_LaserOK.BackColor = Color.Green;
                 }
 
-                else if (Bt_LiPlot.BackColor == Color.LawnGreen)
-                {
-                    Bt_LiPlot.BackColor = Color.Coral;
-                }
+                else if (Convert.ToBoolean(Read_USB_Digit_in(2)) == false) { //Laser NOT OK
+                Tb_LaserOK.BackColor = Color.Red;
+                MessageBox.Show("Laser NOT OK");
+                return false; }
+
+        }//if green button
+
+        else if (Bt_LiPlot.BackColor == Color.LawnGreen) { Bt_LiPlot.BackColor = Color.Coral; }
  
             return true;
         }
@@ -2494,9 +2498,6 @@ namespace iRIS_CLM_GUI_TEST_01
             double Sxx = 0;
             double Sxy = 0;
 
-            //if (ChkBx_B.Checked == true)
-            //{
-                //for (int lp2 = strtX; lp2 <= endX; lp2++)
                 for (int lp2 = strtX; lp2 < endX; lp2++)//changed to, avoid extended and get 0 value...?
                 {
                     Sx += dataXy[lp2, xIndx];//x
@@ -2516,27 +2517,7 @@ namespace iRIS_CLM_GUI_TEST_01
 
                 rtnAb[0] = m;
                 rtnAb[1] = b;
-            //}
-            /*
-            else if (ChkBx_B.Checked == false)//default 
-            {
-                for (int lp2 = strtX; lp2 <= endX; lp2++)
-                {
-                    Sxx += dataXy[lp2, 0] * dataXy[lp2, 0];//xx sum square x
-                    Sxy += dataXy[lp2, 0] * dataXy[lp2, 2];//xy sum product xy
 
-                    Rtb_Snoop.AppendText(Convert.ToString(dataXy[lp2, 0]) + " " +
-                                         Convert.ToString(dataXy[lp2, 2]) + " " +
-                                            iRIScoms.Footer);
-                    S1++;
-                }
-
-                double m = (Sxy) / (Sxx);
-
-                rtnAb[0] = m;
-                rtnAb[1] = 0;
-            }
-            */
             return rtnAb;
         }
         //======================================================================
@@ -2633,6 +2614,63 @@ namespace iRIS_CLM_GUI_TEST_01
             return true;
         }
         //======================================================================
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ReadDbs();
+        }
+        //======================================================================
+        private void ReadDbs()
+        {
+            Rt_ReceiveDataUSB.Clear();
+            int dbArrayIdx = 0;
+            bool entryOK = false;
+            string readstuff = string.Empty;
+            string[] laserParameters = new string[30];
+            
+            try {
+                con.Open();
+                cmd = new SqlCommand("SELECT * FROM " + "Laser_Setup_Config", con);
+                SqlDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read()) {
+                dbArrayIdx++;
+                readstuff = rdr["PartNumber"].ToString();
+                Rt_ReceiveDataUSB.AppendText(readstuff);
+
+                    if (readstuff.Contains(Tb_LaserPN.Text)) {
+                        entryOK = true;
+                        Lbl_MdlName.Text = rdr["Description"].ToString();
+
+                        /*
+                        laserParameters[0] = rdr["Description"].ToString();
+                        laserParameters[1] = rdr["Description"].ToString();
+                        laserParameters[2] = rdr["Description"].ToString();
+                        laserParameters[3] = rdr["Description"].ToString();
+                        laserParameters[4] = rdr["Description"].ToString();
+                        laserParameters[5] = rdr["Description"].ToString();
+                        laserParameters[6] = rdr["Description"].ToString();
+                        laserParameters[7] = rdr["Description"].ToString();
+                        laserParameters[8] = rdr["Description"].ToString();
+                        laserParameters[9] = rdr["Description"].ToString();
+                        laserParameters[10] = rdr["Description"].ToString();
+                        laserParameters[11] = rdr["Description"].ToString();
+                        */
+
+                        MessageBox.Show("PN: " + readstuff + " @ " + dbArrayIdx.ToString());
+                        break;
+                    }
+                }
+            }
+
+            catch (Exception e) { MessageBox.Show("Dtb Read Error " + e.ToString()); }
+
+            if (entryOK == false) { MessageBox.Show("No parts in db"); }
+
+            if (rdr != null) { rdr.Close(); }
+            if (con != null) { con.Close(); }
+
+        }
+        //======================================================================
         //======================================================================
     }
     //======================================================================
@@ -2640,99 +2678,6 @@ namespace iRIS_CLM_GUI_TEST_01
 }
 //======================================================================
 //======================================================================
-
-/*
-namespace ConsoleApplication1
-{
-
-using System.Text;
-using System.Data.Odbc;
-using System.Data;
-using System.Web;
-using System.ComponentModel;
-using System.IO;
-using System.Net;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Data.OleDb;
-using System.Text.RegularExpressions;
-using System.Linq;
-
-using System;
-using System.Collections.Generic;
-using System.Management; // need to add System.Management to your project references.
-
-class Program
-{
-
-    static void Main(string[] args)
-    {
-        var usbDevices = GetUSBDevices();
-
-        foreach (var usbDevice in usbDevices)
-        {
-            string m_pendid;
-
-            Console.WriteLine("Device ID: {0}, PNP Device ID: {1}, Description: {2}, USBVersion: {3}, SystemName: {4}",
-            usbDevice.DeviceID, usbDevice.PnpDeviceID, usbDevice.Description, usbDevice.usbversion, usbDevice.SystemName);
-
-            // m_pendid=catch["usbDevice.DeviceID"];
-            m_pendid = usbDevice.DeviceID;
-
-            Console.WriteLine("Test" + m_pendid);
-
-        }
-
-        // Console.Write("DeviceID :DeviceID");
-        Console.Read();
-
-    }
-
-    static List<usbdeviceinfo> GetUSBDevices()
-    {
-        List<usbdeviceinfo> devices = new List<usbdeviceinfo>();
-
-        ManagementObjectCollection collection;
-        using (var searcher = new ManagementObjectSearcher(@"Select * From Win32_USBHub"))
-            collection = searcher.Get();
-
-        foreach (var device in collection)
-        {
-            devices.Add(new USBDeviceInfo(
-            (string)device.GetPropertyValue("DeviceID"),
-            (string)device.GetPropertyValue("PNPDeviceID"),
-            (string)device.GetPropertyValue("Description"),
-            (string)device.GetPropertyValue("USBVersion"),
-            (string)device.GetPropertyValue("SystemName")
-
-            ));
-
-        }
-
-        collection.Dispose();
-        return devices;
-    }
-}
-
-class USBDeviceInfo
-{
-    public USBDeviceInfo(string deviceID, string pnpDeviceID, string description, string usbversion1, string SystemName2)
-    {
-        this.DeviceID = deviceID;
-        this.PnpDeviceID = pnpDeviceID;
-        this.Description = description;
-        this.usbversion = usbversion1;
-        this.SystemName = SystemName2;
-    }
-    public string DeviceID { get; private set; }
-    public string PnpDeviceID { get; private set; }
-    public string Description { get; private set; }
-    public string usbversion { get; private set; }
-    public string SystemName { get; private set; }
-}
-}
-
-*/
 
 /*
 
