@@ -2565,12 +2565,8 @@ namespace iRIS_CLM_GUI_TEST_01
             }
         }
         //======================================================================
-        private void Tb_LaserPN_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar==Convert.ToChar(Keys.Return))
-            {
-                MessageBox.Show("Enter");
-            }
+        private void Tb_LaserPN_KeyPress(object sender, KeyPressEventArgs e) {
+            if (e.KeyChar==Convert.ToChar(Keys.Return)) { ReadDbs(); }
         }
         //======================================================================
         private void Bt_ShipState_Click(object sender, EventArgs e) { Task<bool> sendShpData = SendShpData(); }
@@ -2614,10 +2610,7 @@ namespace iRIS_CLM_GUI_TEST_01
             return true;
         }
         //======================================================================
-        private void button1_Click(object sender, EventArgs e)
-        {
-            ReadDbs();
-        }
+        private void button1_Click(object sender, EventArgs e) { /*ReadDbs();*/ }
         //======================================================================
         private void ReadDbs()
         {
@@ -2640,7 +2633,21 @@ namespace iRIS_CLM_GUI_TEST_01
                     if (readstuff.Contains(Tb_LaserPN.Text)) {
                         entryOK = true;
                         Lbl_MdlName.Text = rdr["Description"].ToString();
+                        Lbl_Wlgth1.Text = rdr["Wavelength"].ToString();
+                        Lbl_MonPowerDtbas.Text = rdr["NominalPower"].ToString();
 
+                        if ((rdr["PowerControlSource"].ToString()) == "Internal  ") { ChkBx_ExtPwCtrl.Checked = true; }
+                        else { ChkBx_ExtPwCtrl.Checked = false; }
+
+                        if ((rdr["EnableLine"].ToString()) == "Norm      ") { ChkBx_EnableSet.Checked = false; }
+                        else { ChkBx_EnableSet.Checked = true; }//inverted
+
+                        if ((rdr["DigitalModulation"].ToString()) == "Norm      ") { ChkBx_DigitModSet.Checked = false; }
+                        else { ChkBx_DigitModSet.Checked = true; }//inverted
+
+                        if ((rdr["AnalogueModulation"].ToString()) == "Norm      ") { ChkBx_AnlgModSet.Checked = false; }
+                        else { ChkBx_AnlgModSet.Checked = true; }//inverted
+                        
                         /*
                         laserParameters[0] = rdr["Description"].ToString();
                         laserParameters[1] = rdr["Description"].ToString();

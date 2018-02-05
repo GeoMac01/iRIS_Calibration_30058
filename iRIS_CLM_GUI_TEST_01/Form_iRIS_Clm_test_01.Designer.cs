@@ -796,26 +796,26 @@
             // 
             this.Lbl_MonPowerDtbas.AutoSize = true;
             this.Lbl_MonPowerDtbas.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbl_MonPowerDtbas.Location = new System.Drawing.Point(517, 118);
+            this.Lbl_MonPowerDtbas.Location = new System.Drawing.Point(517, 117);
             this.Lbl_MonPowerDtbas.Name = "Lbl_MonPowerDtbas";
             this.Lbl_MonPowerDtbas.Size = new System.Drawing.Size(37, 20);
             this.Lbl_MonPowerDtbas.TabIndex = 333;
-            this.Lbl_MonPowerDtbas.Text = "0050";
+            this.Lbl_MonPowerDtbas.Text = "- - - -";
             // 
             // Lbl_Wlgth1
             // 
             this.Lbl_Wlgth1.AutoSize = true;
             this.Lbl_Wlgth1.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbl_Wlgth1.Location = new System.Drawing.Point(432, 118);
+            this.Lbl_Wlgth1.Location = new System.Drawing.Point(432, 117);
             this.Lbl_Wlgth1.Name = "Lbl_Wlgth1";
             this.Lbl_Wlgth1.Size = new System.Drawing.Size(37, 20);
             this.Lbl_Wlgth1.TabIndex = 332;
-            this.Lbl_Wlgth1.Text = "0405";
+            this.Lbl_Wlgth1.Text = "- - - -";
             // 
             // ChkBx_AnlgModSet
             // 
             this.ChkBx_AnlgModSet.AutoSize = true;
-            this.ChkBx_AnlgModSet.Location = new System.Drawing.Point(286, 164);
+            this.ChkBx_AnlgModSet.Location = new System.Drawing.Point(286, 197);
             this.ChkBx_AnlgModSet.Name = "ChkBx_AnlgModSet";
             this.ChkBx_AnlgModSet.Size = new System.Drawing.Size(119, 17);
             this.ChkBx_AnlgModSet.TabIndex = 331;
@@ -825,9 +825,7 @@
             // ChkBx_DigitModSet
             // 
             this.ChkBx_DigitModSet.AutoSize = true;
-            this.ChkBx_DigitModSet.Checked = true;
-            this.ChkBx_DigitModSet.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ChkBx_DigitModSet.Location = new System.Drawing.Point(286, 182);
+            this.ChkBx_DigitModSet.Location = new System.Drawing.Point(286, 179);
             this.ChkBx_DigitModSet.Name = "ChkBx_DigitModSet";
             this.ChkBx_DigitModSet.Size = new System.Drawing.Size(119, 17);
             this.ChkBx_DigitModSet.TabIndex = 330;
@@ -837,7 +835,7 @@
             // ChkBx_EnableSet
             // 
             this.ChkBx_EnableSet.AutoSize = true;
-            this.ChkBx_EnableSet.Location = new System.Drawing.Point(286, 200);
+            this.ChkBx_EnableSet.Location = new System.Drawing.Point(286, 161);
             this.ChkBx_EnableSet.Name = "ChkBx_EnableSet";
             this.ChkBx_EnableSet.Size = new System.Drawing.Size(101, 17);
             this.ChkBx_EnableSet.TabIndex = 329;
@@ -847,7 +845,7 @@
             // ChkBx_ExtPwCtrl
             // 
             this.ChkBx_ExtPwCtrl.AutoSize = true;
-            this.ChkBx_ExtPwCtrl.Location = new System.Drawing.Point(286, 146);
+            this.ChkBx_ExtPwCtrl.Location = new System.Drawing.Point(286, 143);
             this.ChkBx_ExtPwCtrl.Name = "ChkBx_ExtPwCtrl";
             this.ChkBx_ExtPwCtrl.Size = new System.Drawing.Size(103, 17);
             this.ChkBx_ExtPwCtrl.TabIndex = 328;
@@ -858,7 +856,7 @@
             // 
             this.Lbl_MdlName.AutoSize = true;
             this.Lbl_MdlName.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbl_MdlName.Location = new System.Drawing.Point(354, 117);
+            this.Lbl_MdlName.Location = new System.Drawing.Point(355, 117);
             this.Lbl_MdlName.Name = "Lbl_MdlName";
             this.Lbl_MdlName.Size = new System.Drawing.Size(53, 20);
             this.Lbl_MdlName.TabIndex = 289;
@@ -881,7 +879,7 @@
             this.Tb_LaserPN.Size = new System.Drawing.Size(65, 20);
             this.Tb_LaserPN.TabIndex = 287;
             this.Tb_LaserPN.TabStop = false;
-            this.Tb_LaserPN.Text = "015334";
+            this.Tb_LaserPN.Text = "015335";
             this.Tb_LaserPN.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Tb_LaserPN.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_LaserPN_KeyPress);
             // 
