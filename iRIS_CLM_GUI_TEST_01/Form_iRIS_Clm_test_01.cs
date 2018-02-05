@@ -217,9 +217,7 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         SqlConnection con = null;
         SqlCommand cmd = null;
-        SqlDataAdapter adapt = null;
         SqlDataReader rdr = null;
-        int iD = 0; //loaded with the new row index
         //======================================================================
     #region// Setting ADCDAC IO USB Interface
         public MccDaq.DaqDeviceDescriptor[] inventory;
@@ -277,24 +275,6 @@ namespace iRIS_CLM_GUI_TEST_01
                                         "Password = " + DbPassword; 
             return connectionString;
         }
-        //================================================================================
-        /*
-        private void DisplayData() {
-
-            string adapterString = "SELECT * FROM" + dataBaseName + "WHERE LaserDriverBdTestId = (SELECT max(LaserDriverBdTestId) FROM" + dataBaseName +")";
-            con.Open();
-	        DataTable dt = new DataTable();
-            adapt = new SqlDataAdapter(adapterString, con);
-
-            try {
-                adapt.Fill(dt);
-                dataGridView1.DataSource = dt;
-            }
-            catch (Exception e) { MessageBox.Show("DB adaptor error" + e.ToString()); }
-
-            con.Close();
-            }
-         */
         //================================================================================
         #endregion SQL stuff
         //================================================================================
@@ -390,29 +370,11 @@ namespace iRIS_CLM_GUI_TEST_01
                         {
                             Tb_RSConnect.BackColor = Color.LawnGreen;
                             Tb_USBConnect.BackColor = Color.Red;
-                            /*
-                            con.Open();
-                            cmd = new SqlCommand("update " + dataBaseName + " set RS232Connet = @RS232OK where LaserId = @LaserId", con);
-                            cmd.Parameters.AddWithValue("@LaserId", iD);
-                            cmd.Parameters.AddWithValue("@RS232OK", 1);
-                            cmd.ExecuteNonQuery();
-                            con.Close();
-                            DisplayData();
-                            */
                         }
                         else if (USB_Port_Open == true)
                         {
                             Tb_RSConnect.BackColor = Color.Red;
                             Tb_USBConnect.BackColor = Color.LawnGreen;
-                            /*
-                            con.Open();
-                            cmd = new SqlCommand("update " + dataBaseName + " set USBConnect = @USBOK where LaserId = @LaserId", con);
-                            cmd.Parameters.AddWithValue("@LaserId", iD);
-                            cmd.Parameters.AddWithValue("@USBOK", 1);
-                            cmd.ExecuteNonQuery();
-                            con.Close();
-                            DisplayData();
-                            */
                         }
                         break;
 
@@ -424,15 +386,6 @@ namespace iRIS_CLM_GUI_TEST_01
                             Tb_EepromGood.BackColor = Color.LawnGreen;
                             lbl_RdAdd.ForeColor = Color.Green;
                             lbl_RdAdd.Text = rtnHeader;
-                            /*
-                            con.Open();
-                            cmd = new SqlCommand("update " + dataBaseName + " set PgmAddr = @PgmAddr where LaserId = @LaserId", con);
-                            cmd.Parameters.AddWithValue("@LaserId", iD);
-                            cmd.Parameters.AddWithValue("@PgmAddr", Tb_SetAdd.Text);
-                            cmd.ExecuteNonQuery();
-                            con.Close();
-                            DisplayData();
-                            */
                         }
                         else { Tb_EepromGood.BackColor = Color.Red; }
                         break;
@@ -458,15 +411,6 @@ namespace iRIS_CLM_GUI_TEST_01
                     case CmdRdFirmware:
                         lbl_SWLevel.ForeColor = Color.Green;
                         lbl_SWLevel.Text = rtnValue.PadLeft(8, '0');
-                        /*
-                        con.Open();
-                        cmd = new SqlCommand("update " + dataBaseName + " set SwLevel = @SwLevel where LaserId = @LaserId", con);
-                        cmd.Parameters.AddWithValue("@LaserId", iD);
-                        cmd.Parameters.AddWithValue("@SwLevel", lbl_SWLevel.Text);
-                        cmd.ExecuteNonQuery();
-                        con.Close();
-                        DisplayData();
-                        */
                         break;
 
                     case CmdRdBplateTemp:
@@ -617,6 +561,7 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdSetWavelenght:
+                        Lbl_WaveLg.ForeColor = Color.Green;
                         Lbl_WaveLg.Text = rtnValue;
                         break;
 
@@ -844,7 +789,7 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdRatedPower:
-                    double RtPw = (Convert.ToDouble(Tb_RatedPower.Text)) * 10;
+                    double RtPw = (Convert.ToDouble(Tb_NomPw.Text)) * 10;
                     dataToAppd = RtPw.ToString("0000");
                     break;
 
@@ -909,7 +854,7 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdSetLsMominalPw:
-                    double nomPw = (Convert.ToDouble(Tb_NomPw.Text))*10;
+                    double nomPw = (Convert.ToDouble(Tb_SoftNomPw.Text))*10;
                     dataToAppd = nomPw.ToString("0000");
                     break;
 
@@ -1194,8 +1139,6 @@ namespace iRIS_CLM_GUI_TEST_01
             setad = await BuildSendString(sentobuild);
             setad = await SendToSerial(CmdRdSerialNo, StrDisable, 300, 9);
             setad = await SendToSerial(CmdRdFirmware, StrDisable, 300, 9);
-            Tb_Wavelength.Text = Lbl_Wlgth1.Text;//set from database
-            Tb_RatedPower.Text = Lbl_MonPowerDtbas.Text;//set from database
             return true;
         }
         //======================================================================
@@ -1246,15 +1189,6 @@ namespace iRIS_CLM_GUI_TEST_01
                 {
                     if (strLgh < 9)
                     {
-                        /*
-                        con.Open();
-                        cmd = new SqlCommand("update " + dataBaseName + " set TEC_Board_Sn = @tecSn where LaserId = @LaserId", con);
-                        cmd.Parameters.AddWithValue("@LaserId", iD);
-                        cmd.Parameters.AddWithValue("@tecSn", tb_TecSerNumb.Text);
-                        cmd.ExecuteNonQuery();
-                        con.Close();
-                        DisplayData();
-                        */
                         tb_TecSerNumb.BackColor = Color.White;
                         tb_TecSerNumb.Enabled = false;
                     }
@@ -1926,7 +1860,7 @@ namespace iRIS_CLM_GUI_TEST_01
                             fs.WriteLine("TEC SN: " + tb_TecSerNumb.Text);
                             fs.WriteLine("Firmware: " + lbl_SWLevel.Text);
                             fs.WriteLine("Wavelength: " + Lbl_WaveLg.Text);
-                            fs.WriteLine("Nominal power: " + Tb_NomPw.Text);
+                            fs.WriteLine("Software Nominal power: " + Tb_SoftNomPw.Text);
                             fs.WriteLine("Set Add.: " + lbl_RdAdd.Text);
                             fs.WriteLine("VGA value: " + Lbl_VGAval.Text);
                             fs.WriteLine("Offset value: " + Tb_SetOffset.Text);
@@ -2192,7 +2126,7 @@ namespace iRIS_CLM_GUI_TEST_01
                 string pmonVmax = Tb_PwToVcal.Text;//4V 
                 double pmonVmaxDlb = Convert.ToDouble(Tb_PwToVcal.Text);
 
-                double RatedPw = Convert.ToDouble(Tb_RatedPower.Text);//in mW
+                double RatedPw = Convert.ToDouble(Tb_NomPw.Text);//in mW
  
                 this.Cursor = Cursors.WaitCursor;
 
@@ -2628,13 +2562,25 @@ namespace iRIS_CLM_GUI_TEST_01
                 while (rdr.Read()) {
                 dbArrayIdx++;
                 readstuff = rdr["PartNumber"].ToString();
-                Rt_ReceiveDataUSB.AppendText(readstuff);
 
                     if (readstuff.Contains(Tb_LaserPN.Text)) {
                         entryOK = true;
                         Lbl_MdlName.Text = rdr["Description"].ToString();
-                        Lbl_Wlgth1.Text = rdr["Wavelength"].ToString();
-                        Lbl_MonPowerDtbas.Text = rdr["NominalPower"].ToString();
+                        Lbl_Wlgth1.Text =  rdr["Wavelength"].ToString().PadLeft(4,'0');
+                        Tb_Wavelength.Text = Lbl_Wlgth1.Text;
+
+                        Lbl_MonPowerDtbas.Text = rdr["NominalPower"].ToString().PadLeft(5,'0');//note power in mw ! and not 1/10mW
+                        Tb_NomPw.Text = Lbl_MonPowerDtbas.Text;
+                        Tb_maxMaxPw.Text =  rdr["MaxPower"].ToString().PadLeft(5, '0');
+                        Tb_minMaxPw.Text =  rdr["MinPower"].ToString().PadLeft(5, '0');
+                        Tb_SoftNomPw.Text = rdr["SoftwareNomPower"].ToString().PadLeft(5, '0');
+
+                        Tb_SetAdd.Text =   rdr["LaserAddress"].ToString().PadLeft(2,'0');
+
+                        double dummyTemp = (Convert.ToDouble(rdr["TEC_BlockTemperature"].ToString())) * 10;
+                        Tb_TECpoint.Text = dummyTemp.ToString().PadLeft(4, '0');//note power in mw ! and not 1/10mW
+
+                        Tb_PwToVcal.Text = rdr["PowerMonitorVoltage"].ToString().PadLeft(5, '0');
 
                         if ((rdr["PowerControlSource"].ToString()) == "Internal  ") { ChkBx_ExtPwCtrl.Checked = true; }
                         else { ChkBx_ExtPwCtrl.Checked = false; }
@@ -2647,21 +2593,6 @@ namespace iRIS_CLM_GUI_TEST_01
 
                         if ((rdr["AnalogueModulation"].ToString()) == "Norm      ") { ChkBx_AnlgModSet.Checked = false; }
                         else { ChkBx_AnlgModSet.Checked = true; }//inverted
-                        
-                        /*
-                        laserParameters[0] = rdr["Description"].ToString();
-                        laserParameters[1] = rdr["Description"].ToString();
-                        laserParameters[2] = rdr["Description"].ToString();
-                        laserParameters[3] = rdr["Description"].ToString();
-                        laserParameters[4] = rdr["Description"].ToString();
-                        laserParameters[5] = rdr["Description"].ToString();
-                        laserParameters[6] = rdr["Description"].ToString();
-                        laserParameters[7] = rdr["Description"].ToString();
-                        laserParameters[8] = rdr["Description"].ToString();
-                        laserParameters[9] = rdr["Description"].ToString();
-                        laserParameters[10] = rdr["Description"].ToString();
-                        laserParameters[11] = rdr["Description"].ToString();
-                        */
 
                         MessageBox.Show("PN: " + readstuff + " @ " + dbArrayIdx.ToString());
                         break;
@@ -2685,28 +2616,3 @@ namespace iRIS_CLM_GUI_TEST_01
 }
 //======================================================================
 //======================================================================
-
-/*
-
-SELECT TOP(1000) [PartNumber]
-      ,[Description]
-      ,[BeamPosition]
-      ,[FibreLength]
-      ,[Wavelength]
-      ,[Diameter]
-      ,[NominalPower]
-      ,[Configuration]
-      ,[PowerControlSource]
-      ,[EnableLine]
-      ,[DigitalModulation]
-      ,[AnalogueModulation]
-      ,[MinPower]
-      ,[MaxPower]
-      ,[PCBVoltage]
-      ,[TEC_BlockTemperature]
-      ,[PowerMonitorVoltage]
-      ,[SoftwareNomPower]
-      ,[LaserAddress]
-FROM[QPL Production].[dbo].[Laser_Setup_Config]
-
-*/
