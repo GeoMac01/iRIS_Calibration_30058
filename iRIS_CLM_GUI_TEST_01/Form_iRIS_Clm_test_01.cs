@@ -152,6 +152,11 @@ namespace iRIS_CLM_GUI_TEST_01
         string[,] bulkSetTEC532 = new string[2, 2] {
             { CmdTestMode,          StrEnable  },
             { CmdSetTECTemp,        StrDisable } };
+
+        string[,] bulkSetRstClk = new string[3, 2] {
+            { CmdTestMode,          StrEnable  },
+            { CmdRstTime,           StrDisable },
+            { CmdTestMode,          StrDisable },};
         //=================================================
 
         string[,] bulkSetVga = new string[6, 2] {
@@ -418,7 +423,8 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdRdBplateTemp:
-                        Lbl_TempBplt.Text = rtnValue.PadLeft(4, '0');
+                        double rdBkTempDbl = (Convert.ToDouble(rtnValue.PadLeft(4, '0')))/10;
+                        Lbl_TempBplt.Text = rdBkTempDbl.ToString("00.0");
                         break;
 
                     case CmdLaserStatus:
@@ -900,7 +906,8 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdSetTECTemp:
-                    dataToAppd = Tb_TECpoint.Text;
+                    double sendTemp = Convert.ToDouble(Tb_TECpoint.Text)*10;//0000 format
+                    dataToAppd = sendTemp.ToString("0000");
                     break;
 
                 case CmdSetTECkp:
@@ -1152,6 +1159,12 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private void Frm_iRIS_Prod_FormClosing(object sender, FormClosingEventArgs e)
         {
+            Properties.Settings.Default.PM100string = CmBx_PM100str.Text;
+            Properties.Settings.Default.DefaultUser = Tb_User.Text;
+            Properties.Settings.Default.RootFolder = Tb_FolderLoc.Text;
+
+            Properties.Settings.Default.Save();
+
             Task<bool> exitAll = ExitPgm();
             Application.Exit();
         }
@@ -1178,6 +1191,11 @@ namespace iRIS_CLM_GUI_TEST_01
         private void Form_iRIS_Clm_01_Load(object sender, EventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
+
+            this.CmBx_PM100str.Text = Properties.Settings.Default.PM100string;
+            this.Tb_User.Text = Properties.Settings.Default.DefaultUser;
+            this.Tb_FolderLoc.Text = Properties.Settings.Default.RootFolder; 
+ 
             OpenSqlConnection();
             this.Cursor = Cursors.Default;
         }
@@ -1897,7 +1915,7 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         #region Current Zero 
         //======================================================================
-        private void Bt_ReaduCcurrent_Click(object sender, EventArgs e) { Task<bool> readuCLsCurrent = SendToSerial(CmdCurrentRead, StrDisable, 300, 9); }
+        //private void Bt_ReaduCcurrent_Click(object sender, EventArgs e) { Task<bool> readuCLsCurrent = SendToSerial(CmdCurrentRead, StrDisable, 300, 9); }
         //======================================================================
         private void Bt_ZeroI_Click(object sender, EventArgs e) { Task<bool> zeroI = ZerroCurrent(); }
         //======================================================================
@@ -2157,7 +2175,6 @@ namespace iRIS_CLM_GUI_TEST_01
                 try { if (File.Exists(filePathRep)) { using (StreamWriter fs = File.AppendText(filePathRep)) { fs.WriteLine("Vout PD Mon @ Max. Pw: " + Lbl_PwreadV.Text); } } }
                 catch (Exception err1) { MessageBox.Show(err1.Message); }
                 /*************************************************/
-
                 WriteDAC(00.000, 0);
                 sendCalPw = await SendToSerial(CmdLaserEnable, StrDisable, 300, 9);
                 Set_USB_Digit_Out(0, 0);
@@ -2203,7 +2220,7 @@ namespace iRIS_CLM_GUI_TEST_01
                 {
                     Tb_LaserOK.BackColor = Color.Green; 
 
-                    if (ChkBx_IntDacPcon.Checked == true) //internal PCON DAC 2.500-4.000
+                    if (RdBt_LIint.Checked == true) //internal PCON DAC 2.500-4.000
                     {
                         double stepRp =     0.020;
                         double startRp =    2.500;
@@ -2232,20 +2249,20 @@ namespace iRIS_CLM_GUI_TEST_01
                         bool rdAnlg = await ReadAllanlg(false);
                     }
 
-                    else if (ChkBx_IntDacPcon.Checked == false) //external PCON 0-5
+                    else if (RdBt_LIint.Checked == false) //external PCON 0-5
                     {
                         double stepRp = 0.050;
                         double startRp = 0.000;
                         double stopRp = 0.000;
 
-                        if (ChkBx_InvExtPcon.Checked == false) //non inverted ramp
+                        if (RdBt_LI05.Checked == true) //non inverted ramp
                         {
                             invRamp = false;
                             startRp = 0.000;
                             stopRp = 5.000;
                             iniLItest = await SendToSerial(CmdAnalgInpt, StrDisable, 300, 9); //Non Inv. PCON
                         }
-                        else if (ChkBx_InvExtPcon.Checked == true) //inverted ramp
+                        else if (RdBt_LI50.Checked == true) //inverted ramp
                         {
                             invRamp = true;
                             startRp = 5.000;
@@ -2391,8 +2408,8 @@ namespace iRIS_CLM_GUI_TEST_01
             bool setCompT =     await SendToSerial(CmdSetBaseTempCal, "0000", 300, 9);                      //set init comp to 0000 remember to reset for next init.
             setCompT =          await SendToSerial(CmdRdBplateTemp, StrDisable, 300, 9);                    //read initial value
             
-            int measTemp =  ReadExtTemp();                                                                  //get user temp //wait
-            int tempComp1 = Convert.ToInt16(Lbl_TempBplt.Text) - measTemp;
+            double measTemp =  ReadExtTemp();                                                               //get user temp //wait
+            double tempComp1 = (Convert.ToDouble(Lbl_TempBplt.Text) - measTemp)*10;
             setCompT = await SendToSerial(CmdSetBaseTempCal, tempComp1.ToString("0000"), 300, 9);           //set init comp to 0000 remember to reset for next init.
             setCompT = await SendToSerial(CmdRdBplateTemp, StrDisable, 300, 9);                             //read comp data
 
@@ -2407,19 +2424,19 @@ namespace iRIS_CLM_GUI_TEST_01
             return true;
         }
          //======================================================================
-        private int ReadExtTemp()//user thermometer reading
+        private double ReadExtTemp()//user thermometer reading
         {
-            int strpopupInt = 0;
+            double strpopupInt = 0;
             Getitright:
-            string strpopup = Microsoft.VisualBasic.Interaction.InputBox(" Enter Temperature in 1/10C \n", "Base Plate Temperature Compensation", "000");
+            string strpopup = Microsoft.VisualBasic.Interaction.InputBox(" Enter Temperature in C \n", "Base Plate Temperature Compensation", "00.0");
 
             bool t = Information.IsNumeric(strpopup);
             int strLgh = strpopup.Length;
 
             if (t == true) {
-                if (strLgh < 4) { strpopupInt = Convert.ToInt16(strpopup); }
+                if (strLgh < 5) { strpopupInt = Convert.ToDouble(strpopup); }
                 else {
-                    MessageBox.Show("3 Digits Maximum");
+                    MessageBox.Show("Format 00.0");
                     goto Getitright; }
             }
             else {
@@ -2466,8 +2483,8 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private async Task<bool> CreateRepFile()
         {
-            string txtName = "Test Results " + Tb_SerNb.Text + ".txt";
-            filePathRep = "C:\\Log_01\\" + txtName;
+            string txtName = Tb_WorkOrder.Text + "_" + Tb_SerNb.Text + ".txt";
+            filePathRep = Tb_FolderLoc.Text + txtName;
             Tb_txtFilePathRep.Text = filePathRep;
 
             await Task.Delay(1);
@@ -2486,8 +2503,8 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private async Task<bool> CreateRepFileLI()
         {
-            string txtName = "LI PLOT " + Tb_SerNb.Text +" " + dateTimePicker1.Value.Date.ToString("ddMMyyyy") + ".txt "; ;
-            filePathLI = "C:\\Log_01\\" + txtName;
+            string txtName = "LI_" + Tb_WorkOrder.Text + "_" + Tb_SerNb.Text +"_" + dateTimePicker1.Value.Date.ToString("ddMMyyyy") + ".txt "; ;
+            filePathLI = Tb_FolderLoc.Text + txtName;
             Tb_txtFilePathLI.Text = filePathLI;
 
             await Task.Delay(1);
@@ -2541,6 +2558,9 @@ namespace iRIS_CLM_GUI_TEST_01
                 finalSet = await SendToSerial(CmdsetTTL, chkBxStateDigitModSet, 300, 9);
                 finalSet = await SendToSerial(CmdAnalgInpt, chkBxStateAnlgModSet, 300, 9);
                 finalSet = await SendToSerial(CmdTestMode, StrDisable, 300, 9);
+                double finalPowerDbl = Convert.ToDouble(Tb_SoftNomPw.Text)*10;
+                string finalPower = finalPowerDbl.ToString("0000");
+                finalSet = await SendToSerial(CmdSetLsPw, finalPower, 300, 9);
 
                 this.Cursor = Cursors.Default;
                 Bt_ShipState.BackColor = Color.LawnGreen;
@@ -2550,8 +2570,6 @@ namespace iRIS_CLM_GUI_TEST_01
 
             return true;
         }
-        //======================================================================
-        private void button1_Click(object sender, EventArgs e) { /*ReadDbs();*/ }
         //======================================================================
         private void ReadDbs()
         {
@@ -2584,8 +2602,9 @@ namespace iRIS_CLM_GUI_TEST_01
 
                         Tb_SetAdd.Text =   rdr["LaserAddress"].ToString().PadLeft(2,'0');
 
-                        double dummyTemp = (Convert.ToDouble(rdr["TEC_BlockTemperature"].ToString())) * 10;
-                        Tb_TECpoint.Text = dummyTemp.ToString().PadLeft(4, '0');//note power in mw ! and not 1/10mW
+                        Tb_TECpoint.Text = rdr["TEC_BlockTemperature"].ToString();
+                        //double dummyTemp = (Convert.ToDouble(rdr["TEC_BlockTemperature"].ToString())) * 10;
+                        //Tb_TECpoint.Text = dummyTemp.ToString().PadLeft(4, '0');
 
                         Tb_PwToVcal.Text = rdr["PowerMonitorVoltage"].ToString().PadLeft(5, '0');
 
@@ -2618,10 +2637,35 @@ namespace iRIS_CLM_GUI_TEST_01
 
         }
         //======================================================================
-        private void button2_Click(object sender, EventArgs e) {
-            double dummyTemp1 = (Convert.ToDouble(Tb_532TempSet.Text)) * 10;
-            Tb_TECpoint.Text = dummyTemp1.ToString().PadLeft(4, '0'); //Converted from C to 1/10C
-            Task<bool> test2 = LoadGlobalTestArray(bulkSetTEC532);//update TEC temp only
+        private void Bt_RstClk_Click(object sender, EventArgs e) { Task<bool> rstclk = RESETclk(); }
+        //======================================================================
+        private async Task<bool> RESETclk() {
+            this.Cursor = Cursors.WaitCursor;
+            bool lsrst = await LoadGlobalTestArray(bulkSetRstClk);
+            this.Cursor = Cursors.Default;
+            return true; }
+        //======================================================================
+        private void Bt_Set532Temp_Click(object sender, EventArgs e) { Task<bool> setTmp5352 = LoadGlobalTestArray(bulkSetTEC532); }
+        //======================================================================
+        private void Bt_SetFolder_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog folderDlg = new FolderBrowserDialog();
+            folderDlg.ShowNewFolderButton = true;
+            // Show the FolderBrowserDialog. 
+            DialogResult result = folderDlg.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                Tb_FolderLoc.Text = folderDlg.SelectedPath;
+
+                Environment.SpecialFolder root = folderDlg.RootFolder;
+                // Get Program Files location.
+                string programfiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+                // Get Common Program Files location.
+                string commonProgramfiles = Environment.GetFolderPath(Environment.SpecialFolder.CommonProgramFiles, Environment.SpecialFolderOption.None);
+
+            }
+
+
         }
         //======================================================================
         //======================================================================

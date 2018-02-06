@@ -22,5 +22,41 @@ namespace iRIS_CLM_GUI_TEST_01.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("P:\\")]
+        public string RootFolder {
+            get {
+                return ((string)(this["RootFolder"]));
+            }
+            set {
+                this["RootFolder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("USB0::0x1313::0x8072::P2008742::0::INSTR")]
+        public string PM100string {
+            get {
+                return ((string)(this["PM100string"]));
+            }
+            set {
+                this["PM100string"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("GM")]
+        public string DefaultUser {
+            get {
+                return ((string)(this["DefaultUser"]));
+            }
+            set {
+                this["DefaultUser"] = value;
+            }
+        }
     }
 }
