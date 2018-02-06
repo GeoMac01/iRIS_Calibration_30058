@@ -107,14 +107,6 @@ namespace iRIS_CLM_GUI_TEST_01
             { CmdEnablLogicvIn,     StrDisable },       //Non Inv. Laser Enable
             { CmdsetTTL,            StrEnable } };      //Inv. TTL line in nothing connected
 
-        string[,] bulkSetTEC = new string[6, 2] {
-            { CmdTestMode,          StrEnable  },
-            { CmdSetTECTemp,        StrDisable },
-            { CmdSetTECkp,          StrDisable },
-            { CmdSetTECki,          StrDisable },
-            { CmdSetTECsmpTime,     StrDisable },
-            { CmdSetTECena_dis,     StrEnable} };
-
         string[,] bulkSetVarialble = new string[14, 2] {
             {CmdTestMode,           StrEnable },
             {CmdSetWavelenght,      StrDisable},
@@ -148,6 +140,18 @@ namespace iRIS_CLM_GUI_TEST_01
             {CmdSetCalAVtoPw,       StrEnable},
             {CmdSetCalBVtoPw,       StrDisable},
             {CmdRstTime,            StrEnable } };
+
+        string[,] bulkSetTEC = new string[6, 2] {
+            { CmdTestMode,          StrEnable  },
+            { CmdSetTECTemp,        StrDisable },
+            { CmdSetTECkp,          StrDisable },
+            { CmdSetTECki,          StrDisable },
+            { CmdSetTECsmpTime,     StrDisable },
+            { CmdSetTECena_dis,     StrEnable} };
+
+        string[,] bulkSetTEC532 = new string[2, 2] {
+            { CmdTestMode,          StrEnable  },
+            { CmdSetTECTemp,        StrDisable } };
         //=================================================
 
         string[,] bulkSetVga = new string[6, 2] {
@@ -1673,6 +1677,7 @@ namespace iRIS_CLM_GUI_TEST_01
                 test2 = await LoadGlobalTestArray(bulkSetVarialble);
                 Prg_Bar01.Increment(10);
 
+                test2 =await SetUsbInterface();
                 //Bt_PM100.Enabled = true;
                 test2 = await PM100Button();
 
@@ -1691,6 +1696,8 @@ namespace iRIS_CLM_GUI_TEST_01
 
             return true;
         }
+        //======================================================================
+        private void Bt_SetTempParam_Click(object sender, EventArgs e) { Task<bool> test2 = LoadGlobalTestArray(bulkSetTEC); }
         //======================================================================
         private void Bt_SetVGA_Click(object sender, EventArgs e) { Task<bool> setVGA = SendToSerial(CmdSetVgaGain, Tb_VGASet.Text, 300, 9); }
         //======================================================================
@@ -1846,6 +1853,7 @@ namespace iRIS_CLM_GUI_TEST_01
                 
                 Lbl_VGAval.Text = Tb_VGASet.Text; //actualise VGA value on TAB2
                 Lbl_VGAval.ForeColor = Color.Green;
+                Prg_Bar01.Value = 0;
 
                 /*************************************************/
                 try
@@ -1856,8 +1864,10 @@ namespace iRIS_CLM_GUI_TEST_01
                         {
                             fs.WriteLine("DATE: " + dateTimePicker1.Value.ToString());
                             fs.WriteLine("User: " + Tb_User.Text);
-                            fs.WriteLine("PCB SN: " + lbl_SerNbReadBack.Text);
-                            fs.WriteLine("TEC SN: " + tb_TecSerNumb.Text);
+                            fs.WriteLine("Work Order: " + Tb_WorkOrder.Text);
+                            fs.WriteLine("Laser Assembly SN.: " + lbl_SerNbReadBack.Text);
+                            fs.WriteLine("Laser Board SN.: " + Tb_LsBoardSn.Text);
+                            fs.WriteLine("TEC Board SN: " + tb_TecSerNumb.Text);
                             fs.WriteLine("Firmware: " + lbl_SWLevel.Text);
                             fs.WriteLine("Wavelength: " + Lbl_WaveLg.Text);
                             fs.WriteLine("Software Nominal power: " + Tb_SoftNomPw.Text);
@@ -1865,7 +1875,6 @@ namespace iRIS_CLM_GUI_TEST_01
                             fs.WriteLine("VGA value: " + Lbl_VGAval.Text);
                             fs.WriteLine("Offset value: " + Tb_SetOffset.Text);
                             fs.WriteLine("Power @ 5V Pcon: " + Pw_Pcon_500V);
-                            fs.WriteLine("Power @ 0.55V Pcon: " + Pw_Pcon_055V);
                             fs.WriteLine("Power @ 0V Pcon: " + Pw_Pcon_0V);
                             fs.WriteLine("Power @ Enable Off: " + Pw_EnOff);
                             fs.WriteLine("PCON Voltage @ 0.1% power: " + Pw_05vPCON);
@@ -2499,9 +2508,7 @@ namespace iRIS_CLM_GUI_TEST_01
             }
         }
         //======================================================================
-        private void Tb_LaserPN_KeyPress(object sender, KeyPressEventArgs e) {
-            if (e.KeyChar==Convert.ToChar(Keys.Return)) { ReadDbs(); }
-        }
+        private void Tb_LaserPN_KeyPress(object sender, KeyPressEventArgs e) { if (e.KeyChar==Convert.ToChar(Keys.Return)) { ReadDbs(); } }
         //======================================================================
         private void Bt_ShipState_Click(object sender, EventArgs e) { Task<bool> sendShpData = SendShpData(); }
         //======================================================================
@@ -2595,6 +2602,8 @@ namespace iRIS_CLM_GUI_TEST_01
                         else { ChkBx_AnlgModSet.Checked = true; }//inverted
 
                         MessageBox.Show("PN: " + readstuff + " @ " + dbArrayIdx.ToString());
+                        Tb_LaserPN.ForeColor = Color.Green;
+
                         break;
                     }
                 }
@@ -2602,11 +2611,17 @@ namespace iRIS_CLM_GUI_TEST_01
 
             catch (Exception e) { MessageBox.Show("Dtb Read Error " + e.ToString()); }
 
-            if (entryOK == false) { MessageBox.Show("No parts in db"); }
+            if (entryOK == false) { MessageBox.Show("No parts in db\nTry again or contact engineering\n"); }
 
             if (rdr != null) { rdr.Close(); }
             if (con != null) { con.Close(); }
 
+        }
+        //======================================================================
+        private void button2_Click(object sender, EventArgs e) {
+            double dummyTemp1 = (Convert.ToDouble(Tb_532TempSet.Text)) * 10;
+            Tb_TECpoint.Text = dummyTemp1.ToString().PadLeft(4, '0'); //Converted from C to 1/10C
+            Task<bool> test2 = LoadGlobalTestArray(bulkSetTEC532);//update TEC temp only
         }
         //======================================================================
         //======================================================================
