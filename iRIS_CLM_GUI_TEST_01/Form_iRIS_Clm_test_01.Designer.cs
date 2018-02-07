@@ -107,6 +107,8 @@
             this.tb_TecSerNumb = new System.Windows.Forms.TextBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.TbPg_Results = new System.Windows.Forms.TabPage();
+            this.Bt_SetFolder = new System.Windows.Forms.Button();
+            this.Tb_FolderLoc = new System.Windows.Forms.TextBox();
             this.Bt_SetTempParam = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.Tb_txtFilePathRep = new System.Windows.Forms.TextBox();
@@ -200,8 +202,8 @@
             this.Bt_RdLaserStatus = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.Tb_FolderLoc = new System.Windows.Forms.TextBox();
-            this.Bt_SetFolder = new System.Windows.Forms.Button();
+            this.label13 = new System.Windows.Forms.Label();
+            this.Tb_MaxILimit = new System.Windows.Forms.TextBox();
             this.TbPg_InsTest.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -816,6 +818,8 @@
             // 
             // TbPg_Iris_Init
             // 
+            this.TbPg_Iris_Init.Controls.Add(this.label13);
+            this.TbPg_Iris_Init.Controls.Add(this.Tb_MaxILimit);
             this.TbPg_Iris_Init.Controls.Add(this.label12);
             this.TbPg_Iris_Init.Controls.Add(this.Tb_LsBoardSn);
             this.TbPg_Iris_Init.Controls.Add(this.label11);
@@ -1175,6 +1179,23 @@
             this.TbPg_Results.Text = "Engineering";
             this.TbPg_Results.UseVisualStyleBackColor = true;
             // 
+            // Bt_SetFolder
+            // 
+            this.Bt_SetFolder.Location = new System.Drawing.Point(264, 466);
+            this.Bt_SetFolder.Name = "Bt_SetFolder";
+            this.Bt_SetFolder.Size = new System.Drawing.Size(101, 21);
+            this.Bt_SetFolder.TabIndex = 353;
+            this.Bt_SetFolder.Text = "Set Folder";
+            this.Bt_SetFolder.UseVisualStyleBackColor = true;
+            this.Bt_SetFolder.Click += new System.EventHandler(this.Bt_SetFolder_Click);
+            // 
+            // Tb_FolderLoc
+            // 
+            this.Tb_FolderLoc.Location = new System.Drawing.Point(129, 493);
+            this.Tb_FolderLoc.Name = "Tb_FolderLoc";
+            this.Tb_FolderLoc.Size = new System.Drawing.Size(236, 20);
+            this.Tb_FolderLoc.TabIndex = 352;
+            // 
             // Bt_SetTempParam
             // 
             this.Bt_SetTempParam.BackColor = System.Drawing.Color.PeachPuff;
@@ -1190,7 +1211,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(367, 519);
+            this.label5.Location = new System.Drawing.Point(367, 521);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(89, 13);
             this.label5.TabIndex = 350;
@@ -1198,7 +1219,7 @@
             // 
             // Tb_txtFilePathRep
             // 
-            this.Tb_txtFilePathRep.Location = new System.Drawing.Point(129, 515);
+            this.Tb_txtFilePathRep.Location = new System.Drawing.Point(129, 517);
             this.Tb_txtFilePathRep.Name = "Tb_txtFilePathRep";
             this.Tb_txtFilePathRep.Size = new System.Drawing.Size(236, 20);
             this.Tb_txtFilePathRep.TabIndex = 349;
@@ -1527,7 +1548,7 @@
             // label53
             // 
             this.label53.AutoSize = true;
-            this.label53.Location = new System.Drawing.Point(322, 266);
+            this.label53.Location = new System.Drawing.Point(322, 265);
             this.label53.Name = "label53";
             this.label53.Size = new System.Drawing.Size(63, 13);
             this.label53.TabIndex = 319;
@@ -1544,6 +1565,7 @@
             // 
             // Tb_MaxLsCurrent
             // 
+            this.Tb_MaxLsCurrent.ForeColor = System.Drawing.Color.Red;
             this.Tb_MaxLsCurrent.Location = new System.Drawing.Point(274, 261);
             this.Tb_MaxLsCurrent.Name = "Tb_MaxLsCurrent";
             this.Tb_MaxLsCurrent.Size = new System.Drawing.Size(46, 20);
@@ -2054,22 +2076,27 @@
             // 
             this.folderBrowserDialog1.RootFolder = System.Environment.SpecialFolder.MyComputer;
             // 
-            // Tb_FolderLoc
+            // label13
             // 
-            this.Tb_FolderLoc.Location = new System.Drawing.Point(129, 492);
-            this.Tb_FolderLoc.Name = "Tb_FolderLoc";
-            this.Tb_FolderLoc.Size = new System.Drawing.Size(236, 20);
-            this.Tb_FolderLoc.TabIndex = 352;
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(158, 288);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(122, 13);
+            this.label13.TabIndex = 341;
+            this.label13.Text = "Diode Max. Current Limit";
             // 
-            // Bt_SetFolder
+            // Tb_MaxILimit
             // 
-            this.Bt_SetFolder.Location = new System.Drawing.Point(264, 466);
-            this.Bt_SetFolder.Name = "Bt_SetFolder";
-            this.Bt_SetFolder.Size = new System.Drawing.Size(101, 21);
-            this.Bt_SetFolder.TabIndex = 353;
-            this.Bt_SetFolder.Text = "Set Folder";
-            this.Bt_SetFolder.UseVisualStyleBackColor = true;
-            this.Bt_SetFolder.Click += new System.EventHandler(this.Bt_SetFolder_Click);
+            this.Tb_MaxILimit.BackColor = System.Drawing.Color.White;
+            this.Tb_MaxILimit.ForeColor = System.Drawing.Color.Red;
+            this.Tb_MaxILimit.Location = new System.Drawing.Point(286, 285);
+            this.Tb_MaxILimit.Name = "Tb_MaxILimit";
+            this.Tb_MaxILimit.Size = new System.Drawing.Size(45, 20);
+            this.Tb_MaxILimit.TabIndex = 340;
+            this.Tb_MaxILimit.TabStop = false;
+            this.Tb_MaxILimit.Text = "0000";
+            this.Tb_MaxILimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Tb_MaxILimit.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_MaxILimit_KeyPress);
             // 
             // Form_iRIS_Clm_test_01
             // 
@@ -2274,6 +2301,8 @@
         private System.Windows.Forms.TextBox Tb_FolderLoc;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.Button Bt_SetFolder;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox Tb_MaxILimit;
     }
 }
 

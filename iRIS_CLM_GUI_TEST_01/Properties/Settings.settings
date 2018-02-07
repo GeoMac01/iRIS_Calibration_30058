@@ -11,5 +11,8 @@
     <Setting Name="DefaultUser" Type="System.String" Scope="User">
       <Value Profile="(Default)">GM</Value>
     </Setting>
+    <Setting Name="WOrder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">99887766</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -131,15 +131,14 @@ namespace iRIS_CLM_GUI_TEST_01
             {CmdSetOffstVolt,   StrDisable },      //Offset 2.500V
             {CmdSetPwCtrlOut,   StrDisable } };    //Internal PCON 2.500V
 
-        string[,] bulkSetFinalSetup = new string[8, 2] {
+        string[,] bulkSetFinalSetup = new string[7, 2] {
             {CmdTestMode,           StrEnable},
             {CmdSetCalAPw,          StrEnable},
             {CmdSetCalBPw,          StrDisable},
             {CmdSetCalAPwtoVint,    StrEnable },
             {CmdSetCalBPwtoVint,    StrDisable},
             {CmdSetCalAVtoPw,       StrEnable},
-            {CmdSetCalBVtoPw,       StrDisable},
-            {CmdRstTime,            StrEnable } };
+            {CmdSetCalBVtoPw,       StrDisable} };
 
         string[,] bulkSetTEC = new string[6, 2] {
             { CmdTestMode,          StrEnable  },
@@ -874,7 +873,7 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdSetMaxIop:
-                    dataToAppd = Tb_MaxLsCurrent.Text;
+                    //dataToAppd = Tb_MaxLsCurrent.Text;
                     break;
 
                 case CmdSetCalDate:
@@ -1162,6 +1161,7 @@ namespace iRIS_CLM_GUI_TEST_01
             Properties.Settings.Default.PM100string = CmBx_PM100str.Text;
             Properties.Settings.Default.DefaultUser = Tb_User.Text;
             Properties.Settings.Default.RootFolder = Tb_FolderLoc.Text;
+            Properties.Settings.Default.WOrder = Tb_WorkOrder.Text;
 
             Properties.Settings.Default.Save();
 
@@ -1194,7 +1194,8 @@ namespace iRIS_CLM_GUI_TEST_01
 
             this.CmBx_PM100str.Text = Properties.Settings.Default.PM100string;
             this.Tb_User.Text = Properties.Settings.Default.DefaultUser;
-            this.Tb_FolderLoc.Text = Properties.Settings.Default.RootFolder; 
+            this.Tb_FolderLoc.Text = Properties.Settings.Default.RootFolder;
+            this.Tb_WorkOrder.Text = Properties.Settings.Default.WOrder;
  
             OpenSqlConnection();
             this.Cursor = Cursors.Default;
@@ -1551,7 +1552,6 @@ namespace iRIS_CLM_GUI_TEST_01
                     dataADC[arrIndex, 2] = Convert.ToDouble(lbl_ADCpconRd.Text);
                     dataADC[arrIndex, 3] = Convert.ToDouble(Lbl_Viout.Text);
                     dataADC[arrIndex, 4] = Convert.ToDouble(Lbl_Vpcon.Text);
-
                     arrIndex++; }
             }
             return true;
@@ -1569,7 +1569,7 @@ namespace iRIS_CLM_GUI_TEST_01
 
                 double pm100Res = Convert.ToDouble(Lbl_PM100rd.Text);//mW
                 if (pm100Res >= toPower) { return true; }//power good
-
+                
                 if (rdIntADC == true)
                 {
                     dataADC[arrIndex, 0] = pm100Res * 10;
@@ -2151,8 +2151,10 @@ namespace iRIS_CLM_GUI_TEST_01
                 const double stopRp = 5.000;
                 const double stepRp = 0.020;
                 string pmonVmax = Tb_PwToVcal.Text;//4V 
+                string iopNomPw  = string.Empty;
+                string voutPDmax = string.Empty;
+                string voutPDmin = string.Empty;
                 double pmonVmaxDlb = Convert.ToDouble(Tb_PwToVcal.Text);
-
                 double RatedPw = Convert.ToDouble(Tb_NomPw.Text);//in mW
  
                 this.Cursor = Cursors.WaitCursor;
@@ -2165,30 +2167,32 @@ namespace iRIS_CLM_GUI_TEST_01
 
                 bool rampdac1 = await RampDAC1toPower(RatedPw, startRp, stopRp, stepRp, false);//adjust PCON to MAX power
 
-                sendCalPw = await SendToSerial(CmdSetPwtoVout, pmonVmax, 600, 9);
-                sendCalPw = await ReadAllanlg(true);
-                
-                double pmonRd = Convert.ToDouble(Lbl_PwreadV.Text);
-                if (pmonRd > pmonVmaxDlb + 0.2 || pmonRd < pmonVmaxDlb - 0.2) { MessageBox.Show("Pmon Calibration Error"); }
+                iopNomPw = Lbl_Viout.Text;
+                voutPDmax = Lbl_PwreadV.Text;//nominal power recorded
 
-                /*************************************************/
-                try { if (File.Exists(filePathRep)) { using (StreamWriter fs = File.AppendText(filePathRep)) { fs.WriteLine("Vout PD Mon @ Max. Pw: " + Lbl_PwreadV.Text); } } }
-                catch (Exception err1) { MessageBox.Show(err1.Message); }
-                /*************************************************/
-                WriteDAC(00.000, 0);
+                sendCalPw = await SendToSerial(CmdSetPwtoVout, pmonVmax, 600, 9);//send 4V
+                sendCalPw = await SendToSerial(CmdSetMaxIop, iopNomPw, 600, 9);//save the nominal current for nominal power
+
+                sendCalPw = await ReadAllanlg(true);//redundent...?
+                
+                double pmonRd = Convert.ToDouble(voutPDmax);//check calibration for Pmon
+                if (pmonRd > pmonVmaxDlb + 0.2 || pmonRd < pmonVmaxDlb - 0.2) { MessageBox.Show("Pmon Calibration Error"); }
+  
+                WriteDAC(00.000, 0);//reset ramp
                 sendCalPw = await SendToSerial(CmdLaserEnable, StrDisable, 300, 9);
                 Set_USB_Digit_Out(0, 0);
                 sendCalPw = await ReadAllanlg(true);
                 /*************************************************/
-                try { if (File.Exists(filePathRep)) { using (StreamWriter fs = File.AppendText(filePathRep)) { fs.WriteLine("Vout PD Mon @ Min. Pw: " + Lbl_PwreadV.Text); } } }
+                try { if (File.Exists(filePathRep)) { using (StreamWriter fs = File.AppendText(filePathRep)) {
+                            fs.WriteLine("V_Iout mon. converted to mA @ Moninal Power: " + iopNomPw);
+                            fs.WriteLine("Vout PD Mon @ Max. Pw: " + voutPDmax);
+                            fs.WriteLine("Vout PD Mon @ Min. Pw: " + Lbl_PwreadV.Text); } } }//Pmon for minimal power
                 catch (Exception err1) { MessageBox.Show(err1.Message); }
                 /*************************************************/
-
                 this.Cursor = Cursors.Default;
                 Bt_PwOutMonCal.BackColor = Color.LawnGreen;
                 Bt_PwOutMonCal.Enabled = false;
             }
-            
             else if (Bt_PwOutMonCal.BackColor == Color.LawnGreen) {
                 MessageBox.Show("End cal.");
                 Bt_PwOutMonCal.BackColor = Color.Coral; }
@@ -2484,7 +2488,7 @@ namespace iRIS_CLM_GUI_TEST_01
         private async Task<bool> CreateRepFile()
         {
             string txtName = Tb_WorkOrder.Text + "_" + Tb_SerNb.Text + ".txt";
-            filePathRep = Tb_FolderLoc.Text + txtName;
+            filePathRep = Tb_FolderLoc.Text + "\\"+ txtName;
             Tb_txtFilePathRep.Text = filePathRep;
 
             await Task.Delay(1);
@@ -2504,7 +2508,7 @@ namespace iRIS_CLM_GUI_TEST_01
         private async Task<bool> CreateRepFileLI()
         {
             string txtName = "LI_" + Tb_WorkOrder.Text + "_" + Tb_SerNb.Text +"_" + dateTimePicker1.Value.Date.ToString("ddMMyyyy") + ".txt "; ;
-            filePathLI = Tb_FolderLoc.Text + txtName;
+            filePathLI = Tb_FolderLoc.Text + "\\" + txtName;
             Tb_txtFilePathLI.Text = filePathLI;
 
             await Task.Delay(1);
@@ -2664,8 +2668,13 @@ namespace iRIS_CLM_GUI_TEST_01
                 string commonProgramfiles = Environment.GetFolderPath(Environment.SpecialFolder.CommonProgramFiles, Environment.SpecialFolderOption.None);
 
             }
-
-
+        }
+        //======================================================================
+        private void Tb_MaxILimit_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == Convert.ToChar(Keys.Return)) {
+                Tb_MaxLsCurrent.Text = Tb_MaxILimit.Text;
+                Tb_MaxILimit.ForeColor = Color.Green; }
         }
         //======================================================================
         //======================================================================

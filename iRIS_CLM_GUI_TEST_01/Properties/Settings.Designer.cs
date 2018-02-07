@@ -58,5 +58,17 @@ namespace iRIS_CLM_GUI_TEST_01.Properties {
                 this["DefaultUser"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("99887766")]
+        public string WOrder {
+            get {
+                return ((string)(this["WOrder"]));
+            }
+            set {
+                this["WOrder"] = value;
+            }
+        }
     }
 }
