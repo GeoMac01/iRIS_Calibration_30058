@@ -29,6 +29,14 @@
         private void InitializeComponent()
         {
             this.TbPg_InsTest = new System.Windows.Forms.TabPage();
+            this.ChkBx_LIlog = new System.Windows.Forms.CheckBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.Lbl_PDmonUser = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.Lbl_PM100user = new System.Windows.Forms.Label();
+            this.Bt_LaserCheck = new System.Windows.Forms.Button();
+            this.Lbl_ImonUser = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
             this.Bt_RstClk = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.RdBt_LIint = new System.Windows.Forms.RadioButton();
@@ -37,19 +45,14 @@
             this.Bt_Set532Temp = new System.Windows.Forms.Button();
             this.Tb_532TempSet = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.Bt_Stop = new System.Windows.Forms.Button();
             this.Prg_Bar01 = new System.Windows.Forms.ProgressBar();
             this.Bt_ShipState = new System.Windows.Forms.Button();
             this.Bt_LiPlot = new System.Windows.Forms.Button();
-            this.Lbl_V_I_out = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.Bt_SetIntPwCal = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.lbl_LaserPD = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.lbl_ADCpconRd = new System.Windows.Forms.Label();
-            this.Lbl_MaOrBits = new System.Windows.Forms.Label();
-            this.Lbl_uClsCurrent = new System.Windows.Forms.Label();
             this.Bt_BasepltTemp = new System.Windows.Forms.Button();
             this.label63 = new System.Windows.Forms.Label();
             this.Lbl_TempBplt = new System.Windows.Forms.Label();
@@ -83,6 +86,8 @@
             this.label29 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.TbPg_Iris_Init = new System.Windows.Forms.TabPage();
+            this.label13 = new System.Windows.Forms.Label();
+            this.Tb_MaxILimit = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.Tb_LsBoardSn = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
@@ -202,8 +207,10 @@
             this.Bt_RdLaserStatus = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.label13 = new System.Windows.Forms.Label();
-            this.Tb_MaxILimit = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.Lbl_uClsCurrent = new System.Windows.Forms.Label();
+            this.Lbl_MaOrBits = new System.Windows.Forms.Label();
             this.TbPg_InsTest.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -216,24 +223,31 @@
             // 
             // TbPg_InsTest
             // 
+            this.TbPg_InsTest.Controls.Add(this.Lbl_uClsCurrent);
+            this.TbPg_InsTest.Controls.Add(this.Lbl_MaOrBits);
+            this.TbPg_InsTest.Controls.Add(this.label15);
+            this.TbPg_InsTest.Controls.Add(this.label4);
+            this.TbPg_InsTest.Controls.Add(this.ChkBx_LIlog);
+            this.TbPg_InsTest.Controls.Add(this.label16);
+            this.TbPg_InsTest.Controls.Add(this.Lbl_PDmonUser);
+            this.TbPg_InsTest.Controls.Add(this.label14);
+            this.TbPg_InsTest.Controls.Add(this.Lbl_PM100user);
+            this.TbPg_InsTest.Controls.Add(this.Bt_LaserCheck);
+            this.TbPg_InsTest.Controls.Add(this.Lbl_ImonUser);
+            this.TbPg_InsTest.Controls.Add(this.label19);
             this.TbPg_InsTest.Controls.Add(this.Bt_RstClk);
             this.TbPg_InsTest.Controls.Add(this.groupBox3);
             this.TbPg_InsTest.Controls.Add(this.Bt_Set532Temp);
             this.TbPg_InsTest.Controls.Add(this.Tb_532TempSet);
             this.TbPg_InsTest.Controls.Add(this.label9);
-            this.TbPg_InsTest.Controls.Add(this.Bt_Stop);
             this.TbPg_InsTest.Controls.Add(this.Prg_Bar01);
             this.TbPg_InsTest.Controls.Add(this.Bt_ShipState);
             this.TbPg_InsTest.Controls.Add(this.Bt_LiPlot);
-            this.TbPg_InsTest.Controls.Add(this.Lbl_V_I_out);
-            this.TbPg_InsTest.Controls.Add(this.label4);
             this.TbPg_InsTest.Controls.Add(this.Bt_SetIntPwCal);
             this.TbPg_InsTest.Controls.Add(this.label2);
             this.TbPg_InsTest.Controls.Add(this.lbl_LaserPD);
             this.TbPg_InsTest.Controls.Add(this.label1);
             this.TbPg_InsTest.Controls.Add(this.lbl_ADCpconRd);
-            this.TbPg_InsTest.Controls.Add(this.Lbl_MaOrBits);
-            this.TbPg_InsTest.Controls.Add(this.Lbl_uClsCurrent);
             this.TbPg_InsTest.Controls.Add(this.Bt_BasepltTemp);
             this.TbPg_InsTest.Controls.Add(this.label63);
             this.TbPg_InsTest.Controls.Add(this.Lbl_TempBplt);
@@ -263,6 +277,85 @@
             this.TbPg_InsTest.Size = new System.Drawing.Size(692, 566);
             this.TbPg_InsTest.TabIndex = 1;
             this.TbPg_InsTest.Text = "Laser Calibration";
+            // 
+            // ChkBx_LIlog
+            // 
+            this.ChkBx_LIlog.AutoSize = true;
+            this.ChkBx_LIlog.Checked = true;
+            this.ChkBx_LIlog.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ChkBx_LIlog.Location = new System.Drawing.Point(103, 533);
+            this.ChkBx_LIlog.Name = "ChkBx_LIlog";
+            this.ChkBx_LIlog.Size = new System.Drawing.Size(75, 17);
+            this.ChkBx_LIlog.TabIndex = 369;
+            this.ChkBx_LIlog.Text = "LI Log File";
+            this.ChkBx_LIlog.UseVisualStyleBackColor = true;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(338, 484);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(102, 13);
+            this.label16.TabIndex = 368;
+            this.label16.Text = "Power PM100 (mW)";
+            // 
+            // Lbl_PDmonUser
+            // 
+            this.Lbl_PDmonUser.AutoSize = true;
+            this.Lbl_PDmonUser.Location = new System.Drawing.Point(275, 450);
+            this.Lbl_PDmonUser.Name = "Lbl_PDmonUser";
+            this.Lbl_PDmonUser.Size = new System.Drawing.Size(40, 13);
+            this.Lbl_PDmonUser.TabIndex = 367;
+            this.Lbl_PDmonUser.Text = "00.000";
+            this.Lbl_PDmonUser.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(338, 450);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(102, 13);
+            this.label14.TabIndex = 366;
+            this.label14.Text = "V PD Power monitor";
+            // 
+            // Lbl_PM100user
+            // 
+            this.Lbl_PM100user.AutoSize = true;
+            this.Lbl_PM100user.Location = new System.Drawing.Point(275, 484);
+            this.Lbl_PM100user.Name = "Lbl_PM100user";
+            this.Lbl_PM100user.Size = new System.Drawing.Size(40, 13);
+            this.Lbl_PM100user.TabIndex = 365;
+            this.Lbl_PM100user.Text = "00.000";
+            // 
+            // Bt_LaserCheck
+            // 
+            this.Bt_LaserCheck.BackColor = System.Drawing.Color.PeachPuff;
+            this.Bt_LaserCheck.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Bt_LaserCheck.Location = new System.Drawing.Point(278, 504);
+            this.Bt_LaserCheck.Name = "Bt_LaserCheck";
+            this.Bt_LaserCheck.Size = new System.Drawing.Size(100, 28);
+            this.Bt_LaserCheck.TabIndex = 364;
+            this.Bt_LaserCheck.Text = "Laser Check";
+            this.Bt_LaserCheck.UseVisualStyleBackColor = false;
+            this.Bt_LaserCheck.Click += new System.EventHandler(this.Bt_LaserCheck_Click);
+            // 
+            // Lbl_ImonUser
+            // 
+            this.Lbl_ImonUser.AutoSize = true;
+            this.Lbl_ImonUser.Location = new System.Drawing.Point(275, 467);
+            this.Lbl_ImonUser.Name = "Lbl_ImonUser";
+            this.Lbl_ImonUser.Size = new System.Drawing.Size(34, 13);
+            this.Lbl_ImonUser.TabIndex = 361;
+            this.Lbl_ImonUser.Text = "000.0";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(338, 467);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(71, 13);
+            this.label19.TabIndex = 360;
+            this.label19.Text = "I (mA) monitor";
             // 
             // Bt_RstClk
             // 
@@ -324,7 +417,7 @@
             // 
             this.Bt_Set532Temp.BackColor = System.Drawing.Color.PeachPuff;
             this.Bt_Set532Temp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Bt_Set532Temp.Location = new System.Drawing.Point(329, 493);
+            this.Bt_Set532Temp.Location = new System.Drawing.Point(559, 504);
             this.Bt_Set532Temp.Name = "Bt_Set532Temp";
             this.Bt_Set532Temp.Size = new System.Drawing.Size(103, 28);
             this.Bt_Set532Temp.TabIndex = 354;
@@ -334,7 +427,7 @@
             // 
             // Tb_532TempSet
             // 
-            this.Tb_532TempSet.Location = new System.Drawing.Point(277, 493);
+            this.Tb_532TempSet.Location = new System.Drawing.Point(507, 504);
             this.Tb_532TempSet.Name = "Tb_532TempSet";
             this.Tb_532TempSet.Size = new System.Drawing.Size(46, 20);
             this.Tb_532TempSet.TabIndex = 352;
@@ -344,21 +437,11 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(280, 476);
+            this.label9.Location = new System.Drawing.Point(510, 487);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(111, 13);
             this.label9.TabIndex = 353;
             this.label9.Text = "532nm TEC temp. Set";
-            // 
-            // Bt_Stop
-            // 
-            this.Bt_Stop.BackColor = System.Drawing.Color.Red;
-            this.Bt_Stop.Location = new System.Drawing.Point(619, 512);
-            this.Bt_Stop.Name = "Bt_Stop";
-            this.Bt_Stop.Size = new System.Drawing.Size(67, 47);
-            this.Bt_Stop.TabIndex = 325;
-            this.Bt_Stop.Text = "Stop Test";
-            this.Bt_Stop.UseVisualStyleBackColor = false;
             // 
             // Prg_Bar01
             // 
@@ -393,24 +476,6 @@
             this.Bt_LiPlot.UseVisualStyleBackColor = false;
             this.Bt_LiPlot.Click += new System.EventHandler(this.Bt_LiPlot_Click);
             // 
-            // Lbl_V_I_out
-            // 
-            this.Lbl_V_I_out.AutoSize = true;
-            this.Lbl_V_I_out.Location = new System.Drawing.Point(196, 233);
-            this.Lbl_V_I_out.Name = "Lbl_V_I_out";
-            this.Lbl_V_I_out.Size = new System.Drawing.Size(46, 13);
-            this.Lbl_V_I_out.TabIndex = 319;
-            this.Lbl_V_I_out.Text = "000.000";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(248, 233);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(28, 13);
-            this.label4.TabIndex = 318;
-            this.label4.Text = " - - - ";
-            // 
             // Bt_SetIntPwCal
             // 
             this.Bt_SetIntPwCal.BackColor = System.Drawing.Color.Coral;
@@ -426,7 +491,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(144, 344);
+            this.label2.Location = new System.Drawing.Point(144, 345);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(62, 13);
             this.label2.TabIndex = 316;
@@ -444,7 +509,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(144, 363);
+            this.label1.Location = new System.Drawing.Point(144, 364);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(47, 13);
             this.label1.TabIndex = 314;
@@ -458,26 +523,6 @@
             this.lbl_ADCpconRd.Size = new System.Drawing.Size(37, 13);
             this.lbl_ADCpconRd.TabIndex = 313;
             this.lbl_ADCpconRd.Text = "00000";
-            // 
-            // Lbl_MaOrBits
-            // 
-            this.Lbl_MaOrBits.AutoSize = true;
-            this.Lbl_MaOrBits.Location = new System.Drawing.Point(237, 216);
-            this.Lbl_MaOrBits.Name = "Lbl_MaOrBits";
-            this.Lbl_MaOrBits.Size = new System.Drawing.Size(86, 13);
-            this.Lbl_MaOrBits.TabIndex = 312;
-            this.Lbl_MaOrBits.Text = "uC Ls. bits or mA";
-            this.Lbl_MaOrBits.Visible = false;
-            // 
-            // Lbl_uClsCurrent
-            // 
-            this.Lbl_uClsCurrent.AutoSize = true;
-            this.Lbl_uClsCurrent.Location = new System.Drawing.Point(196, 216);
-            this.Lbl_uClsCurrent.Name = "Lbl_uClsCurrent";
-            this.Lbl_uClsCurrent.Size = new System.Drawing.Size(37, 13);
-            this.Lbl_uClsCurrent.TabIndex = 311;
-            this.Lbl_uClsCurrent.Text = "00000";
-            this.Lbl_uClsCurrent.Visible = false;
             // 
             // Bt_BasepltTemp
             // 
@@ -850,6 +895,28 @@
             this.TbPg_Iris_Init.TabIndex = 0;
             this.TbPg_Iris_Init.Text = "iRIS Laser Init.";
             this.TbPg_Iris_Init.UseVisualStyleBackColor = true;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(158, 288);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(122, 13);
+            this.label13.TabIndex = 341;
+            this.label13.Text = "Diode Max. Current Limit";
+            // 
+            // Tb_MaxILimit
+            // 
+            this.Tb_MaxILimit.BackColor = System.Drawing.Color.White;
+            this.Tb_MaxILimit.ForeColor = System.Drawing.Color.Red;
+            this.Tb_MaxILimit.Location = new System.Drawing.Point(286, 285);
+            this.Tb_MaxILimit.Name = "Tb_MaxILimit";
+            this.Tb_MaxILimit.Size = new System.Drawing.Size(45, 20);
+            this.Tb_MaxILimit.TabIndex = 340;
+            this.Tb_MaxILimit.TabStop = false;
+            this.Tb_MaxILimit.Text = "0000";
+            this.Tb_MaxILimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Tb_MaxILimit.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_MaxILimit_KeyPress);
             // 
             // label12
             // 
@@ -2076,27 +2143,41 @@
             // 
             this.folderBrowserDialog1.RootFolder = System.Environment.SpecialFolder.MyComputer;
             // 
-            // label13
+            // label4
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(158, 288);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(122, 13);
-            this.label13.TabIndex = 341;
-            this.label13.Text = "Diode Max. Current Limit";
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(275, 433);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(55, 13);
+            this.label4.TabIndex = 370;
+            this.label4.Text = "00000000";
             // 
-            // Tb_MaxILimit
+            // label15
             // 
-            this.Tb_MaxILimit.BackColor = System.Drawing.Color.White;
-            this.Tb_MaxILimit.ForeColor = System.Drawing.Color.Red;
-            this.Tb_MaxILimit.Location = new System.Drawing.Point(286, 285);
-            this.Tb_MaxILimit.Name = "Tb_MaxILimit";
-            this.Tb_MaxILimit.Size = new System.Drawing.Size(45, 20);
-            this.Tb_MaxILimit.TabIndex = 340;
-            this.Tb_MaxILimit.TabStop = false;
-            this.Tb_MaxILimit.Text = "0000";
-            this.Tb_MaxILimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Tb_MaxILimit.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_MaxILimit_KeyPress);
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(338, 433);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(63, 13);
+            this.label15.TabIndex = 371;
+            this.label15.Text = "Timer Value";
+            // 
+            // Lbl_uClsCurrent
+            // 
+            this.Lbl_uClsCurrent.AutoSize = true;
+            this.Lbl_uClsCurrent.Location = new System.Drawing.Point(208, 237);
+            this.Lbl_uClsCurrent.Name = "Lbl_uClsCurrent";
+            this.Lbl_uClsCurrent.Size = new System.Drawing.Size(31, 13);
+            this.Lbl_uClsCurrent.TabIndex = 373;
+            this.Lbl_uClsCurrent.Text = "0000";
+            // 
+            // Lbl_MaOrBits
+            // 
+            this.Lbl_MaOrBits.AutoSize = true;
+            this.Lbl_MaOrBits.Location = new System.Drawing.Point(248, 237);
+            this.Lbl_MaOrBits.Name = "Lbl_MaOrBits";
+            this.Lbl_MaOrBits.Size = new System.Drawing.Size(102, 13);
+            this.Lbl_MaOrBits.TabIndex = 372;
+            this.Lbl_MaOrBits.Text = "uC Laser I-mA Read";
             // 
             // Form_iRIS_Clm_test_01
             // 
@@ -2253,8 +2334,6 @@
         private System.Windows.Forms.Label label63;
         private System.Windows.Forms.Label Lbl_TempBplt;
         private System.Windows.Forms.Button Bt_BasepltTemp;
-        private System.Windows.Forms.Label Lbl_MaOrBits;
-        private System.Windows.Forms.Label Lbl_uClsCurrent;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.TextBox Tb_VGASet;
@@ -2265,8 +2344,6 @@
         private System.Windows.Forms.Button Bt_SetVGA;
         private System.Windows.Forms.Button Bt_SetIntPwCal;
         private System.Windows.Forms.Label Lbl_RtnPwDACvalue;
-        private System.Windows.Forms.Label Lbl_V_I_out;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox ChkBx_AnlgModSet;
         private System.Windows.Forms.CheckBox ChkBx_DigitModSet;
         private System.Windows.Forms.CheckBox ChkBx_EnableSet;
@@ -2284,7 +2361,6 @@
         private System.Windows.Forms.TextBox Tb_NomPw;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox Tb_txtFilePathRep;
-        private System.Windows.Forms.Button Bt_Stop;
         private System.Windows.Forms.Button Bt_SetTempParam;
         private System.Windows.Forms.Button Bt_Set532Temp;
         private System.Windows.Forms.TextBox Tb_532TempSet;
@@ -2303,6 +2379,18 @@
         private System.Windows.Forms.Button Bt_SetFolder;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox Tb_MaxILimit;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label Lbl_PDmonUser;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label Lbl_PM100user;
+        private System.Windows.Forms.Button Bt_LaserCheck;
+        private System.Windows.Forms.Label Lbl_ImonUser;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.CheckBox ChkBx_LIlog;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label Lbl_uClsCurrent;
+        private System.Windows.Forms.Label Lbl_MaOrBits;
     }
 }
 

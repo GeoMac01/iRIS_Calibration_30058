@@ -522,16 +522,13 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdCurrentRead:
-                        if (testMode == true)
-                        {
+ 
+                        if (testMode == true) {
                             Lbl_uClsCurrent.Text = rtnValue.PadLeft(5, '0');
-                            Lbl_MaOrBits.Text = "uC Ls. bits";
-                        }
-                        else if (testMode == false)
-                        {
+                            Lbl_MaOrBits.Text = "uC Ls. bits"; }
+                        else if (testMode == false) {
                             Lbl_uClsCurrent.Text = rtnValue.PadLeft(4, '0');
-                            Lbl_MaOrBits.Text = "uC Ls. ImA";
-                        }
+                            Lbl_MaOrBits.Text = "uC Laser I-mA Read"; }
 
                         break;
 
@@ -803,7 +800,7 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdCurrentRead:
-                    //if(testMode==true) comThresh = 10;
+                    if(testMode == true) comThresh = 10;
                     break;
 
                 case CmdSetPwtoVout:
@@ -1158,6 +1155,12 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private void Frm_iRIS_Prod_FormClosing(object sender, FormClosingEventArgs e)
         {
+            Task<bool> exitAll = ExitPgm();
+            Application.Exit();
+        }
+        //======================================================================
+        private async Task<bool> ExitPgm()
+        {
             Properties.Settings.Default.PM100string = CmBx_PM100str.Text;
             Properties.Settings.Default.DefaultUser = Tb_User.Text;
             Properties.Settings.Default.RootFolder = Tb_FolderLoc.Text;
@@ -1165,12 +1168,6 @@ namespace iRIS_CLM_GUI_TEST_01
 
             Properties.Settings.Default.Save();
 
-            Task<bool> exitAll = ExitPgm();
-            Application.Exit();
-        }
-        //======================================================================
-        private async Task<bool> ExitPgm()
-        {
             if (USB_CDC.IsOpen)
             {
                 USB_CDC.Close();
@@ -1628,9 +1625,7 @@ namespace iRIS_CLM_GUI_TEST_01
             Lbl_Vpcon.Text = pconRead.ToString("00.000");
             Lbl_PwreadV.Text = lsrPwRead.ToString("00.000");//*294.12
             Lbl_Viout.Text = lsrCurrRead.ToString("000.0");//already converted to mA
-            label4.Text = " Imon mA";
-            Lbl_V_I_out.Text = Lbl_Viout.Text;//this can only be refreshed here, tab 2 current lable
-
+ 
             if (lsrCurrRead > maxCurr)
             {
                 Set_USB_Digit_Out(0, 0);//Laser disable
@@ -1646,6 +1641,10 @@ namespace iRIS_CLM_GUI_TEST_01
                 return false; }
 
             if (fullRd == true) { bool readAdc = await LoadGlobalTestArray(analogRead); }//internal uCadc
+
+            Lbl_PM100user.Text = Lbl_PM100rd.Text;
+            Lbl_ImonUser.Text = Lbl_Viout.Text;
+            Lbl_PDmonUser.Text = Lbl_PwreadV.Text;
 
             await Task.Delay(10);
 
@@ -2201,11 +2200,36 @@ namespace iRIS_CLM_GUI_TEST_01
         }
         #endregion
         //======================================================================
-        private void Bt_LiPlot_Click(object sender, EventArgs e) { Task<bool> liplotseq = LIplot(); }
         //======================================================================
-        private async Task<bool> LIplot()
+        private void Bt_LiPlot_Click(object sender, EventArgs e) { Task<bool> liplotseq = LIplot(true); }//ramp
+        //======================================================================
+        private void Bt_LaserCheck_Click(object sender, EventArgs e) { Task<bool> liplotseq = LaserCcheck(); }
+        //======================================================================
+            private async Task<bool> LaserCcheck()
         {
+            if (Bt_LaserCheck.BackColor == Color.PeachPuff) {
+                bool    lsCheck = await LIplot(false);//no ramp - set harware
+                        lsCheck = await ReadAllanlg(false);//read results
+                        Bt_LaserCheck.BackColor = Color.Red;
+            }
 
+            else if (Bt_LaserCheck.BackColor==Color.Red) { //reset hardware
+                        tb_SetIntPw.Text = "2.500";//reset internal DAC
+                bool    lsCheck1 = await SendToSerial(CmdLaserEnable, StrDisable, 300, 9);
+                        lsCheck1 = await SendToSerial(CmdSetPwCtrlOut, tb_SetIntPw.Text, 300, 9);
+                        Set_USB_Digit_Out(0, 0);//enable line
+                        Set_USB_Digit_Out(1, 0);//digital modulation line
+                        WriteDAC(0, 0);
+                        lsCheck1 = await ReadAllanlg(false);
+
+                        lsCheck1 = await SendToSerial(CmdTestMode, StrDisable, 300, 9);
+                        Bt_LaserCheck.BackColor = Color.PeachPuff;
+            }
+            return true;
+        }
+        //======================================================================
+        private async Task<bool> LIplot(bool rampTest)
+        {
             Set_USB_Digit_Out(0, 0);//enable line
             Set_USB_Digit_Out(1, 0);//digital modulation line
             WriteDAC(0, 0);
@@ -2218,7 +2242,7 @@ namespace iRIS_CLM_GUI_TEST_01
                 bool initvga = false;//async methods
                 bool invRamp = false;
 
-                bool iniLItest = await LoadGlobalTestArray(bulkSetVga);
+                bool iniLItest = await LoadGlobalTestArray(bulkSetVga);//initialise IO and test mode 
 
                 if (Convert.ToBoolean(Read_USB_Digit_in(2)) == true) //Laser OK 
                 {
@@ -2241,16 +2265,21 @@ namespace iRIS_CLM_GUI_TEST_01
 
                         MessageBox.Show("Enable Laser");
 
-                        bool boolCalVGA2 = await RampDACint(startRp, stopRp, stepRp, true);
+                        if (rampTest == true)//ramp test
+                        {
+                            initvga = await RampDACint(startRp, stopRp, stepRp, true);
+                            initvga = await SendToSerial(CmdLaserEnable, StrDisable, 300, 9);
+                            Set_USB_Digit_Out(0, 0); //Laser Disable
+                            Set_USB_Digit_Out(1, 0);//digital modulation line
+                            tb_SetIntPw.Text = startRp.ToString();//reset internal DAC
+                            initvga = await SendToSerial(CmdSetPwCtrlOut, tb_SetIntPw.Text, 300, 9);
+                            initvga = await ReadAllanlg(false);
+                        }
 
-                        initvga = await SendToSerial(CmdLaserEnable, StrDisable, 300, 9);
-                        Set_USB_Digit_Out(0, 0); //Laser Disable
-                        Set_USB_Digit_Out(1, 0);//digital modulation line
-
-                        tb_SetIntPw.Text = startRp.ToString();//reset internal DAC
-                        boolCalVGA2 = await SendToSerial(CmdSetPwCtrlOut, tb_SetIntPw.Text, 300, 9);
-
-                        bool rdAnlg = await ReadAllanlg(false);
+                        else if (rampTest == false) {
+                            tb_SetIntPw.Text = stopRp.ToString();//set internal DAC to 4V
+                            initvga = await SendToSerial(CmdSetPwCtrlOut, tb_SetIntPw.Text, 300, 9);
+                        } //simple test set internal dac to max power // reset in Laser Check method !!!!
                     }
 
                     else if (RdBt_LIint.Checked == false) //external PCON 0-5
@@ -2284,58 +2313,51 @@ namespace iRIS_CLM_GUI_TEST_01
 
                         MessageBox.Show("Enable Laser");
 
-                        bool boolCalVGA1 = await RampDACLI(startRp, stopRp, stepRp, true, invRamp);//an other ramp method to be on "safe side"...just not time now to consolidate
-
+                        if (rampTest == true) {
+                        initvga = await RampDACLI(startRp, stopRp, stepRp, true, invRamp);
                         initvga = await SendToSerial(CmdLaserEnable, StrDisable, 300, 9); //end VGA stop test
                         Set_USB_Digit_Out(0, 0); //Laser Disable
                         Set_USB_Digit_Out(1, 0);//digital modulation line
                         WriteDAC(0, 0);
-                        bool rdAnlg = await ReadAllanlg(false);
+                        initvga = await ReadAllanlg(false); }
+                        
+                        else if (rampTest == false) { WriteDAC(stopRp, 0); }
                     }
 
                     /**********************************************************************************/
+                    if (ChkBx_LIlog.Checked == true) {
 
-                    int indx1 = dataADC.GetLength(0);//arrays lenght 120
-                    int indx = indx1;
+                        int indx1 = dataADC.GetLength(0);//arrays lenght 120
+                        int indx = indx1;
 
-                    for (int indx2 = 0; indx2 < indx1; indx2++) {//eliminates trailling 0 as it is cleared with 0 to start with ...?
-                        if (dataADC[indx2, 3] == 0) {
-                            indx = indx2;
-                            break; }
-                        else continue; }
+                        for (int indx2 = 0; indx2 < indx1; indx2++) {//eliminates trailling 0 as it is cleared with 0 to start with ...?
+                            if (dataADC[indx2, 3] == 0) {
+                                indx = indx2;
+                                break; }
+                            else continue; }
 
-                    Rt_ReceiveDataUSB.Clear();
-
-                    for (int arrLp = 0; arrLp < indx; arrLp++) {
-                        Rt_ReceiveDataUSB.AppendText(dataADC[arrLp, 3].ToString() + " " +
-                                                     dataADC[arrLp, 0].ToString() + " " +
-                                                     dataADC[arrLp, 2].ToString() + " " +
-                                                     dataADC[arrLp, 1].ToString() + " " +
-                                                     dataADC[arrLp, 4].ToString() + " " +
-                                                     Footer); }
-
-                    bool liFile = await CreateRepFileLI();
-
-                    try
-                    {
-                        if (File.Exists(filePathLI))
+                        bool liFile = await CreateRepFileLI();
+                        try
                         {
-                            using (StreamWriter fsLI = File.AppendText(filePathLI))
+                            if (File.Exists(filePathLI))
                             {
-                                fsLI.WriteLine("\n");
-
-                                for (int arrLp = 0; arrLp < indx; arrLp++)
+                                using (StreamWriter fsLI = File.AppendText(filePathLI))
                                 {
-                                    fsLI.WriteLine(dataADC[arrLp, 3].ToString() + " " +
-                                                   dataADC[arrLp, 0].ToString() + " " +
-                                                   dataADC[arrLp, 2].ToString() + " " +
-                                                   dataADC[arrLp, 1].ToString() + " " +
-                                                   dataADC[arrLp, 4].ToString());
+                                    fsLI.WriteLine("\n");
+
+                                    for (int arrLp = 0; arrLp < indx; arrLp++)
+                                    {
+                                        fsLI.WriteLine(dataADC[arrLp, 3].ToString() + " " +
+                                                       dataADC[arrLp, 0].ToString() + " " +
+                                                       dataADC[arrLp, 2].ToString() + " " +
+                                                       dataADC[arrLp, 1].ToString() + " " +
+                                                       dataADC[arrLp, 4].ToString());
+                                    }
                                 }
                             }
                         }
+                        catch (Exception err1) { MessageBox.Show(err1.Message); }
                     }
-                    catch (Exception err1) { MessageBox.Show(err1.Message); }
                     /**********************************************************************************/
 
                 this.Cursor = Cursors.Default;
@@ -2653,10 +2675,11 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private void Bt_SetFolder_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog folderDlg = new FolderBrowserDialog();
-            folderDlg.ShowNewFolderButton = true;
-            // Show the FolderBrowserDialog. 
-            DialogResult result = folderDlg.ShowDialog();
+            //FolderBrowserDialog folderDlg = new FolderBrowserDialog();
+            //folderDlg.ShowNewFolderButton = true;
+            FolderBrowserDialog folderDlg = new FolderBrowserDialog { ShowNewFolderButton = true };
+        // Show the FolderBrowserDialog. 
+        DialogResult result = folderDlg.ShowDialog();
             if (result == DialogResult.OK)
             {
                 Tb_FolderLoc.Text = folderDlg.SelectedPath;
@@ -2684,3 +2707,97 @@ namespace iRIS_CLM_GUI_TEST_01
 }
 //======================================================================
 //======================================================================
+
+
+/*
+namespace ConsoleApplication1
+{
+
+using System.Text;
+using System.Data.Odbc;
+using System.Data;
+using System.Web;
+using System.ComponentModel;
+using System.IO;
+using System.Net;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Data.OleDb;
+using System.Text.RegularExpressions;
+using System.Linq;
+
+using System;
+using System.Collections.Generic;
+using System.Management; // need to add System.Management to your project references.
+
+class Program
+{
+
+static void Main(string[] args)
+{
+    var usbDevices = GetUSBDevices();
+
+    foreach (var usbDevice in usbDevices)
+    {
+        string m_pendid;
+
+        Console.WriteLine("Device ID: {0}, PNP Device ID: {1}, Description: {2}, USBVersion: {3}, SystemName: {4}",
+        usbDevice.DeviceID, usbDevice.PnpDeviceID, usbDevice.Description, usbDevice.usbversion, usbDevice.SystemName);
+
+        // m_pendid=catch["usbDevice.DeviceID"];
+        m_pendid = usbDevice.DeviceID;
+
+        Console.WriteLine("Test" + m_pendid);
+
+    }
+
+    // Console.Write("DeviceID :DeviceID");
+    Console.Read();
+
+}
+
+static List<usbdeviceinfo> GetUSBDevices()
+{
+    List<usbdeviceinfo> devices = new List<usbdeviceinfo>();
+
+    ManagementObjectCollection collection;
+    using (var searcher = new ManagementObjectSearcher(@"Select * From Win32_USBHub"))
+        collection = searcher.Get();
+
+    foreach (var device in collection)
+    {
+        devices.Add(new USBDeviceInfo(
+        (string)device.GetPropertyValue("DeviceID"),
+        (string)device.GetPropertyValue("PNPDeviceID"),
+        (string)device.GetPropertyValue("Description"),
+        (string)device.GetPropertyValue("USBVersion"),
+        (string)device.GetPropertyValue("SystemName")
+
+        ));
+
+    }
+
+    collection.Dispose();
+    return devices;
+}
+}
+
+class USBDeviceInfo
+{
+public USBDeviceInfo(string deviceID, string pnpDeviceID, string description, string usbversion1, string SystemName2)
+{
+    this.DeviceID = deviceID;
+    this.PnpDeviceID = pnpDeviceID;
+    this.Description = description;
+    this.usbversion = usbversion1;
+    this.SystemName = SystemName2;
+}
+public string DeviceID { get; private set; }
+public string PnpDeviceID { get; private set; }
+public string Description { get; private set; }
+public string usbversion { get; private set; }
+public string SystemName { get; private set; }
+}
+}
+
+*/
