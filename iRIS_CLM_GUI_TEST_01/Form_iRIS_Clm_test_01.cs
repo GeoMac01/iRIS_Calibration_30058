@@ -1,21 +1,19 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.IO.Ports;
 using System.IO;
-using System.Data;
-using System.Data.Sql;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 using Microsoft.VisualBasic;
 using Thorlabs.PM100D_32.Interop;
 using MccDaq;
+using System.Collections.Generic;
+using System.Management; 
 
 //iRIS Production 30058_01
-//15/01/2018
+//08/02/2018
 
 namespace iRIS_CLM_GUI_TEST_01
 {
@@ -227,7 +225,9 @@ namespace iRIS_CLM_GUI_TEST_01
         SqlCommand cmd = null;
         SqlDataReader rdr = null;
         //======================================================================
-    #region// Setting ADCDAC IO USB Interface
+        //var usbDevices = GetUSBDevices();
+        //======================================================================
+        #region// Setting ADCDAC IO USB Interface
         public MccDaq.DaqDeviceDescriptor[] inventory;
         public MccDaq.MccBoard DaqBoard;
         public MccDaq.ErrorInfo ULStat;
@@ -1122,7 +1122,8 @@ namespace iRIS_CLM_GUI_TEST_01
         private void Getportnames()
         {
             this.Cursor = Cursors.WaitCursor;
-
+           
+            //*****************************************************
             string[] portnames = SerialPort.GetPortNames();
             Cb_USB.Items.Clear(); //combo box ComConnect
             
@@ -1130,7 +1131,7 @@ namespace iRIS_CLM_GUI_TEST_01
 
             if (Cb_USB.Items.Count > 0) Cb_USB.SelectedIndex = 0;
             else Cb_USB.Text = "No COM port";
-
+            //******************************************************
             this.Cursor = Cursors.Default;
         }
         //======================================================================
@@ -1188,15 +1189,92 @@ namespace iRIS_CLM_GUI_TEST_01
         private void Form_iRIS_Clm_01_Load(object sender, EventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
-
+            //***********************************************************************
+            var usbDevices = GetUSBDevices();
+            //***********************************************************************
             this.CmBx_PM100str.Text = Properties.Settings.Default.PM100string;
             this.Tb_User.Text = Properties.Settings.Default.DefaultUser;
             this.Tb_FolderLoc.Text = Properties.Settings.Default.RootFolder;
             this.Tb_WorkOrder.Text = Properties.Settings.Default.WOrder;
  
             OpenSqlConnection();
+            //************************************************************************
             this.Cursor = Cursors.Default;
         }
+        //======================================================================
+        private List<USBDeviceInfo> GetUSBDevices()
+        {
+            List<USBDeviceInfo> devices = new List<USBDeviceInfo>();
+
+            ManagementObjectCollection collection = null;
+            //ManagementObjectSearcher searcher = new ManagementObjectSearcher("Select * From Win32_USBHub");
+            //using (var searcher = new ManagementObjectSearcher(@"Select * From Win32_USBHub"))
+            //using (var searcher = new ManagementObjectSearcher(@"Select * From Win32_PnPEntity"))
+            using (var searcher = new ManagementObjectSearcher(@"Select * From Win32_USBDevice"))
+
+                collection = searcher.Get();
+            
+            foreach (ManagementObject mo in collection)
+            {
+                /*
+                Rt_ReceiveDataUSB.AppendText(mo["Name"].ToString());
+                Rt_ReceiveDataUSB.AppendText(mo["SystemName"].ToString());
+                Rt_ReceiveDataUSB.AppendText(mo["Status"].ToString());
+                Rt_ReceiveDataUSB.AppendText(mo["Caption"].ToString());
+                */
+                Rt_ReceiveDataUSB.AppendText(mo["Name"].ToString() + "\n");
+                Rt_ReceiveDataUSB.AppendText(mo["Manufacturer"].ToString() + "\n");
+                Rt_ReceiveDataUSB.AppendText(mo["Description"].ToString() + "\n");
+                Rt_ReceiveDataUSB.AppendText(mo["Caption"].ToString() + "\n");
+                Rt_ReceiveDataUSB.AppendText("\n" + "\r");
+            }
+            
+            foreach (var device in collection)
+            {
+                devices.Add(new USBDeviceInfo(
+                (string)device.GetPropertyValue("DeviceID"),
+                (string)device.GetPropertyValue("PNPDeviceID"),
+                (string)device.GetPropertyValue("Description")
+                //(string)device.GetPropertyValue("Manufacturer")
+                //(string)device.GetPropertyValue("DisplayName")
+                ));
+            }
+
+            foreach (ManagementObject usb_device in collection)
+            {
+                ListViewItem new_item = lvwDevices.Items.Add(
+                    usb_device.Properties["DeviceID"].Value.ToString());
+                new_item.SubItems.Add(
+                    usb_device.Properties["PNPDeviceID"].Value.ToString());
+                new_item.SubItems.Add(
+                    usb_device.Properties["Description"].Value.ToString());
+                //new_item.SubItems.Add(
+                    //usb_device.Properties["Manufacturer"].Value.ToString());
+                //new_item.SubItems.Add(
+                    //usb_device.Properties["Display Name"].Value.ToString());
+            }
+
+            collection.Dispose();
+            return devices;
+        }
+        //======================================================================
+        class USBDeviceInfo
+        {
+            public USBDeviceInfo(string deviceID, string pnpDeviceID, string description)//, string manufacturer) //,string displayName)
+            {
+                this.DeviceID = deviceID;
+                this.PnpDeviceID = pnpDeviceID;
+                this.Description = description;
+                //this.Manufacturer = manufacturer;
+                //this.Display_Name = displayName;
+            }
+            public string DeviceID { get; private set; }
+            public string PnpDeviceID { get; private set; }
+            public string Description { get; private set; }
+            //public string Manufacturer { get; private set; }
+            //public string Display_Name { get; private set; }
+        }
+        //======================================================================
         //======================================================================
         private void Tb_TecSerNumb_KeyDown(object sender, KeyEventArgs e)
         {
@@ -1435,8 +1513,7 @@ namespace iRIS_CLM_GUI_TEST_01
                 if (portNb==0) { Bt_LsEnable.BackColor = Color.PeachPuff; }
                 else if (portNb == 1) { Bt_DigMod.BackColor = Color.PeachPuff; }
                 ULStat = DaqBoard.DBitOut(DigitalPortType.AuxPort, portNb, DigitalLogicState.Low);
-            }
-                
+            }              
         }
         //======================================================================
         private sbyte Read_USB_Digit_in(sbyte portNb)//0 to 7
@@ -2708,96 +2785,3 @@ namespace iRIS_CLM_GUI_TEST_01
 //======================================================================
 //======================================================================
 
-
-/*
-namespace ConsoleApplication1
-{
-
-using System.Text;
-using System.Data.Odbc;
-using System.Data;
-using System.Web;
-using System.ComponentModel;
-using System.IO;
-using System.Net;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Data.OleDb;
-using System.Text.RegularExpressions;
-using System.Linq;
-
-using System;
-using System.Collections.Generic;
-using System.Management; // need to add System.Management to your project references.
-
-class Program
-{
-
-static void Main(string[] args)
-{
-    var usbDevices = GetUSBDevices();
-
-    foreach (var usbDevice in usbDevices)
-    {
-        string m_pendid;
-
-        Console.WriteLine("Device ID: {0}, PNP Device ID: {1}, Description: {2}, USBVersion: {3}, SystemName: {4}",
-        usbDevice.DeviceID, usbDevice.PnpDeviceID, usbDevice.Description, usbDevice.usbversion, usbDevice.SystemName);
-
-        // m_pendid=catch["usbDevice.DeviceID"];
-        m_pendid = usbDevice.DeviceID;
-
-        Console.WriteLine("Test" + m_pendid);
-
-    }
-
-    // Console.Write("DeviceID :DeviceID");
-    Console.Read();
-
-}
-
-static List<usbdeviceinfo> GetUSBDevices()
-{
-    List<usbdeviceinfo> devices = new List<usbdeviceinfo>();
-
-    ManagementObjectCollection collection;
-    using (var searcher = new ManagementObjectSearcher(@"Select * From Win32_USBHub"))
-        collection = searcher.Get();
-
-    foreach (var device in collection)
-    {
-        devices.Add(new USBDeviceInfo(
-        (string)device.GetPropertyValue("DeviceID"),
-        (string)device.GetPropertyValue("PNPDeviceID"),
-        (string)device.GetPropertyValue("Description"),
-        (string)device.GetPropertyValue("USBVersion"),
-        (string)device.GetPropertyValue("SystemName")
-
-        ));
-
-    }
-
-    collection.Dispose();
-    return devices;
-}
-}
-
-class USBDeviceInfo
-{
-public USBDeviceInfo(string deviceID, string pnpDeviceID, string description, string usbversion1, string SystemName2)
-{
-    this.DeviceID = deviceID;
-    this.PnpDeviceID = pnpDeviceID;
-    this.Description = description;
-    this.usbversion = usbversion1;
-    this.SystemName = SystemName2;
-}
-public string DeviceID { get; private set; }
-public string PnpDeviceID { get; private set; }
-public string Description { get; private set; }
-public string usbversion { get; private set; }
-public string SystemName { get; private set; }
-}
-}
-
-*/

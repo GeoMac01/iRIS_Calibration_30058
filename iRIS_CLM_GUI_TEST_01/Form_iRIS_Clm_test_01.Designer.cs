@@ -29,6 +29,10 @@
         private void InitializeComponent()
         {
             this.TbPg_InsTest = new System.Windows.Forms.TabPage();
+            this.Lbl_uClsCurrent = new System.Windows.Forms.Label();
+            this.Lbl_MaOrBits = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.ChkBx_LIlog = new System.Windows.Forms.CheckBox();
             this.label16 = new System.Windows.Forms.Label();
             this.Lbl_PDmonUser = new System.Windows.Forms.Label();
@@ -207,10 +211,12 @@
             this.Bt_RdLaserStatus = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.Lbl_uClsCurrent = new System.Windows.Forms.Label();
-            this.Lbl_MaOrBits = new System.Windows.Forms.Label();
+            this.lvwDevices = new System.Windows.Forms.ListView();
+            this.colDevice = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colPnPDeviceId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colDescription = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colManufacturer = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colDisplayName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TbPg_InsTest.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -277,6 +283,42 @@
             this.TbPg_InsTest.Size = new System.Drawing.Size(692, 566);
             this.TbPg_InsTest.TabIndex = 1;
             this.TbPg_InsTest.Text = "Laser Calibration";
+            // 
+            // Lbl_uClsCurrent
+            // 
+            this.Lbl_uClsCurrent.AutoSize = true;
+            this.Lbl_uClsCurrent.Location = new System.Drawing.Point(208, 237);
+            this.Lbl_uClsCurrent.Name = "Lbl_uClsCurrent";
+            this.Lbl_uClsCurrent.Size = new System.Drawing.Size(31, 13);
+            this.Lbl_uClsCurrent.TabIndex = 373;
+            this.Lbl_uClsCurrent.Text = "0000";
+            // 
+            // Lbl_MaOrBits
+            // 
+            this.Lbl_MaOrBits.AutoSize = true;
+            this.Lbl_MaOrBits.Location = new System.Drawing.Point(248, 237);
+            this.Lbl_MaOrBits.Name = "Lbl_MaOrBits";
+            this.Lbl_MaOrBits.Size = new System.Drawing.Size(102, 13);
+            this.Lbl_MaOrBits.TabIndex = 372;
+            this.Lbl_MaOrBits.Text = "uC Laser I-mA Read";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(338, 433);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(63, 13);
+            this.label15.TabIndex = 371;
+            this.label15.Text = "Timer Value";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(275, 433);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(55, 13);
+            this.label4.TabIndex = 370;
+            this.label4.Text = "00000000";
             // 
             // ChkBx_LIlog
             // 
@@ -863,6 +905,7 @@
             // 
             // TbPg_Iris_Init
             // 
+            this.TbPg_Iris_Init.Controls.Add(this.lvwDevices);
             this.TbPg_Iris_Init.Controls.Add(this.label13);
             this.TbPg_Iris_Init.Controls.Add(this.Tb_MaxILimit);
             this.TbPg_Iris_Init.Controls.Add(this.label12);
@@ -2143,41 +2186,48 @@
             // 
             this.folderBrowserDialog1.RootFolder = System.Environment.SpecialFolder.MyComputer;
             // 
-            // label4
+            // lvwDevices
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(275, 433);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(55, 13);
-            this.label4.TabIndex = 370;
-            this.label4.Text = "00000000";
+            this.lvwDevices.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lvwDevices.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colDevice,
+            this.colPnPDeviceId,
+            this.colDescription,
+            this.colManufacturer,
+            this.colDisplayName});
+            this.lvwDevices.Location = new System.Drawing.Point(9, 322);
+            this.lvwDevices.Name = "lvwDevices";
+            this.lvwDevices.Size = new System.Drawing.Size(677, 194);
+            this.lvwDevices.TabIndex = 342;
+            this.lvwDevices.UseCompatibleStateImageBehavior = false;
+            this.lvwDevices.View = System.Windows.Forms.View.Details;
             // 
-            // label15
+            // colDevice
             // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(338, 433);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(63, 13);
-            this.label15.TabIndex = 371;
-            this.label15.Text = "Timer Value";
+            this.colDevice.Text = "Device";
+            this.colDevice.Width = 111;
             // 
-            // Lbl_uClsCurrent
+            // colPnPDeviceId
             // 
-            this.Lbl_uClsCurrent.AutoSize = true;
-            this.Lbl_uClsCurrent.Location = new System.Drawing.Point(208, 237);
-            this.Lbl_uClsCurrent.Name = "Lbl_uClsCurrent";
-            this.Lbl_uClsCurrent.Size = new System.Drawing.Size(31, 13);
-            this.Lbl_uClsCurrent.TabIndex = 373;
-            this.Lbl_uClsCurrent.Text = "0000";
+            this.colPnPDeviceId.Text = "PnP Device ID";
+            this.colPnPDeviceId.Width = 106;
             // 
-            // Lbl_MaOrBits
+            // colDescription
             // 
-            this.Lbl_MaOrBits.AutoSize = true;
-            this.Lbl_MaOrBits.Location = new System.Drawing.Point(248, 237);
-            this.Lbl_MaOrBits.Name = "Lbl_MaOrBits";
-            this.Lbl_MaOrBits.Size = new System.Drawing.Size(102, 13);
-            this.Lbl_MaOrBits.TabIndex = 372;
-            this.Lbl_MaOrBits.Text = "uC Laser I-mA Read";
+            this.colDescription.Text = "Description";
+            this.colDescription.Width = 107;
+            // 
+            // colManufacturer
+            // 
+            this.colManufacturer.Text = "Manufacturer";
+            this.colManufacturer.Width = 211;
+            // 
+            // colDisplayName
+            // 
+            this.colDisplayName.Text = "Display Name";
+            this.colDisplayName.Width = 131;
             // 
             // Form_iRIS_Clm_test_01
             // 
@@ -2391,6 +2441,12 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label Lbl_uClsCurrent;
         private System.Windows.Forms.Label Lbl_MaOrBits;
+        private System.Windows.Forms.ColumnHeader colDevice;
+        private System.Windows.Forms.ColumnHeader colPnPDeviceId;
+        private System.Windows.Forms.ColumnHeader colDescription;
+        private System.Windows.Forms.ListView lvwDevices;
+        private System.Windows.Forms.ColumnHeader colManufacturer;
+        private System.Windows.Forms.ColumnHeader colDisplayName;
     }
 }
 
