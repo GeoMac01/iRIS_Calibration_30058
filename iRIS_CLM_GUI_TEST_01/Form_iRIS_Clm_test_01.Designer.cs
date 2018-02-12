@@ -167,8 +167,6 @@
             this.Lbl_Viout = new System.Windows.Forms.Label();
             this.Lbl_Ma = new System.Windows.Forms.Label();
             this.Bt_SetPcon = new System.Windows.Forms.Button();
-            this.Tb_LaserOK = new System.Windows.Forms.TextBox();
-            this.Bt_RsLaserOk = new System.Windows.Forms.Button();
             this.Bt_DigMod = new System.Windows.Forms.Button();
             this.Bt_LsEnable = new System.Windows.Forms.Button();
             this.CmBx_USBinterface = new System.Windows.Forms.ComboBox();
@@ -211,6 +209,12 @@
             this.Bt_RdLaserStatus = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.Rtb_ComList = new System.Windows.Forms.RichTextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.Tb_LaserOK = new System.Windows.Forms.TextBox();
+            this.Bt_RsLaserOk = new System.Windows.Forms.Button();
             this.TbPg_InsTest.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -223,6 +227,10 @@
             // 
             // TbPg_InsTest
             // 
+            this.TbPg_InsTest.Controls.Add(this.Tb_LaserOK);
+            this.TbPg_InsTest.Controls.Add(this.Bt_RsLaserOk);
+            this.TbPg_InsTest.Controls.Add(this.label17);
+            this.TbPg_InsTest.Controls.Add(this.Rtb_ComList);
             this.TbPg_InsTest.Controls.Add(this.Lbl_uClsCurrent);
             this.TbPg_InsTest.Controls.Add(this.Lbl_MaOrBits);
             this.TbPg_InsTest.Controls.Add(this.label15);
@@ -959,9 +967,9 @@
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(174, 121);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(99, 13);
+            this.label12.Size = new System.Drawing.Size(111, 13);
             this.label12.TabIndex = 339;
-            this.label12.Text = "142 Laser PCB SN.";
+            this.label12.Text = "14264 Laser PCB SN.";
             // 
             // Tb_LsBoardSn
             // 
@@ -1190,6 +1198,8 @@
             // 
             // TbPg_Results
             // 
+            this.TbPg_Results.Controls.Add(this.label20);
+            this.TbPg_Results.Controls.Add(this.label18);
             this.TbPg_Results.Controls.Add(this.Bt_SetFolder);
             this.TbPg_Results.Controls.Add(this.Tb_FolderLoc);
             this.TbPg_Results.Controls.Add(this.Bt_SetTempParam);
@@ -1232,8 +1242,6 @@
             this.TbPg_Results.Controls.Add(this.Lbl_Viout);
             this.TbPg_Results.Controls.Add(this.Lbl_Ma);
             this.TbPg_Results.Controls.Add(this.Bt_SetPcon);
-            this.TbPg_Results.Controls.Add(this.Tb_LaserOK);
-            this.TbPg_Results.Controls.Add(this.Bt_RsLaserOk);
             this.TbPg_Results.Controls.Add(this.Bt_DigMod);
             this.TbPg_Results.Controls.Add(this.Bt_LsEnable);
             this.TbPg_Results.Controls.Add(this.CmBx_USBinterface);
@@ -1566,7 +1574,7 @@
             // label59
             // 
             this.label59.AutoSize = true;
-            this.label59.Location = new System.Drawing.Point(469, 332);
+            this.label59.Location = new System.Drawing.Point(568, 547);
             this.label59.Name = "label59";
             this.label59.Size = new System.Drawing.Size(84, 13);
             this.label59.TabIndex = 333;
@@ -1574,7 +1582,7 @@
             // 
             // Tb_RsDelay
             // 
-            this.Tb_RsDelay.Location = new System.Drawing.Point(434, 328);
+            this.Tb_RsDelay.Location = new System.Drawing.Point(655, 543);
             this.Tb_RsDelay.Name = "Tb_RsDelay";
             this.Tb_RsDelay.Size = new System.Drawing.Size(31, 20);
             this.Tb_RsDelay.TabIndex = 332;
@@ -1765,26 +1773,6 @@
             this.Bt_SetPcon.UseVisualStyleBackColor = false;
             this.Bt_SetPcon.Click += new System.EventHandler(this.Bt_SetPcon_Click);
             // 
-            // Tb_LaserOK
-            // 
-            this.Tb_LaserOK.BackColor = System.Drawing.Color.Red;
-            this.Tb_LaserOK.Location = new System.Drawing.Point(198, 164);
-            this.Tb_LaserOK.Name = "Tb_LaserOK";
-            this.Tb_LaserOK.Size = new System.Drawing.Size(11, 20);
-            this.Tb_LaserOK.TabIndex = 305;
-            // 
-            // Bt_RsLaserOk
-            // 
-            this.Bt_RsLaserOk.BackColor = System.Drawing.Color.PeachPuff;
-            this.Bt_RsLaserOk.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Bt_RsLaserOk.Location = new System.Drawing.Point(102, 161);
-            this.Bt_RsLaserOk.Name = "Bt_RsLaserOk";
-            this.Bt_RsLaserOk.Size = new System.Drawing.Size(90, 25);
-            this.Bt_RsLaserOk.TabIndex = 304;
-            this.Bt_RsLaserOk.Text = "Rd Laser OK";
-            this.Bt_RsLaserOk.UseVisualStyleBackColor = false;
-            this.Bt_RsLaserOk.Click += new System.EventHandler(this.Bt_RsLaserOk_Click);
-            // 
             // Bt_DigMod
             // 
             this.Bt_DigMod.BackColor = System.Drawing.Color.PeachPuff;
@@ -1815,7 +1803,7 @@
             "USB-321",
             "USB-321",
             "USB-231"});
-            this.CmBx_USBinterface.Location = new System.Drawing.Point(575, 379);
+            this.CmBx_USBinterface.Location = new System.Drawing.Point(575, 356);
             this.CmBx_USBinterface.Name = "CmBx_USBinterface";
             this.CmBx_USBinterface.Size = new System.Drawing.Size(111, 21);
             this.CmBx_USBinterface.TabIndex = 301;
@@ -1827,7 +1815,7 @@
             "USB0::0x1313::0x8072::P2008742::0::INSTR",
             "USB0::0x1313::0x8072::P2002916::0::INSTR",
             "USB0::0x1313::0x8072::P2008991::0::INSTR"});
-            this.CmBx_PM100str.Location = new System.Drawing.Point(434, 354);
+            this.CmBx_PM100str.Location = new System.Drawing.Point(434, 331);
             this.CmBx_PM100str.Name = "CmBx_PM100str";
             this.CmBx_PM100str.Size = new System.Drawing.Size(252, 21);
             this.CmBx_PM100str.TabIndex = 300;
@@ -1955,7 +1943,7 @@
             // label40
             // 
             this.label40.AutoSize = true;
-            this.label40.Location = new System.Drawing.Point(483, 461);
+            this.label40.Location = new System.Drawing.Point(483, 438);
             this.label40.Name = "label40";
             this.label40.Size = new System.Drawing.Size(88, 13);
             this.label40.TabIndex = 204;
@@ -1973,7 +1961,7 @@
             // 
             // Tb_InitialCatalog
             // 
-            this.Tb_InitialCatalog.Location = new System.Drawing.Point(575, 458);
+            this.Tb_InitialCatalog.Location = new System.Drawing.Point(575, 435);
             this.Tb_InitialCatalog.Name = "Tb_InitialCatalog";
             this.Tb_InitialCatalog.Size = new System.Drawing.Size(111, 20);
             this.Tb_InitialCatalog.TabIndex = 203;
@@ -1983,7 +1971,7 @@
             // label39
             // 
             this.label39.AutoSize = true;
-            this.label39.Location = new System.Drawing.Point(453, 434);
+            this.label39.Location = new System.Drawing.Point(453, 411);
             this.label39.Name = "label39";
             this.label39.Size = new System.Drawing.Size(118, 13);
             this.label39.TabIndex = 202;
@@ -2000,7 +1988,7 @@
             // 
             // Tb_ServerName
             // 
-            this.Tb_ServerName.Location = new System.Drawing.Point(575, 431);
+            this.Tb_ServerName.Location = new System.Drawing.Point(575, 408);
             this.Tb_ServerName.Name = "Tb_ServerName";
             this.Tb_ServerName.Size = new System.Drawing.Size(111, 20);
             this.Tb_ServerName.TabIndex = 201;
@@ -2010,7 +1998,7 @@
             // Bt_EnableDBstring
             // 
             this.Bt_EnableDBstring.BackColor = System.Drawing.Color.White;
-            this.Bt_EnableDBstring.Location = new System.Drawing.Point(575, 535);
+            this.Bt_EnableDBstring.Location = new System.Drawing.Point(575, 512);
             this.Bt_EnableDBstring.Name = "Bt_EnableDBstring";
             this.Bt_EnableDBstring.Size = new System.Drawing.Size(111, 26);
             this.Bt_EnableDBstring.TabIndex = 200;
@@ -2029,7 +2017,7 @@
             // label38
             // 
             this.label38.AutoSize = true;
-            this.label38.Location = new System.Drawing.Point(518, 512);
+            this.label38.Location = new System.Drawing.Point(518, 489);
             this.label38.Name = "label38";
             this.label38.Size = new System.Drawing.Size(53, 13);
             this.label38.TabIndex = 199;
@@ -2046,7 +2034,7 @@
             // 
             // Tb_Pw1
             // 
-            this.Tb_Pw1.Location = new System.Drawing.Point(575, 509);
+            this.Tb_Pw1.Location = new System.Drawing.Point(575, 486);
             this.Tb_Pw1.Name = "Tb_Pw1";
             this.Tb_Pw1.Size = new System.Drawing.Size(111, 20);
             this.Tb_Pw1.TabIndex = 198;
@@ -2056,7 +2044,7 @@
             // label37
             // 
             this.label37.AutoSize = true;
-            this.label37.Location = new System.Drawing.Point(516, 487);
+            this.label37.Location = new System.Drawing.Point(516, 463);
             this.label37.Name = "label37";
             this.label37.Size = new System.Drawing.Size(55, 13);
             this.label37.TabIndex = 197;
@@ -2075,7 +2063,7 @@
             // 
             // Tb_User1
             // 
-            this.Tb_User1.Location = new System.Drawing.Point(575, 483);
+            this.Tb_User1.Location = new System.Drawing.Point(575, 460);
             this.Tb_User1.Name = "Tb_User1";
             this.Tb_User1.Size = new System.Drawing.Size(111, 20);
             this.Tb_User1.TabIndex = 196;
@@ -2109,7 +2097,7 @@
             // label36
             // 
             this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(457, 409);
+            this.label36.Location = new System.Drawing.Point(457, 385);
             this.label36.Name = "label36";
             this.label36.Size = new System.Drawing.Size(114, 13);
             this.label36.TabIndex = 188;
@@ -2130,7 +2118,7 @@
             // 
             // Tb_DatabaseString
             // 
-            this.Tb_DatabaseString.Location = new System.Drawing.Point(575, 405);
+            this.Tb_DatabaseString.Location = new System.Drawing.Point(575, 382);
             this.Tb_DatabaseString.Name = "Tb_DatabaseString";
             this.Tb_DatabaseString.Size = new System.Drawing.Size(111, 20);
             this.Tb_DatabaseString.TabIndex = 187;
@@ -2153,7 +2141,7 @@
             // 
             this.Rt_ReceiveDataUSB.Location = new System.Drawing.Point(521, 105);
             this.Rt_ReceiveDataUSB.Name = "Rt_ReceiveDataUSB";
-            this.Rt_ReceiveDataUSB.Size = new System.Drawing.Size(165, 222);
+            this.Rt_ReceiveDataUSB.Size = new System.Drawing.Size(165, 200);
             this.Rt_ReceiveDataUSB.TabIndex = 185;
             this.Rt_ReceiveDataUSB.Text = "";
             this.Rt_ReceiveDataUSB.DoubleClick += new System.EventHandler(this.Rtb_Display_USB_DoubleClick);
@@ -2178,6 +2166,66 @@
             // folderBrowserDialog1
             // 
             this.folderBrowserDialog1.RootFolder = System.Environment.SpecialFolder.MyComputer;
+            // 
+            // Rtb_ComList
+            // 
+            this.Rtb_ComList.Location = new System.Drawing.Point(476, 87);
+            this.Rtb_ComList.Name = "Rtb_ComList";
+            this.Rtb_ComList.ReadOnly = true;
+            this.Rtb_ComList.Size = new System.Drawing.Size(201, 118);
+            this.Rtb_ComList.TabIndex = 374;
+            this.Rtb_ComList.Text = "";
+            this.Rtb_ComList.DoubleClick += new System.EventHandler(this.Rtb_ComList_DoubleClick);
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(476, 71);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(55, 13);
+            this.label17.TabIndex = 375;
+            this.label17.Text = "COMs List";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(484, 360);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(87, 13);
+            this.label18.TabIndex = 354;
+            this.label18.Text = "USB IO interface";
+            this.label18.Visible = false;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(431, 315);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(88, 13);
+            this.label20.TabIndex = 355;
+            this.label20.Text = "PM100 init. string";
+            this.label20.Visible = false;
+            // 
+            // Tb_LaserOK
+            // 
+            this.Tb_LaserOK.BackColor = System.Drawing.Color.Red;
+            this.Tb_LaserOK.Location = new System.Drawing.Point(337, 118);
+            this.Tb_LaserOK.Name = "Tb_LaserOK";
+            this.Tb_LaserOK.Size = new System.Drawing.Size(11, 20);
+            this.Tb_LaserOK.TabIndex = 377;
+            // 
+            // Bt_RsLaserOk
+            // 
+            this.Bt_RsLaserOk.BackColor = System.Drawing.Color.PeachPuff;
+            this.Bt_RsLaserOk.Enabled = false;
+            this.Bt_RsLaserOk.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Bt_RsLaserOk.Location = new System.Drawing.Point(241, 115);
+            this.Bt_RsLaserOk.Name = "Bt_RsLaserOk";
+            this.Bt_RsLaserOk.Size = new System.Drawing.Size(90, 25);
+            this.Bt_RsLaserOk.TabIndex = 376;
+            this.Bt_RsLaserOk.Text = "Rd Laser OK";
+            this.Bt_RsLaserOk.UseVisualStyleBackColor = false;
+            this.Bt_RsLaserOk.Click += new System.EventHandler(this.Bt_RsLaserOk_Click);
             // 
             // Form_iRIS_Clm_test_01
             // 
@@ -2279,8 +2327,6 @@
         private System.Windows.Forms.TextBox Tb_VPcon;
         private System.Windows.Forms.ComboBox CmBx_PM100str;
         private System.Windows.Forms.ComboBox CmBx_USBinterface;
-        private System.Windows.Forms.Button Bt_RsLaserOk;
-        private System.Windows.Forms.TextBox Tb_LaserOK;
         private System.Windows.Forms.Button Bt_SetPcon;
         private System.Windows.Forms.Label Lbl_Vpcon;
         private System.Windows.Forms.Label label54;
@@ -2391,6 +2437,12 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label Lbl_uClsCurrent;
         private System.Windows.Forms.Label Lbl_MaOrBits;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.RichTextBox Rtb_ComList;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.TextBox Tb_LaserOK;
+        private System.Windows.Forms.Button Bt_RsLaserOk;
     }
 }
 

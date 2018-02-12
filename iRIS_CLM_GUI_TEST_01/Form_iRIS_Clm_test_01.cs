@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Management; 
 
 //iRIS Production 30058_01
-//08/02/2018
+//12/02/2018
 
 namespace iRIS_CLM_GUI_TEST_01
 {
@@ -225,7 +225,7 @@ namespace iRIS_CLM_GUI_TEST_01
         SqlCommand cmd = null;
         SqlDataReader rdr = null;
         //======================================================================
-        //var usbDevices = GetUSBDevices();
+
         //======================================================================
         #region// Setting ADCDAC IO USB Interface
         public MccDaq.DaqDeviceDescriptor[] inventory;
@@ -1121,8 +1121,10 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private void Getportnames()
         {
-            this.Cursor = Cursors.WaitCursor;
-           
+            string[] rtnComstr = new string[10];
+            rtnComstr =  GetUSBDevices();
+            //foreach (string strCom in rtnComstr) { if (!String.IsNullOrEmpty(strCom)) { Rtb_ComList.AppendText(strCom.ToString() + "\r\n"); } }
+            //if (strCom.Contains("FTDI")) MessageBox.Show(strCom.ToString()); }
             //*****************************************************
             string[] portnames = SerialPort.GetPortNames();
             Cb_USB.Items.Clear(); //combo box ComConnect
@@ -1132,7 +1134,6 @@ namespace iRIS_CLM_GUI_TEST_01
             if (Cb_USB.Items.Count > 0) Cb_USB.SelectedIndex = 0;
             else Cb_USB.Text = "No COM port";
             //******************************************************
-            this.Cursor = Cursors.Default;
         }
         //======================================================================
         private void Bt_SetAddr_Click(object sender, EventArgs e) { Task<bool> setadd = SetAddress(); }
@@ -1190,8 +1191,7 @@ namespace iRIS_CLM_GUI_TEST_01
         {
             this.Cursor = Cursors.WaitCursor;
             //***********************************************************************
-            //var usbDevices = GetUSBDevices();
-            GetUSBDevices();
+
             //***********************************************************************
             this.CmBx_PM100str.Text = Properties.Settings.Default.PM100string;
             this.Tb_User.Text = Properties.Settings.Default.DefaultUser;
@@ -1203,56 +1203,30 @@ namespace iRIS_CLM_GUI_TEST_01
             this.Cursor = Cursors.Default;
         }
         //======================================================================
-        private void GetUSBDevices()
+        private string[] GetUSBDevices()
         {
+            string[] comId = new string[10];
+            comId.Initialize();
+            int inxComId = 0;
+
             ManagementObjectCollection collection = null;
-            //using (var searcher = new ManagementObjectSearcher(@"Select * From Win32_USBHub")) //collection = searcher.Get();
-            //using (var searcher = new ManagementObjectSearcher(@"Select * From Win32_PnPEntity"))
-            //using (var searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_PnPEntity where DeviceID Like ""USB%"""))
             using (var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity WHERE Caption like '%(COM%'"))
-                //using (var searcher = new ManagementObjectSearcher(@"Select * From Win32_USBDevice"))
-                //using (var searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_PnPEntity where DeviceID Like '%Serial Port%'"))
-                collection = searcher.Get();
- 
-            var portnames = SerialPort.GetPortNames();
+            collection = searcher.Get();
 
             foreach (ManagementObject mo in collection)
             {
-                Rt_ReceiveDataUSB.AppendText("5 " + mo["Caption"].ToString() + "\n");
-                Rt_ReceiveDataUSB.AppendText("2 " + mo["Manufacturer"].ToString() + "\n");
-                //Rt_ReceiveDataUSB.AppendText("3 " + mo["Description"].ToString() + "\n");
-                //Rt_ReceiveDataUSB.AppendText("1 " + mo["FriendlyName"].ToString() + "\n");
-                //Rt_ReceiveDataUSB.AppendText("2 " + mo["DeviceDesc"].ToString() + "\n");
-                //Rt_ReceiveDataUSB.AppendText("1 " + mo["Name"].ToString() + "\n");
-                //Rt_ReceiveDataUSB.AppendText("4 " + mo["DeviceID"].ToString() + "\n");
-                //Rt_ReceiveDataUSB.AppendText("6 " + mo["PNPDeviceID"].ToString() + "\n");
-                //Rt_ReceiveDataUSB.AppendText("7 " + mo["PortName"].ToString() + "\n");
-                Rt_ReceiveDataUSB.AppendText("\n" + "\r");
-
-                    if (mo["Manufacturer"].ToString() == "FTDI")
-                    MessageBox.Show("Port for " + "FTDI" + " is " + mo["Caption"].ToString());
-                }
-            collection.Dispose();
-        }
-        //======================================================================
-
-        class USBDeviceInfo
-        {
-            public USBDeviceInfo(string deviceID, string pnpDeviceID, string description, string manufacturer,string displayName)
-            {
-                this.DeviceID = deviceID;
-                this.PnpDeviceID = pnpDeviceID;
-                this.Description = description;
-                this.Manufacturer = manufacturer;
-                this.Display_Name = displayName;
+                Rtb_ComList.AppendText(mo["Caption"].ToString() + "\n");
+                Rtb_ComList.AppendText(mo["Manufacturer"].ToString() + "\n");
+                Rtb_ComList.AppendText("\n");
+                if(inxComId > 9) { break; }
+                else { comId[inxComId] = mo["Caption"].ToString() + "  " + mo["Manufacturer"].ToString()+ "  "; }
+                inxComId++;
             }
-            public string DeviceID { get; private set; }
-            public string PnpDeviceID { get; private set; }
-            public string Description { get; private set; }
-            public string Manufacturer { get; private set; }
-            public string Display_Name { get; private set; }
+
+            collection.Dispose();
+
+            return comId;
         }
- 
         //======================================================================
         //======================================================================
         private void Tb_TecSerNumb_KeyDown(object sender, KeyEventArgs e)
@@ -1467,6 +1441,7 @@ namespace iRIS_CLM_GUI_TEST_01
                      MessageBox.Show(mystring + " " + "");
                 }
 
+                Bt_RsLaserOk.Enabled = true;
                 Bt_USBinterf.BackColor = Color.LawnGreen;
                 Bt_USBinterf.Text = "USB Interface Connected";
             }
@@ -1757,7 +1732,7 @@ namespace iRIS_CLM_GUI_TEST_01
                 this.Cursor = Cursors.Default;
                 bt_NewTest.BackColor = Color.LawnGreen;
 
-                MessageBox.Show(" Button Disconnect USB \n Power Cycle laser \n Button Re-connect USB \n Wait for TEC lock LED \n Start 'Cal VGA' \n");
+                MessageBox.Show(" Open Laser Shutter \n Click Button Disconnect USB \n Power Cycle laser \n Click Button Re-connect USB \n Wait for TEC lock LED Click 'Rd Laser OK' \n Start 'Cal VGA' \n");
 
                 Prg_Bar01.Value = 0;
             }
@@ -2703,6 +2678,7 @@ namespace iRIS_CLM_GUI_TEST_01
                         else { ChkBx_AnlgModSet.Checked = true; }//inverted
 
                         MessageBox.Show("PN: " + readstuff + " @ " + dbArrayIdx.ToString());
+                        MessageBox.Show("Enter 'Diode Max. Current Limit' Value");
                         Tb_LaserPN.ForeColor = Color.Green;
 
                         break;
@@ -2755,6 +2731,8 @@ namespace iRIS_CLM_GUI_TEST_01
                 Tb_MaxLsCurrent.Text = Tb_MaxILimit.Text;
                 Tb_MaxILimit.ForeColor = Color.Green; }
         }
+        //======================================================================
+        private void Rtb_ComList_DoubleClick(object sender, EventArgs e) { Rtb_ComList.Clear(); }
         //======================================================================
         //======================================================================
     }
