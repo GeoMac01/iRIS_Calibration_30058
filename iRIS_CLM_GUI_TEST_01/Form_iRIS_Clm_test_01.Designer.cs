@@ -211,12 +211,6 @@
             this.Bt_RdLaserStatus = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.lvwDevices = new System.Windows.Forms.ListView();
-            this.colDevice = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colPnPDeviceId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colDescription = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colManufacturer = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colDisplayName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TbPg_InsTest.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -905,7 +899,6 @@
             // 
             // TbPg_Iris_Init
             // 
-            this.TbPg_Iris_Init.Controls.Add(this.lvwDevices);
             this.TbPg_Iris_Init.Controls.Add(this.label13);
             this.TbPg_Iris_Init.Controls.Add(this.Tb_MaxILimit);
             this.TbPg_Iris_Init.Controls.Add(this.label12);
@@ -2186,49 +2179,6 @@
             // 
             this.folderBrowserDialog1.RootFolder = System.Environment.SpecialFolder.MyComputer;
             // 
-            // lvwDevices
-            // 
-            this.lvwDevices.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lvwDevices.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.colDevice,
-            this.colPnPDeviceId,
-            this.colDescription,
-            this.colManufacturer,
-            this.colDisplayName});
-            this.lvwDevices.Location = new System.Drawing.Point(9, 322);
-            this.lvwDevices.Name = "lvwDevices";
-            this.lvwDevices.Size = new System.Drawing.Size(677, 194);
-            this.lvwDevices.TabIndex = 342;
-            this.lvwDevices.UseCompatibleStateImageBehavior = false;
-            this.lvwDevices.View = System.Windows.Forms.View.Details;
-            // 
-            // colDevice
-            // 
-            this.colDevice.Text = "Device";
-            this.colDevice.Width = 111;
-            // 
-            // colPnPDeviceId
-            // 
-            this.colPnPDeviceId.Text = "PnP Device ID";
-            this.colPnPDeviceId.Width = 106;
-            // 
-            // colDescription
-            // 
-            this.colDescription.Text = "Description";
-            this.colDescription.Width = 107;
-            // 
-            // colManufacturer
-            // 
-            this.colManufacturer.Text = "Manufacturer";
-            this.colManufacturer.Width = 211;
-            // 
-            // colDisplayName
-            // 
-            this.colDisplayName.Text = "Display Name";
-            this.colDisplayName.Width = 131;
-            // 
             // Form_iRIS_Clm_test_01
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2441,12 +2391,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label Lbl_uClsCurrent;
         private System.Windows.Forms.Label Lbl_MaOrBits;
-        private System.Windows.Forms.ColumnHeader colDevice;
-        private System.Windows.Forms.ColumnHeader colPnPDeviceId;
-        private System.Windows.Forms.ColumnHeader colDescription;
-        private System.Windows.Forms.ListView lvwDevices;
-        private System.Windows.Forms.ColumnHeader colManufacturer;
-        private System.Windows.Forms.ColumnHeader colDisplayName;
     }
 }
 
