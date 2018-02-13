@@ -29,6 +29,10 @@
         private void InitializeComponent()
         {
             this.TbPg_InsTest = new System.Windows.Forms.TabPage();
+            this.Tb_LaserOK = new System.Windows.Forms.TextBox();
+            this.Bt_RsLaserOk = new System.Windows.Forms.Button();
+            this.label17 = new System.Windows.Forms.Label();
+            this.Rtb_ComList = new System.Windows.Forms.RichTextBox();
             this.Lbl_uClsCurrent = new System.Windows.Forms.Label();
             this.Lbl_MaOrBits = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
@@ -116,6 +120,8 @@
             this.tb_TecSerNumb = new System.Windows.Forms.TextBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.TbPg_Results = new System.Windows.Forms.TabPage();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
             this.Bt_SetFolder = new System.Windows.Forms.Button();
             this.Tb_FolderLoc = new System.Windows.Forms.TextBox();
             this.Bt_SetTempParam = new System.Windows.Forms.Button();
@@ -209,12 +215,6 @@
             this.Bt_RdLaserStatus = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.Rtb_ComList = new System.Windows.Forms.RichTextBox();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.Tb_LaserOK = new System.Windows.Forms.TextBox();
-            this.Bt_RsLaserOk = new System.Windows.Forms.Button();
             this.TbPg_InsTest.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -285,6 +285,46 @@
             this.TbPg_InsTest.Size = new System.Drawing.Size(692, 566);
             this.TbPg_InsTest.TabIndex = 1;
             this.TbPg_InsTest.Text = "Laser Calibration";
+            // 
+            // Tb_LaserOK
+            // 
+            this.Tb_LaserOK.BackColor = System.Drawing.Color.Red;
+            this.Tb_LaserOK.Location = new System.Drawing.Point(337, 118);
+            this.Tb_LaserOK.Name = "Tb_LaserOK";
+            this.Tb_LaserOK.Size = new System.Drawing.Size(11, 20);
+            this.Tb_LaserOK.TabIndex = 377;
+            // 
+            // Bt_RsLaserOk
+            // 
+            this.Bt_RsLaserOk.BackColor = System.Drawing.Color.PeachPuff;
+            this.Bt_RsLaserOk.Enabled = false;
+            this.Bt_RsLaserOk.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Bt_RsLaserOk.Location = new System.Drawing.Point(241, 115);
+            this.Bt_RsLaserOk.Name = "Bt_RsLaserOk";
+            this.Bt_RsLaserOk.Size = new System.Drawing.Size(90, 25);
+            this.Bt_RsLaserOk.TabIndex = 376;
+            this.Bt_RsLaserOk.Text = "Rd Laser OK";
+            this.Bt_RsLaserOk.UseVisualStyleBackColor = false;
+            this.Bt_RsLaserOk.Click += new System.EventHandler(this.Bt_RsLaserOk_Click);
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(476, 71);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(55, 13);
+            this.label17.TabIndex = 375;
+            this.label17.Text = "COMs List";
+            // 
+            // Rtb_ComList
+            // 
+            this.Rtb_ComList.Location = new System.Drawing.Point(476, 87);
+            this.Rtb_ComList.Name = "Rtb_ComList";
+            this.Rtb_ComList.ReadOnly = true;
+            this.Rtb_ComList.Size = new System.Drawing.Size(201, 118);
+            this.Rtb_ComList.TabIndex = 374;
+            this.Rtb_ComList.Text = "";
+            this.Rtb_ComList.DoubleClick += new System.EventHandler(this.Rtb_ComList_DoubleClick);
             // 
             // Lbl_uClsCurrent
             // 
@@ -504,7 +544,7 @@
             this.Bt_ShipState.Size = new System.Drawing.Size(87, 39);
             this.Bt_ShipState.TabIndex = 321;
             this.Bt_ShipState.TabStop = false;
-            this.Bt_ShipState.Text = "Shiping State";
+            this.Bt_ShipState.Text = "Shipping State";
             this.Bt_ShipState.UseVisualStyleBackColor = false;
             this.Bt_ShipState.Click += new System.EventHandler(this.Bt_ShipState_Click);
             // 
@@ -1289,6 +1329,26 @@
             this.TbPg_Results.TabIndex = 3;
             this.TbPg_Results.Text = "Engineering";
             this.TbPg_Results.UseVisualStyleBackColor = true;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(431, 315);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(88, 13);
+            this.label20.TabIndex = 355;
+            this.label20.Text = "PM100 init. string";
+            this.label20.Visible = false;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(484, 360);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(87, 13);
+            this.label18.TabIndex = 354;
+            this.label18.Text = "USB IO interface";
+            this.label18.Visible = false;
             // 
             // Bt_SetFolder
             // 
@@ -2166,66 +2226,6 @@
             // folderBrowserDialog1
             // 
             this.folderBrowserDialog1.RootFolder = System.Environment.SpecialFolder.MyComputer;
-            // 
-            // Rtb_ComList
-            // 
-            this.Rtb_ComList.Location = new System.Drawing.Point(476, 87);
-            this.Rtb_ComList.Name = "Rtb_ComList";
-            this.Rtb_ComList.ReadOnly = true;
-            this.Rtb_ComList.Size = new System.Drawing.Size(201, 118);
-            this.Rtb_ComList.TabIndex = 374;
-            this.Rtb_ComList.Text = "";
-            this.Rtb_ComList.DoubleClick += new System.EventHandler(this.Rtb_ComList_DoubleClick);
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(476, 71);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(55, 13);
-            this.label17.TabIndex = 375;
-            this.label17.Text = "COMs List";
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(484, 360);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(87, 13);
-            this.label18.TabIndex = 354;
-            this.label18.Text = "USB IO interface";
-            this.label18.Visible = false;
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(431, 315);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(88, 13);
-            this.label20.TabIndex = 355;
-            this.label20.Text = "PM100 init. string";
-            this.label20.Visible = false;
-            // 
-            // Tb_LaserOK
-            // 
-            this.Tb_LaserOK.BackColor = System.Drawing.Color.Red;
-            this.Tb_LaserOK.Location = new System.Drawing.Point(337, 118);
-            this.Tb_LaserOK.Name = "Tb_LaserOK";
-            this.Tb_LaserOK.Size = new System.Drawing.Size(11, 20);
-            this.Tb_LaserOK.TabIndex = 377;
-            // 
-            // Bt_RsLaserOk
-            // 
-            this.Bt_RsLaserOk.BackColor = System.Drawing.Color.PeachPuff;
-            this.Bt_RsLaserOk.Enabled = false;
-            this.Bt_RsLaserOk.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Bt_RsLaserOk.Location = new System.Drawing.Point(241, 115);
-            this.Bt_RsLaserOk.Name = "Bt_RsLaserOk";
-            this.Bt_RsLaserOk.Size = new System.Drawing.Size(90, 25);
-            this.Bt_RsLaserOk.TabIndex = 376;
-            this.Bt_RsLaserOk.Text = "Rd Laser OK";
-            this.Bt_RsLaserOk.UseVisualStyleBackColor = false;
-            this.Bt_RsLaserOk.Click += new System.EventHandler(this.Bt_RsLaserOk_Click);
             // 
             // Form_iRIS_Clm_test_01
             // 
