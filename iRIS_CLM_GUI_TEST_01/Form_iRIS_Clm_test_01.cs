@@ -150,10 +150,12 @@ namespace iRIS_CLM_GUI_TEST_01
             { CmdTestMode,          StrEnable  },
             { CmdSetTECTemp,        StrDisable } };
 
-        string[,] bulkSetRstClk = new string[3, 2] {
+        string[,] bulkSetRstClk = new string[5, 2] {
             { CmdTestMode,          StrEnable  },
+            { CmdOperatingHr,       StrDisable },
             { CmdRstTime,           StrDisable },
-            { CmdTestMode,          StrDisable },};
+            { CmdTestMode,          StrDisable },
+            { CmdOperatingHr,       StrDisable } };
         //=================================================
 
         string[,] bulkSetVga = new string[6, 2] {
@@ -475,6 +477,7 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdOperatingHr:
+                        Lbl_TmrVal.Text = rtnValue;
                         break;
 
                     case CmdRdSummary:
@@ -749,6 +752,8 @@ namespace iRIS_CLM_GUI_TEST_01
                     break;
 
                 case CmdOperatingHr:
+                    sndDl = 600;
+                    comThresh = 14;
                     break;
 
                 case CmdRdSummary:
@@ -1314,6 +1319,7 @@ namespace iRIS_CLM_GUI_TEST_01
                 }
                 else if (pm100ok == false) { MessageBox.Show("PM100 Not Connected"); }
             }
+
             else if (Bt_PM100.BackColor == Color.LawnGreen)
             {
                 Bt_PM100.Text = "PM100 Connect";
@@ -1358,7 +1364,6 @@ namespace iRIS_CLM_GUI_TEST_01
                     MessageBox.Show("No PM100D");
                 }
             }
-
             catch (Exception e) { MessageBox.Show("PM100 Error" + e.ToString()); }
                     
             await Task.Delay(1);
@@ -1592,16 +1597,15 @@ namespace iRIS_CLM_GUI_TEST_01
         private async Task<bool> RampDAC1toPower(double toPower, double startRp, double stopRp, double stepRp, bool rdIntADC)//external PCON can be simplified
         {
             bool rampDAC1task = false;
+            bool pwMatch = false;
             arrIndex = 0;
 
             for (double startRpLp = startRp; startRpLp <= stopRp; startRpLp = startRpLp + stepRp)
             {
                 WriteDAC(startRpLp, 0);
                 rampDAC1task = await ReadAllanlg(rdIntADC);//displays current in bits
+                double pm100Res = Convert.ToDouble(Lbl_PM100rd.Text);//mW from Analog read
 
-                double pm100Res = Convert.ToDouble(Lbl_PM100rd.Text);//mW
-                if (pm100Res >= toPower) { return true; }//power good
-                
                 if (rdIntADC == true)
                 {
                     dataADC[arrIndex, 0] = pm100Res * 10;
@@ -1611,8 +1615,15 @@ namespace iRIS_CLM_GUI_TEST_01
                     dataADC[arrIndex, 4] = Convert.ToDouble(Lbl_Vpcon.Text);
                     arrIndex++;
                 }
+
+                if (pm100Res >= toPower)
+                {
+                    pwMatch = true;
+                    break;
+                }
+
             }
-            return false;
+            return pwMatch;
         }
         //======================================================================
         private async Task<bool> RampDACint(double startRp, double stopRp, double stepRp, bool rdIntADC)//can be simplified
@@ -1669,11 +1680,13 @@ namespace iRIS_CLM_GUI_TEST_01
                 return false;
             }
 
-            if (pwrRead > maxPw) {
+            if (pwrRead > maxPw)
+            {
                 Set_USB_Digit_Out(0, 0);//Laser disable
                 WriteDAC(0, 0);
                 MessageBox.Show("Power Error");
-                return false; }
+                return false;
+            }
 
             if (fullRd == true) { bool readAdc = await LoadGlobalTestArray(analogRead); }//internal uCadc
 
@@ -1712,6 +1725,17 @@ namespace iRIS_CLM_GUI_TEST_01
                     this.Cursor = Cursors.WaitCursor;
                     Prg_Bar01.Maximum = 60;
 
+                    Bt_CalVGA.BackColor = Color.Coral;
+                    Bt_ZeroI.BackColor = Color.Coral;
+                    Bt_PwOutMonCal.BackColor = Color.Coral;
+                    Bt_BasePltTempComp.BackColor = Color.Coral;
+                    Bt_pdCalibration.BackColor = Color.Coral;
+                    Bt_SetIntPwCal.BackColor = Color.Coral;
+                    Bt_FinalLsSetup.BackColor = Color.Coral;
+                    Bt_ShipState.BackColor = Color.Coral;
+                    Bt_RstClk.BackColor = Color.Coral;
+                    Bt_LiPlot.BackColor = Color.Coral;
+
                     Prg_Bar01.Increment(10);
                     Lbl_WaveLg.Text = "0000";
                     Lbl_WaveLg.ForeColor = Color.DarkBlue;
@@ -1746,10 +1770,8 @@ namespace iRIS_CLM_GUI_TEST_01
                     bt_NewTest.BackColor = Color.LawnGreen;
 
                     MessageBox.Show(" Open Laser Shutter \n Click Button Disconnect USB \n Power Cycle laser \n Click Button Re-connect USB \n Wait for TEC lock LED Click 'Rd Laser OK' \n Start 'Cal VGA' \n");
-
                     Prg_Bar01.Value = 0;
                 }
-
                 else MessageBox.Show("value error");
             }
 
@@ -1900,7 +1922,7 @@ namespace iRIS_CLM_GUI_TEST_01
                 MessageBox.Show("Laser NOT OK"); }//Error
 
                 //*************************************************************************************//
-#region set final test
+                #region set final test
                 WriteDAC(5, 0);
                 await Task.Delay(300);
                 initvga = await ReadAllanlg(false);
@@ -2048,12 +2070,12 @@ namespace iRIS_CLM_GUI_TEST_01
             pdCalTask = await ReadAllanlg(false);
 
             abResults = FindLinearLeastSquaresFit(dataADC, 0, arrIndex1, 1, 0);
-            Tb_CalA_Pw.Text = abResults[0].ToString("000.0000");
-            Tb_CalB_Pw.Text = abResults[1].ToString("000.0000");
+            Tb_CalA_Pw.Text = abResults[0].ToString("0000.0000");
+            Tb_CalB_Pw.Text = abResults[1].ToString("0000.0000");
 
             abResults = FindLinearLeastSquaresFit(dataADC, 0, arrIndex1, 2, 0);
-            Tb_CalA_PwToADC.Text = abResults[0].ToString("000.0000");
-            Tb_CalB_PwToADC.Text = abResults[1].ToString("000.0000");
+            Tb_CalA_PwToADC.Text = abResults[0].ToString("0000.0000");
+            Tb_CalB_PwToADC.Text = abResults[1].ToString("0000.0000");
 
 
             Bt_pdCalibration.BackColor = Color.LawnGreen;
@@ -2242,7 +2264,7 @@ namespace iRIS_CLM_GUI_TEST_01
                 sendCalPw = await ReadAllanlg(true);//redundent...?
                 
                 double pmonRd = Convert.ToDouble(voutPDmax);//check calibration for Pmon
-                if (pmonRd > pmonVmaxDlb + 0.2 || pmonRd < pmonVmaxDlb - 0.2) { MessageBox.Show("Pmon Calibration Error"); }
+                if (pmonRd > pmonVmaxDlb + 0.1 || pmonRd < pmonVmaxDlb - 0.1) { MessageBox.Show("Pmon Calibration Error"); }
   
                 WriteDAC(00.000, 0);//reset ramp
                 sendCalPw = await SendToSerial(CmdLaserEnable, StrDisable, 300, 9);
@@ -2250,7 +2272,7 @@ namespace iRIS_CLM_GUI_TEST_01
                 sendCalPw = await ReadAllanlg(true);
                 /*************************************************/
                 try { if (File.Exists(filePathRep)) { using (StreamWriter fs = File.AppendText(filePathRep)) {
-                            fs.WriteLine("V_Iout mon. converted to mA @ Moninal Power: " + iopNomPw);
+                            fs.WriteLine("V_Iout mon. converted to mA @ Nominal Power: " + iopNomPw);
                             fs.WriteLine("Vout PD Mon @ Nominal Pw: " + voutPDmax);
                             fs.WriteLine("Vout PD Mon @ Min. Pw: " + Lbl_PwreadV.Text); } } }//Pmon for minimal power
                 catch (Exception err1) { MessageBox.Show(err1.Message); }
@@ -2268,33 +2290,9 @@ namespace iRIS_CLM_GUI_TEST_01
         #endregion
         //======================================================================
         //======================================================================
-        private void Bt_LiPlot_Click(object sender, EventArgs e) { Task<bool> liplotseq = LIplot(true); }//ramp
+        private void Bt_LiPlot_Click(object sender, EventArgs e) { Task<bool> liplotseq = LIplot(); }//ramp
         //======================================================================
-        private void Bt_LaserCheck_Click(object sender, EventArgs e) { Task<bool> liplotseq = LaserCcheck(); }
-        //======================================================================
-        private async Task<bool> LaserCcheck()
-        {
-            if (Bt_LaserCheck.BackColor == Color.PeachPuff) {
-                        bool lsCheck = await LIplot(false);//no ramp - set harware
-                        lsCheck = await ReadAllanlg(false);//read results
-                        Bt_LaserCheck.BackColor = Color.Red;
-            }
-            else if (Bt_LaserCheck.BackColor == Color.Red) { //reset hardware
-                        Set_USB_Digit_Out(0, 0);//enable line
-                        Set_USB_Digit_Out(1, 0);//digital modulation line
-                        WriteDAC(0, 0);
-                        bool lsCheck1 = await SendToSerial(CmdLaserEnable, StrDisable, 300, 9);
-                        tb_SetIntPw.Text = "2.500";//reset internal DAC
-                        lsCheck1 = await SendToSerial(CmdSetPwCtrlOut, tb_SetIntPw.Text, 300, 9);
-                        lsCheck1 = await ReadAllanlg(false);
-
-                        lsCheck1 = await SendToSerial(CmdTestMode, StrDisable, 300, 9);
-                        Bt_LaserCheck.BackColor = Color.PeachPuff;
-            }
-            return true;
-        }
-        //======================================================================
-        private async Task<bool> LIplot(bool rampTest)
+        private async Task<bool> LIplot()
         {
             Set_USB_Digit_Out(0, 0);//enable line
             Set_USB_Digit_Out(1, 0);//digital modulation line
@@ -2316,13 +2314,15 @@ namespace iRIS_CLM_GUI_TEST_01
 
                     if (RdBt_LIint.Checked == true) //internal PCON DAC 2.500-4.000
                     {
+                        #region load internal PCON Data
+
                         double stepRp =     0.020;
                         double startRp =    2.500;
-                        double stopRp =     4.000;
+                        double stopRp =     3.960;
 
                         iniLItest = await SendToSerial(CmdSetInOutPwCtrl, StrEnable, 300, 9);
 
-                        tb_SetIntPw.Text = startRp.ToString();//reset internal DAC
+                        tb_SetIntPw.Text = startRp.ToString();//set start value
 
                         Set_USB_Digit_Out(1, 1);//digital modulation line
                         initvga = await SendToSerial(CmdLaserEnable, StrEnable, 300, 9);//Laser Enable
@@ -2331,25 +2331,26 @@ namespace iRIS_CLM_GUI_TEST_01
 
                         MessageBox.Show("Enable Laser");
 
-                        if (rampTest == true)//ramp test
+                        #endregion load internal PCON Data
+
+                        if (ChkBx_SingleTest.Checked == false)//do ramp
                         {
                             initvga = await RampDACint(startRp, stopRp, stepRp, true);
-                            initvga = await SendToSerial(CmdLaserEnable, StrDisable, 300, 9);
-                            Set_USB_Digit_Out(0, 0); //Laser Disable
-                            Set_USB_Digit_Out(1, 0);//digital modulation line
-                            tb_SetIntPw.Text = startRp.ToString();//reset internal DAC
-                            initvga = await SendToSerial(CmdSetPwCtrlOut, tb_SetIntPw.Text, 300, 9);
-                            initvga = await ReadAllanlg(false);
+                            initvga = await ResetLaserPCON();//reset laser IO
                         }
 
-                        else if (rampTest == false) {
-                            tb_SetIntPw.Text = stopRp.ToString();//set internal DAC to 4V if internal set
-                            initvga = await SendToSerial(CmdSetPwCtrlOut, tb_SetIntPw.Text, 300, 9);
-                        } //simple test set internal dac to max power // reset in Laser Check method !!!!
+                        else if (ChkBx_SingleTest.Checked == true)
+                        {
+                            tb_SetIntPw.Text = stopRp.ToString();
+                            initvga = await SendToSerial(CmdSetPwCtrlOut, tb_SetIntPw.Text, 300, 9);//stays on it is reset if clicked again
+                            initvga = await ReadAllanlg(true);//test if OK
+                        }
                     }
 
                     else if (RdBt_LIint.Checked == false) //external PCON 0-5
                     {
+                        #region load external PCON Data
+
                         double stepRp = 0.050;
                         double startRp = 0.000;
                         double stopRp = 0.000;
@@ -2370,7 +2371,7 @@ namespace iRIS_CLM_GUI_TEST_01
                         }
 
                         iniLItest = await SendToSerial(CmdSetInOutPwCtrl, StrDisable, 300, 9); //External PCON
-                        Tb_VPcon.Text = startRp.ToString();//reset external DAC
+                        Tb_VPcon.Text = startRp.ToString();//set external DAC start value
 
                         Set_USB_Digit_Out(1, 1);//digital modulation line
                         initvga = await SendToSerial(CmdLaserEnable, StrEnable, 300, 9);//Laser Enable
@@ -2379,20 +2380,24 @@ namespace iRIS_CLM_GUI_TEST_01
 
                         MessageBox.Show("Enable Laser");
 
-                        if (rampTest == true) {
-                        initvga = await RampDACLI(startRp, stopRp, stepRp, true, invRamp);
-                        initvga = await SendToSerial(CmdLaserEnable, StrDisable, 300, 9); //end VGA stop test
-                        Set_USB_Digit_Out(0, 0); //Laser Disable
-                        Set_USB_Digit_Out(1, 0);//digital modulation line
-                        WriteDAC(0, 0);
-                        initvga = await ReadAllanlg(false); }
-                        
-                        else if (rampTest == false) { WriteDAC(stopRp, 0); }
+                        #endregion load external PCON Data
+
+                        if (ChkBx_SingleTest.Checked == false)
+                        {
+                            initvga = await RampDACLI(startRp, stopRp, stepRp, true, invRamp);
+                            initvga = await ResetLaserPCON();//reset laser IO
+                        }
+
+                        else if (ChkBx_SingleTest.Checked == true)
+                        {
+                            WriteDAC(stopRp, 0);//stays on
+                            initvga = await ReadAllanlg(true);//test if OK
+                        }
                     }
 
                     /**********************************************************************************/
-                    if (ChkBx_LIlog.Checked == true) {
-
+                    if (ChkBx_LIlog.Checked == true)//log stuff
+                    {
                         int indx1 = dataADC.GetLength(0);//arrays lenght 120
                         int indx = indx1;
 
@@ -2427,20 +2432,39 @@ namespace iRIS_CLM_GUI_TEST_01
                     /**********************************************************************************/
 
                 this.Cursor = Cursors.Default;
-
-                Bt_LiPlot.BackColor = Color.LawnGreen;                
-                Tb_LaserOK.BackColor = Color.Green;
+                Bt_LiPlot.BackColor = Color.LawnGreen;  
                 }
 
-                else if (Convert.ToBoolean(Read_USB_Digit_in(2)) == false) { //Laser NOT OK
+                else if (Convert.ToBoolean(Read_USB_Digit_in(2)) == false) //Laser NOT OK
+                {
+                initvga = await ResetLaserPCON();//reset laser IO
                 Tb_LaserOK.BackColor = Color.Red;
                 MessageBox.Show("Laser NOT OK");
-                return false; }
-
+                return false;
+                }
         }//if green button
 
-        else if (Bt_LiPlot.BackColor == Color.LawnGreen) { Bt_LiPlot.BackColor = Color.Coral; }
- 
+        else if (Bt_LiPlot.BackColor == Color.LawnGreen)
+            {
+                this.Cursor = Cursors.WaitCursor;
+                bool rstlsbt = await ResetLaserPCON();//reset laser IO
+                Bt_LiPlot.BackColor = Color.Coral;
+                this.Cursor = Cursors.Default;
+            }
+
+            return true;
+        }
+        //======================================================================
+        private async Task<bool> ResetLaserPCON()
+        {
+            Set_USB_Digit_Out(0, 0); //Laser Disable
+            Set_USB_Digit_Out(1, 0);//digital modulation line
+            WriteDAC(0, 0);
+            bool rstLas = await SendToSerial(CmdLaserEnable, StrDisable, 300, 9);
+            //tb_SetIntPw.Text = startRp.ToString();//reset internal DAC
+            tb_SetIntPw.Text = "2.500";//reset internal DAC
+            rstLas = await SendToSerial(CmdSetPwCtrlOut, tb_SetIntPw.Text, 300, 9);
+            rstLas = await ReadAllanlg(true);
             return true;
         }
         //======================================================================
@@ -2472,8 +2496,8 @@ namespace iRIS_CLM_GUI_TEST_01
 
                 abResults = FindLinearLeastSquaresFit(dataADC, 0, arrIndex1, 0, 2);
 
-                Tb_CalAcmdToPw.Text = Convert.ToString(abResults[0]);
-                Tb_CalBcmdToPw.Text = Convert.ToString(abResults[1]);
+                Tb_CalAcmdToPw.Text = (abResults[0]).ToString("00000.0000");
+                Tb_CalBcmdToPw.Text = (abResults[1]).ToString("00000.0000");
 
                 Bt_SetIntPwCal.BackColor = Color.LawnGreen;
                 this.Cursor = Cursors.Default;
@@ -2502,6 +2526,7 @@ namespace iRIS_CLM_GUI_TEST_01
             setCompT =          await SendToSerial(CmdRdBplateTemp, StrDisable, 300, 9);                    //read initial value
             
             double measTemp =  ReadExtTemp();                                                               //get user temp //wait
+            //double measTemp = ReadExtTempLM35();//if LM35 implemented
             double tempComp1 = (Convert.ToDouble(Lbl_TempBplt.Text) - measTemp)*10;
             setCompT = await SendToSerial(CmdSetBaseTempCal, tempComp1.ToString("0000"), 300, 9);           //set init comp to 0000 remember to reset for next init.
             setCompT = await SendToSerial(CmdRdBplateTemp, StrDisable, 300, 9);                             //read comp data
@@ -2538,6 +2563,12 @@ namespace iRIS_CLM_GUI_TEST_01
             }
 
             return strpopupInt;
+        }
+        //======================================================================
+        private double ReadExtTempLM35()//10mV/C
+        {
+            double lm30Vread = (ReadADC(3))*1000;//convert to 1/10 C 25C = (0.01x25)*1000
+            return lm30Vread;
         }
         //======================================================================
         #endregion
@@ -2732,7 +2763,9 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private async Task<bool> RESETclk() {
             this.Cursor = Cursors.WaitCursor;
+            Bt_RstClk.BackColor = Color.LawnGreen;
             bool lsrst = await LoadGlobalTestArray(bulkSetRstClk);
+            Bt_RstClk.BackColor = Color.Coral;
             this.Cursor = Cursors.Default;
             return true; }
         //======================================================================
@@ -2773,6 +2806,15 @@ namespace iRIS_CLM_GUI_TEST_01
         }
         //======================================================================
         private void Rtb_ComList_DoubleClick(object sender, EventArgs e) { Rtb_ComList.Clear(); }
+        //======================================================================
+        private void ChkBx_SingleTest_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ChkBx_SingleTest.Checked == true) ChkBx_LIlog.Checked = false;
+            else if (ChkBx_SingleTest.Checked == false) ChkBx_LIlog.Checked = true;
+        }
+        //======================================================================
+        private void Bt_SetPower03_Click(object sender, EventArgs e) { Task<bool>  finalSet = SendToSerial(CmdSetLsPw, Tb_SetPower03.Text, 300, 9); }
+
         //======================================================================
         //======================================================================
     }
