@@ -1370,9 +1370,9 @@ namespace iRIS_CLM_GUI_TEST_01
             this.Cursor = Cursors.Default;
             return pm100cnt;
         }
-        //=====================================================================
+        //======================================================================
         private void Bt_RdPM100_Click(object sender, EventArgs e) { ReadPM100();  }
-        //=====================================================================
+        //======================================================================
         private double ReadPM100()//in mW
         {
             string pwrStr = string.Empty;
@@ -1389,7 +1389,7 @@ namespace iRIS_CLM_GUI_TEST_01
 
             return powerRd;
         }
-        //=====================================================================
+        //======================================================================
         #endregion
         //======================================================================
         #region // USB Interface Code...
@@ -1660,6 +1660,7 @@ namespace iRIS_CLM_GUI_TEST_01
             double pconRead = ReadADC(0);   //PCON feedback
             double lsrPwRead = ReadADC(1);  //PD Vout
             double lsrCurrRead = ((ReadADC(2)/5.01)*1000); ; //Current Vout converted to mA compatible with laser setup data
+            double tempSens = ReadADC(3)*100;
 
             if (pm100ok == true) {//PM100 Connected
                 pwrRead = ReadPM100();
@@ -1671,6 +1672,7 @@ namespace iRIS_CLM_GUI_TEST_01
             Lbl_Vpcon.Text = pconRead.ToString("00.000");
             Lbl_PwreadV.Text = lsrPwRead.ToString("00.000");//*294.12
             Lbl_Viout.Text = lsrCurrRead.ToString("000.0");//already converted to mA
+            Lbl_TempSens.Text = tempSens.ToString("000.00");
  
             if (lsrCurrRead > maxCurr)
             {
@@ -1737,14 +1739,15 @@ namespace iRIS_CLM_GUI_TEST_01
                     Bt_LiPlot.BackColor = Color.Coral;
 
                     Prg_Bar01.Increment(10);
+                    Lbl_VGAval.Text = "0000";
+                    Lbl_VGAval.ForeColor = Color.DarkBlue;
                     Lbl_WaveLg.Text = "0000";
                     Lbl_WaveLg.ForeColor = Color.DarkBlue;
+ 
                     Tb_VGASet.Text = "0020";
                     tb_SetIntPw.Text = "2.500";
                     Tb_SetOffset.Text = "2.500";
                     Tb_VPcon.Text = "0.000";
-                    Lbl_VGAval.ForeColor = Color.DarkBlue;
-                    Lbl_VGAval.Text = "0000";
 
                     Tb_CalA_PwToADC.Text = "1.0000";
                     Tb_CalB_PwToADC.Text = "0.0000";
@@ -2525,8 +2528,8 @@ namespace iRIS_CLM_GUI_TEST_01
             bool setCompT =     await SendToSerial(CmdSetBaseTempCal, "0000", 300, 9);                      //set init comp to 0000 remember to reset for next init.
             setCompT =          await SendToSerial(CmdRdBplateTemp, StrDisable, 300, 9);                    //read initial value
             
-            double measTemp =  ReadExtTemp();                                                               //get user temp //wait
-            //double measTemp = ReadExtTempLM35();//if LM35 implemented
+            //double measTemp =  ReadExtTemp();                                                               //get user temp //wait
+            double measTemp = ReadExtTempLM35();//if LM35 implemented
             double tempComp1 = (Convert.ToDouble(Lbl_TempBplt.Text) - measTemp)*10;
             setCompT = await SendToSerial(CmdSetBaseTempCal, tempComp1.ToString("0000"), 300, 9);           //set init comp to 0000 remember to reset for next init.
             setCompT = await SendToSerial(CmdRdBplateTemp, StrDisable, 300, 9);                             //read comp data
@@ -2538,7 +2541,6 @@ namespace iRIS_CLM_GUI_TEST_01
                 MessageBox.Show("Base plate Cal.");
                 Bt_BasePltTempComp.BackColor = Color.Coral;
             }
-
             return true;
         }
          //======================================================================
@@ -2567,7 +2569,7 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private double ReadExtTempLM35()//10mV/C
         {
-            double lm30Vread = (ReadADC(3))*1000;//convert to 1/10 C 25C = (0.01x25)*1000
+            double lm30Vread = (ReadADC(3))*100;//convert to 1/10 C 25C = (0.01x25)*1000
             return lm30Vread;
         }
         //======================================================================
@@ -2718,8 +2720,8 @@ namespace iRIS_CLM_GUI_TEST_01
                         Lbl_Wlgth1.Text =  rdr["Wavelength"].ToString().PadLeft(4,'0');
                         Tb_Wavelength.Text = Lbl_Wlgth1.Text;
 
-                        Lbl_MonPowerDtbas.Text = rdr["NominalPower"].ToString().PadLeft(5,'0');//note power in mw ! and not 1/10mW
-                        Tb_NomPw.Text = Lbl_MonPowerDtbas.Text;
+                        Lbl_NomPowerDtbas.Text = rdr["NominalPower"].ToString().PadLeft(5,'0');//note power in mw ! and not 1/10mW
+                        Tb_NomPw.Text = Lbl_NomPowerDtbas.Text;
                         Tb_maxMaxPw.Text =  rdr["MaxPower"].ToString().PadLeft(5, '0');
                         Tb_minMaxPw.Text =  rdr["MinPower"].ToString().PadLeft(5, '0');
                         Tb_SoftNomPw.Text = rdr["SoftwareNomPower"].ToString().PadLeft(5, '0');

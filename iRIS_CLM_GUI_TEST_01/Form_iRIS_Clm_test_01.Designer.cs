@@ -102,7 +102,7 @@
             this.Tb_WorkOrder = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.Lbl_MonPowerDtbas = new System.Windows.Forms.Label();
+            this.Lbl_NomPowerDtbas = new System.Windows.Forms.Label();
             this.Lbl_Wlgth1 = new System.Windows.Forms.Label();
             this.ChkBx_AnlgModSet = new System.Windows.Forms.CheckBox();
             this.ChkBx_DigitModSet = new System.Windows.Forms.CheckBox();
@@ -120,6 +120,8 @@
             this.tb_TecSerNumb = new System.Windows.Forms.TextBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.TbPg_Results = new System.Windows.Forms.TabPage();
+            this.Tb_SetPower03 = new System.Windows.Forms.TextBox();
+            this.Bt_SetPower03 = new System.Windows.Forms.Button();
             this.label22 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
@@ -217,8 +219,8 @@
             this.Bt_RdLaserStatus = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.Bt_SetPower03 = new System.Windows.Forms.Button();
-            this.Tb_SetPower03 = new System.Windows.Forms.TextBox();
+            this.Lbl_TempSens = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
             this.TbPg_InsTest.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -318,7 +320,7 @@
             this.Bt_RsLaserOk.Name = "Bt_RsLaserOk";
             this.Bt_RsLaserOk.Size = new System.Drawing.Size(90, 25);
             this.Bt_RsLaserOk.TabIndex = 376;
-            this.Bt_RsLaserOk.Text = "Rd Laser OK";
+            this.Bt_RsLaserOk.Text = "Rd. Laser OK";
             this.Bt_RsLaserOk.UseVisualStyleBackColor = false;
             this.Bt_RsLaserOk.Click += new System.EventHandler(this.Bt_RsLaserOk_Click);
             // 
@@ -958,7 +960,7 @@
             this.TbPg_Iris_Init.Controls.Add(this.Tb_WorkOrder);
             this.TbPg_Iris_Init.Controls.Add(this.label3);
             this.TbPg_Iris_Init.Controls.Add(this.label7);
-            this.TbPg_Iris_Init.Controls.Add(this.Lbl_MonPowerDtbas);
+            this.TbPg_Iris_Init.Controls.Add(this.Lbl_NomPowerDtbas);
             this.TbPg_Iris_Init.Controls.Add(this.Lbl_Wlgth1);
             this.TbPg_Iris_Init.Controls.Add(this.ChkBx_AnlgModSet);
             this.TbPg_Iris_Init.Controls.Add(this.ChkBx_DigitModSet);
@@ -1065,15 +1067,15 @@
             this.label7.TabIndex = 334;
             this.label7.Text = " nm";
             // 
-            // Lbl_MonPowerDtbas
+            // Lbl_NomPowerDtbas
             // 
-            this.Lbl_MonPowerDtbas.AutoSize = true;
-            this.Lbl_MonPowerDtbas.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbl_MonPowerDtbas.Location = new System.Drawing.Point(517, 170);
-            this.Lbl_MonPowerDtbas.Name = "Lbl_MonPowerDtbas";
-            this.Lbl_MonPowerDtbas.Size = new System.Drawing.Size(37, 20);
-            this.Lbl_MonPowerDtbas.TabIndex = 333;
-            this.Lbl_MonPowerDtbas.Text = "0000";
+            this.Lbl_NomPowerDtbas.AutoSize = true;
+            this.Lbl_NomPowerDtbas.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Lbl_NomPowerDtbas.Location = new System.Drawing.Point(517, 170);
+            this.Lbl_NomPowerDtbas.Name = "Lbl_NomPowerDtbas";
+            this.Lbl_NomPowerDtbas.Size = new System.Drawing.Size(37, 20);
+            this.Lbl_NomPowerDtbas.TabIndex = 333;
+            this.Lbl_NomPowerDtbas.Text = "0000";
             // 
             // Lbl_Wlgth1
             // 
@@ -1241,6 +1243,8 @@
             // 
             // TbPg_Results
             // 
+            this.TbPg_Results.Controls.Add(this.Lbl_TempSens);
+            this.TbPg_Results.Controls.Add(this.label23);
             this.TbPg_Results.Controls.Add(this.Tb_SetPower03);
             this.TbPg_Results.Controls.Add(this.Bt_SetPower03);
             this.TbPg_Results.Controls.Add(this.label22);
@@ -1337,10 +1341,31 @@
             this.TbPg_Results.Text = "Engineering";
             this.TbPg_Results.UseVisualStyleBackColor = true;
             // 
+            // Tb_SetPower03
+            // 
+            this.Tb_SetPower03.Location = new System.Drawing.Point(112, 393);
+            this.Tb_SetPower03.Name = "Tb_SetPower03";
+            this.Tb_SetPower03.Size = new System.Drawing.Size(34, 20);
+            this.Tb_SetPower03.TabIndex = 359;
+            this.Tb_SetPower03.Text = "0000";
+            this.Tb_SetPower03.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // Bt_SetPower03
+            // 
+            this.Bt_SetPower03.BackColor = System.Drawing.Color.PeachPuff;
+            this.Bt_SetPower03.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Bt_SetPower03.Location = new System.Drawing.Point(112, 366);
+            this.Bt_SetPower03.Name = "Bt_SetPower03";
+            this.Bt_SetPower03.Size = new System.Drawing.Size(90, 25);
+            this.Bt_SetPower03.TabIndex = 358;
+            this.Bt_SetPower03.Text = "Set Power 03";
+            this.Bt_SetPower03.UseVisualStyleBackColor = false;
+            this.Bt_SetPower03.Click += new System.EventHandler(this.Bt_SetPower03_Click);
+            // 
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(158, 333);
+            this.label22.Location = new System.Drawing.Point(158, 346);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(58, 13);
             this.label22.TabIndex = 357;
@@ -1779,7 +1804,7 @@
             // Lbl_PM100rd
             // 
             this.Lbl_PM100rd.AutoSize = true;
-            this.Lbl_PM100rd.Location = new System.Drawing.Point(112, 332);
+            this.Lbl_PM100rd.Location = new System.Drawing.Point(112, 346);
             this.Lbl_PM100rd.Name = "Lbl_PM100rd";
             this.Lbl_PM100rd.Size = new System.Drawing.Size(40, 13);
             this.Lbl_PM100rd.TabIndex = 315;
@@ -1789,7 +1814,7 @@
             // 
             this.Bt_RdPM100.BackColor = System.Drawing.Color.PeachPuff;
             this.Bt_RdPM100.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Bt_RdPM100.Location = new System.Drawing.Point(112, 302);
+            this.Bt_RdPM100.Location = new System.Drawing.Point(112, 316);
             this.Bt_RdPM100.Name = "Bt_RdPM100";
             this.Bt_RdPM100.Size = new System.Drawing.Size(90, 25);
             this.Bt_RdPM100.TabIndex = 312;
@@ -2253,26 +2278,24 @@
             // 
             this.folderBrowserDialog1.RootFolder = System.Environment.SpecialFolder.MyComputer;
             // 
-            // Bt_SetPower03
+            // Lbl_TempSens
             // 
-            this.Bt_SetPower03.BackColor = System.Drawing.Color.PeachPuff;
-            this.Bt_SetPower03.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Bt_SetPower03.Location = new System.Drawing.Point(112, 366);
-            this.Bt_SetPower03.Name = "Bt_SetPower03";
-            this.Bt_SetPower03.Size = new System.Drawing.Size(90, 25);
-            this.Bt_SetPower03.TabIndex = 358;
-            this.Bt_SetPower03.Text = "Set Power 03";
-            this.Bt_SetPower03.UseVisualStyleBackColor = false;
-            this.Bt_SetPower03.Click += new System.EventHandler(this.Bt_SetPower03_Click);
+            this.Lbl_TempSens.AutoSize = true;
+            this.Lbl_TempSens.Location = new System.Drawing.Point(111, 298);
+            this.Lbl_TempSens.Name = "Lbl_TempSens";
+            this.Lbl_TempSens.Size = new System.Drawing.Size(40, 13);
+            this.Lbl_TempSens.TabIndex = 361;
+            this.Lbl_TempSens.Text = "000.00";
+            this.Lbl_TempSens.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // Tb_SetPower03
+            // label23
             // 
-            this.Tb_SetPower03.Location = new System.Drawing.Point(112, 393);
-            this.Tb_SetPower03.Name = "Tb_SetPower03";
-            this.Tb_SetPower03.Size = new System.Drawing.Size(34, 20);
-            this.Tb_SetPower03.TabIndex = 359;
-            this.Tb_SetPower03.Text = "0000";
-            this.Tb_SetPower03.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(159, 298);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(71, 13);
+            this.label23.TabIndex = 360;
+            this.label23.Text = "Temp. sensor";
             // 
             // Form_iRIS_Clm_test_01
             // 
@@ -2442,7 +2465,7 @@
         private System.Windows.Forms.CheckBox ChkBx_EnableSet;
         private System.Windows.Forms.CheckBox ChkBx_ExtPwCtrl;
         private System.Windows.Forms.Button Bt_LiPlot;
-        private System.Windows.Forms.Label Lbl_MonPowerDtbas;
+        private System.Windows.Forms.Label Lbl_NomPowerDtbas;
         private System.Windows.Forms.Label Lbl_Wlgth1;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.TextBox Tb_txtFilePathLI;
@@ -2494,6 +2517,8 @@
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.TextBox Tb_SetPower03;
         private System.Windows.Forms.Button Bt_SetPower03;
+        private System.Windows.Forms.Label Lbl_TempSens;
+        private System.Windows.Forms.Label label23;
     }
 }
 
