@@ -94,6 +94,13 @@
             this.label29 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.TbPg_Iris_Init = new System.Windows.Forms.TabPage();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.Tb_txtFilePathRep = new System.Windows.Forms.TextBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.Tb_txtFilePathLI = new System.Windows.Forms.TextBox();
+            this.Bt_SetFolder = new System.Windows.Forms.Button();
+            this.Tb_FolderLoc = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.Tb_MaxILimit = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
@@ -116,25 +123,20 @@
             this.label6 = new System.Windows.Forms.Label();
             this.Lbl_User = new System.Windows.Forms.Label();
             this.Tb_User = new System.Windows.Forms.TextBox();
-            this.chkBx_Help = new System.Windows.Forms.CheckBox();
-            this.tb_TecSerNumb = new System.Windows.Forms.TextBox();
+            this.Tb_TecSerNumb = new System.Windows.Forms.TextBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.TbPg_Results = new System.Windows.Forms.TabPage();
+            this.Lbl_TempSens = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
             this.Tb_SetPower03 = new System.Windows.Forms.TextBox();
             this.Bt_SetPower03 = new System.Windows.Forms.Button();
             this.label22 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
-            this.Bt_SetFolder = new System.Windows.Forms.Button();
-            this.Tb_FolderLoc = new System.Windows.Forms.TextBox();
             this.Bt_SetTempParam = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.Tb_txtFilePathRep = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.Tb_NomPw = new System.Windows.Forms.TextBox();
-            this.label28 = new System.Windows.Forms.Label();
-            this.Tb_txtFilePathLI = new System.Windows.Forms.TextBox();
             this.Lbl_RtnPwDACvalue = new System.Windows.Forms.Label();
             this.Bt_SetVGA = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -219,8 +221,6 @@
             this.Bt_RdLaserStatus = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.Lbl_TempSens = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
             this.TbPg_InsTest.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -952,6 +952,13 @@
             // 
             // TbPg_Iris_Init
             // 
+            this.TbPg_Iris_Init.Controls.Add(this.label4);
+            this.TbPg_Iris_Init.Controls.Add(this.label5);
+            this.TbPg_Iris_Init.Controls.Add(this.Tb_txtFilePathRep);
+            this.TbPg_Iris_Init.Controls.Add(this.label28);
+            this.TbPg_Iris_Init.Controls.Add(this.Tb_txtFilePathLI);
+            this.TbPg_Iris_Init.Controls.Add(this.Bt_SetFolder);
+            this.TbPg_Iris_Init.Controls.Add(this.Tb_FolderLoc);
             this.TbPg_Iris_Init.Controls.Add(this.label13);
             this.TbPg_Iris_Init.Controls.Add(this.Tb_MaxILimit);
             this.TbPg_Iris_Init.Controls.Add(this.label12);
@@ -974,21 +981,79 @@
             this.TbPg_Iris_Init.Controls.Add(this.label6);
             this.TbPg_Iris_Init.Controls.Add(this.Lbl_User);
             this.TbPg_Iris_Init.Controls.Add(this.Tb_User);
-            this.TbPg_Iris_Init.Controls.Add(this.chkBx_Help);
-            this.TbPg_Iris_Init.Controls.Add(this.tb_TecSerNumb);
+            this.TbPg_Iris_Init.Controls.Add(this.Tb_TecSerNumb);
             this.TbPg_Iris_Init.Controls.Add(this.dateTimePicker1);
             this.TbPg_Iris_Init.Location = new System.Drawing.Point(4, 22);
             this.TbPg_Iris_Init.Name = "TbPg_Iris_Init";
             this.TbPg_Iris_Init.Padding = new System.Windows.Forms.Padding(3);
             this.TbPg_Iris_Init.Size = new System.Drawing.Size(692, 566);
             this.TbPg_Iris_Init.TabIndex = 0;
-            this.TbPg_Iris_Init.Text = "iRIS Laser Init.";
+            this.TbPg_Iris_Init.Text = " Test Init.";
             this.TbPg_Iris_Init.UseVisualStyleBackColor = true;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(279, 493);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(89, 13);
+            this.label4.TabIndex = 361;
+            this.label4.Text = "Test *.txt file path";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(279, 519);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(89, 13);
+            this.label5.TabIndex = 359;
+            this.label5.Text = "Test *.txt file path";
+            // 
+            // Tb_txtFilePathRep
+            // 
+            this.Tb_txtFilePathRep.Location = new System.Drawing.Point(373, 515);
+            this.Tb_txtFilePathRep.Name = "Tb_txtFilePathRep";
+            this.Tb_txtFilePathRep.Size = new System.Drawing.Size(313, 20);
+            this.Tb_txtFilePathRep.TabIndex = 358;
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(291, 542);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(77, 13);
+            this.label28.TabIndex = 357;
+            this.label28.Text = "LI *.txt file path";
+            // 
+            // Tb_txtFilePathLI
+            // 
+            this.Tb_txtFilePathLI.Location = new System.Drawing.Point(373, 539);
+            this.Tb_txtFilePathLI.Name = "Tb_txtFilePathLI";
+            this.Tb_txtFilePathLI.Size = new System.Drawing.Size(313, 20);
+            this.Tb_txtFilePathLI.TabIndex = 356;
+            // 
+            // Bt_SetFolder
+            // 
+            this.Bt_SetFolder.Location = new System.Drawing.Point(373, 463);
+            this.Bt_SetFolder.Name = "Bt_SetFolder";
+            this.Bt_SetFolder.Size = new System.Drawing.Size(93, 21);
+            this.Bt_SetFolder.TabIndex = 355;
+            this.Bt_SetFolder.Text = "Set Root Folder";
+            this.Bt_SetFolder.UseVisualStyleBackColor = true;
+            this.Bt_SetFolder.Click += new System.EventHandler(this.Bt_SetFolder_Click);
+            // 
+            // Tb_FolderLoc
+            // 
+            this.Tb_FolderLoc.Location = new System.Drawing.Point(373, 489);
+            this.Tb_FolderLoc.Name = "Tb_FolderLoc";
+            this.Tb_FolderLoc.Size = new System.Drawing.Size(313, 20);
+            this.Tb_FolderLoc.TabIndex = 354;
+            this.Tb_FolderLoc.Text = "\\\\officeserver\\Production Test Data\\iFLEX IRIS Test Data";
             // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(158, 288);
+            this.label13.Location = new System.Drawing.Point(170, 136);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(122, 13);
             this.label13.TabIndex = 341;
@@ -998,19 +1063,20 @@
             // 
             this.Tb_MaxILimit.BackColor = System.Drawing.Color.White;
             this.Tb_MaxILimit.ForeColor = System.Drawing.Color.Red;
-            this.Tb_MaxILimit.Location = new System.Drawing.Point(286, 285);
+            this.Tb_MaxILimit.Location = new System.Drawing.Point(298, 133);
             this.Tb_MaxILimit.Name = "Tb_MaxILimit";
             this.Tb_MaxILimit.Size = new System.Drawing.Size(45, 20);
-            this.Tb_MaxILimit.TabIndex = 340;
+            this.Tb_MaxILimit.TabIndex = 2;
             this.Tb_MaxILimit.TabStop = false;
             this.Tb_MaxILimit.Text = "0000";
             this.Tb_MaxILimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Tb_MaxILimit.Click += new System.EventHandler(this.Tb_MaxILimit_Click);
             this.Tb_MaxILimit.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_MaxILimit_KeyPress);
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(174, 121);
+            this.label12.Location = new System.Drawing.Point(186, 243);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(111, 13);
             this.label12.TabIndex = 339;
@@ -1019,39 +1085,41 @@
             // Tb_LsBoardSn
             // 
             this.Tb_LsBoardSn.BackColor = System.Drawing.Color.White;
-            this.Tb_LsBoardSn.Location = new System.Drawing.Point(286, 117);
+            this.Tb_LsBoardSn.Location = new System.Drawing.Point(298, 239);
             this.Tb_LsBoardSn.Name = "Tb_LsBoardSn";
-            this.Tb_LsBoardSn.Size = new System.Drawing.Size(65, 20);
+            this.Tb_LsBoardSn.Size = new System.Drawing.Size(70, 20);
             this.Tb_LsBoardSn.TabIndex = 338;
             this.Tb_LsBoardSn.TabStop = false;
             this.Tb_LsBoardSn.Text = "76543210";
             this.Tb_LsBoardSn.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Tb_LsBoardSn.Click += new System.EventHandler(this.Tb_LsBoardSn_Click);
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(218, 72);
+            this.label11.Location = new System.Drawing.Point(230, 194);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(62, 13);
+            this.label11.Size = new System.Drawing.Size(55, 13);
             this.label11.TabIndex = 337;
-            this.label11.Text = "Work Order";
+            this.label11.Text = "WO / IPO";
             // 
             // Tb_WorkOrder
             // 
             this.Tb_WorkOrder.BackColor = System.Drawing.Color.White;
-            this.Tb_WorkOrder.Location = new System.Drawing.Point(286, 68);
+            this.Tb_WorkOrder.Location = new System.Drawing.Point(298, 190);
             this.Tb_WorkOrder.Name = "Tb_WorkOrder";
-            this.Tb_WorkOrder.Size = new System.Drawing.Size(65, 20);
+            this.Tb_WorkOrder.Size = new System.Drawing.Size(70, 20);
             this.Tb_WorkOrder.TabIndex = 336;
             this.Tb_WorkOrder.TabStop = false;
-            this.Tb_WorkOrder.Text = "99887744";
+            this.Tb_WorkOrder.Text = "IPO1234567";
             this.Tb_WorkOrder.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Tb_WorkOrder.Click += new System.EventHandler(this.Tb_WorkOrder_Click);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(557, 170);
+            this.label3.Location = new System.Drawing.Point(569, 30);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(32, 20);
             this.label3.TabIndex = 335;
@@ -1061,7 +1129,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(467, 170);
+            this.label7.Location = new System.Drawing.Point(479, 30);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(31, 20);
             this.label7.TabIndex = 334;
@@ -1071,7 +1139,7 @@
             // 
             this.Lbl_NomPowerDtbas.AutoSize = true;
             this.Lbl_NomPowerDtbas.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbl_NomPowerDtbas.Location = new System.Drawing.Point(517, 170);
+            this.Lbl_NomPowerDtbas.Location = new System.Drawing.Point(529, 30);
             this.Lbl_NomPowerDtbas.Name = "Lbl_NomPowerDtbas";
             this.Lbl_NomPowerDtbas.Size = new System.Drawing.Size(37, 20);
             this.Lbl_NomPowerDtbas.TabIndex = 333;
@@ -1081,7 +1149,7 @@
             // 
             this.Lbl_Wlgth1.AutoSize = true;
             this.Lbl_Wlgth1.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbl_Wlgth1.Location = new System.Drawing.Point(433, 170);
+            this.Lbl_Wlgth1.Location = new System.Drawing.Point(445, 30);
             this.Lbl_Wlgth1.Name = "Lbl_Wlgth1";
             this.Lbl_Wlgth1.Size = new System.Drawing.Size(37, 20);
             this.Lbl_Wlgth1.TabIndex = 332;
@@ -1090,7 +1158,7 @@
             // ChkBx_AnlgModSet
             // 
             this.ChkBx_AnlgModSet.AutoSize = true;
-            this.ChkBx_AnlgModSet.Location = new System.Drawing.Point(286, 250);
+            this.ChkBx_AnlgModSet.Location = new System.Drawing.Point(298, 110);
             this.ChkBx_AnlgModSet.Name = "ChkBx_AnlgModSet";
             this.ChkBx_AnlgModSet.Size = new System.Drawing.Size(119, 17);
             this.ChkBx_AnlgModSet.TabIndex = 331;
@@ -1100,7 +1168,7 @@
             // ChkBx_DigitModSet
             // 
             this.ChkBx_DigitModSet.AutoSize = true;
-            this.ChkBx_DigitModSet.Location = new System.Drawing.Point(286, 232);
+            this.ChkBx_DigitModSet.Location = new System.Drawing.Point(298, 92);
             this.ChkBx_DigitModSet.Name = "ChkBx_DigitModSet";
             this.ChkBx_DigitModSet.Size = new System.Drawing.Size(119, 17);
             this.ChkBx_DigitModSet.TabIndex = 330;
@@ -1110,7 +1178,7 @@
             // ChkBx_EnableSet
             // 
             this.ChkBx_EnableSet.AutoSize = true;
-            this.ChkBx_EnableSet.Location = new System.Drawing.Point(286, 214);
+            this.ChkBx_EnableSet.Location = new System.Drawing.Point(298, 74);
             this.ChkBx_EnableSet.Name = "ChkBx_EnableSet";
             this.ChkBx_EnableSet.Size = new System.Drawing.Size(101, 17);
             this.ChkBx_EnableSet.TabIndex = 329;
@@ -1120,7 +1188,7 @@
             // ChkBx_ExtPwCtrl
             // 
             this.ChkBx_ExtPwCtrl.AutoSize = true;
-            this.ChkBx_ExtPwCtrl.Location = new System.Drawing.Point(286, 196);
+            this.ChkBx_ExtPwCtrl.Location = new System.Drawing.Point(298, 56);
             this.ChkBx_ExtPwCtrl.Name = "ChkBx_ExtPwCtrl";
             this.ChkBx_ExtPwCtrl.Size = new System.Drawing.Size(103, 17);
             this.ChkBx_ExtPwCtrl.TabIndex = 328;
@@ -1131,7 +1199,7 @@
             // 
             this.Lbl_MdlName.AutoSize = true;
             this.Lbl_MdlName.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbl_MdlName.Location = new System.Drawing.Point(357, 169);
+            this.Lbl_MdlName.Location = new System.Drawing.Point(369, 29);
             this.Lbl_MdlName.Name = "Lbl_MdlName";
             this.Lbl_MdlName.Size = new System.Drawing.Size(53, 20);
             this.Lbl_MdlName.TabIndex = 289;
@@ -1140,7 +1208,7 @@
             // label58
             // 
             this.label58.AutoSize = true;
-            this.label58.Location = new System.Drawing.Point(226, 169);
+            this.label58.Location = new System.Drawing.Point(238, 29);
             this.label58.Name = "label58";
             this.label58.Size = new System.Drawing.Size(54, 13);
             this.label58.TabIndex = 288;
@@ -1150,19 +1218,20 @@
             // 
             this.Tb_LaserPN.BackColor = System.Drawing.Color.White;
             this.Tb_LaserPN.ForeColor = System.Drawing.Color.Red;
-            this.Tb_LaserPN.Location = new System.Drawing.Point(286, 165);
+            this.Tb_LaserPN.Location = new System.Drawing.Point(298, 25);
             this.Tb_LaserPN.Name = "Tb_LaserPN";
             this.Tb_LaserPN.Size = new System.Drawing.Size(65, 20);
-            this.Tb_LaserPN.TabIndex = 287;
+            this.Tb_LaserPN.TabIndex = 1;
             this.Tb_LaserPN.TabStop = false;
-            this.Tb_LaserPN.Text = "000000";
+            this.Tb_LaserPN.Text = "015000";
             this.Tb_LaserPN.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Tb_LaserPN.Click += new System.EventHandler(this.Tb_LaserPN_Click);
             this.Tb_LaserPN.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_LaserPN_KeyPress);
             // 
             // label33
             // 
             this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(179, 96);
+            this.label33.Location = new System.Drawing.Point(191, 218);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(101, 13);
             this.label33.TabIndex = 286;
@@ -1171,18 +1240,19 @@
             // Tb_SerNb
             // 
             this.Tb_SerNb.BackColor = System.Drawing.Color.White;
-            this.Tb_SerNb.Location = new System.Drawing.Point(286, 93);
+            this.Tb_SerNb.Location = new System.Drawing.Point(298, 215);
             this.Tb_SerNb.Name = "Tb_SerNb";
-            this.Tb_SerNb.Size = new System.Drawing.Size(65, 20);
+            this.Tb_SerNb.Size = new System.Drawing.Size(70, 20);
             this.Tb_SerNb.TabIndex = 285;
             this.Tb_SerNb.TabStop = false;
             this.Tb_SerNb.Text = "00597588";
             this.Tb_SerNb.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Tb_SerNb.Click += new System.EventHandler(this.Tb_SerNb_Click);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(174, 145);
+            this.label6.Location = new System.Drawing.Point(186, 267);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(106, 13);
             this.label6.TabIndex = 282;
@@ -1192,7 +1262,7 @@
             // 
             this.Lbl_User.AutoSize = true;
             this.Lbl_User.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbl_User.Location = new System.Drawing.Point(30, 68);
+            this.Lbl_User.Location = new System.Drawing.Point(10, 13);
             this.Lbl_User.Name = "Lbl_User";
             this.Lbl_User.Size = new System.Drawing.Size(74, 13);
             this.Lbl_User.TabIndex = 280;
@@ -1200,41 +1270,33 @@
             // 
             // Tb_User
             // 
-            this.Tb_User.Location = new System.Drawing.Point(107, 65);
+            this.Tb_User.Location = new System.Drawing.Point(87, 10);
             this.Tb_User.Name = "Tb_User";
             this.Tb_User.Size = new System.Drawing.Size(30, 20);
             this.Tb_User.TabIndex = 279;
             this.Tb_User.Text = "JH";
             this.Tb_User.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Tb_User.Click += new System.EventHandler(this.Tb_User_Click);
             this.Tb_User.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Tb_User_KeyDown);
             // 
-            // chkBx_Help
+            // Tb_TecSerNumb
             // 
-            this.chkBx_Help.AutoSize = true;
-            this.chkBx_Help.Location = new System.Drawing.Point(9, 522);
-            this.chkBx_Help.Name = "chkBx_Help";
-            this.chkBx_Help.Size = new System.Drawing.Size(115, 17);
-            this.chkBx_Help.TabIndex = 277;
-            this.chkBx_Help.Text = "Help Message Box";
-            this.chkBx_Help.UseVisualStyleBackColor = true;
-            // 
-            // tb_TecSerNumb
-            // 
-            this.tb_TecSerNumb.BackColor = System.Drawing.Color.White;
-            this.tb_TecSerNumb.Location = new System.Drawing.Point(286, 141);
-            this.tb_TecSerNumb.Name = "tb_TecSerNumb";
-            this.tb_TecSerNumb.Size = new System.Drawing.Size(65, 20);
-            this.tb_TecSerNumb.TabIndex = 2;
-            this.tb_TecSerNumb.TabStop = false;
-            this.tb_TecSerNumb.Text = "01234567";
-            this.tb_TecSerNumb.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tb_TecSerNumb.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Tb_TecSerNumb_KeyDown);
+            this.Tb_TecSerNumb.BackColor = System.Drawing.Color.White;
+            this.Tb_TecSerNumb.Location = new System.Drawing.Point(298, 263);
+            this.Tb_TecSerNumb.Name = "Tb_TecSerNumb";
+            this.Tb_TecSerNumb.Size = new System.Drawing.Size(70, 20);
+            this.Tb_TecSerNumb.TabIndex = 2;
+            this.Tb_TecSerNumb.TabStop = false;
+            this.Tb_TecSerNumb.Text = "01234567";
+            this.Tb_TecSerNumb.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Tb_TecSerNumb.Click += new System.EventHandler(this.Tb_TecSerNumb_Click);
+            this.Tb_TecSerNumb.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Tb_TecSerNumb_KeyDown);
             // 
             // dateTimePicker1
             // 
             this.dateTimePicker1.CustomFormat = "dd/MM/yyyy";
             this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker1.Location = new System.Drawing.Point(41, 94);
+            this.dateTimePicker1.Location = new System.Drawing.Point(21, 39);
             this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(2);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(96, 20);
@@ -1251,15 +1313,9 @@
             this.TbPg_Results.Controls.Add(this.label21);
             this.TbPg_Results.Controls.Add(this.label20);
             this.TbPg_Results.Controls.Add(this.label18);
-            this.TbPg_Results.Controls.Add(this.Bt_SetFolder);
-            this.TbPg_Results.Controls.Add(this.Tb_FolderLoc);
             this.TbPg_Results.Controls.Add(this.Bt_SetTempParam);
-            this.TbPg_Results.Controls.Add(this.label5);
-            this.TbPg_Results.Controls.Add(this.Tb_txtFilePathRep);
             this.TbPg_Results.Controls.Add(this.label10);
             this.TbPg_Results.Controls.Add(this.Tb_NomPw);
-            this.TbPg_Results.Controls.Add(this.label28);
-            this.TbPg_Results.Controls.Add(this.Tb_txtFilePathLI);
             this.TbPg_Results.Controls.Add(this.Lbl_RtnPwDACvalue);
             this.TbPg_Results.Controls.Add(this.Bt_SetVGA);
             this.TbPg_Results.Controls.Add(this.groupBox2);
@@ -1341,6 +1397,25 @@
             this.TbPg_Results.Text = "Engineering";
             this.TbPg_Results.UseVisualStyleBackColor = true;
             // 
+            // Lbl_TempSens
+            // 
+            this.Lbl_TempSens.AutoSize = true;
+            this.Lbl_TempSens.Location = new System.Drawing.Point(111, 298);
+            this.Lbl_TempSens.Name = "Lbl_TempSens";
+            this.Lbl_TempSens.Size = new System.Drawing.Size(40, 13);
+            this.Lbl_TempSens.TabIndex = 361;
+            this.Lbl_TempSens.Text = "000.00";
+            this.Lbl_TempSens.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(159, 298);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(71, 13);
+            this.label23.TabIndex = 360;
+            this.label23.Text = "Temp. sensor";
+            // 
             // Tb_SetPower03
             // 
             this.Tb_SetPower03.Location = new System.Drawing.Point(112, 393);
@@ -1400,23 +1475,6 @@
             this.label18.Text = "USB IO interface";
             this.label18.Visible = false;
             // 
-            // Bt_SetFolder
-            // 
-            this.Bt_SetFolder.Location = new System.Drawing.Point(264, 466);
-            this.Bt_SetFolder.Name = "Bt_SetFolder";
-            this.Bt_SetFolder.Size = new System.Drawing.Size(101, 21);
-            this.Bt_SetFolder.TabIndex = 353;
-            this.Bt_SetFolder.Text = "Set Folder";
-            this.Bt_SetFolder.UseVisualStyleBackColor = true;
-            this.Bt_SetFolder.Click += new System.EventHandler(this.Bt_SetFolder_Click);
-            // 
-            // Tb_FolderLoc
-            // 
-            this.Tb_FolderLoc.Location = new System.Drawing.Point(129, 493);
-            this.Tb_FolderLoc.Name = "Tb_FolderLoc";
-            this.Tb_FolderLoc.Size = new System.Drawing.Size(236, 20);
-            this.Tb_FolderLoc.TabIndex = 352;
-            // 
             // Bt_SetTempParam
             // 
             this.Bt_SetTempParam.BackColor = System.Drawing.Color.PeachPuff;
@@ -1428,22 +1486,6 @@
             this.Bt_SetTempParam.Text = "Set Temp. Parameters";
             this.Bt_SetTempParam.UseVisualStyleBackColor = false;
             this.Bt_SetTempParam.Click += new System.EventHandler(this.Bt_SetTempParam_Click);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(367, 521);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(89, 13);
-            this.label5.TabIndex = 350;
-            this.label5.Text = "Test *.txt file path";
-            // 
-            // Tb_txtFilePathRep
-            // 
-            this.Tb_txtFilePathRep.Location = new System.Drawing.Point(129, 517);
-            this.Tb_txtFilePathRep.Name = "Tb_txtFilePathRep";
-            this.Tb_txtFilePathRep.Size = new System.Drawing.Size(236, 20);
-            this.Tb_txtFilePathRep.TabIndex = 349;
             // 
             // label10
             // 
@@ -1461,22 +1503,6 @@
             this.Tb_NomPw.Size = new System.Drawing.Size(46, 20);
             this.Tb_NomPw.TabIndex = 347;
             this.Tb_NomPw.Text = "000.0";
-            // 
-            // label28
-            // 
-            this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(367, 545);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(77, 13);
-            this.label28.TabIndex = 346;
-            this.label28.Text = "LI *.txt file path";
-            // 
-            // Tb_txtFilePathLI
-            // 
-            this.Tb_txtFilePathLI.Location = new System.Drawing.Point(129, 541);
-            this.Tb_txtFilePathLI.Name = "Tb_txtFilePathLI";
-            this.Tb_txtFilePathLI.Size = new System.Drawing.Size(236, 20);
-            this.Tb_txtFilePathLI.TabIndex = 345;
             // 
             // Lbl_RtnPwDACvalue
             // 
@@ -2278,25 +2304,6 @@
             // 
             this.folderBrowserDialog1.RootFolder = System.Environment.SpecialFolder.MyComputer;
             // 
-            // Lbl_TempSens
-            // 
-            this.Lbl_TempSens.AutoSize = true;
-            this.Lbl_TempSens.Location = new System.Drawing.Point(111, 298);
-            this.Lbl_TempSens.Name = "Lbl_TempSens";
-            this.Lbl_TempSens.Size = new System.Drawing.Size(40, 13);
-            this.Lbl_TempSens.TabIndex = 361;
-            this.Lbl_TempSens.Text = "000.00";
-            this.Lbl_TempSens.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(159, 298);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(71, 13);
-            this.label23.TabIndex = 360;
-            this.label23.Text = "Temp. sensor";
-            // 
             // Form_iRIS_Clm_test_01
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2304,7 +2311,7 @@
             this.ClientSize = new System.Drawing.Size(706, 595);
             this.Controls.Add(this.tabControl1);
             this.Name = "Form_iRIS_Clm_test_01";
-            this.Text = "iRIS CLM LASER TEST 30058_01";
+            this.Text = "30058-01 iRIS CLM TEST";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Frm_iRIS_Prod_FormClosing);
             this.Load += new System.EventHandler(this.Form_iRIS_Clm_01_Load);
             this.TbPg_InsTest.ResumeLayout(false);
@@ -2343,9 +2350,8 @@
         private System.Windows.Forms.Button Bt_RefrCOMs;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage TbPg_Iris_Init;
-        private System.Windows.Forms.TextBox tb_TecSerNumb;
+        private System.Windows.Forms.TextBox Tb_TecSerNumb;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.CheckBox chkBx_Help;
         private System.Windows.Forms.Label Lbl_User;
         private System.Windows.Forms.TextBox Tb_User;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -2467,16 +2473,12 @@
         private System.Windows.Forms.Button Bt_LiPlot;
         private System.Windows.Forms.Label Lbl_NomPowerDtbas;
         private System.Windows.Forms.Label Lbl_Wlgth1;
-        private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.TextBox Tb_txtFilePathLI;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button Bt_ShipState;
         private System.Windows.Forms.ProgressBar Prg_Bar01;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox Tb_NomPw;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox Tb_txtFilePathRep;
         private System.Windows.Forms.Button Bt_SetTempParam;
         private System.Windows.Forms.Button Bt_Set532Temp;
         private System.Windows.Forms.TextBox Tb_532TempSet;
@@ -2490,9 +2492,7 @@
         private System.Windows.Forms.RadioButton RdBt_LIint;
         private System.Windows.Forms.RadioButton RdBt_LI50;
         private System.Windows.Forms.RadioButton RdBt_LI05;
-        private System.Windows.Forms.TextBox Tb_FolderLoc;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
-        private System.Windows.Forms.Button Bt_SetFolder;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox Tb_MaxILimit;
         private System.Windows.Forms.Label label16;
@@ -2519,6 +2519,13 @@
         private System.Windows.Forms.Button Bt_SetPower03;
         private System.Windows.Forms.Label Lbl_TempSens;
         private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox Tb_txtFilePathRep;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.TextBox Tb_txtFilePathLI;
+        private System.Windows.Forms.Button Bt_SetFolder;
+        private System.Windows.Forms.TextBox Tb_FolderLoc;
+        private System.Windows.Forms.Label label4;
     }
 }
 

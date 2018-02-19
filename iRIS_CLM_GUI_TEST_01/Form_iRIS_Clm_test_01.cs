@@ -9,11 +9,10 @@ using System.Windows.Forms;
 using Microsoft.VisualBasic;
 using Thorlabs.PM100D_32.Interop;
 using MccDaq;
-using System.Collections.Generic;
-using System.Management; 
+using System.Management;
 
 //iRIS Production 30058_01
-//12/02/2018
+//19/02/2018
 
 namespace iRIS_CLM_GUI_TEST_01
 {
@@ -254,6 +253,7 @@ namespace iRIS_CLM_GUI_TEST_01
 
             USB_CDC.DataReceived += new SerialDataReceivedEventHandler(CDCDataReceivedHandler);
             RS232.DataReceived   += new SerialDataReceivedEventHandler(RS232DataReceivedHandler);
+            tabControl1.TabPages[1].Enabled = false;
             //OpenSqlConnection();//done when loading form
             //DisplayData();//not used here
         }
@@ -1239,15 +1239,15 @@ namespace iRIS_CLM_GUI_TEST_01
         {
             if (e.KeyCode == Keys.Enter)
             {
-                bool t = Information.IsNumeric(tb_TecSerNumb.Text);
-                int strLgh = tb_TecSerNumb.Text.Length;
+                bool t = Information.IsNumeric(Tb_TecSerNumb.Text);
+                int strLgh = Tb_TecSerNumb.Text.Length;
 
                 if (t == true)
                 {
                     if (strLgh < 9)
                     {
-                        tb_TecSerNumb.BackColor = Color.White;
-                        tb_TecSerNumb.Enabled = false;
+                        Tb_TecSerNumb.BackColor = Color.White;
+                        Tb_TecSerNumb.Enabled = false;
                     }
                     else { MessageBox.Show("8 Digits Maximum"); }
                 }
@@ -1835,6 +1835,8 @@ namespace iRIS_CLM_GUI_TEST_01
                 bool initvga = false;
                 bool goodOffset = false;
 
+                int vgaVal = 20;
+
                 Prg_Bar01.Maximum = 120;
 #endregion set some variable
 
@@ -1870,7 +1872,7 @@ namespace iRIS_CLM_GUI_TEST_01
                         bool boolCalVGA1 = await RampDAC1(startRp, stopRp, stepRp, false);//set VGA MAX power
                         if (boolCalVGA1 == false) break;
 
-                        for (int vgaVal = 20; vgaVal <= 80; vgaVal++)//Ramp and set VGA
+                        for (vgaVal = 20; vgaVal <= 80; vgaVal++)//Ramp and set VGA
                         {
                             if (vgaVal >= 80)
                             {
@@ -1881,9 +1883,9 @@ namespace iRIS_CLM_GUI_TEST_01
                             {
                                 Tb_VGASet.Text = vgaVal.ToString("0000");
                                 bool vgaset = await SendToSerial(CmdSetVgaGain, Tb_VGASet.Text, 300, 9);
-
                                 vgaset = await ReadAllanlg(false);
-                                if (vgaset == false) break;
+
+                                if (vgaset == false) { break; }
                                 else
                                 {
                                     double pm100Res = Convert.ToDouble(Lbl_PM100rd.Text);//mW
@@ -1956,9 +1958,20 @@ namespace iRIS_CLM_GUI_TEST_01
                 Pw_EnOff = Lbl_PM100rd.Text;
 
                 initvga = await SendToSerial(CmdLaserEnable, StrDisable, 300, 9); //end VGA stop test
-                
+
                 Lbl_VGAval.Text = Tb_VGASet.Text; //actualise VGA value on TAB2
-                Lbl_VGAval.ForeColor = Color.Green;
+
+                if (vgaVal <= 40)
+                {   Lbl_VGAval.ForeColor = Color.Red;
+                    Tb_VGASet.ForeColor = Color.Red;
+                    MessageBox.Show("VGA <= 40");
+                }
+                else
+                {
+                    Lbl_VGAval.ForeColor = Color.Green;
+                    Tb_VGASet.ForeColor = Color.Green;
+                }
+        
                 Prg_Bar01.Value = 0;
                 #endregion set final test
                 //*************************************************************************************//
@@ -1974,7 +1987,7 @@ namespace iRIS_CLM_GUI_TEST_01
                             fs.WriteLine("Work Order: " + Tb_WorkOrder.Text);
                             fs.WriteLine("Laser Assembly SN.: " + lbl_SerNbReadBack.Text);
                             fs.WriteLine("Laser Board SN.: " + Tb_LsBoardSn.Text);
-                            fs.WriteLine("TEC Board SN: " + tb_TecSerNumb.Text);
+                            fs.WriteLine("TEC Board SN: " + Tb_TecSerNumb.Text);
                             fs.WriteLine("Firmware: " + lbl_SWLevel.Text);
                             fs.WriteLine("Wavelength: " + Lbl_WaveLg.Text);
                             fs.WriteLine("Software Nominal power: " + Tb_SoftNomPw.Text);
@@ -2609,8 +2622,53 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private async Task<bool> CreateRepFile()
         {
-            string txtName = Tb_WorkOrder.Text + "_" + Tb_SerNb.Text + ".txt";
-            filePathRep = Tb_FolderLoc.Text + "\\"+ txtName;
+            string rootPath = Tb_FolderLoc.Text;
+            string folderName = @"\" + Tb_LaserPN.Text + @"\" + Tb_WorkOrder.Text;
+            string txtName = @"\" + Tb_SerNb.Text + ".txt";
+            filePathRep = Tb_FolderLoc.Text + folderName;
+            Tb_txtFilePathRep.Text = filePathRep;
+
+            await Task.Delay(1);
+            // Create folder
+            try
+            {
+                if (Directory.Exists(filePathRep)) { MessageBox.Show("File Exist"); }
+                else
+                {
+                    DirectoryInfo di = Directory.CreateDirectory(filePathRep);
+                    Tb_txtFilePathRep.Text = filePathRep;
+                }
+                 //return true;
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message);
+                //return false;
+            }
+            //create file
+            try
+            {
+                using (FileStream fs = File.Create(filePathRep + txtName))
+                {
+                    Byte[] info = new UTF8Encoding(true).GetBytes(txtName + Footer + Footer);
+                    fs.Write(info, 0, info.Length);
+                    return true;
+                }
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message);
+                return false;
+            }
+    }
+        /*
+        private async Task<bool> CreateRepFile()
+        {
+
+
+            string folderName = @"\" + Tb_LaserPN.Text + @"\" + Tb_WorkOrder.Text;
+            string txtName = @"\" + Tb_SerNb.Text + ".txt";
+            filePathRep = Tb_FolderLoc.Text + txtName;
             Tb_txtFilePathRep.Text = filePathRep;
 
             await Task.Delay(1);
@@ -2626,11 +2684,45 @@ namespace iRIS_CLM_GUI_TEST_01
                 MessageBox.Show(err.Message);
                 return false; }
         }
+        */
+
+        /*
+        private void Bt_createFolder_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Determine whether the directory exists.
+                if (Directory.Exists(path))
+                {
+                    Console.WriteLine("That path exists already.");
+                    return;
+                }
+
+                // Try to create the directory.
+                DirectoryInfo di = Directory.CreateDirectory(path);
+                Console.WriteLine("The directory was created successfully at {0}.", Directory.GetCreationTime(path));
+
+                // Delete the directory.
+                di.Delete();
+                Console.WriteLine("The directory was deleted successfully.");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("The process failed: {0}", e.ToString());
+            }
+            finally { }
+
+        }
+        */
         //======================================================================
         private async Task<bool> CreateRepFileLI()
         {
-            string txtName = "LI_" + Tb_WorkOrder.Text + "_" + Tb_SerNb.Text +"_" + dateTimePicker1.Value.Date.ToString("ddMMyyyy") + ".txt "; ;
-            filePathLI = Tb_FolderLoc.Text + "\\" + txtName;
+
+            string rootPath = Tb_FolderLoc.Text;
+            string folderName = @"\" + Tb_LaserPN.Text + @"\" + Tb_WorkOrder.Text;
+            string txtName = @"\" + "LI_" + Tb_SerNb.Text + "_" + dateTimePicker1.Value.Date.ToString("ddMMyyyy") + ".txt ";
+            string filePathLI = rootPath + folderName + txtName;
+
             Tb_txtFilePathLI.Text = filePathLI;
 
             await Task.Delay(1);
@@ -2746,19 +2838,19 @@ namespace iRIS_CLM_GUI_TEST_01
 
                         MessageBox.Show("PN: " + readstuff + " @ " + dbArrayIdx.ToString() + "\n\n" + "Enter 'Diode Max. Current Limit' Value now");
                         Tb_LaserPN.ForeColor = Color.Green;
+                        Tb_MaxILimit.Focus();
+                        Tb_MaxILimit.Clear();
 
                         break;
                     }
                 }
             }
-
             catch (Exception e) { MessageBox.Show("Dtb Read Error " + e.ToString()); }
 
             if (entryOK == false) { MessageBox.Show("No parts in db\nTry again or contact engineering\n"); }
 
             if (rdr != null) { rdr.Close(); }
             if (con != null) { con.Close(); }
-
         }
         //======================================================================
         private void Bt_RstClk_Click(object sender, EventArgs e) { Task<bool> rstclk = RESETclk(); }
@@ -2775,21 +2867,17 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private void Bt_SetFolder_Click(object sender, EventArgs e)
         {
-            //FolderBrowserDialog folderDlg = new FolderBrowserDialog();
-            //folderDlg.ShowNewFolderButton = true;
             FolderBrowserDialog folderDlg = new FolderBrowserDialog { ShowNewFolderButton = true };
-        // Show the FolderBrowserDialog. 
-        DialogResult result = folderDlg.ShowDialog();
+            // Show the FolderBrowserDialog. 
+            DialogResult result = folderDlg.ShowDialog();
             if (result == DialogResult.OK)
             {
                 Tb_FolderLoc.Text = folderDlg.SelectedPath;
-
                 Environment.SpecialFolder root = folderDlg.RootFolder;
                 // Get Program Files location.
                 string programfiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
                 // Get Common Program Files location.
                 string commonProgramfiles = Environment.GetFolderPath(Environment.SpecialFolder.CommonProgramFiles, Environment.SpecialFolderOption.None);
-
             }
         }
         //======================================================================
@@ -2799,7 +2887,11 @@ namespace iRIS_CLM_GUI_TEST_01
             if (e.KeyChar == Convert.ToChar(Keys.Return)) {
                 Tb_MaxLsCurrent.Text = Tb_MaxILimit.Text;
 
-                if (valuesGood = LoadCurAndPwLimits() == true) { Tb_MaxILimit.ForeColor = Color.Green; }//reset at init...?
+                if ((valuesGood = LoadCurAndPwLimits()) == true)//reset at init...?
+                {
+                    Tb_MaxILimit.ForeColor = Color.Green;
+                    tabControl1.TabPages[1].Enabled = true;
+                }
                 else {
                     Tb_MaxILimit.ForeColor = Color.OrangeRed;
                     MessageBox.Show("incorrect value");
@@ -2816,7 +2908,20 @@ namespace iRIS_CLM_GUI_TEST_01
         }
         //======================================================================
         private void Bt_SetPower03_Click(object sender, EventArgs e) { Task<bool>  finalSet = SendToSerial(CmdSetLsPw, Tb_SetPower03.Text, 300, 9); }
+        //======================================================================
+        private void Tb_User_Click(object sender, EventArgs e) { Tb_User.Clear(); }
 
+        private void Tb_WorkOrder_Click(object sender, EventArgs e) { Tb_WorkOrder.Clear(); }
+
+        private void Tb_SerNb_Click(object sender, EventArgs e) { Tb_SerNb.Clear(); }
+
+        private void Tb_LsBoardSn_Click(object sender, EventArgs e) { Tb_LsBoardSn.Clear(); }
+
+        private void Tb_TecSerNumb_Click(object sender, EventArgs e) { Tb_TecSerNumb.Clear(); }
+
+        private void Tb_LaserPN_Click(object sender, EventArgs e) { Tb_LaserPN.Clear(); }
+
+        private void Tb_MaxILimit_Click(object sender, EventArgs e) { Tb_MaxILimit.Clear(); }
         //======================================================================
         //======================================================================
     }
