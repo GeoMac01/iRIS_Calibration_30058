@@ -103,8 +103,6 @@
             this.Tb_FolderLoc = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.Tb_MaxILimit = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.Tb_LsBoardSn = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.Tb_WorkOrder = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -646,7 +644,7 @@
             // label61
             // 
             this.label61.AutoSize = true;
-            this.label61.Location = new System.Drawing.Point(271, 63);
+            this.label61.Location = new System.Drawing.Point(269, 62);
             this.label61.Name = "label61";
             this.label61.Size = new System.Drawing.Size(89, 13);
             this.label61.TabIndex = 305;
@@ -664,7 +662,7 @@
             // Lbl_WaveLg
             // 
             this.Lbl_WaveLg.AutoSize = true;
-            this.Lbl_WaveLg.Location = new System.Drawing.Point(388, 62);
+            this.Lbl_WaveLg.Location = new System.Drawing.Point(364, 62);
             this.Lbl_WaveLg.Name = "Lbl_WaveLg";
             this.Lbl_WaveLg.Size = new System.Drawing.Size(31, 13);
             this.Lbl_WaveLg.TabIndex = 303;
@@ -687,7 +685,7 @@
             this.Bt_FinalLsSetup.Size = new System.Drawing.Size(87, 39);
             this.Bt_FinalLsSetup.TabIndex = 300;
             this.Bt_FinalLsSetup.TabStop = false;
-            this.Bt_FinalLsSetup.Text = "Load Data Set 01";
+            this.Bt_FinalLsSetup.Text = "Load Laser Data Set";
             this.Bt_FinalLsSetup.UseVisualStyleBackColor = false;
             this.Bt_FinalLsSetup.Click += new System.EventHandler(this.Bt_FinalLsSetup_Click);
             // 
@@ -909,35 +907,35 @@
             this.lbl_SWLevel.Name = "lbl_SWLevel";
             this.lbl_SWLevel.Size = new System.Drawing.Size(55, 13);
             this.lbl_SWLevel.TabIndex = 270;
-            this.lbl_SWLevel.Text = "00000000";
+            this.lbl_SWLevel.Text = "12345678";
             // 
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(303, 41);
+            this.label27.Location = new System.Drawing.Point(277, 41);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(57, 13);
+            this.label27.Size = new System.Drawing.Size(81, 13);
             this.label27.TabIndex = 269;
-            this.label27.Text = "SW Level:";
+            this.label27.Text = "Firmware Level:";
             // 
             // lbl_SerNbReadBack
             // 
             this.lbl_SerNbReadBack.AutoSize = true;
             this.lbl_SerNbReadBack.Location = new System.Drawing.Point(364, 20);
             this.lbl_SerNbReadBack.Name = "lbl_SerNbReadBack";
-            this.lbl_SerNbReadBack.Size = new System.Drawing.Size(55, 13);
+            this.lbl_SerNbReadBack.Size = new System.Drawing.Size(97, 13);
             this.lbl_SerNbReadBack.TabIndex = 267;
-            this.lbl_SerNbReadBack.Text = "00000000";
+            this.lbl_SerNbReadBack.Text = "12345678ABCDEF";
             this.lbl_SerNbReadBack.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(259, 19);
+            this.label29.Location = new System.Drawing.Point(280, 20);
             this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(101, 13);
+            this.label29.Size = new System.Drawing.Size(78, 13);
             this.label29.TabIndex = 266;
-            this.label29.Text = "Laser Assembly SN.";
+            this.label29.Text = "Laser PCB SN.";
             // 
             // tabControl1
             // 
@@ -961,8 +959,6 @@
             this.TbPg_Iris_Init.Controls.Add(this.Tb_FolderLoc);
             this.TbPg_Iris_Init.Controls.Add(this.label13);
             this.TbPg_Iris_Init.Controls.Add(this.Tb_MaxILimit);
-            this.TbPg_Iris_Init.Controls.Add(this.label12);
-            this.TbPg_Iris_Init.Controls.Add(this.Tb_LsBoardSn);
             this.TbPg_Iris_Init.Controls.Add(this.label11);
             this.TbPg_Iris_Init.Controls.Add(this.Tb_WorkOrder);
             this.TbPg_Iris_Init.Controls.Add(this.label3);
@@ -1073,31 +1069,10 @@
             this.Tb_MaxILimit.Click += new System.EventHandler(this.Tb_MaxILimit_Click);
             this.Tb_MaxILimit.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_MaxILimit_KeyPress);
             // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(186, 243);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(111, 13);
-            this.label12.TabIndex = 339;
-            this.label12.Text = "14264 Laser PCB SN.";
-            // 
-            // Tb_LsBoardSn
-            // 
-            this.Tb_LsBoardSn.BackColor = System.Drawing.Color.White;
-            this.Tb_LsBoardSn.Location = new System.Drawing.Point(298, 239);
-            this.Tb_LsBoardSn.Name = "Tb_LsBoardSn";
-            this.Tb_LsBoardSn.Size = new System.Drawing.Size(70, 20);
-            this.Tb_LsBoardSn.TabIndex = 338;
-            this.Tb_LsBoardSn.TabStop = false;
-            this.Tb_LsBoardSn.Text = "76543210";
-            this.Tb_LsBoardSn.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Tb_LsBoardSn.Click += new System.EventHandler(this.Tb_LsBoardSn_Click);
-            // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(230, 194);
+            this.label11.Location = new System.Drawing.Point(239, 194);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(55, 13);
             this.label11.TabIndex = 337;
@@ -1108,12 +1083,13 @@
             this.Tb_WorkOrder.BackColor = System.Drawing.Color.White;
             this.Tb_WorkOrder.Location = new System.Drawing.Point(298, 190);
             this.Tb_WorkOrder.Name = "Tb_WorkOrder";
-            this.Tb_WorkOrder.Size = new System.Drawing.Size(70, 20);
+            this.Tb_WorkOrder.Size = new System.Drawing.Size(76, 20);
             this.Tb_WorkOrder.TabIndex = 336;
             this.Tb_WorkOrder.TabStop = false;
-            this.Tb_WorkOrder.Text = "IPO1234567";
+            this.Tb_WorkOrder.Text = "IPO1230000";
             this.Tb_WorkOrder.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Tb_WorkOrder.Click += new System.EventHandler(this.Tb_WorkOrder_Click);
+            this.Tb_WorkOrder.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_WorkOrder_KeyPress);
             // 
             // label3
             // 
@@ -1208,11 +1184,11 @@
             // label58
             // 
             this.label58.AutoSize = true;
-            this.label58.Location = new System.Drawing.Point(238, 29);
+            this.label58.Location = new System.Drawing.Point(197, 28);
             this.label58.Name = "label58";
-            this.label58.Size = new System.Drawing.Size(54, 13);
+            this.label58.Size = new System.Drawing.Size(95, 13);
             this.label58.TabIndex = 288;
-            this.label58.Text = "Laser PN.";
+            this.label58.Text = "Laser Part Number";
             // 
             // Tb_LaserPN
             // 
@@ -1231,28 +1207,29 @@
             // label33
             // 
             this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(191, 218);
+            this.label33.Location = new System.Drawing.Point(145, 218);
             this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(101, 13);
+            this.label33.Size = new System.Drawing.Size(149, 13);
             this.label33.TabIndex = 286;
-            this.label33.Text = "Laser Assembly SN.";
+            this.label33.Text = "Laser Assembly Serial Number";
             // 
             // Tb_SerNb
             // 
             this.Tb_SerNb.BackColor = System.Drawing.Color.White;
             this.Tb_SerNb.Location = new System.Drawing.Point(298, 215);
             this.Tb_SerNb.Name = "Tb_SerNb";
-            this.Tb_SerNb.Size = new System.Drawing.Size(70, 20);
+            this.Tb_SerNb.Size = new System.Drawing.Size(76, 20);
             this.Tb_SerNb.TabIndex = 285;
             this.Tb_SerNb.TabStop = false;
             this.Tb_SerNb.Text = "00597588";
             this.Tb_SerNb.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Tb_SerNb.Click += new System.EventHandler(this.Tb_SerNb_Click);
+            this.Tb_SerNb.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_SerNb_KeyPress);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(186, 267);
+            this.label6.Location = new System.Drawing.Point(188, 244);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(106, 13);
             this.label6.TabIndex = 282;
@@ -1282,15 +1259,15 @@
             // Tb_TecSerNumb
             // 
             this.Tb_TecSerNumb.BackColor = System.Drawing.Color.White;
-            this.Tb_TecSerNumb.Location = new System.Drawing.Point(298, 263);
+            this.Tb_TecSerNumb.Location = new System.Drawing.Point(298, 240);
             this.Tb_TecSerNumb.Name = "Tb_TecSerNumb";
-            this.Tb_TecSerNumb.Size = new System.Drawing.Size(70, 20);
+            this.Tb_TecSerNumb.Size = new System.Drawing.Size(76, 20);
             this.Tb_TecSerNumb.TabIndex = 2;
             this.Tb_TecSerNumb.TabStop = false;
             this.Tb_TecSerNumb.Text = "01234567";
             this.Tb_TecSerNumb.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Tb_TecSerNumb.Click += new System.EventHandler(this.Tb_TecSerNumb_Click);
-            this.Tb_TecSerNumb.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Tb_TecSerNumb_KeyDown);
+            this.Tb_TecSerNumb.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_TecSerNumb_KeyPress);
             // 
             // dateTimePicker1
             // 
@@ -2485,8 +2462,6 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox Tb_WorkOrder;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox Tb_LsBoardSn;
         private System.Windows.Forms.Button Bt_RstClk;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.RadioButton RdBt_LIint;

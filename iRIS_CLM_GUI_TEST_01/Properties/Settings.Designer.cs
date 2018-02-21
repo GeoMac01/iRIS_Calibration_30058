@@ -25,7 +25,7 @@ namespace iRIS_CLM_GUI_TEST_01.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("P:\\")]
+        [global::System.Configuration.DefaultSettingValueAttribute("\\\\officeserver\\Production Test Data\\iFLEX IRIS Test Data")]
         public string RootFolder {
             get {
                 return ((string)(this["RootFolder"]));
@@ -61,7 +61,7 @@ namespace iRIS_CLM_GUI_TEST_01.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("99887766")]
+        [global::System.Configuration.DefaultSettingValueAttribute("IPO1230000")]
         public string WOrder {
             get {
                 return ((string)(this["WOrder"]));

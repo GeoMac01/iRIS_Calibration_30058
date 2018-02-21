@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="RootFolder" Type="System.String" Scope="User">
-      <Value Profile="(Default)">P:\</Value>
+      <Value Profile="(Default)">\\officeserver\Production Test Data\iFLEX IRIS Test Data</Value>
     </Setting>
     <Setting Name="PM100string" Type="System.String" Scope="User">
       <Value Profile="(Default)">USB0::0x1313::0x8072::P2008742::0::INSTR</Value>
@@ -12,7 +12,7 @@
       <Value Profile="(Default)">GM</Value>
     </Setting>
     <Setting Name="WOrder" Type="System.String" Scope="User">
-      <Value Profile="(Default)">99887766</Value>
+      <Value Profile="(Default)">IPO1230000</Value>
     </Setting>
   </Settings>
 </SettingsFile>

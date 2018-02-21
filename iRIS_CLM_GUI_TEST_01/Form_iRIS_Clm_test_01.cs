@@ -415,8 +415,8 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdRdSerialNo:
-                        lbl_SerNbReadBack.ForeColor = Color.Green;
-                        lbl_SerNbReadBack.Text = rtnValue.PadLeft(8, '0');
+                        //lbl_SerNbReadBack.ForeColor = Color.Green;
+                        //lbl_SerNbReadBack.Text = rtnValue.PadLeft(8, '0');
                         break;
 
                     case CmdRdFirmware:
@@ -520,6 +520,8 @@ namespace iRIS_CLM_GUI_TEST_01
                         break;
 
                     case CmdRdCustomerPm:
+                        lbl_SerNbReadBack.ForeColor = Color.Green;
+                        lbl_SerNbReadBack.Text = rtnValue.PadLeft(16, ' ');
                         break;
 
                     case CmdRatedPower:
@@ -993,7 +995,7 @@ namespace iRIS_CLM_GUI_TEST_01
                 Bt_SetAddr.Enabled = false;
                 Tb_EepromGood.BackColor = Color.Red;
                 lbl_RdAdd.Text = "00";
-                lbl_SerNbReadBack.Text = "00000000";
+                lbl_SerNbReadBack.Text = "0000000000000000";
                 lbl_SWLevel.Text = "00000000";
             }
             else {
@@ -1043,7 +1045,7 @@ namespace iRIS_CLM_GUI_TEST_01
                     Tb_USBConnect.BackColor = Color.Red;
                     Tb_EepromGood.BackColor = Color.Red;
                     lbl_RdAdd.Text = "00";
-                    lbl_SerNbReadBack.Text = "00000000";
+                    lbl_SerNbReadBack.Text = "0000000000000000";
                     lbl_SWLevel.Text = "00000000";
                     MessageBox.Show("USB_Port_Open COM Error");
                 }
@@ -1152,7 +1154,7 @@ namespace iRIS_CLM_GUI_TEST_01
             bool setad = await BuildSendString(sentobuild);//use polymorphism...
             sentobuild[0] = CmdRdUnitNo;
             setad = await BuildSendString(sentobuild);
-            setad = await SendToSerial(CmdRdSerialNo, StrDisable, 300, 9);
+            setad = await SendToSerial(CmdRdCustomerPm, StrDisable, 300, 9);
             setad = await SendToSerial(CmdRdFirmware, StrDisable, 300, 9);
             return true;
         }
@@ -1234,26 +1236,6 @@ namespace iRIS_CLM_GUI_TEST_01
             return comId;
         }
         //======================================================================
-        //======================================================================
-        private void Tb_TecSerNumb_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                bool t = Information.IsNumeric(Tb_TecSerNumb.Text);
-                int strLgh = Tb_TecSerNumb.Text.Length;
-
-                if (t == true)
-                {
-                    if (strLgh < 9)
-                    {
-                        Tb_TecSerNumb.BackColor = Color.White;
-                        Tb_TecSerNumb.Enabled = false;
-                    }
-                    else { MessageBox.Show("8 Digits Maximum"); }
-                }
-                else { MessageBox.Show("Provide Details!"); }
-            }
-        }
         //======================================================================
         private void Tb_User_KeyDown(object sender, KeyEventArgs e)
         {
@@ -1424,7 +1406,7 @@ namespace iRIS_CLM_GUI_TEST_01
                     }
                 }
                 else {
-                    System.Windows.Forms.MessageBox.Show("No Board detected");
+                    System.Windows.Forms.MessageBox.Show("No USB-Interface detected");
                     this.Close(); }
 
                 if (boardFound == true)
@@ -1984,10 +1966,10 @@ namespace iRIS_CLM_GUI_TEST_01
                         {
                             fs.WriteLine("DATE: " + dateTimePicker1.Value.ToString());
                             fs.WriteLine("User: " + Tb_User.Text);
-                            fs.WriteLine("Work Order: " + Tb_WorkOrder.Text);
-                            fs.WriteLine("Laser Assembly SN.: " + lbl_SerNbReadBack.Text);
-                            fs.WriteLine("Laser Board SN.: " + Tb_LsBoardSn.Text);
-                            fs.WriteLine("TEC Board SN: " + Tb_TecSerNumb.Text);
+                            fs.WriteLine("Laser Part Number: " + Tb_LaserPN.Text);
+                            fs.WriteLine("Laser Assembly Serial Number: " + Tb_SerNb.Text);
+                            fs.WriteLine("14284 TEC PCB Serial Number: " + Tb_TecSerNumb.Text);
+                            fs.WriteLine("14264 Laser PCB Serial Number: " + lbl_SerNbReadBack.Text);
                             fs.WriteLine("Firmware: " + lbl_SWLevel.Text);
                             fs.WriteLine("Wavelength: " + Lbl_WaveLg.Text);
                             fs.WriteLine("Software Nominal power: " + Tb_SoftNomPw.Text);
@@ -2622,10 +2604,11 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private async Task<bool> CreateRepFile()
         {
-            string rootPath = Tb_FolderLoc.Text;
-            string folderName = @"\" + Tb_LaserPN.Text + @"\" + Tb_WorkOrder.Text;
-            string txtName = @"\" + Tb_SerNb.Text + ".txt";
-            filePathRep = Tb_FolderLoc.Text + folderName;
+            string rootPath = Tb_FolderLoc.Text + @"\" + Tb_LaserPN.Text;//production data + laser folder alreary set i.e. 015335
+            string folderName = @"\" + Tb_WorkOrder.Text + @"\" + Tb_SerNb.Text;//work order/ipo and laser assembly serial number added now
+            string txtName = @"\" + Tb_SerNb.Text + ".txt";//file .txt name
+
+            filePathRep = rootPath + folderName;// \\officeserver\Production Test Data\iFLEX IRIS Test Data\015335\IPO..........\0052.....
             Tb_txtFilePathRep.Text = filePathRep;
 
             await Task.Delay(1);
@@ -2648,7 +2631,7 @@ namespace iRIS_CLM_GUI_TEST_01
             //create file
             try
             {
-                using (FileStream fs = File.Create(filePathRep + txtName))
+                using (FileStream fs = File.Create(filePathRep + txtName))// \\officeserver\Production Test Data\iFLEX IRIS Test Data\015335\IPO..........\0052.....\0052.......txt
                 {
                     Byte[] info = new UTF8Encoding(true).GetBytes(txtName + Footer + Footer);
                     fs.Write(info, 0, info.Length);
@@ -2717,9 +2700,8 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         private async Task<bool> CreateRepFileLI()
         {
-
             string rootPath = Tb_FolderLoc.Text;
-            string folderName = @"\" + Tb_LaserPN.Text + @"\" + Tb_WorkOrder.Text;
+            string folderName = @"\" + Tb_WorkOrder.Text + @"\" + Tb_SerNb.Text;
             string txtName = @"\" + "LI_" + Tb_SerNb.Text + "_" + dateTimePicker1.Value.Date.ToString("ddMMyyyy") + ".txt ";
             string filePathLI = rootPath + folderName + txtName;
 
@@ -2915,13 +2897,26 @@ namespace iRIS_CLM_GUI_TEST_01
 
         private void Tb_SerNb_Click(object sender, EventArgs e) { Tb_SerNb.Clear(); }
 
-        private void Tb_LsBoardSn_Click(object sender, EventArgs e) { Tb_LsBoardSn.Clear(); }
-
         private void Tb_TecSerNumb_Click(object sender, EventArgs e) { Tb_TecSerNumb.Clear(); }
 
         private void Tb_LaserPN_Click(object sender, EventArgs e) { Tb_LaserPN.Clear(); }
 
         private void Tb_MaxILimit_Click(object sender, EventArgs e) { Tb_MaxILimit.Clear(); }
+        //======================================================================
+        private void Tb_WorkOrder_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == Convert.ToChar(Keys.Return)) { Tb_WorkOrder.ForeColor = Color.Green; }
+        }
+        //======================================================================
+        private void Tb_SerNb_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == Convert.ToChar(Keys.Return)) { Tb_SerNb.ForeColor = Color.Green; }
+        }
+        //======================================================================
+        private void Tb_TecSerNumb_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == Convert.ToChar(Keys.Return)) { Tb_TecSerNumb.ForeColor = Color.Green; }
+        }
         //======================================================================
         //======================================================================
     }
