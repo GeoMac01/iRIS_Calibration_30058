@@ -218,7 +218,7 @@
             this.Rt_ReceiveDataUSB = new System.Windows.Forms.RichTextBox();
             this.Bt_RdLaserStatus = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.label12 = new System.Windows.Forms.Label();
             this.TbPg_InsTest.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -950,6 +950,7 @@
             // 
             // TbPg_Iris_Init
             // 
+            this.TbPg_Iris_Init.Controls.Add(this.label12);
             this.TbPg_Iris_Init.Controls.Add(this.label4);
             this.TbPg_Iris_Init.Controls.Add(this.label5);
             this.TbPg_Iris_Init.Controls.Add(this.Tb_txtFilePathRep);
@@ -992,9 +993,9 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(279, 493);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(89, 13);
+            this.label4.Size = new System.Drawing.Size(87, 13);
             this.label4.TabIndex = 361;
-            this.label4.Text = "Test *.txt file path";
+            this.label4.Text = "Root Folder Path";
             // 
             // label5
             // 
@@ -2277,9 +2278,14 @@
             this.dataGridView1.Size = new System.Drawing.Size(683, 96);
             this.dataGridView1.TabIndex = 6;
             // 
-            // folderBrowserDialog1
+            // label12
             // 
-            this.folderBrowserDialog1.RootFolder = System.Environment.SpecialFolder.MyComputer;
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(347, 137);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(22, 13);
+            this.label12.TabIndex = 362;
+            this.label12.Text = "mA";
             // 
             // Form_iRIS_Clm_test_01
             // 
@@ -2467,7 +2473,6 @@
         private System.Windows.Forms.RadioButton RdBt_LIint;
         private System.Windows.Forms.RadioButton RdBt_LI50;
         private System.Windows.Forms.RadioButton RdBt_LI05;
-        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox Tb_MaxILimit;
         private System.Windows.Forms.Label label16;
@@ -2501,6 +2506,7 @@
         private System.Windows.Forms.Button Bt_SetFolder;
         private System.Windows.Forms.TextBox Tb_FolderLoc;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label12;
     }
 }
 
