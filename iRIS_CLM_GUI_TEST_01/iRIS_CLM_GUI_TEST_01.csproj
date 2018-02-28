@@ -87,6 +87,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="SendRecvCOM.cs" />
+    <Compile Include="Settings.cs" />
     <EmbeddedResource Include="Form_iRIS_Clm_test_01.resx">
       <DependentUpon>Form_iRIS_Clm_test_01.cs</DependentUpon>
     </EmbeddedResource>

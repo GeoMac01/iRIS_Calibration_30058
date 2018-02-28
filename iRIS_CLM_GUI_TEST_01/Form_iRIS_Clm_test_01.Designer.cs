@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.TbPg_InsTest = new System.Windows.Forms.TabPage();
+            this.Bt_SetBurnin = new System.Windows.Forms.Button();
+            this.Bt_ZroCurr_PMonOutCal = new System.Windows.Forms.Button();
+            this.Bt_PM100 = new System.Windows.Forms.Button();
             this.ChkBx_SingleTest = new System.Windows.Forms.CheckBox();
             this.Tb_LaserOK = new System.Windows.Forms.TextBox();
             this.Bt_RsLaserOk = new System.Windows.Forms.Button();
@@ -71,11 +74,8 @@
             this.Bt_FinalLsSetup = new System.Windows.Forms.Button();
             this.Bt_pdCalibration = new System.Windows.Forms.Button();
             this.Bt_BasePltTempComp = new System.Windows.Forms.Button();
-            this.Bt_PwOutMonCal = new System.Windows.Forms.Button();
-            this.Bt_ZeroI = new System.Windows.Forms.Button();
             this.Bt_CalVGA = new System.Windows.Forms.Button();
             this.Bt_USBinterf = new System.Windows.Forms.Button();
-            this.Bt_PM100 = new System.Windows.Forms.Button();
             this.bt_NewTest = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lbl_RdAdd = new System.Windows.Forms.Label();
@@ -94,6 +94,7 @@
             this.label29 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.TbPg_Iris_Init = new System.Windows.Forms.TabPage();
+            this.label12 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.Tb_txtFilePathRep = new System.Windows.Forms.TextBox();
@@ -218,7 +219,6 @@
             this.Rt_ReceiveDataUSB = new System.Windows.Forms.RichTextBox();
             this.Bt_RdLaserStatus = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.label12 = new System.Windows.Forms.Label();
             this.TbPg_InsTest.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -231,6 +231,9 @@
             // 
             // TbPg_InsTest
             // 
+            this.TbPg_InsTest.Controls.Add(this.Bt_SetBurnin);
+            this.TbPg_InsTest.Controls.Add(this.Bt_ZroCurr_PMonOutCal);
+            this.TbPg_InsTest.Controls.Add(this.Bt_PM100);
             this.TbPg_InsTest.Controls.Add(this.ChkBx_SingleTest);
             this.TbPg_InsTest.Controls.Add(this.Tb_LaserOK);
             this.TbPg_InsTest.Controls.Add(this.Bt_RsLaserOk);
@@ -270,11 +273,8 @@
             this.TbPg_InsTest.Controls.Add(this.Bt_FinalLsSetup);
             this.TbPg_InsTest.Controls.Add(this.Bt_pdCalibration);
             this.TbPg_InsTest.Controls.Add(this.Bt_BasePltTempComp);
-            this.TbPg_InsTest.Controls.Add(this.Bt_PwOutMonCal);
-            this.TbPg_InsTest.Controls.Add(this.Bt_ZeroI);
             this.TbPg_InsTest.Controls.Add(this.Bt_CalVGA);
             this.TbPg_InsTest.Controls.Add(this.Bt_USBinterf);
-            this.TbPg_InsTest.Controls.Add(this.Bt_PM100);
             this.TbPg_InsTest.Controls.Add(this.bt_NewTest);
             this.TbPg_InsTest.Controls.Add(this.groupBox1);
             this.TbPg_InsTest.Controls.Add(this.lbl_SWLevel);
@@ -290,10 +290,46 @@
             this.TbPg_InsTest.TabIndex = 1;
             this.TbPg_InsTest.Text = "Laser Calibration";
             // 
+            // Bt_SetBurnin
+            // 
+            this.Bt_SetBurnin.BackColor = System.Drawing.Color.Coral;
+            this.Bt_SetBurnin.Location = new System.Drawing.Point(10, 504);
+            this.Bt_SetBurnin.Name = "Bt_SetBurnin";
+            this.Bt_SetBurnin.Size = new System.Drawing.Size(87, 39);
+            this.Bt_SetBurnin.TabIndex = 381;
+            this.Bt_SetBurnin.TabStop = false;
+            this.Bt_SetBurnin.Text = "Set for \"burn-in\" test";
+            this.Bt_SetBurnin.UseVisualStyleBackColor = false;
+            this.Bt_SetBurnin.Click += new System.EventHandler(this.Bt_SetBurnin_Click);
+            // 
+            // Bt_ZroCurr_PMonOutCal
+            // 
+            this.Bt_ZroCurr_PMonOutCal.BackColor = System.Drawing.Color.Coral;
+            this.Bt_ZroCurr_PMonOutCal.Location = new System.Drawing.Point(9, 211);
+            this.Bt_ZroCurr_PMonOutCal.Name = "Bt_ZroCurr_PMonOutCal";
+            this.Bt_ZroCurr_PMonOutCal.Size = new System.Drawing.Size(102, 39);
+            this.Bt_ZroCurr_PMonOutCal.TabIndex = 380;
+            this.Bt_ZroCurr_PMonOutCal.TabStop = false;
+            this.Bt_ZroCurr_PMonOutCal.Text = "Zero Current PMON out Cal. ";
+            this.Bt_ZroCurr_PMonOutCal.UseVisualStyleBackColor = false;
+            this.Bt_ZroCurr_PMonOutCal.Click += new System.EventHandler(this.Bt_ZroCurr_PMonOutCal_Click);
+            // 
+            // Bt_PM100
+            // 
+            this.Bt_PM100.BackColor = System.Drawing.Color.Coral;
+            this.Bt_PM100.Location = new System.Drawing.Point(479, 13);
+            this.Bt_PM100.Name = "Bt_PM100";
+            this.Bt_PM100.Size = new System.Drawing.Size(87, 39);
+            this.Bt_PM100.TabIndex = 379;
+            this.Bt_PM100.TabStop = false;
+            this.Bt_PM100.Text = "PM100 Connect";
+            this.Bt_PM100.UseVisualStyleBackColor = false;
+            this.Bt_PM100.Click += new System.EventHandler(this.Bt_PM100_Click);
+            // 
             // ChkBx_SingleTest
             // 
             this.ChkBx_SingleTest.AutoSize = true;
-            this.ChkBx_SingleTest.Location = new System.Drawing.Point(10, 531);
+            this.ChkBx_SingleTest.Location = new System.Drawing.Point(10, 478);
             this.ChkBx_SingleTest.Name = "ChkBx_SingleTest";
             this.ChkBx_SingleTest.Size = new System.Drawing.Size(91, 17);
             this.ChkBx_SingleTest.TabIndex = 378;
@@ -304,7 +340,7 @@
             // Tb_LaserOK
             // 
             this.Tb_LaserOK.BackColor = System.Drawing.Color.Red;
-            this.Tb_LaserOK.Location = new System.Drawing.Point(337, 118);
+            this.Tb_LaserOK.Location = new System.Drawing.Point(339, 104);
             this.Tb_LaserOK.Name = "Tb_LaserOK";
             this.Tb_LaserOK.Size = new System.Drawing.Size(11, 20);
             this.Tb_LaserOK.TabIndex = 377;
@@ -314,7 +350,7 @@
             this.Bt_RsLaserOk.BackColor = System.Drawing.Color.PeachPuff;
             this.Bt_RsLaserOk.Enabled = false;
             this.Bt_RsLaserOk.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Bt_RsLaserOk.Location = new System.Drawing.Point(241, 115);
+            this.Bt_RsLaserOk.Location = new System.Drawing.Point(241, 101);
             this.Bt_RsLaserOk.Name = "Bt_RsLaserOk";
             this.Bt_RsLaserOk.Size = new System.Drawing.Size(90, 25);
             this.Bt_RsLaserOk.TabIndex = 376;
@@ -344,7 +380,7 @@
             // Lbl_uClsCurrent
             // 
             this.Lbl_uClsCurrent.AutoSize = true;
-            this.Lbl_uClsCurrent.Location = new System.Drawing.Point(208, 237);
+            this.Lbl_uClsCurrent.Location = new System.Drawing.Point(120, 237);
             this.Lbl_uClsCurrent.Name = "Lbl_uClsCurrent";
             this.Lbl_uClsCurrent.Size = new System.Drawing.Size(31, 13);
             this.Lbl_uClsCurrent.TabIndex = 373;
@@ -353,7 +389,7 @@
             // Lbl_MaOrBits
             // 
             this.Lbl_MaOrBits.AutoSize = true;
-            this.Lbl_MaOrBits.Location = new System.Drawing.Point(248, 237);
+            this.Lbl_MaOrBits.Location = new System.Drawing.Point(160, 237);
             this.Lbl_MaOrBits.Name = "Lbl_MaOrBits";
             this.Lbl_MaOrBits.Size = new System.Drawing.Size(102, 13);
             this.Lbl_MaOrBits.TabIndex = 372;
@@ -362,16 +398,16 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(612, 319);
+            this.label15.Location = new System.Drawing.Point(444, 304);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(63, 13);
+            this.label15.Size = new System.Drawing.Size(85, 13);
             this.label15.TabIndex = 371;
-            this.label15.Text = "Timer Value";
+            this.label15.Text = "Timer Value min:";
             // 
             // Lbl_TmrVal
             // 
             this.Lbl_TmrVal.AutoSize = true;
-            this.Lbl_TmrVal.Location = new System.Drawing.Point(551, 319);
+            this.Lbl_TmrVal.Location = new System.Drawing.Point(444, 322);
             this.Lbl_TmrVal.Name = "Lbl_TmrVal";
             this.Lbl_TmrVal.Size = new System.Drawing.Size(55, 13);
             this.Lbl_TmrVal.TabIndex = 370;
@@ -382,7 +418,7 @@
             this.ChkBx_LIlog.AutoSize = true;
             this.ChkBx_LIlog.Checked = true;
             this.ChkBx_LIlog.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ChkBx_LIlog.Location = new System.Drawing.Point(10, 451);
+            this.ChkBx_LIlog.Location = new System.Drawing.Point(10, 413);
             this.ChkBx_LIlog.Name = "ChkBx_LIlog";
             this.ChkBx_LIlog.Size = new System.Drawing.Size(75, 17);
             this.ChkBx_LIlog.TabIndex = 369;
@@ -392,7 +428,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(314, 486);
+            this.label16.Location = new System.Drawing.Point(319, 448);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(102, 13);
             this.label16.TabIndex = 368;
@@ -401,7 +437,7 @@
             // Lbl_PDmonUser
             // 
             this.Lbl_PDmonUser.AutoSize = true;
-            this.Lbl_PDmonUser.Location = new System.Drawing.Point(251, 452);
+            this.Lbl_PDmonUser.Location = new System.Drawing.Point(256, 414);
             this.Lbl_PDmonUser.Name = "Lbl_PDmonUser";
             this.Lbl_PDmonUser.Size = new System.Drawing.Size(40, 13);
             this.Lbl_PDmonUser.TabIndex = 367;
@@ -411,7 +447,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(314, 452);
+            this.label14.Location = new System.Drawing.Point(319, 414);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(102, 13);
             this.label14.TabIndex = 366;
@@ -420,7 +456,7 @@
             // Lbl_PM100user
             // 
             this.Lbl_PM100user.AutoSize = true;
-            this.Lbl_PM100user.Location = new System.Drawing.Point(251, 486);
+            this.Lbl_PM100user.Location = new System.Drawing.Point(256, 448);
             this.Lbl_PM100user.Name = "Lbl_PM100user";
             this.Lbl_PM100user.Size = new System.Drawing.Size(40, 13);
             this.Lbl_PM100user.TabIndex = 365;
@@ -429,7 +465,7 @@
             // Lbl_ImonUser
             // 
             this.Lbl_ImonUser.AutoSize = true;
-            this.Lbl_ImonUser.Location = new System.Drawing.Point(251, 469);
+            this.Lbl_ImonUser.Location = new System.Drawing.Point(256, 431);
             this.Lbl_ImonUser.Name = "Lbl_ImonUser";
             this.Lbl_ImonUser.Size = new System.Drawing.Size(34, 13);
             this.Lbl_ImonUser.TabIndex = 361;
@@ -438,7 +474,7 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(314, 469);
+            this.label19.Location = new System.Drawing.Point(319, 431);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(71, 13);
             this.label19.TabIndex = 360;
@@ -447,7 +483,7 @@
             // Bt_RstClk
             // 
             this.Bt_RstClk.BackColor = System.Drawing.Color.Coral;
-            this.Bt_RstClk.Location = new System.Drawing.Point(559, 341);
+            this.Bt_RstClk.Location = new System.Drawing.Point(444, 341);
             this.Bt_RstClk.Name = "Bt_RstClk";
             this.Bt_RstClk.Size = new System.Drawing.Size(87, 39);
             this.Bt_RstClk.TabIndex = 359;
@@ -461,7 +497,7 @@
             this.groupBox3.Controls.Add(this.RdBt_LIint);
             this.groupBox3.Controls.Add(this.RdBt_LI50);
             this.groupBox3.Controls.Add(this.RdBt_LI05);
-            this.groupBox3.Location = new System.Drawing.Point(103, 445);
+            this.groupBox3.Location = new System.Drawing.Point(108, 407);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(142, 82);
             this.groupBox3.TabIndex = 358;
@@ -542,7 +578,7 @@
             // Bt_ShipState
             // 
             this.Bt_ShipState.BackColor = System.Drawing.Color.Coral;
-            this.Bt_ShipState.Location = new System.Drawing.Point(444, 341);
+            this.Bt_ShipState.Location = new System.Drawing.Point(556, 341);
             this.Bt_ShipState.Name = "Bt_ShipState";
             this.Bt_ShipState.Size = new System.Drawing.Size(87, 39);
             this.Bt_ShipState.TabIndex = 321;
@@ -554,7 +590,7 @@
             // Bt_LiPlot
             // 
             this.Bt_LiPlot.BackColor = System.Drawing.Color.Coral;
-            this.Bt_LiPlot.Location = new System.Drawing.Point(10, 471);
+            this.Bt_LiPlot.Location = new System.Drawing.Point(10, 433);
             this.Bt_LiPlot.Name = "Bt_LiPlot";
             this.Bt_LiPlot.Size = new System.Drawing.Size(87, 39);
             this.Bt_LiPlot.TabIndex = 320;
@@ -713,31 +749,6 @@
             this.Bt_BasePltTempComp.UseVisualStyleBackColor = false;
             this.Bt_BasePltTempComp.Click += new System.EventHandler(this.Bt_BasePltTempComp_Click);
             // 
-            // Bt_PwOutMonCal
-            // 
-            this.Bt_PwOutMonCal.BackColor = System.Drawing.Color.Coral;
-            this.Bt_PwOutMonCal.Enabled = false;
-            this.Bt_PwOutMonCal.Location = new System.Drawing.Point(103, 211);
-            this.Bt_PwOutMonCal.Name = "Bt_PwOutMonCal";
-            this.Bt_PwOutMonCal.Size = new System.Drawing.Size(87, 39);
-            this.Bt_PwOutMonCal.TabIndex = 297;
-            this.Bt_PwOutMonCal.TabStop = false;
-            this.Bt_PwOutMonCal.Text = "Pw Mon. Out Cal.";
-            this.Bt_PwOutMonCal.UseVisualStyleBackColor = false;
-            this.Bt_PwOutMonCal.Click += new System.EventHandler(this.Bt_PwOutMonCal_Click);
-            // 
-            // Bt_ZeroI
-            // 
-            this.Bt_ZeroI.BackColor = System.Drawing.Color.Coral;
-            this.Bt_ZeroI.Location = new System.Drawing.Point(9, 211);
-            this.Bt_ZeroI.Name = "Bt_ZeroI";
-            this.Bt_ZeroI.Size = new System.Drawing.Size(87, 39);
-            this.Bt_ZeroI.TabIndex = 296;
-            this.Bt_ZeroI.TabStop = false;
-            this.Bt_ZeroI.Text = "Current Zerro";
-            this.Bt_ZeroI.UseVisualStyleBackColor = false;
-            this.Bt_ZeroI.Click += new System.EventHandler(this.Bt_ZeroI_Click);
-            // 
             // Bt_CalVGA
             // 
             this.Bt_CalVGA.BackColor = System.Drawing.Color.Coral;
@@ -757,21 +768,10 @@
             this.Bt_USBinterf.Name = "Bt_USBinterf";
             this.Bt_USBinterf.Size = new System.Drawing.Size(87, 39);
             this.Bt_USBinterf.TabIndex = 294;
+            this.Bt_USBinterf.TabStop = false;
             this.Bt_USBinterf.Text = "USB Interface Connect";
             this.Bt_USBinterf.UseVisualStyleBackColor = false;
             this.Bt_USBinterf.Click += new System.EventHandler(this.Bt_USBinterf_Click);
-            // 
-            // Bt_PM100
-            // 
-            this.Bt_PM100.BackColor = System.Drawing.Color.Coral;
-            this.Bt_PM100.ForeColor = System.Drawing.Color.DarkBlue;
-            this.Bt_PM100.Location = new System.Drawing.Point(497, 13);
-            this.Bt_PM100.Name = "Bt_PM100";
-            this.Bt_PM100.Size = new System.Drawing.Size(87, 39);
-            this.Bt_PM100.TabIndex = 293;
-            this.Bt_PM100.Text = "PM100 Connect";
-            this.Bt_PM100.UseVisualStyleBackColor = false;
-            this.Bt_PM100.Click += new System.EventHandler(this.Bt_PM100_Click);
             // 
             // bt_NewTest
             // 
@@ -988,6 +988,15 @@
             this.TbPg_Iris_Init.Text = " Test Init.";
             this.TbPg_Iris_Init.UseVisualStyleBackColor = true;
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(347, 137);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(22, 13);
+            this.label12.TabIndex = 362;
+            this.label12.Text = "mA";
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -1068,7 +1077,7 @@
             this.Tb_MaxILimit.Text = "0000";
             this.Tb_MaxILimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Tb_MaxILimit.Click += new System.EventHandler(this.Tb_MaxILimit_Click);
-            this.Tb_MaxILimit.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_MaxILimit_KeyPress);
+            this.Tb_MaxILimit.Leave += new System.EventHandler(this.Tb_MaxILimit_Leave);
             // 
             // label11
             // 
@@ -1090,7 +1099,7 @@
             this.Tb_WorkOrder.Text = "IPO1230000";
             this.Tb_WorkOrder.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Tb_WorkOrder.Click += new System.EventHandler(this.Tb_WorkOrder_Click);
-            this.Tb_WorkOrder.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_WorkOrder_KeyPress);
+            this.Tb_WorkOrder.Leave += new System.EventHandler(this.Tb_WorkOrder_Leave);
             // 
             // label3
             // 
@@ -1203,7 +1212,7 @@
             this.Tb_LaserPN.Text = "015000";
             this.Tb_LaserPN.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Tb_LaserPN.Click += new System.EventHandler(this.Tb_LaserPN_Click);
-            this.Tb_LaserPN.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_LaserPN_KeyPress);
+            this.Tb_LaserPN.Leave += new System.EventHandler(this.Tb_LaserPN_Leave);
             // 
             // label33
             // 
@@ -1225,7 +1234,7 @@
             this.Tb_SerNb.Text = "00597588";
             this.Tb_SerNb.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Tb_SerNb.Click += new System.EventHandler(this.Tb_SerNb_Click);
-            this.Tb_SerNb.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_SerNb_KeyPress);
+            this.Tb_SerNb.Leave += new System.EventHandler(this.Tb_SerNb_Leave);
             // 
             // label6
             // 
@@ -1255,7 +1264,7 @@
             this.Tb_User.Text = "JH";
             this.Tb_User.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Tb_User.Click += new System.EventHandler(this.Tb_User_Click);
-            this.Tb_User.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Tb_User_KeyDown);
+            this.Tb_User.Leave += new System.EventHandler(this.Tb_User_KeyDown);
             // 
             // Tb_TecSerNumb
             // 
@@ -1268,7 +1277,7 @@
             this.Tb_TecSerNumb.Text = "01234567";
             this.Tb_TecSerNumb.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Tb_TecSerNumb.Click += new System.EventHandler(this.Tb_TecSerNumb_Click);
-            this.Tb_TecSerNumb.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_TecSerNumb_KeyPress);
+            this.Tb_TecSerNumb.Leave += new System.EventHandler(this.Tb_TecSerNumb_Leave);
             // 
             // dateTimePicker1
             // 
@@ -1427,6 +1436,7 @@
             // label21
             // 
             this.label21.AutoSize = true;
+            this.label21.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.label21.Location = new System.Drawing.Point(161, 170);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(92, 13);
@@ -1841,6 +1851,7 @@
             // Lbl_Vpcon
             // 
             this.Lbl_Vpcon.AutoSize = true;
+            this.Lbl_Vpcon.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.Lbl_Vpcon.Location = new System.Drawing.Point(112, 246);
             this.Lbl_Vpcon.Name = "Lbl_Vpcon";
             this.Lbl_Vpcon.Size = new System.Drawing.Size(40, 13);
@@ -1851,6 +1862,7 @@
             // label54
             // 
             this.label54.AutoSize = true;
+            this.label54.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.label54.Location = new System.Drawing.Point(160, 246);
             this.label54.Name = "label54";
             this.label54.Size = new System.Drawing.Size(59, 13);
@@ -2039,6 +2051,7 @@
             // 
             // Tb_VPcon
             // 
+            this.Tb_VPcon.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.Tb_VPcon.Location = new System.Drawing.Point(112, 166);
             this.Tb_VPcon.Name = "Tb_VPcon";
             this.Tb_VPcon.Size = new System.Drawing.Size(45, 20);
@@ -2278,15 +2291,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(683, 96);
             this.dataGridView1.TabIndex = 6;
             // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(347, 137);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(22, 13);
-            this.label12.TabIndex = 362;
-            this.label12.Text = "mA";
-            // 
             // Form_iRIS_Clm_test_01
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2413,7 +2417,6 @@
         private System.Windows.Forms.Button Bt_DigMod;
         private System.Windows.Forms.Button Bt_LsEnable;
         private System.Windows.Forms.Button Bt_USBinterf;
-        private System.Windows.Forms.Button Bt_PM100;
         private System.Windows.Forms.Button bt_NewTest;
         private System.Windows.Forms.Label label59;
         private System.Windows.Forms.TextBox Tb_RsDelay;
@@ -2422,8 +2425,6 @@
         private System.Windows.Forms.Button Bt_CalVGA;
         private System.Windows.Forms.Label Lbl_PwreadV;
         private System.Windows.Forms.Label label60;
-        private System.Windows.Forms.Button Bt_ZeroI;
-        private System.Windows.Forms.Button Bt_PwOutMonCal;
         private System.Windows.Forms.Button Bt_BasePltTempComp;
         private System.Windows.Forms.Button Bt_FinalLsSetup;
         private System.Windows.Forms.Button Bt_pdCalibration;
@@ -2507,6 +2508,9 @@
         private System.Windows.Forms.TextBox Tb_FolderLoc;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Button Bt_PM100;
+        private System.Windows.Forms.Button Bt_ZroCurr_PMonOutCal;
+        private System.Windows.Forms.Button Bt_SetBurnin;
     }
 }
 
