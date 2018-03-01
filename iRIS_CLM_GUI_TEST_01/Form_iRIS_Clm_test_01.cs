@@ -1075,7 +1075,9 @@ namespace iRIS_CLM_GUI_TEST_01
                 Bt_USBcom.Enabled = true;
                 Bt_SetAddr.Enabled = false;
                 Tb_EepromGood.BackColor = Color.Red;
-                lbl_RdAdd.Text = "--";
+                lbl_RdAdd.Text = "00";
+                lbl_SerNbReadBack.Text = "0000000000000000";
+                lbl_SWLevel.Text = "00000000";
             }
             else
             {
@@ -1714,9 +1716,10 @@ namespace iRIS_CLM_GUI_TEST_01
                     Bt_pdCalibration.BackColor = Color.Coral;
                     Bt_SetIntPwCal.BackColor = Color.Coral;
                     Bt_FinalLsSetup.BackColor = Color.Coral;
-                    Bt_ShipState.BackColor = Color.Coral;
                     Bt_RstClk.BackColor = Color.Coral;
                     Bt_LiPlot.BackColor = Color.Coral;
+                    Bt_ShipState.BackColor = Color.Aqua;
+                    Bt_SetBurnin.BackColor = Color.Coral;
 
                     Prg_Bar01.Increment(10);
                     Lbl_VGAval.Text = "0000";
@@ -1751,7 +1754,7 @@ namespace iRIS_CLM_GUI_TEST_01
 
                     this.Cursor = Cursors.Default;
                     bt_NewTest.BackColor = Color.LawnGreen;
-                    MessageBox.Show(" Open Laser Shutter \n Click Button Disconnect USB \n Power Cycle laser \n Click Button Re-connect USB \n Wait for TEC lock LED Click 'Rd Laser OK' \n Start 'Cal VGA' \n");
+                    //MessageBox.Show(" Open Laser Shutter \n Click Button Disconnect USB \n Power Cycle laser \n Click Button Re-connect USB \n Wait for TEC lock LED Click 'Rd Laser OK' \n Start 'Cal VGA' \n");
                 }
                 else MessageBox.Show("value error");
             }
@@ -2685,11 +2688,52 @@ namespace iRIS_CLM_GUI_TEST_01
         ReadDbs();
         }
         //======================================================================
+        private void Bt_SetBurnin_Click(object sender, EventArgs e) { Task<bool> burninData = SendBurninData(); }
+        //======================================================================
+        private async Task<bool> SendBurninData()
+        {
+            if (Bt_SetBurnin.BackColor == Color.Coral)
+            {
+                string chkBxStateExtPwCtrlBrin      = string.Empty;//null
+                string chkBxStateEnblSetBrin        = string.Empty;
+                string chkBxStateDigitModSetBrin    = string.Empty;
+                string chkBxStateAnlgModSetBrin     = string.Empty;
+
+                this.Cursor = Cursors.WaitCursor;
+
+                if (ChkBx_IntPwCtrlBurn.Checked == true) { chkBxStateExtPwCtrlBrin = StrEnable; }
+                else { chkBxStateExtPwCtrlBrin = StrDisable; }
+
+                if (ChkBx_EnInvBurn.Checked == true) { chkBxStateEnblSetBrin = StrEnable; }
+                else { chkBxStateEnblSetBrin = StrDisable; }
+
+                if (ChkBx_DiditModInvBurn.Checked == true) { chkBxStateDigitModSetBrin = StrEnable; }
+                else { chkBxStateDigitModSetBrin = StrDisable; }
+
+                if (ChkBx_AlgModInvBurn.Checked == true) { chkBxStateAnlgModSetBrin = StrEnable; }
+                else { chkBxStateAnlgModSetBrin = StrDisable; }
+
+                bool finalSet = await SendToSerial(CmdTestMode, StrEnable, 300, 9);
+                finalSet = await SendToSerial(CmdSetInOutPwCtrl, chkBxStateExtPwCtrlBrin, 300, 9);
+                finalSet = await SendToSerial(CmdEnablLogicvIn, chkBxStateEnblSetBrin, 300, 9);
+                finalSet = await SendToSerial(CmdsetTTL, chkBxStateDigitModSetBrin, 300, 9);
+                finalSet = await SendToSerial(CmdAnalgInpt, chkBxStateAnlgModSetBrin, 300, 9);
+                finalSet = await SendToSerial(CmdLaserEnable, StrEnable, 300, 9);
+                finalSet = await SendToSerial(CmdTestMode, StrEnable, 300, 9);
+
+                this.Cursor = Cursors.Default;
+                Bt_SetBurnin.BackColor = Color.LawnGreen;
+            }
+
+            else if (Bt_SetBurnin.BackColor == Color.LawnGreen) { Bt_SetBurnin.BackColor = Color.Coral; }
+            return true;
+        }
+        //======================================================================
         private void Bt_ShipState_Click(object sender, EventArgs e) { Task<bool> sendShpData = SendShpData(); }
         //======================================================================
         private async Task<bool> SendShpData()
         {
-            if (Bt_ShipState.BackColor == Color.Coral) {
+            if (Bt_ShipState.BackColor == Color.Aqua) {
 
                 string chkBxStateExtPwCtrl = string.Empty;//null
                 string chkBxStateEnblSet = string.Empty;
@@ -2723,8 +2767,7 @@ namespace iRIS_CLM_GUI_TEST_01
                 this.Cursor = Cursors.Default;
                 Bt_ShipState.BackColor = Color.LawnGreen;
             }
-
-            else if (Bt_ShipState.BackColor==Color.LawnGreen) { Bt_ShipState.BackColor = Color.Coral; }
+            else if (Bt_ShipState.BackColor==Color.LawnGreen) { Bt_ShipState.BackColor = Color.Aqua; }
 
             return true;
         }
@@ -2776,7 +2819,7 @@ namespace iRIS_CLM_GUI_TEST_01
                         if ((rdr["AnalogueModulation"].ToString()) == "Norm      ") { ChkBx_AnlgModSet.Checked = false; }
                         else { ChkBx_AnlgModSet.Checked = true; }//inverted
 
-                        MessageBox.Show("PN: " + readstuff + " @ " + dbArrayIdx.ToString() + "\n\n" + "Enter 'Diode Max. Current Limit' Value now");
+                        //MessageBox.Show("PN: " + readstuff + " @ " + dbArrayIdx.ToString() + "\n\n" + "Enter 'Diode Max. Current Limit' Value now");
                         Tb_LaserPN.ForeColor = Color.Green;
                         Tb_MaxILimit.Focus();
                         Tb_MaxILimit.Clear();
@@ -2904,14 +2947,8 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         //private void Tb_User_KeyDown(object sender, KeyEventArgs e) 
         private void Tb_User_KeyDown(object sender, EventArgs e) { Tb_User.ForeColor = Color.Green; }
-        //======================================================================
-        private void Bt_SetBurnin_Click(object sender, EventArgs e) {
-            if (Bt_SetBurnin.BackColor == Color.Coral) {
-                Task<bool> burnin = LoadGlobalTestArray(bulkSetBurnin);
-                Bt_SetBurnin.BackColor = Color.LawnGreen;
-            }
-            else if (Bt_SetBurnin.BackColor==Color.LawnGreen) { Bt_SetBurnin.BackColor = Color.Coral; }
-        }
+
+        private void Tb_LaserPN_MouseLeave(object sender, EventArgs e) { MessageBox.Show("\n\n" + "Enter 'Diode Max. Current Limit' Value now"); }
         //======================================================================
 
         //======================================================================
