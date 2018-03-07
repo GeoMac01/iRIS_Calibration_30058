@@ -465,9 +465,9 @@
             this.label15.AutoSize = true;
             this.label15.Location = new System.Drawing.Point(432, 308);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(91, 13);
+            this.label15.Size = new System.Drawing.Size(77, 13);
             this.label15.TabIndex = 371;
-            this.label15.Text = "Timer Value minu:";
+            this.label15.Text = "Clock Minutes:";
             // 
             // Lbl_TmrVal
             // 

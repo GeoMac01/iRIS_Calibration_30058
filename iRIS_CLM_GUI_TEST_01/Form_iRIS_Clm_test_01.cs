@@ -1752,9 +1752,13 @@ namespace iRIS_CLM_GUI_TEST_01
                     test2 = await PM100Button();
 
                     this.Cursor = Cursors.Default;
+
+                    test2 = await RESETclk();
+
                     bt_NewTest.BackColor = Color.LawnGreen;
                     //MessageBox.Show(" Open Laser Shutter \n Click Button Disconnect USB \n Power Cycle laser \n Click Button Re-connect USB \n Wait for TEC lock LED Click 'Rd Laser OK' \n Start 'Cal VGA' \n");
                 }
+
                 else MessageBox.Show("value error");
             }
             else if (bt_NewTest.BackColor == Color.LawnGreen) {
@@ -2382,10 +2386,11 @@ namespace iRIS_CLM_GUI_TEST_01
                         else if (ChkBx_SingleTest.Checked == true)
                         {
                             //tb_SetIntPw.Text = stopRp.ToString();
-                            //initvga = await SendToSerial(CmdSetPwCtrlOut, tb_SetIntPw.Text, 300, 9);//stays on it is reset if clicked again
+                            //initvga = await SendToSerial(CmdSetPwCtrlOut, tb_SetIntPw.Text, 300, 9);//stays on it is reset if clicked again 
                             double finalPowerDbl = Convert.ToDouble(Tb_SoftNomPw.Text) * 10;
                             string finalPower = finalPowerDbl.ToString("0000");
                             bool pwSetOut = await SendToSerial(CmdTestMode, StrDisable, 300, 9);
+                            pwSetOut = await SendToSerial(CmdOperatingHr, StrDisable, 300, 9); 
                             pwSetOut = await SendToSerial(CmdSetLsPw, finalPower, 300, 9);
                             initvga = await ReadAllanlg(true);//test if OK
                         }
