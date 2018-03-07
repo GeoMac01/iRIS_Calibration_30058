@@ -29,6 +29,11 @@
         private void InitializeComponent()
         {
             this.TbPg_InsTest = new System.Windows.Forms.TabPage();
+            this.Bt_StopTest = new System.Windows.Forms.Button();
+            this.ChkBx_AlgModInvBurn = new System.Windows.Forms.CheckBox();
+            this.ChkBx_DiditModInvBurn = new System.Windows.Forms.CheckBox();
+            this.ChkBx_EnInvBurn = new System.Windows.Forms.CheckBox();
+            this.ChkBx_IntPwCtrlBurn = new System.Windows.Forms.CheckBox();
             this.Bt_SetBurnin = new System.Windows.Forms.Button();
             this.Bt_ZroCurr_PMonOutCal = new System.Windows.Forms.Button();
             this.Bt_PM100 = new System.Windows.Forms.Button();
@@ -219,10 +224,6 @@
             this.Rt_ReceiveDataUSB = new System.Windows.Forms.RichTextBox();
             this.Bt_RdLaserStatus = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.ChkBx_AlgModInvBurn = new System.Windows.Forms.CheckBox();
-            this.ChkBx_DiditModInvBurn = new System.Windows.Forms.CheckBox();
-            this.ChkBx_EnInvBurn = new System.Windows.Forms.CheckBox();
-            this.ChkBx_IntPwCtrlBurn = new System.Windows.Forms.CheckBox();
             this.TbPg_InsTest.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -235,6 +236,7 @@
             // 
             // TbPg_InsTest
             // 
+            this.TbPg_InsTest.Controls.Add(this.Bt_StopTest);
             this.TbPg_InsTest.Controls.Add(this.ChkBx_AlgModInvBurn);
             this.TbPg_InsTest.Controls.Add(this.ChkBx_DiditModInvBurn);
             this.TbPg_InsTest.Controls.Add(this.ChkBx_EnInvBurn);
@@ -297,6 +299,61 @@
             this.TbPg_InsTest.Size = new System.Drawing.Size(692, 566);
             this.TbPg_InsTest.TabIndex = 1;
             this.TbPg_InsTest.Text = "Laser Calibration";
+            // 
+            // Bt_StopTest
+            // 
+            this.Bt_StopTest.BackColor = System.Drawing.Color.Red;
+            this.Bt_StopTest.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Bt_StopTest.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.Bt_StopTest.Location = new System.Drawing.Point(587, 211);
+            this.Bt_StopTest.Name = "Bt_StopTest";
+            this.Bt_StopTest.Size = new System.Drawing.Size(90, 25);
+            this.Bt_StopTest.TabIndex = 386;
+            this.Bt_StopTest.Text = "Stop Test";
+            this.Bt_StopTest.UseVisualStyleBackColor = false;
+            this.Bt_StopTest.Click += new System.EventHandler(this.Bt_StopTest_Click);
+            // 
+            // ChkBx_AlgModInvBurn
+            // 
+            this.ChkBx_AlgModInvBurn.AutoSize = true;
+            this.ChkBx_AlgModInvBurn.Location = new System.Drawing.Point(367, 472);
+            this.ChkBx_AlgModInvBurn.Name = "ChkBx_AlgModInvBurn";
+            this.ChkBx_AlgModInvBurn.Size = new System.Drawing.Size(119, 17);
+            this.ChkBx_AlgModInvBurn.TabIndex = 385;
+            this.ChkBx_AlgModInvBurn.Text = "Anlg. Mod. Inverted";
+            this.ChkBx_AlgModInvBurn.UseVisualStyleBackColor = true;
+            // 
+            // ChkBx_DiditModInvBurn
+            // 
+            this.ChkBx_DiditModInvBurn.AutoSize = true;
+            this.ChkBx_DiditModInvBurn.Location = new System.Drawing.Point(367, 454);
+            this.ChkBx_DiditModInvBurn.Name = "ChkBx_DiditModInvBurn";
+            this.ChkBx_DiditModInvBurn.Size = new System.Drawing.Size(119, 17);
+            this.ChkBx_DiditModInvBurn.TabIndex = 384;
+            this.ChkBx_DiditModInvBurn.Text = "Digit. Mod. Inverted";
+            this.ChkBx_DiditModInvBurn.UseVisualStyleBackColor = true;
+            // 
+            // ChkBx_EnInvBurn
+            // 
+            this.ChkBx_EnInvBurn.AutoSize = true;
+            this.ChkBx_EnInvBurn.Location = new System.Drawing.Point(367, 436);
+            this.ChkBx_EnInvBurn.Name = "ChkBx_EnInvBurn";
+            this.ChkBx_EnInvBurn.Size = new System.Drawing.Size(101, 17);
+            this.ChkBx_EnInvBurn.TabIndex = 383;
+            this.ChkBx_EnInvBurn.Text = "Enable Inverted";
+            this.ChkBx_EnInvBurn.UseVisualStyleBackColor = true;
+            // 
+            // ChkBx_IntPwCtrlBurn
+            // 
+            this.ChkBx_IntPwCtrlBurn.AutoSize = true;
+            this.ChkBx_IntPwCtrlBurn.Checked = true;
+            this.ChkBx_IntPwCtrlBurn.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ChkBx_IntPwCtrlBurn.Location = new System.Drawing.Point(367, 418);
+            this.ChkBx_IntPwCtrlBurn.Name = "ChkBx_IntPwCtrlBurn";
+            this.ChkBx_IntPwCtrlBurn.Size = new System.Drawing.Size(103, 17);
+            this.ChkBx_IntPwCtrlBurn.TabIndex = 382;
+            this.ChkBx_IntPwCtrlBurn.Text = "Internal Pw. Ctrl.";
+            this.ChkBx_IntPwCtrlBurn.UseVisualStyleBackColor = true;
             // 
             // Bt_SetBurnin
             // 
@@ -1113,7 +1170,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(569, 30);
+            this.label3.Location = new System.Drawing.Point(569, 24);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(32, 20);
             this.label3.TabIndex = 335;
@@ -1123,7 +1180,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(479, 30);
+            this.label7.Location = new System.Drawing.Point(479, 24);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(31, 20);
             this.label7.TabIndex = 334;
@@ -1133,7 +1190,7 @@
             // 
             this.Lbl_NomPowerDtbas.AutoSize = true;
             this.Lbl_NomPowerDtbas.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbl_NomPowerDtbas.Location = new System.Drawing.Point(529, 30);
+            this.Lbl_NomPowerDtbas.Location = new System.Drawing.Point(529, 24);
             this.Lbl_NomPowerDtbas.Name = "Lbl_NomPowerDtbas";
             this.Lbl_NomPowerDtbas.Size = new System.Drawing.Size(37, 20);
             this.Lbl_NomPowerDtbas.TabIndex = 333;
@@ -1143,7 +1200,7 @@
             // 
             this.Lbl_Wlgth1.AutoSize = true;
             this.Lbl_Wlgth1.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbl_Wlgth1.Location = new System.Drawing.Point(445, 30);
+            this.Lbl_Wlgth1.Location = new System.Drawing.Point(445, 24);
             this.Lbl_Wlgth1.Name = "Lbl_Wlgth1";
             this.Lbl_Wlgth1.Size = new System.Drawing.Size(37, 20);
             this.Lbl_Wlgth1.TabIndex = 332;
@@ -1193,7 +1250,7 @@
             // 
             this.Lbl_MdlName.AutoSize = true;
             this.Lbl_MdlName.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbl_MdlName.Location = new System.Drawing.Point(369, 29);
+            this.Lbl_MdlName.Location = new System.Drawing.Point(369, 23);
             this.Lbl_MdlName.Name = "Lbl_MdlName";
             this.Lbl_MdlName.Size = new System.Drawing.Size(53, 20);
             this.Lbl_MdlName.TabIndex = 289;
@@ -1221,7 +1278,6 @@
             this.Tb_LaserPN.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Tb_LaserPN.Click += new System.EventHandler(this.Tb_LaserPN_Click);
             this.Tb_LaserPN.Leave += new System.EventHandler(this.Tb_LaserPN_Leave);
-            this.Tb_LaserPN.MouseLeave += new System.EventHandler(this.Tb_LaserPN_MouseLeave);
             // 
             // label33
             // 
@@ -2300,46 +2356,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(683, 96);
             this.dataGridView1.TabIndex = 6;
             // 
-            // ChkBx_AlgModInvBurn
-            // 
-            this.ChkBx_AlgModInvBurn.AutoSize = true;
-            this.ChkBx_AlgModInvBurn.Location = new System.Drawing.Point(367, 472);
-            this.ChkBx_AlgModInvBurn.Name = "ChkBx_AlgModInvBurn";
-            this.ChkBx_AlgModInvBurn.Size = new System.Drawing.Size(119, 17);
-            this.ChkBx_AlgModInvBurn.TabIndex = 385;
-            this.ChkBx_AlgModInvBurn.Text = "Anlg. Mod. Inverted";
-            this.ChkBx_AlgModInvBurn.UseVisualStyleBackColor = true;
-            // 
-            // ChkBx_DiditModInvBurn
-            // 
-            this.ChkBx_DiditModInvBurn.AutoSize = true;
-            this.ChkBx_DiditModInvBurn.Location = new System.Drawing.Point(367, 454);
-            this.ChkBx_DiditModInvBurn.Name = "ChkBx_DiditModInvBurn";
-            this.ChkBx_DiditModInvBurn.Size = new System.Drawing.Size(119, 17);
-            this.ChkBx_DiditModInvBurn.TabIndex = 384;
-            this.ChkBx_DiditModInvBurn.Text = "Digit. Mod. Inverted";
-            this.ChkBx_DiditModInvBurn.UseVisualStyleBackColor = true;
-            // 
-            // ChkBx_EnInvBurn
-            // 
-            this.ChkBx_EnInvBurn.AutoSize = true;
-            this.ChkBx_EnInvBurn.Location = new System.Drawing.Point(367, 436);
-            this.ChkBx_EnInvBurn.Name = "ChkBx_EnInvBurn";
-            this.ChkBx_EnInvBurn.Size = new System.Drawing.Size(101, 17);
-            this.ChkBx_EnInvBurn.TabIndex = 383;
-            this.ChkBx_EnInvBurn.Text = "Enable Inverted";
-            this.ChkBx_EnInvBurn.UseVisualStyleBackColor = true;
-            // 
-            // ChkBx_IntPwCtrlBurn
-            // 
-            this.ChkBx_IntPwCtrlBurn.AutoSize = true;
-            this.ChkBx_IntPwCtrlBurn.Location = new System.Drawing.Point(367, 418);
-            this.ChkBx_IntPwCtrlBurn.Name = "ChkBx_IntPwCtrlBurn";
-            this.ChkBx_IntPwCtrlBurn.Size = new System.Drawing.Size(103, 17);
-            this.ChkBx_IntPwCtrlBurn.TabIndex = 382;
-            this.ChkBx_IntPwCtrlBurn.Text = "Internal Pw. Ctrl.";
-            this.ChkBx_IntPwCtrlBurn.UseVisualStyleBackColor = true;
-            // 
             // Form_iRIS_Clm_test_01
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2564,6 +2580,7 @@
         private System.Windows.Forms.CheckBox ChkBx_DiditModInvBurn;
         private System.Windows.Forms.CheckBox ChkBx_EnInvBurn;
         private System.Windows.Forms.CheckBox ChkBx_IntPwCtrlBurn;
+        private System.Windows.Forms.Button Bt_StopTest;
     }
 }
 
