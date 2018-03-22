@@ -11,12 +11,12 @@ using Thorlabs.PM100D_32.Interop;
 using MccDaq;
 using System.Management;
 
-//iRIS Production 30058_01
-//19/02/2018
+//iRIS Production 30058_02_
+//13/03/2018
 
-namespace iRIS_CLM_GUI_TEST_01
+namespace iRIS_CLM_GUI_TEST_02
 {
-    public partial class Form_iRIS_Clm_test_01 : Form
+    public partial class Form_iRIS_Clm_test_02 : Form
     {
         #region Commands Definition
         const string rtnNull = "00";
@@ -209,7 +209,7 @@ namespace iRIS_CLM_GUI_TEST_01
         byte[] byteArrayToTest2 = new byte[8];//reads back "bits"
         byte[] byteArrayToTest3 = new byte[8];//reads back "bits"
 
-        double[,] dataADC = new double[120, 5];
+        double[,] dataADC = new double[1200, 5];
         double maxPw = 0;
         double maxCurr = 0;
 
@@ -253,7 +253,7 @@ namespace iRIS_CLM_GUI_TEST_01
         //======================================================================
         #endregion
         //======================================================================
-         public Form_iRIS_Clm_test_01()
+         public Form_iRIS_Clm_test_02()
         {
             InitializeComponent();
             Getportnames();
@@ -1726,10 +1726,15 @@ namespace iRIS_CLM_GUI_TEST_01
             else MessageBox.Show("USB not connected");
         }
         //======================================================================
-        private bool LoadCurAndPwLimits()//there because can be set in first tab or in first init for example test added(average...)
+        private bool LoadCurAndPwLimits()
         {
-            maxPw = Convert.ToDouble(Tb_maxMaxPw.Text);//global values...therefore carefully set...
-            maxCurr = Convert.ToDouble(Tb_MaxLsCurrent.Text);//to be reviewed at some point...database entry...
+            try {
+                maxPw = Convert.ToDouble(Tb_maxMaxPw.Text);//global values...therefore carefully set...
+                maxCurr = Convert.ToDouble(Tb_MaxLsCurrent.Text);//to be reviewed at some point...database entry...
+            }
+            catch (FormatException) {
+                MessageBox.Show("Current Format Error");
+                return false; }
 
             if (maxCurr < 10 || maxPw < 1) { return false; }
             else { return true; }
@@ -2057,8 +2062,6 @@ namespace iRIS_CLM_GUI_TEST_01
             return true;
         }
         //======================================================================
-     
-        //======================================================================
         private async Task<bool> ResetAll()
         {
             WriteDAC(0, 0);
@@ -2074,8 +2077,6 @@ namespace iRIS_CLM_GUI_TEST_01
             MessageBox.Show("VGA Cal Abort");
             return true;
         }
-        //======================================================================
-
         //======================================================================
         private void Bt_pdCalibration_Click(object sender, EventArgs e) { Task<bool> pdcal = PD_Calibration(); }
         //======================================================================
@@ -2177,6 +2178,8 @@ namespace iRIS_CLM_GUI_TEST_01
                 }
                 catch (Exception err1) { MessageBox.Show(err1.Message); }
 
+                finalSet = await WriteResToDb();
+
                 this.Cursor = Cursors.Default;
                 Bt_FinalLsSetup.BackColor = Color.LawnGreen;
             }
@@ -2184,6 +2187,35 @@ namespace iRIS_CLM_GUI_TEST_01
             else if (Bt_FinalLsSetup.BackColor == Color.LawnGreen) { Bt_FinalLsSetup.BackColor = Color.Coral; }
 
             return true; 
+        }
+        //======================================================================
+        private async Task<bool> WriteResToDb()
+        {
+            //string cmdString  = "INSERT INTO " +Tb_DatabaseWrt.Text + " (name, author, price) VALUES (@val1, @va2, @val3)";
+            string cmdString = "INSERT INTO " + Tb_DatabaseWrt.Text + " (TestDate, TEC_Board_Sn) VALUES (@val1, @val2)";
+
+            try
+            {
+                con.Open();
+                cmd = new SqlCommand(cmdString, con);
+                cmd.Parameters.Clear();
+
+                //************************************************************************//
+                cmd.Parameters.AddWithValue("@val1", dateTimePicker1.Text);
+                cmd.Parameters.AddWithValue("@val2", 998877);
+
+                //if (digitalFault == 0) cmd.Parameters.AddWithValue("@DatatoPass", 1);
+                //else cmd.Parameters.AddWithValue("@DatatoPass", 0);
+                //************************************************************************//
+
+                cmd.ExecuteNonQuery();
+
+            }
+            catch (Exception) { MessageBox.Show("Write Table Error"); }
+            finally { con.Close(); }
+
+            await Task.Delay(5);
+            return true;
         }
         //======================================================================
         private void Bt_LaserEn_Click_1(object sender, EventArgs e) {
@@ -2428,7 +2460,7 @@ namespace iRIS_CLM_GUI_TEST_01
                     {
                         #region load external PCON Data
 
-                        double stepRp = 0.050;
+                        double stepRp = 0.005;
                         double startRp = 0.000;
                         double stopRp = 0.000;
 
@@ -2461,7 +2493,7 @@ namespace iRIS_CLM_GUI_TEST_01
 
                         if (ChkBx_SingleTest.Checked == false)
                         {
-                            initvga = await RampDACLI(startRp, stopRp, stepRp, true, invRamp);
+                            initvga = await RampDACLI(startRp, stopRp, stepRp, true, invRamp);  //false quicker loop
                             initvga = await ResetLaserPCON();//reset laser IO
                         }
 
@@ -2484,7 +2516,8 @@ namespace iRIS_CLM_GUI_TEST_01
                                 break; }
                             else continue; }
 
-                        bool liFile = await CreateRepFileLI();
+                        bool liFile = await CreateRepFile();
+                        liFile = await CreateRepFileLI();
                         try
                         {
                             if (File.Exists(filePathLI))
@@ -2725,7 +2758,7 @@ namespace iRIS_CLM_GUI_TEST_01
             string rootPath = Tb_FolderLoc.Text + @"\" + Tb_LaserPN.Text;//production data + laser folder alreary set i.e. 015335
             string folderName = @"\" + Tb_WorkOrder.Text + @"\" + Tb_SerNb.Text;//work order/ipo and laser assembly serial number added now
             string filePathFold = rootPath + folderName;
-            string txtName = @"\" + "LI_" + Tb_SerNb.Text + "_" + dateTimePicker1.Value.Date.ToString("ddMMyyyy") + ".txt ";
+            string txtName = @"\" + "LI_" + Tb_SerNb.Text + "_" + dateTimePicker1.Value.Date.ToString("yyyyMMdd") + ".txt ";
 
             filePathLI = filePathFold + txtName; // \\officeserver\Production Test Data\iFLEX IRIS Test Data\015335\IPO..........\0052.....
 
@@ -2748,18 +2781,6 @@ namespace iRIS_CLM_GUI_TEST_01
             }
         }
         //======================================================================
-        /*
-        private void Tb_LaserPN_KeyPress(object sender, KeyPressEventArgs e) {
-            String tempPn = string.Empty;
-            Tb_LaserPN.ForeColor = Color.Red;
-            if (e.KeyChar==Convert.ToChar(Keys.Return))
-            {
-                tempPn = Tb_LaserPN.Text.PadLeft(6,'0');
-                Tb_LaserPN.Text = tempPn;
-                ReadDbs();
-            }
-        }
-        */
         private void Tb_LaserPN_Leave(object sender, EventArgs e) {
         String tempPn = string.Empty;
         Tb_LaserPN.ForeColor = Color.Red;
@@ -2859,7 +2880,7 @@ namespace iRIS_CLM_GUI_TEST_01
         private void ReadDbs()
         {
             Rt_ReceiveDataUSB.Clear();
-            int dbArrayIdx = 0;
+            int dbArrayIdx = 0; //just running index to locate the line on table...not used 
             bool entryOK = false;
             string readstuff = string.Empty;
             string[] laserParameters = new string[30];
@@ -2951,30 +2972,13 @@ namespace iRIS_CLM_GUI_TEST_01
             }
         }
         //======================================================================
-        /*
-        private void Tb_MaxILimit_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            bool valuesGood = false;
-            if (e.KeyChar == Convert.ToChar(Keys.Return)) {
+        private void Tb_MaxILimit_Leave(object sender, EventArgs e) {
+ 
+            if (int.TryParse(Tb_MaxILimit.Text, out int dummyInt) == true)
+            {
                 Tb_MaxLsCurrent.Text = Tb_MaxILimit.Text;
 
-                if ((valuesGood = LoadCurAndPwLimits()) == true)//reset at init...?
-                {
-                    Tb_MaxILimit.ForeColor = Color.Green;
-                    tabControl1.TabPages[1].Enabled = true;
-                }
-                else {
-                    Tb_MaxILimit.ForeColor = Color.OrangeRed;
-                    MessageBox.Show("incorrect value");
-                }
-            }
-        }
-        */
-        private void Tb_MaxILimit_Leave(object sender, EventArgs e) {
-            bool valuesGood = false;
-            Tb_MaxLsCurrent.Text = Tb_MaxILimit.Text;
-
-                if ((valuesGood = LoadCurAndPwLimits()) == true)//reset at init...?
+                if ((LoadCurAndPwLimits()) == true)//reset at init...?
                 {
                     Tb_MaxILimit.ForeColor = Color.Green;
                     tabControl1.TabPages[1].Enabled = true;
@@ -2984,6 +2988,8 @@ namespace iRIS_CLM_GUI_TEST_01
                     Tb_MaxILimit.ForeColor = Color.OrangeRed;
                     MessageBox.Show("incorrect value");
                 }
+            }
+            else { MessageBox.Show("Enter numerical current"); }
         }
         //======================================================================
         private void Rtb_ComList_DoubleClick(object sender, EventArgs e) { Rtb_ComList.Clear(); }
@@ -3008,31 +3014,12 @@ namespace iRIS_CLM_GUI_TEST_01
 
         private void Tb_MaxILimit_Click(object sender, EventArgs e) { Tb_MaxILimit.Clear(); }
         //======================================================================
-        /*
-        private void Tb_WorkOrder_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == Convert.ToChar(Keys.Return)) { Tb_WorkOrder.ForeColor = Color.Green; }
-        }
-        */
         private void Tb_WorkOrder_Leave(object sender, EventArgs e) { Tb_WorkOrder.ForeColor = Color.Green; }
         //======================================================================
-        /*
-        private void Tb_SerNb_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == Convert.ToChar(Keys.Return)) { Tb_SerNb.ForeColor = Color.Green; }
-        }
-        */
         private void Tb_SerNb_Leave(object sender, EventArgs e) { Tb_SerNb.ForeColor = Color.Green; }
         //======================================================================
-        /*
-        private void Tb_TecSerNumb_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == Convert.ToChar(Keys.Return)) { Tb_TecSerNumb.ForeColor = Color.Green; }
-        }
-        */
         private void Tb_TecSerNumb_Leave(object sender, EventArgs e) { Tb_TecSerNumb.ForeColor = Color.Green; }
         //======================================================================
-        //private void Tb_User_KeyDown(object sender, KeyEventArgs e) 
         private void Tb_User_KeyDown(object sender, EventArgs e) { Tb_User.ForeColor = Color.Green; }
         //======================================================================
         private void Tb_LaserPN_MouseLeave(object sender, EventArgs e) { MessageBox.Show("\n\n" + "Enter 'Diode Max. Current Limit' Value now"); }
@@ -3059,6 +3046,7 @@ namespace iRIS_CLM_GUI_TEST_01
                 GrBx_532Tset.Enabled = false;
             }
         }
+
         //======================================================================
         //======================================================================
     }

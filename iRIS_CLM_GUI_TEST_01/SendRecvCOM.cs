@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
-namespace iRIS_CLM_GUI_TEST_01
+namespace iRIS_CLM_GUI_TEST_02
 {
 
     public class SendRecvCOM

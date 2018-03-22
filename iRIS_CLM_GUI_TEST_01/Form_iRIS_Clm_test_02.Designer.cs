@@ -1,6 +1,6 @@
-﻿namespace iRIS_CLM_GUI_TEST_01
+﻿namespace iRIS_CLM_GUI_TEST_02
 {
-    partial class Form_iRIS_Clm_test_01
+    partial class Form_iRIS_Clm_test_02
     {
         /// <summary>
         /// Required designer variable.
@@ -29,11 +29,15 @@
         private void InitializeComponent()
         {
             this.TbPg_InsTest = new System.Windows.Forms.TabPage();
-            this.Bt_StopTest = new System.Windows.Forms.Button();
+            this.GrBx_532Tset = new System.Windows.Forms.GroupBox();
+            this.Bt_Set532Temp = new System.Windows.Forms.Button();
+            this.Tb_532TempSet = new System.Windows.Forms.TextBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.ChkBx_IntPwCtrlBurn = new System.Windows.Forms.CheckBox();
+            this.ChkBx_EnInvBurn = new System.Windows.Forms.CheckBox();
             this.ChkBx_AlgModInvBurn = new System.Windows.Forms.CheckBox();
             this.ChkBx_DiditModInvBurn = new System.Windows.Forms.CheckBox();
-            this.ChkBx_EnInvBurn = new System.Windows.Forms.CheckBox();
-            this.ChkBx_IntPwCtrlBurn = new System.Windows.Forms.CheckBox();
+            this.Bt_StopTest = new System.Windows.Forms.Button();
             this.Bt_SetBurnin = new System.Windows.Forms.Button();
             this.Bt_ZroCurr_PMonOutCal = new System.Windows.Forms.Button();
             this.Bt_PM100 = new System.Windows.Forms.Button();
@@ -58,8 +62,6 @@
             this.RdBt_LIint = new System.Windows.Forms.RadioButton();
             this.RdBt_LI50 = new System.Windows.Forms.RadioButton();
             this.RdBt_LI05 = new System.Windows.Forms.RadioButton();
-            this.Bt_Set532Temp = new System.Windows.Forms.Button();
-            this.Tb_532TempSet = new System.Windows.Forms.TextBox();
             this.Prg_Bar01 = new System.Windows.Forms.ProgressBar();
             this.Bt_ShipState = new System.Windows.Forms.Button();
             this.Bt_LiPlot = new System.Windows.Forms.Button();
@@ -98,6 +100,11 @@
             this.label29 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.TbPg_Iris_Init = new System.Windows.Forms.TabPage();
+            this.GrBx_CutomIO = new System.Windows.Forms.GroupBox();
+            this.ChkBx_AnlgModSet = new System.Windows.Forms.CheckBox();
+            this.ChkBx_ExtPwCtrl = new System.Windows.Forms.CheckBox();
+            this.ChkBx_EnableSet = new System.Windows.Forms.CheckBox();
+            this.ChkBx_DigitModSet = new System.Windows.Forms.CheckBox();
             this.label12 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -114,10 +121,6 @@
             this.label7 = new System.Windows.Forms.Label();
             this.Lbl_NomPowerDtbas = new System.Windows.Forms.Label();
             this.Lbl_Wlgth1 = new System.Windows.Forms.Label();
-            this.ChkBx_AnlgModSet = new System.Windows.Forms.CheckBox();
-            this.ChkBx_DigitModSet = new System.Windows.Forms.CheckBox();
-            this.ChkBx_EnableSet = new System.Windows.Forms.CheckBox();
-            this.ChkBx_ExtPwCtrl = new System.Windows.Forms.CheckBox();
             this.Lbl_MdlName = new System.Windows.Forms.Label();
             this.label58 = new System.Windows.Forms.Label();
             this.Tb_LaserPN = new System.Windows.Forms.TextBox();
@@ -129,6 +132,9 @@
             this.Tb_TecSerNumb = new System.Windows.Forms.TextBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.TbPg_Results = new System.Windows.Forms.TabPage();
+            this.label9 = new System.Windows.Forms.Label();
+            this.Tb_DatabaseWrt = new System.Windows.Forms.TextBox();
+            this.Bt_EnableIObox = new System.Windows.Forms.Button();
             this.Lbl_TempSens = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.Tb_SetPower03 = new System.Windows.Forms.TextBox();
@@ -223,21 +229,17 @@
             this.Rt_ReceiveDataUSB = new System.Windows.Forms.RichTextBox();
             this.Bt_RdLaserStatus = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.GrBx_CutomIO = new System.Windows.Forms.GroupBox();
-            this.Bt_EnableIObox = new System.Windows.Forms.Button();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.GrBx_532Tset = new System.Windows.Forms.GroupBox();
             this.TbPg_InsTest.SuspendLayout();
+            this.GrBx_532Tset.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.TbPg_Iris_Init.SuspendLayout();
+            this.GrBx_CutomIO.SuspendLayout();
             this.TbPg_Results.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            this.GrBx_CutomIO.SuspendLayout();
-            this.groupBox4.SuspendLayout();
-            this.GrBx_532Tset.SuspendLayout();
             this.SuspendLayout();
             // 
             // TbPg_InsTest
@@ -301,18 +303,73 @@
             this.TbPg_InsTest.TabIndex = 1;
             this.TbPg_InsTest.Text = "Laser Calibration";
             // 
-            // Bt_StopTest
+            // GrBx_532Tset
             // 
-            this.Bt_StopTest.BackColor = System.Drawing.Color.Red;
-            this.Bt_StopTest.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Bt_StopTest.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.Bt_StopTest.Location = new System.Drawing.Point(235, 146);
-            this.Bt_StopTest.Name = "Bt_StopTest";
-            this.Bt_StopTest.Size = new System.Drawing.Size(86, 39);
-            this.Bt_StopTest.TabIndex = 386;
-            this.Bt_StopTest.Text = "Stop Cal VGA";
-            this.Bt_StopTest.UseVisualStyleBackColor = false;
-            this.Bt_StopTest.Click += new System.EventHandler(this.Bt_StopTest_Click);
+            this.GrBx_532Tset.Controls.Add(this.Bt_Set532Temp);
+            this.GrBx_532Tset.Controls.Add(this.Tb_532TempSet);
+            this.GrBx_532Tset.Enabled = false;
+            this.GrBx_532Tset.Location = new System.Drawing.Point(508, 502);
+            this.GrBx_532Tset.Name = "GrBx_532Tset";
+            this.GrBx_532Tset.Size = new System.Drawing.Size(177, 56);
+            this.GrBx_532Tset.TabIndex = 388;
+            this.GrBx_532Tset.TabStop = false;
+            this.GrBx_532Tset.Text = "532 Temperature set";
+            // 
+            // Bt_Set532Temp
+            // 
+            this.Bt_Set532Temp.BackColor = System.Drawing.Color.PeachPuff;
+            this.Bt_Set532Temp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Bt_Set532Temp.Location = new System.Drawing.Point(63, 19);
+            this.Bt_Set532Temp.Name = "Bt_Set532Temp";
+            this.Bt_Set532Temp.Size = new System.Drawing.Size(103, 28);
+            this.Bt_Set532Temp.TabIndex = 354;
+            this.Bt_Set532Temp.Text = "Set 532nm Temp.";
+            this.Bt_Set532Temp.UseVisualStyleBackColor = false;
+            this.Bt_Set532Temp.Click += new System.EventHandler(this.Bt_Set532Temp_Click);
+            // 
+            // Tb_532TempSet
+            // 
+            this.Tb_532TempSet.Location = new System.Drawing.Point(11, 19);
+            this.Tb_532TempSet.Name = "Tb_532TempSet";
+            this.Tb_532TempSet.Size = new System.Drawing.Size(46, 20);
+            this.Tb_532TempSet.TabIndex = 352;
+            this.Tb_532TempSet.Text = "25.0";
+            this.Tb_532TempSet.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.ChkBx_IntPwCtrlBurn);
+            this.groupBox4.Controls.Add(this.ChkBx_EnInvBurn);
+            this.groupBox4.Controls.Add(this.ChkBx_AlgModInvBurn);
+            this.groupBox4.Controls.Add(this.ChkBx_DiditModInvBurn);
+            this.groupBox4.Location = new System.Drawing.Point(356, 407);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(131, 98);
+            this.groupBox4.TabIndex = 387;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Burn-in IO setup";
+            // 
+            // ChkBx_IntPwCtrlBurn
+            // 
+            this.ChkBx_IntPwCtrlBurn.AutoSize = true;
+            this.ChkBx_IntPwCtrlBurn.Checked = true;
+            this.ChkBx_IntPwCtrlBurn.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ChkBx_IntPwCtrlBurn.Location = new System.Drawing.Point(6, 16);
+            this.ChkBx_IntPwCtrlBurn.Name = "ChkBx_IntPwCtrlBurn";
+            this.ChkBx_IntPwCtrlBurn.Size = new System.Drawing.Size(103, 17);
+            this.ChkBx_IntPwCtrlBurn.TabIndex = 382;
+            this.ChkBx_IntPwCtrlBurn.Text = "Internal Pw. Ctrl.";
+            this.ChkBx_IntPwCtrlBurn.UseVisualStyleBackColor = true;
+            // 
+            // ChkBx_EnInvBurn
+            // 
+            this.ChkBx_EnInvBurn.AutoSize = true;
+            this.ChkBx_EnInvBurn.Location = new System.Drawing.Point(6, 34);
+            this.ChkBx_EnInvBurn.Name = "ChkBx_EnInvBurn";
+            this.ChkBx_EnInvBurn.Size = new System.Drawing.Size(101, 17);
+            this.ChkBx_EnInvBurn.TabIndex = 383;
+            this.ChkBx_EnInvBurn.Text = "Enable Inverted";
+            this.ChkBx_EnInvBurn.UseVisualStyleBackColor = true;
             // 
             // ChkBx_AlgModInvBurn
             // 
@@ -334,27 +391,18 @@
             this.ChkBx_DiditModInvBurn.Text = "Digit. Mod. Inverted";
             this.ChkBx_DiditModInvBurn.UseVisualStyleBackColor = true;
             // 
-            // ChkBx_EnInvBurn
+            // Bt_StopTest
             // 
-            this.ChkBx_EnInvBurn.AutoSize = true;
-            this.ChkBx_EnInvBurn.Location = new System.Drawing.Point(6, 34);
-            this.ChkBx_EnInvBurn.Name = "ChkBx_EnInvBurn";
-            this.ChkBx_EnInvBurn.Size = new System.Drawing.Size(101, 17);
-            this.ChkBx_EnInvBurn.TabIndex = 383;
-            this.ChkBx_EnInvBurn.Text = "Enable Inverted";
-            this.ChkBx_EnInvBurn.UseVisualStyleBackColor = true;
-            // 
-            // ChkBx_IntPwCtrlBurn
-            // 
-            this.ChkBx_IntPwCtrlBurn.AutoSize = true;
-            this.ChkBx_IntPwCtrlBurn.Checked = true;
-            this.ChkBx_IntPwCtrlBurn.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ChkBx_IntPwCtrlBurn.Location = new System.Drawing.Point(6, 16);
-            this.ChkBx_IntPwCtrlBurn.Name = "ChkBx_IntPwCtrlBurn";
-            this.ChkBx_IntPwCtrlBurn.Size = new System.Drawing.Size(103, 17);
-            this.ChkBx_IntPwCtrlBurn.TabIndex = 382;
-            this.ChkBx_IntPwCtrlBurn.Text = "Internal Pw. Ctrl.";
-            this.ChkBx_IntPwCtrlBurn.UseVisualStyleBackColor = true;
+            this.Bt_StopTest.BackColor = System.Drawing.Color.Red;
+            this.Bt_StopTest.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Bt_StopTest.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.Bt_StopTest.Location = new System.Drawing.Point(235, 146);
+            this.Bt_StopTest.Name = "Bt_StopTest";
+            this.Bt_StopTest.Size = new System.Drawing.Size(86, 39);
+            this.Bt_StopTest.TabIndex = 386;
+            this.Bt_StopTest.Text = "Stop Cal VGA";
+            this.Bt_StopTest.UseVisualStyleBackColor = false;
+            this.Bt_StopTest.Click += new System.EventHandler(this.Bt_StopTest_Click);
             // 
             // Bt_SetBurnin
             // 
@@ -395,6 +443,8 @@
             // ChkBx_SingleTest
             // 
             this.ChkBx_SingleTest.AutoSize = true;
+            this.ChkBx_SingleTest.Checked = true;
+            this.ChkBx_SingleTest.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ChkBx_SingleTest.Location = new System.Drawing.Point(10, 478);
             this.ChkBx_SingleTest.Name = "ChkBx_SingleTest";
             this.ChkBx_SingleTest.Size = new System.Drawing.Size(91, 17);
@@ -482,8 +532,6 @@
             // ChkBx_LIlog
             // 
             this.ChkBx_LIlog.AutoSize = true;
-            this.ChkBx_LIlog.Checked = true;
-            this.ChkBx_LIlog.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ChkBx_LIlog.Location = new System.Drawing.Point(10, 413);
             this.ChkBx_LIlog.Name = "ChkBx_LIlog";
             this.ChkBx_LIlog.Size = new System.Drawing.Size(75, 17);
@@ -601,27 +649,6 @@
             this.RdBt_LI05.TabIndex = 355;
             this.RdBt_LI05.Text = "0-5V External PCON";
             this.RdBt_LI05.UseVisualStyleBackColor = true;
-            // 
-            // Bt_Set532Temp
-            // 
-            this.Bt_Set532Temp.BackColor = System.Drawing.Color.PeachPuff;
-            this.Bt_Set532Temp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Bt_Set532Temp.Location = new System.Drawing.Point(63, 19);
-            this.Bt_Set532Temp.Name = "Bt_Set532Temp";
-            this.Bt_Set532Temp.Size = new System.Drawing.Size(103, 28);
-            this.Bt_Set532Temp.TabIndex = 354;
-            this.Bt_Set532Temp.Text = "Set 532nm Temp.";
-            this.Bt_Set532Temp.UseVisualStyleBackColor = false;
-            this.Bt_Set532Temp.Click += new System.EventHandler(this.Bt_Set532Temp_Click);
-            // 
-            // Tb_532TempSet
-            // 
-            this.Tb_532TempSet.Location = new System.Drawing.Point(11, 19);
-            this.Tb_532TempSet.Name = "Tb_532TempSet";
-            this.Tb_532TempSet.Size = new System.Drawing.Size(46, 20);
-            this.Tb_532TempSet.TabIndex = 352;
-            this.Tb_532TempSet.Text = "25.0";
-            this.Tb_532TempSet.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // Prg_Bar01
             // 
@@ -1042,6 +1069,60 @@
             this.TbPg_Iris_Init.Text = " Test Init.";
             this.TbPg_Iris_Init.UseVisualStyleBackColor = true;
             // 
+            // GrBx_CutomIO
+            // 
+            this.GrBx_CutomIO.Controls.Add(this.ChkBx_AnlgModSet);
+            this.GrBx_CutomIO.Controls.Add(this.ChkBx_ExtPwCtrl);
+            this.GrBx_CutomIO.Controls.Add(this.ChkBx_EnableSet);
+            this.GrBx_CutomIO.Controls.Add(this.ChkBx_DigitModSet);
+            this.GrBx_CutomIO.Enabled = false;
+            this.GrBx_CutomIO.Location = new System.Drawing.Point(298, 51);
+            this.GrBx_CutomIO.Name = "GrBx_CutomIO";
+            this.GrBx_CutomIO.Size = new System.Drawing.Size(150, 108);
+            this.GrBx_CutomIO.TabIndex = 363;
+            this.GrBx_CutomIO.TabStop = false;
+            this.GrBx_CutomIO.Text = "Customer I/O Setup";
+            // 
+            // ChkBx_AnlgModSet
+            // 
+            this.ChkBx_AnlgModSet.AutoSize = true;
+            this.ChkBx_AnlgModSet.Location = new System.Drawing.Point(6, 78);
+            this.ChkBx_AnlgModSet.Name = "ChkBx_AnlgModSet";
+            this.ChkBx_AnlgModSet.Size = new System.Drawing.Size(119, 17);
+            this.ChkBx_AnlgModSet.TabIndex = 331;
+            this.ChkBx_AnlgModSet.Text = "Anlg. Mod. Inverted";
+            this.ChkBx_AnlgModSet.UseVisualStyleBackColor = true;
+            // 
+            // ChkBx_ExtPwCtrl
+            // 
+            this.ChkBx_ExtPwCtrl.AutoSize = true;
+            this.ChkBx_ExtPwCtrl.Location = new System.Drawing.Point(6, 24);
+            this.ChkBx_ExtPwCtrl.Name = "ChkBx_ExtPwCtrl";
+            this.ChkBx_ExtPwCtrl.Size = new System.Drawing.Size(103, 17);
+            this.ChkBx_ExtPwCtrl.TabIndex = 328;
+            this.ChkBx_ExtPwCtrl.Text = "Internal Pw. Ctrl.";
+            this.ChkBx_ExtPwCtrl.UseVisualStyleBackColor = true;
+            // 
+            // ChkBx_EnableSet
+            // 
+            this.ChkBx_EnableSet.AutoSize = true;
+            this.ChkBx_EnableSet.Location = new System.Drawing.Point(6, 42);
+            this.ChkBx_EnableSet.Name = "ChkBx_EnableSet";
+            this.ChkBx_EnableSet.Size = new System.Drawing.Size(101, 17);
+            this.ChkBx_EnableSet.TabIndex = 329;
+            this.ChkBx_EnableSet.Text = "Enable Inverted";
+            this.ChkBx_EnableSet.UseVisualStyleBackColor = true;
+            // 
+            // ChkBx_DigitModSet
+            // 
+            this.ChkBx_DigitModSet.AutoSize = true;
+            this.ChkBx_DigitModSet.Location = new System.Drawing.Point(6, 60);
+            this.ChkBx_DigitModSet.Name = "ChkBx_DigitModSet";
+            this.ChkBx_DigitModSet.Size = new System.Drawing.Size(119, 17);
+            this.ChkBx_DigitModSet.TabIndex = 330;
+            this.ChkBx_DigitModSet.Text = "Digit. Mod. Inverted";
+            this.ChkBx_DigitModSet.UseVisualStyleBackColor = true;
+            // 
             // label12
             // 
             this.label12.AutoSize = true;
@@ -1195,46 +1276,6 @@
             this.Lbl_Wlgth1.TabIndex = 332;
             this.Lbl_Wlgth1.Text = "0000";
             // 
-            // ChkBx_AnlgModSet
-            // 
-            this.ChkBx_AnlgModSet.AutoSize = true;
-            this.ChkBx_AnlgModSet.Location = new System.Drawing.Point(6, 78);
-            this.ChkBx_AnlgModSet.Name = "ChkBx_AnlgModSet";
-            this.ChkBx_AnlgModSet.Size = new System.Drawing.Size(119, 17);
-            this.ChkBx_AnlgModSet.TabIndex = 331;
-            this.ChkBx_AnlgModSet.Text = "Anlg. Mod. Inverted";
-            this.ChkBx_AnlgModSet.UseVisualStyleBackColor = true;
-            // 
-            // ChkBx_DigitModSet
-            // 
-            this.ChkBx_DigitModSet.AutoSize = true;
-            this.ChkBx_DigitModSet.Location = new System.Drawing.Point(6, 60);
-            this.ChkBx_DigitModSet.Name = "ChkBx_DigitModSet";
-            this.ChkBx_DigitModSet.Size = new System.Drawing.Size(119, 17);
-            this.ChkBx_DigitModSet.TabIndex = 330;
-            this.ChkBx_DigitModSet.Text = "Digit. Mod. Inverted";
-            this.ChkBx_DigitModSet.UseVisualStyleBackColor = true;
-            // 
-            // ChkBx_EnableSet
-            // 
-            this.ChkBx_EnableSet.AutoSize = true;
-            this.ChkBx_EnableSet.Location = new System.Drawing.Point(6, 42);
-            this.ChkBx_EnableSet.Name = "ChkBx_EnableSet";
-            this.ChkBx_EnableSet.Size = new System.Drawing.Size(101, 17);
-            this.ChkBx_EnableSet.TabIndex = 329;
-            this.ChkBx_EnableSet.Text = "Enable Inverted";
-            this.ChkBx_EnableSet.UseVisualStyleBackColor = true;
-            // 
-            // ChkBx_ExtPwCtrl
-            // 
-            this.ChkBx_ExtPwCtrl.AutoSize = true;
-            this.ChkBx_ExtPwCtrl.Location = new System.Drawing.Point(6, 24);
-            this.ChkBx_ExtPwCtrl.Name = "ChkBx_ExtPwCtrl";
-            this.ChkBx_ExtPwCtrl.Size = new System.Drawing.Size(103, 17);
-            this.ChkBx_ExtPwCtrl.TabIndex = 328;
-            this.ChkBx_ExtPwCtrl.Text = "Internal Pw. Ctrl.";
-            this.ChkBx_ExtPwCtrl.UseVisualStyleBackColor = true;
-            // 
             // Lbl_MdlName
             // 
             this.Lbl_MdlName.AutoSize = true;
@@ -1335,7 +1376,7 @@
             // 
             // dateTimePicker1
             // 
-            this.dateTimePicker1.CustomFormat = "dd/MM/yyyy";
+            this.dateTimePicker1.CustomFormat = "yyyy/MM/dd";
             this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateTimePicker1.Location = new System.Drawing.Point(21, 39);
             this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(2);
@@ -1346,6 +1387,8 @@
             // 
             // TbPg_Results
             // 
+            this.TbPg_Results.Controls.Add(this.label9);
+            this.TbPg_Results.Controls.Add(this.Tb_DatabaseWrt);
             this.TbPg_Results.Controls.Add(this.Bt_EnableIObox);
             this.TbPg_Results.Controls.Add(this.Lbl_TempSens);
             this.TbPg_Results.Controls.Add(this.label23);
@@ -1439,6 +1482,37 @@
             this.TbPg_Results.Text = "Engineering";
             this.TbPg_Results.UseVisualStyleBackColor = true;
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(457, 359);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(111, 13);
+            this.label9.TabIndex = 364;
+            this.label9.Text = "Database Table Write";
+            this.label9.Visible = false;
+            // 
+            // Tb_DatabaseWrt
+            // 
+            this.Tb_DatabaseWrt.Location = new System.Drawing.Point(575, 356);
+            this.Tb_DatabaseWrt.Name = "Tb_DatabaseWrt";
+            this.Tb_DatabaseWrt.Size = new System.Drawing.Size(111, 20);
+            this.Tb_DatabaseWrt.TabIndex = 363;
+            this.Tb_DatabaseWrt.Text = "CLM_PCB_Test";
+            this.Tb_DatabaseWrt.Visible = false;
+            // 
+            // Bt_EnableIObox
+            // 
+            this.Bt_EnableIObox.BackColor = System.Drawing.Color.SandyBrown;
+            this.Bt_EnableIObox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Bt_EnableIObox.Location = new System.Drawing.Point(434, 182);
+            this.Bt_EnableIObox.Name = "Bt_EnableIObox";
+            this.Bt_EnableIObox.Size = new System.Drawing.Size(78, 39);
+            this.Bt_EnableIObox.TabIndex = 362;
+            this.Bt_EnableIObox.Text = "Enable IO box Mod.";
+            this.Bt_EnableIObox.UseVisualStyleBackColor = false;
+            this.Bt_EnableIObox.Click += new System.EventHandler(this.Bt_EnableIObox_Click);
+            // 
             // Lbl_TempSens
             // 
             this.Lbl_TempSens.AutoSize = true;
@@ -1511,7 +1585,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(484, 360);
+            this.label18.Location = new System.Drawing.Point(132, 543);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(87, 13);
             this.label18.TabIndex = 354;
@@ -1860,7 +1934,7 @@
             this.Tb_MaxLsCurrent.Name = "Tb_MaxLsCurrent";
             this.Tb_MaxLsCurrent.Size = new System.Drawing.Size(46, 20);
             this.Tb_MaxLsCurrent.TabIndex = 317;
-            this.Tb_MaxLsCurrent.Text = "0115";
+            this.Tb_MaxLsCurrent.Text = "0000";
             // 
             // Tb_Wavelength
             // 
@@ -1984,7 +2058,7 @@
             "USB-321",
             "USB-321",
             "USB-231"});
-            this.CmBx_USBinterface.Location = new System.Drawing.Point(575, 356);
+            this.CmBx_USBinterface.Location = new System.Drawing.Point(223, 539);
             this.CmBx_USBinterface.Name = "CmBx_USBinterface";
             this.CmBx_USBinterface.Size = new System.Drawing.Size(111, 21);
             this.CmBx_USBinterface.TabIndex = 301;
@@ -2281,9 +2355,9 @@
             this.label36.AutoSize = true;
             this.label36.Location = new System.Drawing.Point(457, 385);
             this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(114, 13);
+            this.label36.Size = new System.Drawing.Size(112, 13);
             this.label36.TabIndex = 188;
-            this.label36.Text = "Database Table Name";
+            this.label36.Text = "Database Table Read";
             this.label36.Visible = false;
             // 
             // Bt_InvAnlg
@@ -2346,69 +2420,22 @@
             this.dataGridView1.Size = new System.Drawing.Size(683, 96);
             this.dataGridView1.TabIndex = 6;
             // 
-            // GrBx_CutomIO
-            // 
-            this.GrBx_CutomIO.Controls.Add(this.ChkBx_AnlgModSet);
-            this.GrBx_CutomIO.Controls.Add(this.ChkBx_ExtPwCtrl);
-            this.GrBx_CutomIO.Controls.Add(this.ChkBx_EnableSet);
-            this.GrBx_CutomIO.Controls.Add(this.ChkBx_DigitModSet);
-            this.GrBx_CutomIO.Enabled = false;
-            this.GrBx_CutomIO.Location = new System.Drawing.Point(298, 51);
-            this.GrBx_CutomIO.Name = "GrBx_CutomIO";
-            this.GrBx_CutomIO.Size = new System.Drawing.Size(150, 108);
-            this.GrBx_CutomIO.TabIndex = 363;
-            this.GrBx_CutomIO.TabStop = false;
-            this.GrBx_CutomIO.Text = "Customer I/O Setup";
-            // 
-            // Bt_EnableIObox
-            // 
-            this.Bt_EnableIObox.BackColor = System.Drawing.Color.SandyBrown;
-            this.Bt_EnableIObox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Bt_EnableIObox.Location = new System.Drawing.Point(434, 182);
-            this.Bt_EnableIObox.Name = "Bt_EnableIObox";
-            this.Bt_EnableIObox.Size = new System.Drawing.Size(78, 39);
-            this.Bt_EnableIObox.TabIndex = 362;
-            this.Bt_EnableIObox.Text = "Enable IO box Mod.";
-            this.Bt_EnableIObox.UseVisualStyleBackColor = false;
-            this.Bt_EnableIObox.Click += new System.EventHandler(this.Bt_EnableIObox_Click);
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.ChkBx_IntPwCtrlBurn);
-            this.groupBox4.Controls.Add(this.ChkBx_EnInvBurn);
-            this.groupBox4.Controls.Add(this.ChkBx_AlgModInvBurn);
-            this.groupBox4.Controls.Add(this.ChkBx_DiditModInvBurn);
-            this.groupBox4.Location = new System.Drawing.Point(356, 407);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(131, 98);
-            this.groupBox4.TabIndex = 387;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Burn-in IO setup";
-            // 
-            // GrBx_532Tset
-            // 
-            this.GrBx_532Tset.Controls.Add(this.Bt_Set532Temp);
-            this.GrBx_532Tset.Controls.Add(this.Tb_532TempSet);
-            this.GrBx_532Tset.Enabled = false;
-            this.GrBx_532Tset.Location = new System.Drawing.Point(508, 502);
-            this.GrBx_532Tset.Name = "GrBx_532Tset";
-            this.GrBx_532Tset.Size = new System.Drawing.Size(177, 56);
-            this.GrBx_532Tset.TabIndex = 388;
-            this.GrBx_532Tset.TabStop = false;
-            this.GrBx_532Tset.Text = "532 Temperature set";
-            // 
-            // Form_iRIS_Clm_test_01
+            // Form_iRIS_Clm_test_02
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(706, 595);
             this.Controls.Add(this.tabControl1);
-            this.Name = "Form_iRIS_Clm_test_01";
-            this.Text = "30058-01 iRIS CLM TEST";
+            this.Name = "Form_iRIS_Clm_test_02";
+            this.Text = "30058-02 iRIS CLM TEST";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Frm_iRIS_Prod_FormClosing);
             this.Load += new System.EventHandler(this.Form_iRIS_Clm_01_Load);
             this.TbPg_InsTest.ResumeLayout(false);
             this.TbPg_InsTest.PerformLayout();
+            this.GrBx_532Tset.ResumeLayout(false);
+            this.GrBx_532Tset.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -2416,17 +2443,13 @@
             this.tabControl1.ResumeLayout(false);
             this.TbPg_Iris_Init.ResumeLayout(false);
             this.TbPg_Iris_Init.PerformLayout();
+            this.GrBx_CutomIO.ResumeLayout(false);
+            this.GrBx_CutomIO.PerformLayout();
             this.TbPg_Results.ResumeLayout(false);
             this.TbPg_Results.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            this.GrBx_CutomIO.ResumeLayout(false);
-            this.GrBx_CutomIO.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
-            this.GrBx_532Tset.ResumeLayout(false);
-            this.GrBx_532Tset.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2631,6 +2654,8 @@
         private System.Windows.Forms.Button Bt_EnableIObox;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.GroupBox GrBx_532Tset;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox Tb_DatabaseWrt;
     }
 }
 
