@@ -333,7 +333,7 @@
             this.Tb_532TempSet.Name = "Tb_532TempSet";
             this.Tb_532TempSet.Size = new System.Drawing.Size(46, 20);
             this.Tb_532TempSet.TabIndex = 352;
-            this.Tb_532TempSet.Text = "25.0";
+            this.Tb_532TempSet.Text = "25.00";
             this.Tb_532TempSet.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // groupBox4
@@ -1498,7 +1498,7 @@
             this.Tb_DatabaseWrt.Name = "Tb_DatabaseWrt";
             this.Tb_DatabaseWrt.Size = new System.Drawing.Size(111, 20);
             this.Tb_DatabaseWrt.TabIndex = 363;
-            this.Tb_DatabaseWrt.Text = "CLM_PCB_Test";
+            this.Tb_DatabaseWrt.Text = "iFLEX_iRIS_Setup_Results";
             this.Tb_DatabaseWrt.Visible = false;
             // 
             // Bt_EnableIObox
@@ -2060,7 +2060,7 @@
             "USB-231"});
             this.CmBx_USBinterface.Location = new System.Drawing.Point(223, 539);
             this.CmBx_USBinterface.Name = "CmBx_USBinterface";
-            this.CmBx_USBinterface.Size = new System.Drawing.Size(111, 21);
+            this.CmBx_USBinterface.Size = new System.Drawing.Size(76, 21);
             this.CmBx_USBinterface.TabIndex = 301;
             this.CmBx_USBinterface.Text = "USB-231";
             // 

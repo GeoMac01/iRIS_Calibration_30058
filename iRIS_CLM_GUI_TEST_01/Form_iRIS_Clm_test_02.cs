@@ -210,6 +210,7 @@ namespace iRIS_CLM_GUI_TEST_02
         byte[] byteArrayToTest3 = new byte[8];//reads back "bits"
 
         double[,] dataADC = new double[1200, 5];
+        double[] dataSet1 = new double[32];
         double maxPw = 0;
         double maxCurr = 0;
 
@@ -2029,11 +2030,16 @@ namespace iRIS_CLM_GUI_TEST_02
                                 fs.WriteLine("Set Add.: " + lbl_RdAdd.Text);
                                 fs.WriteLine("VGA value: " + Lbl_VGAval.Text);
                                 fs.WriteLine("Offset value: " + Tb_SetOffset.Text);
+
                                 fs.WriteLine("Power @ 5V Pcon: " + Pw_Pcon_500V);
                                 fs.WriteLine("Power @ 0V Pcon: " + Pw_Pcon_0V);
                                 fs.WriteLine("Power @ Enable Off: " + Pw_EnOff);
                                 fs.WriteLine("PCON Voltage @ 0.1% power: " + Pw_05vPCON);
                             }
+                            dataSet1[0] = Convert.ToDouble(Pw_Pcon_500V) ;
+                            dataSet1[1] = Convert.ToDouble(Pw_Pcon_0V);
+                            dataSet1[2] = Convert.ToDouble(Pw_EnOff);
+                            dataSet1[3] = Convert.ToDouble(Pw_05vPCON);
                         }
                     }
                     catch (Exception err1) { MessageBox.Show(err1.Message); }
@@ -2191,8 +2197,15 @@ namespace iRIS_CLM_GUI_TEST_02
         //======================================================================
         private async Task<bool> WriteResToDb()
         {
-            //string cmdString  = "INSERT INTO " +Tb_DatabaseWrt.Text + " (name, author, price) VALUES (@val1, @va2, @val3)";
-            string cmdString = "INSERT INTO " + Tb_DatabaseWrt.Text + " (TestDate, TEC_Board_Sn) VALUES (@val1, @val2)";
+            //string cmdString = "INSERT INTO " + Tb_DatabaseWrt.Text + " (TestDate, TEC_Board_Sn) VALUES (@val1, @val2)";
+            string cmdString = "INSERT INTO " + Tb_DatabaseWrt.Text +
+                " ( PartNumber, LaserAddress, Laser_Assy_Sn, Laser_Board_Sn, TEC_Board_Sn, SwLevel, TestDate, Wavelength, SoftwareNomPower, TecName, VGA_Value, V_Offset, " + 
+                "Pw_at_5VPCON, Pw_at_0VPCON, Pw_at_Enbl_Off, VPCON_at_01pc, I_OUT_at_0VPCON, I_OUT_at_Nom_Pw, V_OUT_PD_at_Nom_Pw, V_OUT_PD_at_Min_Pw, " +
+                "TEC_BlockTemperature, A_Pw_Cal, B_Pw_Cal, A_Pw_to_ADC_Cal, B_Pw_to_ADC_Cal, A_PCON_to_Pw_Cal, B_PCON_to_Pw_Cal, PowerControlSource, " +
+                "EnableLine, DigitalModulation, AnalogModulation)" +
+
+                " VALUES (@val1, @val2, @val3, @val4, @val5, @val6, @val7, @val8, @val9, @val10, @val11, @val12, @val13, @val14, @val15, @val16, @val18, @val19," +
+                "@val20, @val21, @val22, @val23, @val24, @val25, @val26, @val27, @val28, @val29, @val30, @val31)";
 
             try
             {
@@ -2201,13 +2214,49 @@ namespace iRIS_CLM_GUI_TEST_02
                 cmd.Parameters.Clear();
 
                 //************************************************************************//
-                cmd.Parameters.AddWithValue("@val1", dateTimePicker1.Text);
-                cmd.Parameters.AddWithValue("@val2", 998877);
+                cmd.Parameters.AddWithValue("@val1", Tb_LaserPN.Text);
+                cmd.Parameters.AddWithValue("@val2", Tb_SetAdd.Text);
+                cmd.Parameters.AddWithValue("@val3", Tb_SerNb.Text);
+                cmd.Parameters.AddWithValue("@val4", lbl_SerNbReadBack.Text);
+                cmd.Parameters.AddWithValue("@val5", Tb_TecSerNumb.Text);
+                cmd.Parameters.AddWithValue("@val6", lbl_SWLevel.Text);
+                cmd.Parameters.AddWithValue("@val7", dateTimePicker1.Text);
+                cmd.Parameters.AddWithValue("@val8", Lbl_WaveLg.Text);
+                cmd.Parameters.AddWithValue("@val9", Tb_SoftNomPw.Text);
+                cmd.Parameters.AddWithValue("@val10", Tb_User.Text);
+                cmd.Parameters.AddWithValue("@val11", Lbl_VGAval.Text);
+                cmd.Parameters.AddWithValue("@val12", Tb_SetOffset.Text);
 
-                //if (digitalFault == 0) cmd.Parameters.AddWithValue("@DatatoPass", 1);
-                //else cmd.Parameters.AddWithValue("@DatatoPass", 0);
+                cmd.Parameters.AddWithValue("@val13", dataSet1[0]);
+                cmd.Parameters.AddWithValue("@val14", dataSet1[1]);
+                cmd.Parameters.AddWithValue("@val15", dataSet1[2]);
+                cmd.Parameters.AddWithValue("@val16", dataSet1[3]);
+                cmd.Parameters.AddWithValue("@val17", dataSet1[4]);
+                cmd.Parameters.AddWithValue("@val18", dataSet1[5]);
+                cmd.Parameters.AddWithValue("@val19", dataSet1[6]);
+                cmd.Parameters.AddWithValue("@val20", dataSet1[7]);
+
+                cmd.Parameters.AddWithValue("@val21", Tb_532TempSet.Text);
+                cmd.Parameters.AddWithValue("@val22", Tb_CalA_Pw.Text);
+                cmd.Parameters.AddWithValue("@val23", Tb_CalB_Pw.Text);
+                cmd.Parameters.AddWithValue("@val24", Tb_CalA_PwToADC.Text);
+                cmd.Parameters.AddWithValue("@val25", Tb_CalB_PwToADC);
+                cmd.Parameters.AddWithValue("@val26", Tb_CalAcmdToPw.Text);
+                cmd.Parameters.AddWithValue("@val27", Tb_CalBcmdToPw.Text);
+
+                if (ChkBx_ExtPwCtrl.Checked == true) { cmd.Parameters.AddWithValue("@val28", "Internal"); }
+                else { cmd.Parameters.AddWithValue("@val28", "External"); }
+
+                if (ChkBx_EnableSet.Checked == true) { cmd.Parameters.AddWithValue("@val29", "Norm"); }
+                else { cmd.Parameters.AddWithValue("@val29", "Inverted"); }
+
+                if (ChkBx_DigitModSet.Checked == true) { cmd.Parameters.AddWithValue("@val30", "Norm"); }
+                else { cmd.Parameters.AddWithValue("@val30", "Inverted"); }
+
+                if (ChkBx_AnlgModSet.Checked == true) { cmd.Parameters.AddWithValue("@val31", "Norm"); }
+                else { cmd.Parameters.AddWithValue("@val31", "Inverted"); }
+                
                 //************************************************************************//
-
                 cmd.ExecuteNonQuery();
 
             }
@@ -2299,7 +2348,7 @@ namespace iRIS_CLM_GUI_TEST_02
         //======================================================================
         private async Task<bool> ZerroCurrent()
         {
-
+            
             WriteDAC(0, 0);//Pcon Channel = 0V
             Set_USB_Digit_Out(0, 1);//Laser ON
             bool rdIcal = await SendToSerial(CmdLaserEnable, StrEnable, 300, 9);
@@ -2311,7 +2360,10 @@ namespace iRIS_CLM_GUI_TEST_02
             rdIcal = await ReadAllanlg(false);
 
             /*************************************************/
-            try { if (File.Exists(filePathRep)) { using (StreamWriter fs = File.AppendText(filePathRep)) { fs.WriteLine("V_Iout converted to mA Mon @ 0V Pcon: " + Lbl_Viout.Text); } } }
+            try { if (File.Exists(filePathRep)) {
+                using (StreamWriter fs = File.AppendText(filePathRep)) { fs.WriteLine("V_Iout converted to mA Mon @ 0V Pcon: " + Lbl_Viout.Text); } }
+                dataSet1[4] = Convert.ToDouble(Lbl_Viout.Text);
+            }
             catch (Exception err1) { MessageBox.Show(err1.Message); }
             /*************************************************/
             return true;
@@ -2386,7 +2438,12 @@ namespace iRIS_CLM_GUI_TEST_02
                     try { if (File.Exists(filePathRep)) { using (StreamWriter fs = File.AppendText(filePathRep)) {
                                 fs.WriteLine("V_Iout mon. converted to mA @ Nominal Power: " + iopNomPw);
                                 fs.WriteLine("Vout PD Mon @ Nominal Pw: " + voutPDmax);
-                                fs.WriteLine("Vout PD Mon @ Min. Pw: " + Lbl_PwreadV.Text); } } }//Pmon for minimal power
+                                fs.WriteLine("Vout PD Mon @ Min. Pw: " + Lbl_PwreadV.Text); }
+                        dataSet1[5] = Convert.ToDouble(iopNomPw);
+                        dataSet1[6] = Convert.ToDouble(voutPDmax);
+                        dataSet1[7] = Convert.ToDouble(Lbl_PwreadV.Text);
+                    }
+                }//Pmon for minimal power
                     catch (Exception err1) { MessageBox.Show(err1.Message); }
                     /*************************************************/
                 }
