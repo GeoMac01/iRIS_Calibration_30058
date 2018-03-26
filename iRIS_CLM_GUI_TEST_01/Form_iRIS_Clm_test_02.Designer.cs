@@ -109,8 +109,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.Tb_txtFilePathRep = new System.Windows.Forms.TextBox();
-            this.label28 = new System.Windows.Forms.Label();
-            this.Tb_txtFilePathLI = new System.Windows.Forms.TextBox();
             this.Bt_SetFolder = new System.Windows.Forms.Button();
             this.Tb_FolderLoc = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
@@ -132,8 +130,20 @@
             this.Tb_TecSerNumb = new System.Windows.Forms.TextBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.TbPg_Results = new System.Windows.Forms.TabPage();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.label9 = new System.Windows.Forms.Label();
             this.Tb_DatabaseWrt = new System.Windows.Forms.TextBox();
+            this.label40 = new System.Windows.Forms.Label();
+            this.Tb_InitialCatalog = new System.Windows.Forms.TextBox();
+            this.label39 = new System.Windows.Forms.Label();
+            this.Tb_ServerName = new System.Windows.Forms.TextBox();
+            this.Bt_EnableDBstring = new System.Windows.Forms.Button();
+            this.label38 = new System.Windows.Forms.Label();
+            this.Tb_Pw1 = new System.Windows.Forms.TextBox();
+            this.label37 = new System.Windows.Forms.Label();
+            this.Tb_User1 = new System.Windows.Forms.TextBox();
+            this.label36 = new System.Windows.Forms.Label();
+            this.Tb_DatabaseString = new System.Windows.Forms.TextBox();
             this.Bt_EnableIObox = new System.Windows.Forms.Button();
             this.Lbl_TempSens = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
@@ -206,25 +216,14 @@
             this.Tb_CalAcmdToPw = new System.Windows.Forms.TextBox();
             this.Tb_VPcon = new System.Windows.Forms.TextBox();
             this.label42 = new System.Windows.Forms.Label();
-            this.label40 = new System.Windows.Forms.Label();
             this.label31 = new System.Windows.Forms.Label();
-            this.Tb_InitialCatalog = new System.Windows.Forms.TextBox();
-            this.label39 = new System.Windows.Forms.Label();
             this.Tb_VGASet = new System.Windows.Forms.TextBox();
-            this.Tb_ServerName = new System.Windows.Forms.TextBox();
-            this.Bt_EnableDBstring = new System.Windows.Forms.Button();
             this.tb_SetIntPw = new System.Windows.Forms.TextBox();
-            this.label38 = new System.Windows.Forms.Label();
             this.Tb_SetOffset = new System.Windows.Forms.TextBox();
-            this.Tb_Pw1 = new System.Windows.Forms.TextBox();
-            this.label37 = new System.Windows.Forms.Label();
             this.Bt_RdAnlg = new System.Windows.Forms.Button();
-            this.Tb_User1 = new System.Windows.Forms.TextBox();
             this.Bt_LaserEn = new System.Windows.Forms.Button();
             this.Bt_InvDigtMod = new System.Windows.Forms.Button();
-            this.label36 = new System.Windows.Forms.Label();
             this.Bt_InvAnlg = new System.Windows.Forms.Button();
-            this.Tb_DatabaseString = new System.Windows.Forms.TextBox();
             this.Bt_IntExtPw = new System.Windows.Forms.Button();
             this.Rt_ReceiveDataUSB = new System.Windows.Forms.RichTextBox();
             this.Bt_RdLaserStatus = new System.Windows.Forms.Button();
@@ -238,6 +237,7 @@
             this.TbPg_Iris_Init.SuspendLayout();
             this.GrBx_CutomIO.SuspendLayout();
             this.TbPg_Results.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -296,10 +296,10 @@
             this.TbPg_InsTest.Controls.Add(this.label29);
             this.TbPg_InsTest.ForeColor = System.Drawing.Color.DarkBlue;
             this.TbPg_InsTest.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.TbPg_InsTest.Location = new System.Drawing.Point(4, 22);
+            this.TbPg_InsTest.Location = new System.Drawing.Point(4, 25);
             this.TbPg_InsTest.Name = "TbPg_InsTest";
             this.TbPg_InsTest.Padding = new System.Windows.Forms.Padding(3);
-            this.TbPg_InsTest.Size = new System.Drawing.Size(692, 566);
+            this.TbPg_InsTest.Size = new System.Drawing.Size(698, 563);
             this.TbPg_InsTest.TabIndex = 1;
             this.TbPg_InsTest.Text = "Laser Calibration";
             // 
@@ -342,12 +342,12 @@
             this.groupBox4.Controls.Add(this.ChkBx_EnInvBurn);
             this.groupBox4.Controls.Add(this.ChkBx_AlgModInvBurn);
             this.groupBox4.Controls.Add(this.ChkBx_DiditModInvBurn);
-            this.groupBox4.Location = new System.Drawing.Point(356, 407);
+            this.groupBox4.Location = new System.Drawing.Point(103, 433);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(131, 98);
             this.groupBox4.TabIndex = 387;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Burn-in IO setup";
+            this.groupBox4.Text = "Test IO setup";
             // 
             // ChkBx_IntPwCtrlBurn
             // 
@@ -407,12 +407,12 @@
             // Bt_SetBurnin
             // 
             this.Bt_SetBurnin.BackColor = System.Drawing.Color.Coral;
-            this.Bt_SetBurnin.Location = new System.Drawing.Point(263, 433);
+            this.Bt_SetBurnin.Location = new System.Drawing.Point(8, 433);
             this.Bt_SetBurnin.Name = "Bt_SetBurnin";
             this.Bt_SetBurnin.Size = new System.Drawing.Size(87, 39);
             this.Bt_SetBurnin.TabIndex = 381;
             this.Bt_SetBurnin.TabStop = false;
-            this.Bt_SetBurnin.Text = "Set for \"burn-in\" test";
+            this.Bt_SetBurnin.Text = "Set for Test";
             this.Bt_SetBurnin.UseVisualStyleBackColor = false;
             this.Bt_SetBurnin.Click += new System.EventHandler(this.Bt_SetBurnin_Click);
             // 
@@ -445,7 +445,7 @@
             this.ChkBx_SingleTest.AutoSize = true;
             this.ChkBx_SingleTest.Checked = true;
             this.ChkBx_SingleTest.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ChkBx_SingleTest.Location = new System.Drawing.Point(10, 478);
+            this.ChkBx_SingleTest.Location = new System.Drawing.Point(324, 542);
             this.ChkBx_SingleTest.Name = "ChkBx_SingleTest";
             this.ChkBx_SingleTest.Size = new System.Drawing.Size(91, 17);
             this.ChkBx_SingleTest.TabIndex = 378;
@@ -477,7 +477,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(476, 71);
+            this.label17.Location = new System.Drawing.Point(420, 71);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(55, 13);
             this.label17.TabIndex = 375;
@@ -485,10 +485,11 @@
             // 
             // Rtb_ComList
             // 
-            this.Rtb_ComList.Location = new System.Drawing.Point(476, 87);
+            this.Rtb_ComList.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.Rtb_ComList.Location = new System.Drawing.Point(423, 87);
             this.Rtb_ComList.Name = "Rtb_ComList";
             this.Rtb_ComList.ReadOnly = true;
-            this.Rtb_ComList.Size = new System.Drawing.Size(201, 118);
+            this.Rtb_ComList.Size = new System.Drawing.Size(254, 118);
             this.Rtb_ComList.TabIndex = 374;
             this.Rtb_ComList.Text = "";
             this.Rtb_ComList.DoubleClick += new System.EventHandler(this.Rtb_ComList_DoubleClick);
@@ -514,16 +515,16 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(432, 308);
+            this.label15.Location = new System.Drawing.Point(328, 284);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(77, 13);
+            this.label15.Size = new System.Drawing.Size(74, 13);
             this.label15.TabIndex = 371;
-            this.label15.Text = "Clock Minutes:";
+            this.label15.Text = "Clock Minutes";
             // 
             // Lbl_TmrVal
             // 
             this.Lbl_TmrVal.AutoSize = true;
-            this.Lbl_TmrVal.Location = new System.Drawing.Point(432, 328);
+            this.Lbl_TmrVal.Location = new System.Drawing.Point(269, 284);
             this.Lbl_TmrVal.Name = "Lbl_TmrVal";
             this.Lbl_TmrVal.Size = new System.Drawing.Size(55, 13);
             this.Lbl_TmrVal.TabIndex = 370;
@@ -532,7 +533,7 @@
             // ChkBx_LIlog
             // 
             this.ChkBx_LIlog.AutoSize = true;
-            this.ChkBx_LIlog.Location = new System.Drawing.Point(10, 413);
+            this.ChkBx_LIlog.Location = new System.Drawing.Point(324, 519);
             this.ChkBx_LIlog.Name = "ChkBx_LIlog";
             this.ChkBx_LIlog.Size = new System.Drawing.Size(75, 17);
             this.ChkBx_LIlog.TabIndex = 369;
@@ -551,7 +552,7 @@
             // Lbl_PDmonUser
             // 
             this.Lbl_PDmonUser.AutoSize = true;
-            this.Lbl_PDmonUser.Location = new System.Drawing.Point(281, 224);
+            this.Lbl_PDmonUser.Location = new System.Drawing.Point(284, 224);
             this.Lbl_PDmonUser.Name = "Lbl_PDmonUser";
             this.Lbl_PDmonUser.Size = new System.Drawing.Size(40, 13);
             this.Lbl_PDmonUser.TabIndex = 367;
@@ -570,7 +571,7 @@
             // Lbl_PM100user
             // 
             this.Lbl_PM100user.AutoSize = true;
-            this.Lbl_PM100user.Location = new System.Drawing.Point(281, 264);
+            this.Lbl_PM100user.Location = new System.Drawing.Point(284, 264);
             this.Lbl_PM100user.Name = "Lbl_PM100user";
             this.Lbl_PM100user.Size = new System.Drawing.Size(40, 13);
             this.Lbl_PM100user.TabIndex = 365;
@@ -579,7 +580,7 @@
             // Lbl_ImonUser
             // 
             this.Lbl_ImonUser.AutoSize = true;
-            this.Lbl_ImonUser.Location = new System.Drawing.Point(287, 244);
+            this.Lbl_ImonUser.Location = new System.Drawing.Point(290, 244);
             this.Lbl_ImonUser.Name = "Lbl_ImonUser";
             this.Lbl_ImonUser.Size = new System.Drawing.Size(34, 13);
             this.Lbl_ImonUser.TabIndex = 361;
@@ -611,7 +612,7 @@
             this.groupBox3.Controls.Add(this.RdBt_LIint);
             this.groupBox3.Controls.Add(this.RdBt_LI50);
             this.groupBox3.Controls.Add(this.RdBt_LI05);
-            this.groupBox3.Location = new System.Drawing.Point(108, 407);
+            this.groupBox3.Location = new System.Drawing.Point(319, 431);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(142, 82);
             this.groupBox3.TabIndex = 358;
@@ -674,12 +675,12 @@
             // Bt_LiPlot
             // 
             this.Bt_LiPlot.BackColor = System.Drawing.Color.Coral;
-            this.Bt_LiPlot.Location = new System.Drawing.Point(10, 433);
+            this.Bt_LiPlot.Location = new System.Drawing.Point(423, 290);
             this.Bt_LiPlot.Name = "Bt_LiPlot";
             this.Bt_LiPlot.Size = new System.Drawing.Size(87, 39);
             this.Bt_LiPlot.TabIndex = 320;
             this.Bt_LiPlot.TabStop = false;
-            this.Bt_LiPlot.Text = "LI Plot";
+            this.Bt_LiPlot.Text = "Set to Nominal Laser Power";
             this.Bt_LiPlot.UseVisualStyleBackColor = false;
             this.Bt_LiPlot.Click += new System.EventHandler(this.Bt_LiPlot_Click);
             // 
@@ -1023,13 +1024,15 @@
             // 
             // tabControl1
             // 
+            this.tabControl1.Appearance = System.Windows.Forms.TabAppearance.Buttons;
             this.tabControl1.Controls.Add(this.TbPg_Iris_Init);
             this.tabControl1.Controls.Add(this.TbPg_InsTest);
             this.tabControl1.Controls.Add(this.TbPg_Results);
-            this.tabControl1.Location = new System.Drawing.Point(4, 2);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(700, 592);
+            this.tabControl1.Size = new System.Drawing.Size(706, 592);
             this.tabControl1.TabIndex = 0;
             // 
             // TbPg_Iris_Init
@@ -1039,8 +1042,6 @@
             this.TbPg_Iris_Init.Controls.Add(this.label4);
             this.TbPg_Iris_Init.Controls.Add(this.label5);
             this.TbPg_Iris_Init.Controls.Add(this.Tb_txtFilePathRep);
-            this.TbPg_Iris_Init.Controls.Add(this.label28);
-            this.TbPg_Iris_Init.Controls.Add(this.Tb_txtFilePathLI);
             this.TbPg_Iris_Init.Controls.Add(this.Bt_SetFolder);
             this.TbPg_Iris_Init.Controls.Add(this.Tb_FolderLoc);
             this.TbPg_Iris_Init.Controls.Add(this.label13);
@@ -1061,10 +1062,10 @@
             this.TbPg_Iris_Init.Controls.Add(this.Tb_User);
             this.TbPg_Iris_Init.Controls.Add(this.Tb_TecSerNumb);
             this.TbPg_Iris_Init.Controls.Add(this.dateTimePicker1);
-            this.TbPg_Iris_Init.Location = new System.Drawing.Point(4, 22);
+            this.TbPg_Iris_Init.Location = new System.Drawing.Point(4, 25);
             this.TbPg_Iris_Init.Name = "TbPg_Iris_Init";
             this.TbPg_Iris_Init.Padding = new System.Windows.Forms.Padding(3);
-            this.TbPg_Iris_Init.Size = new System.Drawing.Size(692, 566);
+            this.TbPg_Iris_Init.Size = new System.Drawing.Size(692, 563);
             this.TbPg_Iris_Init.TabIndex = 0;
             this.TbPg_Iris_Init.Text = " Test Init.";
             this.TbPg_Iris_Init.UseVisualStyleBackColor = true;
@@ -1156,22 +1157,6 @@
             this.Tb_txtFilePathRep.Name = "Tb_txtFilePathRep";
             this.Tb_txtFilePathRep.Size = new System.Drawing.Size(313, 20);
             this.Tb_txtFilePathRep.TabIndex = 358;
-            // 
-            // label28
-            // 
-            this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(291, 542);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(77, 13);
-            this.label28.TabIndex = 357;
-            this.label28.Text = "LI *.txt file path";
-            // 
-            // Tb_txtFilePathLI
-            // 
-            this.Tb_txtFilePathLI.Location = new System.Drawing.Point(373, 539);
-            this.Tb_txtFilePathLI.Name = "Tb_txtFilePathLI";
-            this.Tb_txtFilePathLI.Size = new System.Drawing.Size(313, 20);
-            this.Tb_txtFilePathLI.TabIndex = 356;
             // 
             // Bt_SetFolder
             // 
@@ -1387,8 +1372,7 @@
             // 
             // TbPg_Results
             // 
-            this.TbPg_Results.Controls.Add(this.label9);
-            this.TbPg_Results.Controls.Add(this.Tb_DatabaseWrt);
+            this.TbPg_Results.Controls.Add(this.groupBox5);
             this.TbPg_Results.Controls.Add(this.Bt_EnableIObox);
             this.TbPg_Results.Controls.Add(this.Lbl_TempSens);
             this.TbPg_Results.Controls.Add(this.label23);
@@ -1452,54 +1436,170 @@
             this.TbPg_Results.Controls.Add(this.Tb_CalAcmdToPw);
             this.TbPg_Results.Controls.Add(this.Tb_VPcon);
             this.TbPg_Results.Controls.Add(this.label42);
-            this.TbPg_Results.Controls.Add(this.label40);
             this.TbPg_Results.Controls.Add(this.label31);
-            this.TbPg_Results.Controls.Add(this.Tb_InitialCatalog);
-            this.TbPg_Results.Controls.Add(this.label39);
             this.TbPg_Results.Controls.Add(this.Tb_VGASet);
-            this.TbPg_Results.Controls.Add(this.Tb_ServerName);
-            this.TbPg_Results.Controls.Add(this.Bt_EnableDBstring);
             this.TbPg_Results.Controls.Add(this.tb_SetIntPw);
-            this.TbPg_Results.Controls.Add(this.label38);
             this.TbPg_Results.Controls.Add(this.Tb_SetOffset);
-            this.TbPg_Results.Controls.Add(this.Tb_Pw1);
-            this.TbPg_Results.Controls.Add(this.label37);
             this.TbPg_Results.Controls.Add(this.Bt_RdAnlg);
-            this.TbPg_Results.Controls.Add(this.Tb_User1);
             this.TbPg_Results.Controls.Add(this.Bt_LaserEn);
             this.TbPg_Results.Controls.Add(this.Bt_InvDigtMod);
-            this.TbPg_Results.Controls.Add(this.label36);
             this.TbPg_Results.Controls.Add(this.Bt_InvAnlg);
-            this.TbPg_Results.Controls.Add(this.Tb_DatabaseString);
             this.TbPg_Results.Controls.Add(this.Bt_IntExtPw);
             this.TbPg_Results.Controls.Add(this.Rt_ReceiveDataUSB);
             this.TbPg_Results.Controls.Add(this.Bt_RdLaserStatus);
             this.TbPg_Results.Controls.Add(this.dataGridView1);
-            this.TbPg_Results.Location = new System.Drawing.Point(4, 22);
+            this.TbPg_Results.Location = new System.Drawing.Point(4, 25);
             this.TbPg_Results.Name = "TbPg_Results";
-            this.TbPg_Results.Size = new System.Drawing.Size(692, 566);
+            this.TbPg_Results.Size = new System.Drawing.Size(692, 563);
             this.TbPg_Results.TabIndex = 3;
             this.TbPg_Results.Text = "Engineering";
             this.TbPg_Results.UseVisualStyleBackColor = true;
             // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.label9);
+            this.groupBox5.Controls.Add(this.Tb_DatabaseWrt);
+            this.groupBox5.Controls.Add(this.label40);
+            this.groupBox5.Controls.Add(this.Tb_InitialCatalog);
+            this.groupBox5.Controls.Add(this.label39);
+            this.groupBox5.Controls.Add(this.Tb_ServerName);
+            this.groupBox5.Controls.Add(this.Bt_EnableDBstring);
+            this.groupBox5.Controls.Add(this.label38);
+            this.groupBox5.Controls.Add(this.Tb_Pw1);
+            this.groupBox5.Controls.Add(this.label37);
+            this.groupBox5.Controls.Add(this.Tb_User1);
+            this.groupBox5.Controls.Add(this.label36);
+            this.groupBox5.Controls.Add(this.Tb_DatabaseString);
+            this.groupBox5.Location = new System.Drawing.Point(434, 347);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(252, 214);
+            this.groupBox5.TabIndex = 365;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Database ";
+            // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(457, 359);
+            this.label9.Location = new System.Drawing.Point(15, 28);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(111, 13);
-            this.label9.TabIndex = 364;
+            this.label9.TabIndex = 377;
             this.label9.Text = "Database Table Write";
             this.label9.Visible = false;
             // 
             // Tb_DatabaseWrt
             // 
-            this.Tb_DatabaseWrt.Location = new System.Drawing.Point(575, 356);
+            this.Tb_DatabaseWrt.Location = new System.Drawing.Point(129, 24);
             this.Tb_DatabaseWrt.Name = "Tb_DatabaseWrt";
             this.Tb_DatabaseWrt.Size = new System.Drawing.Size(111, 20);
-            this.Tb_DatabaseWrt.TabIndex = 363;
+            this.Tb_DatabaseWrt.TabIndex = 376;
             this.Tb_DatabaseWrt.Text = "iFLEX_iRIS_Setup_Results";
             this.Tb_DatabaseWrt.Visible = false;
+            // 
+            // label40
+            // 
+            this.label40.AutoSize = true;
+            this.label40.Location = new System.Drawing.Point(38, 107);
+            this.label40.Name = "label40";
+            this.label40.Size = new System.Drawing.Size(88, 13);
+            this.label40.TabIndex = 375;
+            this.label40.Text = "Data Base Name";
+            this.label40.Visible = false;
+            // 
+            // Tb_InitialCatalog
+            // 
+            this.Tb_InitialCatalog.Location = new System.Drawing.Point(129, 103);
+            this.Tb_InitialCatalog.Name = "Tb_InitialCatalog";
+            this.Tb_InitialCatalog.Size = new System.Drawing.Size(111, 20);
+            this.Tb_InitialCatalog.TabIndex = 374;
+            this.Tb_InitialCatalog.Text = "QPL Production";
+            this.Tb_InitialCatalog.Visible = false;
+            // 
+            // label39
+            // 
+            this.label39.AutoSize = true;
+            this.label39.Location = new System.Drawing.Point(8, 80);
+            this.label39.Name = "label39";
+            this.label39.Size = new System.Drawing.Size(118, 13);
+            this.label39.TabIndex = 373;
+            this.label39.Text = "Database Server Name";
+            this.label39.Visible = false;
+            // 
+            // Tb_ServerName
+            // 
+            this.Tb_ServerName.Location = new System.Drawing.Point(129, 76);
+            this.Tb_ServerName.Name = "Tb_ServerName";
+            this.Tb_ServerName.Size = new System.Drawing.Size(111, 20);
+            this.Tb_ServerName.TabIndex = 372;
+            this.Tb_ServerName.Text = "ETCMUCD02";
+            this.Tb_ServerName.Visible = false;
+            // 
+            // Bt_EnableDBstring
+            // 
+            this.Bt_EnableDBstring.BackColor = System.Drawing.Color.White;
+            this.Bt_EnableDBstring.Location = new System.Drawing.Point(129, 180);
+            this.Bt_EnableDBstring.Name = "Bt_EnableDBstring";
+            this.Bt_EnableDBstring.Size = new System.Drawing.Size(111, 26);
+            this.Bt_EnableDBstring.TabIndex = 371;
+            this.Bt_EnableDBstring.Text = "Enable DB access";
+            this.Bt_EnableDBstring.UseVisualStyleBackColor = false;
+            // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.Location = new System.Drawing.Point(73, 158);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(53, 13);
+            this.label38.TabIndex = 370;
+            this.label38.Text = "Password";
+            this.label38.Visible = false;
+            // 
+            // Tb_Pw1
+            // 
+            this.Tb_Pw1.Location = new System.Drawing.Point(129, 154);
+            this.Tb_Pw1.Name = "Tb_Pw1";
+            this.Tb_Pw1.Size = new System.Drawing.Size(111, 20);
+            this.Tb_Pw1.TabIndex = 369;
+            this.Tb_Pw1.Text = "H@mbleDB!";
+            this.Tb_Pw1.Visible = false;
+            // 
+            // label37
+            // 
+            this.label37.AutoSize = true;
+            this.label37.Location = new System.Drawing.Point(71, 132);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(55, 13);
+            this.label37.TabIndex = 368;
+            this.label37.Text = "Username";
+            this.label37.Visible = false;
+            // 
+            // Tb_User1
+            // 
+            this.Tb_User1.Location = new System.Drawing.Point(129, 128);
+            this.Tb_User1.Name = "Tb_User1";
+            this.Tb_User1.Size = new System.Drawing.Size(111, 20);
+            this.Tb_User1.TabIndex = 367;
+            this.Tb_User1.Text = "HambleDBUser";
+            this.Tb_User1.Visible = false;
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.Location = new System.Drawing.Point(14, 54);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(112, 13);
+            this.label36.TabIndex = 366;
+            this.label36.Text = "Database Table Read";
+            this.label36.Visible = false;
+            // 
+            // Tb_DatabaseString
+            // 
+            this.Tb_DatabaseString.Location = new System.Drawing.Point(129, 50);
+            this.Tb_DatabaseString.Name = "Tb_DatabaseString";
+            this.Tb_DatabaseString.Size = new System.Drawing.Size(111, 20);
+            this.Tb_DatabaseString.TabIndex = 365;
+            this.Tb_DatabaseString.Text = "Laser_Setup_Config";
+            this.Tb_DatabaseString.Visible = false;
             // 
             // Bt_EnableIObox
             // 
@@ -1575,7 +1675,7 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(431, 315);
+            this.label20.Location = new System.Drawing.Point(126, 491);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(88, 13);
             this.label20.TabIndex = 355;
@@ -1827,7 +1927,7 @@
             // label59
             // 
             this.label59.AutoSize = true;
-            this.label59.Location = new System.Drawing.Point(568, 547);
+            this.label59.Location = new System.Drawing.Point(310, 543);
             this.label59.Name = "label59";
             this.label59.Size = new System.Drawing.Size(84, 13);
             this.label59.TabIndex = 333;
@@ -1835,7 +1935,7 @@
             // 
             // Tb_RsDelay
             // 
-            this.Tb_RsDelay.Location = new System.Drawing.Point(655, 543);
+            this.Tb_RsDelay.Location = new System.Drawing.Point(394, 540);
             this.Tb_RsDelay.Name = "Tb_RsDelay";
             this.Tb_RsDelay.Size = new System.Drawing.Size(31, 20);
             this.Tb_RsDelay.TabIndex = 332;
@@ -2067,10 +2167,11 @@
             // CmBx_PM100str
             // 
             this.CmBx_PM100str.Items.AddRange(new object[] {
+            "USB0::0x1313::0x8072::P2007172::0::INSTR",
             "USB0::0x1313::0x8072::P2008742::0::INSTR",
             "USB0::0x1313::0x8072::P2002916::0::INSTR",
             "USB0::0x1313::0x8072::P2008991::0::INSTR"});
-            this.CmBx_PM100str.Location = new System.Drawing.Point(434, 331);
+            this.CmBx_PM100str.Location = new System.Drawing.Point(129, 507);
             this.CmBx_PM100str.Name = "CmBx_PM100str";
             this.CmBx_PM100str.Size = new System.Drawing.Size(252, 21);
             this.CmBx_PM100str.TabIndex = 300;
@@ -2196,16 +2297,6 @@
             this.label42.TabIndex = 270;
             this.label42.Text = "V Offset";
             // 
-            // label40
-            // 
-            this.label40.AutoSize = true;
-            this.label40.Location = new System.Drawing.Point(483, 438);
-            this.label40.Name = "label40";
-            this.label40.Size = new System.Drawing.Size(88, 13);
-            this.label40.TabIndex = 204;
-            this.label40.Text = "Data Base Name";
-            this.label40.Visible = false;
-            // 
             // label31
             // 
             this.label31.AutoSize = true;
@@ -2215,25 +2306,6 @@
             this.label31.TabIndex = 257;
             this.label31.Text = "VGA";
             // 
-            // Tb_InitialCatalog
-            // 
-            this.Tb_InitialCatalog.Location = new System.Drawing.Point(575, 435);
-            this.Tb_InitialCatalog.Name = "Tb_InitialCatalog";
-            this.Tb_InitialCatalog.Size = new System.Drawing.Size(111, 20);
-            this.Tb_InitialCatalog.TabIndex = 203;
-            this.Tb_InitialCatalog.Text = "QPL Production";
-            this.Tb_InitialCatalog.Visible = false;
-            // 
-            // label39
-            // 
-            this.label39.AutoSize = true;
-            this.label39.Location = new System.Drawing.Point(453, 411);
-            this.label39.Name = "label39";
-            this.label39.Size = new System.Drawing.Size(118, 13);
-            this.label39.TabIndex = 202;
-            this.label39.Text = "Database Server Name";
-            this.label39.Visible = false;
-            // 
             // Tb_VGASet
             // 
             this.Tb_VGASet.Location = new System.Drawing.Point(274, 217);
@@ -2241,26 +2313,6 @@
             this.Tb_VGASet.Size = new System.Drawing.Size(46, 20);
             this.Tb_VGASet.TabIndex = 255;
             this.Tb_VGASet.Text = "0020";
-            // 
-            // Tb_ServerName
-            // 
-            this.Tb_ServerName.Location = new System.Drawing.Point(575, 408);
-            this.Tb_ServerName.Name = "Tb_ServerName";
-            this.Tb_ServerName.Size = new System.Drawing.Size(111, 20);
-            this.Tb_ServerName.TabIndex = 201;
-            this.Tb_ServerName.Text = "ETCMUCD02";
-            this.Tb_ServerName.Visible = false;
-            // 
-            // Bt_EnableDBstring
-            // 
-            this.Bt_EnableDBstring.BackColor = System.Drawing.Color.White;
-            this.Bt_EnableDBstring.Location = new System.Drawing.Point(575, 512);
-            this.Bt_EnableDBstring.Name = "Bt_EnableDBstring";
-            this.Bt_EnableDBstring.Size = new System.Drawing.Size(111, 26);
-            this.Bt_EnableDBstring.TabIndex = 200;
-            this.Bt_EnableDBstring.Text = "Enable DB access";
-            this.Bt_EnableDBstring.UseVisualStyleBackColor = false;
-            this.Bt_EnableDBstring.Click += new System.EventHandler(this.Bt_EnableDBstring_Click);
             // 
             // tb_SetIntPw
             // 
@@ -2270,16 +2322,6 @@
             this.tb_SetIntPw.TabIndex = 250;
             this.tb_SetIntPw.Text = "02.500";
             // 
-            // label38
-            // 
-            this.label38.AutoSize = true;
-            this.label38.Location = new System.Drawing.Point(518, 489);
-            this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(53, 13);
-            this.label38.TabIndex = 199;
-            this.label38.Text = "Password";
-            this.label38.Visible = false;
-            // 
             // Tb_SetOffset
             // 
             this.Tb_SetOffset.Location = new System.Drawing.Point(5, 393);
@@ -2287,25 +2329,6 @@
             this.Tb_SetOffset.Size = new System.Drawing.Size(40, 20);
             this.Tb_SetOffset.TabIndex = 249;
             this.Tb_SetOffset.Text = "02.500";
-            // 
-            // Tb_Pw1
-            // 
-            this.Tb_Pw1.Location = new System.Drawing.Point(575, 486);
-            this.Tb_Pw1.Name = "Tb_Pw1";
-            this.Tb_Pw1.Size = new System.Drawing.Size(111, 20);
-            this.Tb_Pw1.TabIndex = 198;
-            this.Tb_Pw1.Text = "H@mbleDB!";
-            this.Tb_Pw1.Visible = false;
-            // 
-            // label37
-            // 
-            this.label37.AutoSize = true;
-            this.label37.Location = new System.Drawing.Point(516, 463);
-            this.label37.Name = "label37";
-            this.label37.Size = new System.Drawing.Size(55, 13);
-            this.label37.TabIndex = 197;
-            this.label37.Text = "Username";
-            this.label37.Visible = false;
             // 
             // Bt_RdAnlg
             // 
@@ -2316,15 +2339,6 @@
             this.Bt_RdAnlg.Text = "Rd. Anlg. USB";
             this.Bt_RdAnlg.UseVisualStyleBackColor = true;
             this.Bt_RdAnlg.Click += new System.EventHandler(this.Bt_RdAnlg_Click_1);
-            // 
-            // Tb_User1
-            // 
-            this.Tb_User1.Location = new System.Drawing.Point(575, 460);
-            this.Tb_User1.Name = "Tb_User1";
-            this.Tb_User1.Size = new System.Drawing.Size(111, 20);
-            this.Tb_User1.TabIndex = 196;
-            this.Tb_User1.Text = "HambleDBUser";
-            this.Tb_User1.Visible = false;
             // 
             // Bt_LaserEn
             // 
@@ -2350,16 +2364,6 @@
             this.Bt_InvDigtMod.UseVisualStyleBackColor = false;
             this.Bt_InvDigtMod.Click += new System.EventHandler(this.Bt_InvDigtMod_Click_1);
             // 
-            // label36
-            // 
-            this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(457, 385);
-            this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(112, 13);
-            this.label36.TabIndex = 188;
-            this.label36.Text = "Database Table Read";
-            this.label36.Visible = false;
-            // 
             // Bt_InvAnlg
             // 
             this.Bt_InvAnlg.BackColor = System.Drawing.Color.SandyBrown;
@@ -2371,15 +2375,6 @@
             this.Bt_InvAnlg.Text = "Inv. Anlg In";
             this.Bt_InvAnlg.UseVisualStyleBackColor = false;
             this.Bt_InvAnlg.Click += new System.EventHandler(this.Bt_InvAnlg_Click_1);
-            // 
-            // Tb_DatabaseString
-            // 
-            this.Tb_DatabaseString.Location = new System.Drawing.Point(575, 382);
-            this.Tb_DatabaseString.Name = "Tb_DatabaseString";
-            this.Tb_DatabaseString.Size = new System.Drawing.Size(111, 20);
-            this.Tb_DatabaseString.TabIndex = 187;
-            this.Tb_DatabaseString.Text = "Laser_Setup_Config";
-            this.Tb_DatabaseString.Visible = false;
             // 
             // Bt_IntExtPw
             // 
@@ -2447,6 +2442,8 @@
             this.GrBx_CutomIO.PerformLayout();
             this.TbPg_Results.ResumeLayout(false);
             this.TbPg_Results.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -2488,23 +2485,12 @@
         private System.Windows.Forms.TextBox Tb_Ki;
         private System.Windows.Forms.TextBox Tb_Kp;
         private System.Windows.Forms.TextBox Tb_TECpoint;
-        private System.Windows.Forms.Label label40;
-        private System.Windows.Forms.TextBox Tb_InitialCatalog;
-        private System.Windows.Forms.Label label39;
-        private System.Windows.Forms.TextBox Tb_ServerName;
-        private System.Windows.Forms.Button Bt_EnableDBstring;
         private System.Windows.Forms.TextBox tb_SetIntPw;
-        private System.Windows.Forms.Label label38;
         private System.Windows.Forms.TextBox Tb_SetOffset;
-        private System.Windows.Forms.TextBox Tb_Pw1;
-        private System.Windows.Forms.Label label37;
         private System.Windows.Forms.Button Bt_RdAnlg;
-        private System.Windows.Forms.TextBox Tb_User1;
         private System.Windows.Forms.Button Bt_LaserEn;
         private System.Windows.Forms.Button Bt_InvDigtMod;
-        private System.Windows.Forms.Label label36;
         private System.Windows.Forms.Button Bt_InvAnlg;
-        private System.Windows.Forms.TextBox Tb_DatabaseString;
         private System.Windows.Forms.Button Bt_IntExtPw;
         private System.Windows.Forms.RichTextBox Rt_ReceiveDataUSB;
         private System.Windows.Forms.Button Bt_RdLaserStatus;
@@ -2636,8 +2622,6 @@
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox Tb_txtFilePathRep;
-        private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.TextBox Tb_txtFilePathLI;
         private System.Windows.Forms.Button Bt_SetFolder;
         private System.Windows.Forms.TextBox Tb_FolderLoc;
         private System.Windows.Forms.Label label4;
@@ -2654,8 +2638,20 @@
         private System.Windows.Forms.Button Bt_EnableIObox;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.GroupBox GrBx_532Tset;
+        private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox Tb_DatabaseWrt;
+        private System.Windows.Forms.Label label40;
+        private System.Windows.Forms.TextBox Tb_InitialCatalog;
+        private System.Windows.Forms.Label label39;
+        private System.Windows.Forms.TextBox Tb_ServerName;
+        private System.Windows.Forms.Button Bt_EnableDBstring;
+        private System.Windows.Forms.Label label38;
+        private System.Windows.Forms.TextBox Tb_Pw1;
+        private System.Windows.Forms.Label label37;
+        private System.Windows.Forms.TextBox Tb_User1;
+        private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.TextBox Tb_DatabaseString;
     }
 }
 
