@@ -41,7 +41,6 @@
             this.Bt_SetBurnin = new System.Windows.Forms.Button();
             this.Bt_ZroCurr_PMonOutCal = new System.Windows.Forms.Button();
             this.Bt_PM100 = new System.Windows.Forms.Button();
-            this.ChkBx_SingleTest = new System.Windows.Forms.CheckBox();
             this.Tb_LaserOK = new System.Windows.Forms.TextBox();
             this.Bt_RsLaserOk = new System.Windows.Forms.Button();
             this.label17 = new System.Windows.Forms.Label();
@@ -50,7 +49,6 @@
             this.Lbl_MaOrBits = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.Lbl_TmrVal = new System.Windows.Forms.Label();
-            this.ChkBx_LIlog = new System.Windows.Forms.CheckBox();
             this.label16 = new System.Windows.Forms.Label();
             this.Lbl_PDmonUser = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
@@ -58,10 +56,6 @@
             this.Lbl_ImonUser = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.Bt_RstClk = new System.Windows.Forms.Button();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.RdBt_LIint = new System.Windows.Forms.RadioButton();
-            this.RdBt_LI50 = new System.Windows.Forms.RadioButton();
-            this.RdBt_LI05 = new System.Windows.Forms.RadioButton();
             this.Prg_Bar01 = new System.Windows.Forms.ProgressBar();
             this.Bt_ShipState = new System.Windows.Forms.Button();
             this.Bt_LiPlot = new System.Windows.Forms.Button();
@@ -137,7 +131,6 @@
             this.Tb_InitialCatalog = new System.Windows.Forms.TextBox();
             this.label39 = new System.Windows.Forms.Label();
             this.Tb_ServerName = new System.Windows.Forms.TextBox();
-            this.Bt_EnableDBstring = new System.Windows.Forms.Button();
             this.label38 = new System.Windows.Forms.Label();
             this.Tb_Pw1 = new System.Windows.Forms.TextBox();
             this.label37 = new System.Windows.Forms.Label();
@@ -149,6 +142,7 @@
             this.label23 = new System.Windows.Forms.Label();
             this.Tb_SetPower03 = new System.Windows.Forms.TextBox();
             this.Bt_SetPower03 = new System.Windows.Forms.Button();
+            this.Bt_EnableDBstring = new System.Windows.Forms.Button();
             this.label22 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
@@ -201,7 +195,6 @@
             this.Bt_DigMod = new System.Windows.Forms.Button();
             this.Bt_LsEnable = new System.Windows.Forms.Button();
             this.CmBx_USBinterface = new System.Windows.Forms.ComboBox();
-            this.CmBx_PM100str = new System.Windows.Forms.ComboBox();
             this.label48 = new System.Windows.Forms.Label();
             this.lbl_01 = new System.Windows.Forms.Label();
             this.Tb_CalB_Pw = new System.Windows.Forms.TextBox();
@@ -227,11 +220,10 @@
             this.Bt_IntExtPw = new System.Windows.Forms.Button();
             this.Rt_ReceiveDataUSB = new System.Windows.Forms.RichTextBox();
             this.Bt_RdLaserStatus = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Tb_PM100str = new System.Windows.Forms.TextBox();
             this.TbPg_InsTest.SuspendLayout();
             this.GrBx_532Tset.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.TbPg_Iris_Init.SuspendLayout();
@@ -239,7 +231,6 @@
             this.TbPg_Results.SuspendLayout();
             this.GrBx_DatabaseString.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // TbPg_InsTest
@@ -250,7 +241,6 @@
             this.TbPg_InsTest.Controls.Add(this.Bt_SetBurnin);
             this.TbPg_InsTest.Controls.Add(this.Bt_ZroCurr_PMonOutCal);
             this.TbPg_InsTest.Controls.Add(this.Bt_PM100);
-            this.TbPg_InsTest.Controls.Add(this.ChkBx_SingleTest);
             this.TbPg_InsTest.Controls.Add(this.Tb_LaserOK);
             this.TbPg_InsTest.Controls.Add(this.Bt_RsLaserOk);
             this.TbPg_InsTest.Controls.Add(this.label17);
@@ -259,7 +249,6 @@
             this.TbPg_InsTest.Controls.Add(this.Lbl_MaOrBits);
             this.TbPg_InsTest.Controls.Add(this.label15);
             this.TbPg_InsTest.Controls.Add(this.Lbl_TmrVal);
-            this.TbPg_InsTest.Controls.Add(this.ChkBx_LIlog);
             this.TbPg_InsTest.Controls.Add(this.label16);
             this.TbPg_InsTest.Controls.Add(this.Lbl_PDmonUser);
             this.TbPg_InsTest.Controls.Add(this.label14);
@@ -267,7 +256,6 @@
             this.TbPg_InsTest.Controls.Add(this.Lbl_ImonUser);
             this.TbPg_InsTest.Controls.Add(this.label19);
             this.TbPg_InsTest.Controls.Add(this.Bt_RstClk);
-            this.TbPg_InsTest.Controls.Add(this.groupBox3);
             this.TbPg_InsTest.Controls.Add(this.Prg_Bar01);
             this.TbPg_InsTest.Controls.Add(this.Bt_ShipState);
             this.TbPg_InsTest.Controls.Add(this.Bt_LiPlot);
@@ -440,19 +428,6 @@
             this.Bt_PM100.UseVisualStyleBackColor = false;
             this.Bt_PM100.Click += new System.EventHandler(this.Bt_PM100_Click);
             // 
-            // ChkBx_SingleTest
-            // 
-            this.ChkBx_SingleTest.AutoSize = true;
-            this.ChkBx_SingleTest.Checked = true;
-            this.ChkBx_SingleTest.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ChkBx_SingleTest.Location = new System.Drawing.Point(324, 542);
-            this.ChkBx_SingleTest.Name = "ChkBx_SingleTest";
-            this.ChkBx_SingleTest.Size = new System.Drawing.Size(91, 17);
-            this.ChkBx_SingleTest.TabIndex = 378;
-            this.ChkBx_SingleTest.Text = "Max. Pw Test";
-            this.ChkBx_SingleTest.UseVisualStyleBackColor = true;
-            this.ChkBx_SingleTest.CheckedChanged += new System.EventHandler(this.ChkBx_SingleTest_CheckedChanged);
-            // 
             // Tb_LaserOK
             // 
             this.Tb_LaserOK.BackColor = System.Drawing.Color.Red;
@@ -530,16 +505,6 @@
             this.Lbl_TmrVal.TabIndex = 370;
             this.Lbl_TmrVal.Text = "00000000";
             // 
-            // ChkBx_LIlog
-            // 
-            this.ChkBx_LIlog.AutoSize = true;
-            this.ChkBx_LIlog.Location = new System.Drawing.Point(324, 519);
-            this.ChkBx_LIlog.Name = "ChkBx_LIlog";
-            this.ChkBx_LIlog.Size = new System.Drawing.Size(75, 17);
-            this.ChkBx_LIlog.TabIndex = 369;
-            this.ChkBx_LIlog.Text = "LI Log File";
-            this.ChkBx_LIlog.UseVisualStyleBackColor = true;
-            // 
             // label16
             // 
             this.label16.AutoSize = true;
@@ -606,50 +571,6 @@
             this.Bt_RstClk.Text = "Reset Clock";
             this.Bt_RstClk.UseVisualStyleBackColor = false;
             this.Bt_RstClk.Click += new System.EventHandler(this.Bt_RstClk_Click);
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.RdBt_LIint);
-            this.groupBox3.Controls.Add(this.RdBt_LI50);
-            this.groupBox3.Controls.Add(this.RdBt_LI05);
-            this.groupBox3.Location = new System.Drawing.Point(319, 431);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(142, 82);
-            this.groupBox3.TabIndex = 358;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "LI configuration";
-            // 
-            // RdBt_LIint
-            // 
-            this.RdBt_LIint.AutoSize = true;
-            this.RdBt_LIint.Checked = true;
-            this.RdBt_LIint.Location = new System.Drawing.Point(11, 59);
-            this.RdBt_LIint.Name = "RdBt_LIint";
-            this.RdBt_LIint.Size = new System.Drawing.Size(118, 17);
-            this.RdBt_LIint.TabIndex = 357;
-            this.RdBt_LIint.TabStop = true;
-            this.RdBt_LIint.Text = "Internal PCON DAC";
-            this.RdBt_LIint.UseVisualStyleBackColor = true;
-            // 
-            // RdBt_LI50
-            // 
-            this.RdBt_LI50.AutoSize = true;
-            this.RdBt_LI50.Location = new System.Drawing.Point(11, 39);
-            this.RdBt_LI50.Name = "RdBt_LI50";
-            this.RdBt_LI50.Size = new System.Drawing.Size(121, 17);
-            this.RdBt_LI50.TabIndex = 356;
-            this.RdBt_LI50.Text = "5-0V External PCON";
-            this.RdBt_LI50.UseVisualStyleBackColor = true;
-            // 
-            // RdBt_LI05
-            // 
-            this.RdBt_LI05.AutoSize = true;
-            this.RdBt_LI05.Location = new System.Drawing.Point(11, 19);
-            this.RdBt_LI05.Name = "RdBt_LI05";
-            this.RdBt_LI05.Size = new System.Drawing.Size(121, 17);
-            this.RdBt_LI05.TabIndex = 355;
-            this.RdBt_LI05.Text = "0-5V External PCON";
-            this.RdBt_LI05.UseVisualStyleBackColor = true;
             // 
             // Prg_Bar01
             // 
@@ -1372,6 +1293,7 @@
             // 
             // TbPg_Results
             // 
+            this.TbPg_Results.Controls.Add(this.Tb_PM100str);
             this.TbPg_Results.Controls.Add(this.GrBx_DatabaseString);
             this.TbPg_Results.Controls.Add(this.Bt_EnableIObox);
             this.TbPg_Results.Controls.Add(this.Lbl_TempSens);
@@ -1422,7 +1344,6 @@
             this.TbPg_Results.Controls.Add(this.Bt_DigMod);
             this.TbPg_Results.Controls.Add(this.Bt_LsEnable);
             this.TbPg_Results.Controls.Add(this.CmBx_USBinterface);
-            this.TbPg_Results.Controls.Add(this.CmBx_PM100str);
             this.TbPg_Results.Controls.Add(this.label48);
             this.TbPg_Results.Controls.Add(this.lbl_01);
             this.TbPg_Results.Controls.Add(this.Tb_CalB_Pw);
@@ -1448,7 +1369,6 @@
             this.TbPg_Results.Controls.Add(this.Bt_IntExtPw);
             this.TbPg_Results.Controls.Add(this.Rt_ReceiveDataUSB);
             this.TbPg_Results.Controls.Add(this.Bt_RdLaserStatus);
-            this.TbPg_Results.Controls.Add(this.dataGridView1);
             this.TbPg_Results.Location = new System.Drawing.Point(4, 25);
             this.TbPg_Results.Name = "TbPg_Results";
             this.TbPg_Results.Size = new System.Drawing.Size(698, 563);
@@ -1531,17 +1451,6 @@
             this.Tb_ServerName.Size = new System.Drawing.Size(111, 20);
             this.Tb_ServerName.TabIndex = 372;
             this.Tb_ServerName.Text = "ETCMUCD02";
-            // 
-            // Bt_EnableDBstring
-            // 
-            this.Bt_EnableDBstring.BackColor = System.Drawing.Color.White;
-            this.Bt_EnableDBstring.Location = new System.Drawing.Point(575, 534);
-            this.Bt_EnableDBstring.Name = "Bt_EnableDBstring";
-            this.Bt_EnableDBstring.Size = new System.Drawing.Size(111, 26);
-            this.Bt_EnableDBstring.TabIndex = 371;
-            this.Bt_EnableDBstring.Text = "Enable DB access";
-            this.Bt_EnableDBstring.UseVisualStyleBackColor = false;
-            this.Bt_EnableDBstring.Click += new System.EventHandler(this.Bt_EnableDBstring_Click_1);
             // 
             // label38
             // 
@@ -1648,6 +1557,17 @@
             this.Bt_SetPower03.Text = "Set Power 03";
             this.Bt_SetPower03.UseVisualStyleBackColor = false;
             this.Bt_SetPower03.Click += new System.EventHandler(this.Bt_SetPower03_Click);
+            // 
+            // Bt_EnableDBstring
+            // 
+            this.Bt_EnableDBstring.BackColor = System.Drawing.Color.White;
+            this.Bt_EnableDBstring.Location = new System.Drawing.Point(575, 534);
+            this.Bt_EnableDBstring.Name = "Bt_EnableDBstring";
+            this.Bt_EnableDBstring.Size = new System.Drawing.Size(111, 26);
+            this.Bt_EnableDBstring.TabIndex = 371;
+            this.Bt_EnableDBstring.Text = "Enable DB access";
+            this.Bt_EnableDBstring.UseVisualStyleBackColor = false;
+            this.Bt_EnableDBstring.Click += new System.EventHandler(this.Bt_EnableDBstring_Click_1);
             // 
             // label22
             // 
@@ -2160,19 +2080,6 @@
             this.CmBx_USBinterface.TabIndex = 301;
             this.CmBx_USBinterface.Text = "USB-231";
             // 
-            // CmBx_PM100str
-            // 
-            this.CmBx_PM100str.Items.AddRange(new object[] {
-            "USB0::0x1313::0x8072::P2007172::0::INSTR",
-            "USB0::0x1313::0x8072::P2008742::0::INSTR",
-            "USB0::0x1313::0x8072::P2002916::0::INSTR",
-            "USB0::0x1313::0x8072::P2008991::0::INSTR"});
-            this.CmBx_PM100str.Location = new System.Drawing.Point(129, 507);
-            this.CmBx_PM100str.Name = "CmBx_PM100str";
-            this.CmBx_PM100str.Size = new System.Drawing.Size(252, 21);
-            this.CmBx_PM100str.TabIndex = 300;
-            this.CmBx_PM100str.Text = "USB0::0x1313::0x8072::P2008742::0::INSTR";
-            // 
             // label48
             // 
             this.label48.AutoSize = true;
@@ -2403,13 +2310,13 @@
             this.Bt_RdLaserStatus.Text = "Read Status";
             this.Bt_RdLaserStatus.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
+            // Tb_PM100str
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 3);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(683, 96);
-            this.dataGridView1.TabIndex = 6;
+            this.Tb_PM100str.Location = new System.Drawing.Point(129, 511);
+            this.Tb_PM100str.Name = "Tb_PM100str";
+            this.Tb_PM100str.Size = new System.Drawing.Size(234, 20);
+            this.Tb_PM100str.TabIndex = 372;
+            this.Tb_PM100str.Text = "USB0::0x1313::0x8072::P2007172::0::INSTR";
             // 
             // Form_iRIS_Clm_test_02
             // 
@@ -2427,8 +2334,6 @@
             this.GrBx_532Tset.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
@@ -2442,7 +2347,6 @@
             this.GrBx_DatabaseString.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2490,7 +2394,6 @@
         private System.Windows.Forms.Button Bt_IntExtPw;
         private System.Windows.Forms.RichTextBox Rt_ReceiveDataUSB;
         private System.Windows.Forms.Button Bt_RdLaserStatus;
-        private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.CheckBox ChkBx_TecOn;
         private System.Windows.Forms.Label label48;
         private System.Windows.Forms.Label lbl_01;
@@ -2505,7 +2408,6 @@
         private System.Windows.Forms.TextBox Tb_CalBcmdToPw;
         private System.Windows.Forms.TextBox Tb_CalAcmdToPw;
         private System.Windows.Forms.TextBox Tb_VPcon;
-        private System.Windows.Forms.ComboBox CmBx_PM100str;
         private System.Windows.Forms.ComboBox CmBx_USBinterface;
         private System.Windows.Forms.Button Bt_SetPcon;
         private System.Windows.Forms.Label Lbl_Vpcon;
@@ -2586,10 +2488,6 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox Tb_WorkOrder;
         private System.Windows.Forms.Button Bt_RstClk;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.RadioButton RdBt_LIint;
-        private System.Windows.Forms.RadioButton RdBt_LI50;
-        private System.Windows.Forms.RadioButton RdBt_LI05;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox Tb_MaxILimit;
         private System.Windows.Forms.Label label16;
@@ -2598,7 +2496,6 @@
         private System.Windows.Forms.Label Lbl_PM100user;
         private System.Windows.Forms.Label Lbl_ImonUser;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.CheckBox ChkBx_LIlog;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label Lbl_TmrVal;
         private System.Windows.Forms.Label Lbl_uClsCurrent;
@@ -2609,7 +2506,6 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.TextBox Tb_LaserOK;
         private System.Windows.Forms.Button Bt_RsLaserOk;
-        private System.Windows.Forms.CheckBox ChkBx_SingleTest;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.TextBox Tb_SetPower03;
@@ -2648,6 +2544,7 @@
         private System.Windows.Forms.TextBox Tb_User1;
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.TextBox Tb_DatabaseString;
+        private System.Windows.Forms.TextBox Tb_PM100str;
     }
 }
 

@@ -37,7 +37,7 @@ namespace iRIS_CLM_GUI_TEST_02.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("USB0::0x1313::0x8072::P2008742::0::INSTR")]
+        [global::System.Configuration.DefaultSettingValueAttribute("USB0::0x1313::0x8072::P2007172::0::INSTR")]
         public string PM100string {
             get {
                 return ((string)(this["PM100string"]));

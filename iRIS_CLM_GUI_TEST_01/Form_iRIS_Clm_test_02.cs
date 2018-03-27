@@ -1182,7 +1182,7 @@ namespace iRIS_CLM_GUI_TEST_02
         private async Task<bool> ExitPgm()
         {
             //***********************************************************************
-            Properties.Settings.Default.PM100string = CmBx_PM100str.Text;
+            Properties.Settings.Default.PM100string = Tb_PM100str.Text;
             Properties.Settings.Default.DefaultUser = Tb_User.Text;
             Properties.Settings.Default.RootFolder = Tb_FolderLoc.Text;
             Properties.Settings.Default.WOrder = Tb_WorkOrder.Text;
@@ -1215,7 +1215,7 @@ namespace iRIS_CLM_GUI_TEST_02
         {
             this.Cursor = Cursors.WaitCursor;
             //***********************************************************************
-            this.CmBx_PM100str.Text = Properties.Settings.Default.PM100string;
+            this.Tb_PM100str.Text = Properties.Settings.Default.PM100string;
             this.Tb_User.Text = Properties.Settings.Default.DefaultUser;
             this.Tb_FolderLoc.Text = Properties.Settings.Default.RootFolder;
             this.Tb_WorkOrder.Text = Properties.Settings.Default.WOrder;
@@ -1330,7 +1330,7 @@ namespace iRIS_CLM_GUI_TEST_02
             this.Cursor = Cursors.WaitCursor;
             uint rsrc = 0;
             bool pm100cnt = false;
-            string pm100InitString = CmBx_PM100str.Text;
+            string pm100InitString = Tb_PM100str.Text;
 
             try
             {
@@ -2964,12 +2964,6 @@ namespace iRIS_CLM_GUI_TEST_02
         }
         //======================================================================
         private void Rtb_ComList_DoubleClick(object sender, EventArgs e) { Rtb_ComList.Clear(); }
-        //======================================================================
-        private void ChkBx_SingleTest_CheckedChanged(object sender, EventArgs e)
-        {
-            if (ChkBx_SingleTest.Checked == true) ChkBx_LIlog.Checked = false;
-            else if (ChkBx_SingleTest.Checked == false) ChkBx_LIlog.Checked = true;
-        }
         //======================================================================
         private void Bt_SetPower03_Click(object sender, EventArgs e) { Task<bool>  finalSet = SendToSerial(CmdSetLsPw, Tb_SetPower03.Text, 300, 9); }
         //======================================================================

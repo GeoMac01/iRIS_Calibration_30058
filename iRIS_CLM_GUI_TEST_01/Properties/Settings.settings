@@ -6,7 +6,7 @@
       <Value Profile="(Default)">\\officeserver\Production Test Data\iFLEX IRIS Test Data</Value>
     </Setting>
     <Setting Name="PM100string" Type="System.String" Scope="User">
-      <Value Profile="(Default)">USB0::0x1313::0x8072::P2008742::0::INSTR</Value>
+      <Value Profile="(Default)">USB0::0x1313::0x8072::P2007172::0::INSTR</Value>
     </Setting>
     <Setting Name="DefaultUser" Type="System.String" Scope="User">
       <Value Profile="(Default)">GM</Value>
