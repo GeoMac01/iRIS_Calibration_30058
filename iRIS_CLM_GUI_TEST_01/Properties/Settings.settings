@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="iRIS_CLM_GUI_TEST_01.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="iRIS_CLM_GUI_TEST_02.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="RootFolder" Type="System.String" Scope="User">
@@ -13,6 +13,24 @@
     </Setting>
     <Setting Name="WOrder" Type="System.String" Scope="User">
       <Value Profile="(Default)">IPO1230000</Value>
+    </Setting>
+    <Setting Name="TableResults" Type="System.String" Scope="User">
+      <Value Profile="(Default)">iFLEX_iRIS_Setup_Results</Value>
+    </Setting>
+    <Setting Name="TableLoad" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Laser_Setup_Config</Value>
+    </Setting>
+    <Setting Name="Server" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ETCMUCD02</Value>
+    </Setting>
+    <Setting Name="Database01" Type="System.String" Scope="User">
+      <Value Profile="(Default)">QPL Production</Value>
+    </Setting>
+    <Setting Name="DbUser" Type="System.String" Scope="User">
+      <Value Profile="(Default)">HambleDBUser</Value>
+    </Setting>
+    <Setting Name="DbPw" Type="System.String" Scope="User">
+      <Value Profile="(Default)">H@mbleDB!</Value>
     </Setting>
   </Settings>
 </SettingsFile>

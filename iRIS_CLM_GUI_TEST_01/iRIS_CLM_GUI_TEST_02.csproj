@@ -7,8 +7,8 @@
     <ProjectGuid>{9E226BE3-5246-4D02-B05C-31D1B6E8C622}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>iRIS_CLM_GUI_TEST_01</RootNamespace>
-    <AssemblyName>iRIS_CLM_GUI_TEST_01</AssemblyName>
+    <RootNamespace>iRIS_CLM_GUI_TEST_02</RootNamespace>
+    <AssemblyName>iRIS_CLM_GUI_TEST_02</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -101,7 +101,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="app.config" />
+    <None Include="App.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

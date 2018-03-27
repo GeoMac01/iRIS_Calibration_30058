@@ -130,7 +130,7 @@
             this.Tb_TecSerNumb = new System.Windows.Forms.TextBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.TbPg_Results = new System.Windows.Forms.TabPage();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.GrBx_DatabaseString = new System.Windows.Forms.GroupBox();
             this.label9 = new System.Windows.Forms.Label();
             this.Tb_DatabaseWrt = new System.Windows.Forms.TextBox();
             this.label40 = new System.Windows.Forms.Label();
@@ -237,7 +237,7 @@
             this.TbPg_Iris_Init.SuspendLayout();
             this.GrBx_CutomIO.SuspendLayout();
             this.TbPg_Results.SuspendLayout();
-            this.groupBox5.SuspendLayout();
+            this.GrBx_DatabaseString.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -1065,7 +1065,7 @@
             this.TbPg_Iris_Init.Location = new System.Drawing.Point(4, 25);
             this.TbPg_Iris_Init.Name = "TbPg_Iris_Init";
             this.TbPg_Iris_Init.Padding = new System.Windows.Forms.Padding(3);
-            this.TbPg_Iris_Init.Size = new System.Drawing.Size(692, 563);
+            this.TbPg_Iris_Init.Size = new System.Drawing.Size(698, 563);
             this.TbPg_Iris_Init.TabIndex = 0;
             this.TbPg_Iris_Init.Text = " Test Init.";
             this.TbPg_Iris_Init.UseVisualStyleBackColor = true;
@@ -1372,12 +1372,13 @@
             // 
             // TbPg_Results
             // 
-            this.TbPg_Results.Controls.Add(this.groupBox5);
+            this.TbPg_Results.Controls.Add(this.GrBx_DatabaseString);
             this.TbPg_Results.Controls.Add(this.Bt_EnableIObox);
             this.TbPg_Results.Controls.Add(this.Lbl_TempSens);
             this.TbPg_Results.Controls.Add(this.label23);
             this.TbPg_Results.Controls.Add(this.Tb_SetPower03);
             this.TbPg_Results.Controls.Add(this.Bt_SetPower03);
+            this.TbPg_Results.Controls.Add(this.Bt_EnableDBstring);
             this.TbPg_Results.Controls.Add(this.label22);
             this.TbPg_Results.Controls.Add(this.label21);
             this.TbPg_Results.Controls.Add(this.label20);
@@ -1450,32 +1451,32 @@
             this.TbPg_Results.Controls.Add(this.dataGridView1);
             this.TbPg_Results.Location = new System.Drawing.Point(4, 25);
             this.TbPg_Results.Name = "TbPg_Results";
-            this.TbPg_Results.Size = new System.Drawing.Size(692, 563);
+            this.TbPg_Results.Size = new System.Drawing.Size(698, 563);
             this.TbPg_Results.TabIndex = 3;
             this.TbPg_Results.Text = "Engineering";
             this.TbPg_Results.UseVisualStyleBackColor = true;
             // 
-            // groupBox5
+            // GrBx_DatabaseString
             // 
-            this.groupBox5.Controls.Add(this.label9);
-            this.groupBox5.Controls.Add(this.Tb_DatabaseWrt);
-            this.groupBox5.Controls.Add(this.label40);
-            this.groupBox5.Controls.Add(this.Tb_InitialCatalog);
-            this.groupBox5.Controls.Add(this.label39);
-            this.groupBox5.Controls.Add(this.Tb_ServerName);
-            this.groupBox5.Controls.Add(this.Bt_EnableDBstring);
-            this.groupBox5.Controls.Add(this.label38);
-            this.groupBox5.Controls.Add(this.Tb_Pw1);
-            this.groupBox5.Controls.Add(this.label37);
-            this.groupBox5.Controls.Add(this.Tb_User1);
-            this.groupBox5.Controls.Add(this.label36);
-            this.groupBox5.Controls.Add(this.Tb_DatabaseString);
-            this.groupBox5.Location = new System.Drawing.Point(434, 347);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(252, 214);
-            this.groupBox5.TabIndex = 365;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Database ";
+            this.GrBx_DatabaseString.Controls.Add(this.label9);
+            this.GrBx_DatabaseString.Controls.Add(this.Tb_DatabaseWrt);
+            this.GrBx_DatabaseString.Controls.Add(this.label40);
+            this.GrBx_DatabaseString.Controls.Add(this.Tb_InitialCatalog);
+            this.GrBx_DatabaseString.Controls.Add(this.label39);
+            this.GrBx_DatabaseString.Controls.Add(this.Tb_ServerName);
+            this.GrBx_DatabaseString.Controls.Add(this.label38);
+            this.GrBx_DatabaseString.Controls.Add(this.Tb_Pw1);
+            this.GrBx_DatabaseString.Controls.Add(this.label37);
+            this.GrBx_DatabaseString.Controls.Add(this.Tb_User1);
+            this.GrBx_DatabaseString.Controls.Add(this.label36);
+            this.GrBx_DatabaseString.Controls.Add(this.Tb_DatabaseString);
+            this.GrBx_DatabaseString.Location = new System.Drawing.Point(434, 345);
+            this.GrBx_DatabaseString.Name = "GrBx_DatabaseString";
+            this.GrBx_DatabaseString.Size = new System.Drawing.Size(252, 184);
+            this.GrBx_DatabaseString.TabIndex = 365;
+            this.GrBx_DatabaseString.TabStop = false;
+            this.GrBx_DatabaseString.Text = "Database ";
+            this.GrBx_DatabaseString.Visible = false;
             // 
             // label9
             // 
@@ -1494,7 +1495,6 @@
             this.Tb_DatabaseWrt.Size = new System.Drawing.Size(111, 20);
             this.Tb_DatabaseWrt.TabIndex = 376;
             this.Tb_DatabaseWrt.Text = "iFLEX_iRIS_Setup_Results";
-            this.Tb_DatabaseWrt.Visible = false;
             // 
             // label40
             // 
@@ -1513,7 +1513,6 @@
             this.Tb_InitialCatalog.Size = new System.Drawing.Size(111, 20);
             this.Tb_InitialCatalog.TabIndex = 374;
             this.Tb_InitialCatalog.Text = "QPL Production";
-            this.Tb_InitialCatalog.Visible = false;
             // 
             // label39
             // 
@@ -1532,17 +1531,17 @@
             this.Tb_ServerName.Size = new System.Drawing.Size(111, 20);
             this.Tb_ServerName.TabIndex = 372;
             this.Tb_ServerName.Text = "ETCMUCD02";
-            this.Tb_ServerName.Visible = false;
             // 
             // Bt_EnableDBstring
             // 
             this.Bt_EnableDBstring.BackColor = System.Drawing.Color.White;
-            this.Bt_EnableDBstring.Location = new System.Drawing.Point(129, 180);
+            this.Bt_EnableDBstring.Location = new System.Drawing.Point(575, 534);
             this.Bt_EnableDBstring.Name = "Bt_EnableDBstring";
             this.Bt_EnableDBstring.Size = new System.Drawing.Size(111, 26);
             this.Bt_EnableDBstring.TabIndex = 371;
             this.Bt_EnableDBstring.Text = "Enable DB access";
             this.Bt_EnableDBstring.UseVisualStyleBackColor = false;
+            this.Bt_EnableDBstring.Click += new System.EventHandler(this.Bt_EnableDBstring_Click_1);
             // 
             // label38
             // 
@@ -1561,7 +1560,6 @@
             this.Tb_Pw1.Size = new System.Drawing.Size(111, 20);
             this.Tb_Pw1.TabIndex = 369;
             this.Tb_Pw1.Text = "H@mbleDB!";
-            this.Tb_Pw1.Visible = false;
             // 
             // label37
             // 
@@ -1580,7 +1578,6 @@
             this.Tb_User1.Size = new System.Drawing.Size(111, 20);
             this.Tb_User1.TabIndex = 367;
             this.Tb_User1.Text = "HambleDBUser";
-            this.Tb_User1.Visible = false;
             // 
             // label36
             // 
@@ -1599,7 +1596,6 @@
             this.Tb_DatabaseString.Size = new System.Drawing.Size(111, 20);
             this.Tb_DatabaseString.TabIndex = 365;
             this.Tb_DatabaseString.Text = "Laser_Setup_Config";
-            this.Tb_DatabaseString.Visible = false;
             // 
             // Bt_EnableIObox
             // 
@@ -2442,8 +2438,8 @@
             this.GrBx_CutomIO.PerformLayout();
             this.TbPg_Results.ResumeLayout(false);
             this.TbPg_Results.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
+            this.GrBx_DatabaseString.ResumeLayout(false);
+            this.GrBx_DatabaseString.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -2638,7 +2634,7 @@
         private System.Windows.Forms.Button Bt_EnableIObox;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.GroupBox GrBx_532Tset;
-        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.GroupBox GrBx_DatabaseString;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox Tb_DatabaseWrt;
         private System.Windows.Forms.Label label40;

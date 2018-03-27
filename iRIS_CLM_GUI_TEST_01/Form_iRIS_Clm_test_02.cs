@@ -11,8 +11,8 @@ using Thorlabs.PM100D_32.Interop;
 using MccDaq;
 using System.Management;
 
-//iRIS Production 30058_02_
-//13/03/2018
+//iRIS Production 30058_02_01
+//27/03/2018
 
 namespace iRIS_CLM_GUI_TEST_02
 {
@@ -1181,13 +1181,19 @@ namespace iRIS_CLM_GUI_TEST_02
         //======================================================================
         private async Task<bool> ExitPgm()
         {
+            //***********************************************************************
             Properties.Settings.Default.PM100string = CmBx_PM100str.Text;
             Properties.Settings.Default.DefaultUser = Tb_User.Text;
             Properties.Settings.Default.RootFolder = Tb_FolderLoc.Text;
             Properties.Settings.Default.WOrder = Tb_WorkOrder.Text;
-
+            Properties.Settings.Default.TableResults = Tb_DatabaseWrt.Text;
+            Properties.Settings.Default.TableLoad = Tb_DatabaseString.Text;
+            Properties.Settings.Default.Server = Tb_ServerName.Text;
+            Properties.Settings.Default.Database01 = Tb_InitialCatalog.Text;
+            Properties.Settings.Default.DbUser = Tb_User1.Text;
+            Properties.Settings.Default.DbPw = Tb_Pw1.Text;
             Properties.Settings.Default.Save();
-
+            //***********************************************************************
             if (USB_CDC.IsOpen)
             {
                 USB_CDC.Close();
@@ -1209,13 +1215,17 @@ namespace iRIS_CLM_GUI_TEST_02
         {
             this.Cursor = Cursors.WaitCursor;
             //***********************************************************************
-
-            //***********************************************************************
             this.CmBx_PM100str.Text = Properties.Settings.Default.PM100string;
             this.Tb_User.Text = Properties.Settings.Default.DefaultUser;
             this.Tb_FolderLoc.Text = Properties.Settings.Default.RootFolder;
             this.Tb_WorkOrder.Text = Properties.Settings.Default.WOrder;
- 
+            this.Tb_DatabaseWrt.Text = Properties.Settings.Default.TableResults;
+            this.Tb_DatabaseString.Text = Properties.Settings.Default.TableLoad;
+            this.Tb_ServerName.Text = Properties.Settings.Default.Server;
+            this.Tb_InitialCatalog.Text = Properties.Settings.Default.Database01;
+            this.Tb_User1.Text = Properties.Settings.Default.DbUser;
+            this.Tb_Pw1.Text = Properties.Settings.Default.DbPw;
+            //***********************************************************************
             OpenSqlConnection();
             //************************************************************************
             this.Cursor = Cursors.Default;
@@ -2201,20 +2211,21 @@ namespace iRIS_CLM_GUI_TEST_02
         //======================================================================
         private async Task<bool> WriteResToDb()
         {
-            //string cmdString = "INSERT INTO " + Tb_DatabaseWrt.Text + " (TestDate, TEC_Board_Sn) VALUES (@val1, @val2)";
+            //string cmdString = "INSERT INTO " + Tb_DatabaseWrt.Text + " (PartNumber, LaserAddress) VALUES (@val1, @val2)";
+
             string cmdString = "INSERT INTO " + Tb_DatabaseWrt.Text +
-                " ( PartNumber, LaserAddress, Laser_Assy_Sn, Laser_Board_Sn, TEC_Board_Sn, SwLevel, TestDate, Wavelength, SoftwareNomPower, TecName, VGA_Value, V_Offset, " + 
-                "Pw_at_5VPCON, Pw_at_0VPCON, Pw_at_Enbl_Off, VPCON_at_01pc, I_OUT_at_0VPCON, I_OUT_at_Nom_Pw, V_OUT_PD_at_Nom_Pw, V_OUT_PD_at_Min_Pw, " +
-                "TEC_BlockTemperature, A_Pw_Cal, B_Pw_Cal, A_Pw_to_ADC_Cal, B_Pw_to_ADC_Cal, A_PCON_to_Pw_Cal, B_PCON_to_Pw_Cal, PowerControlSource, " +
-                "EnableLine, DigitalModulation, AnalogModulation)" +
+                " ( PartNumber, LaserAddress, Laser_Assy_Sn, Laser_Board_Sn, TEC_Board_Sn, SwLevel, TestDate, Wavelength, SoftwareNomPower, TecName, VGA_Value, V_Offset, "+
+                " Pw_at_5VPCON, Pw_at_0VPCON, Pw_at_Enbl_Off, VPCON_at_01pc, I_OUT_at_0VPCON, I_OUT_at_Nom_Pw, V_OUT_PD_at_Nom_Pw, V_OUT_PD_at_Min_Pw, "+
+                " TEC_BlockTemperature, A_Pw_Cal ,B_Pw_Cal, A_Pw_to_ADC_Cal, B_Pw_to_ADC_Cal, A_PCON_to_Pw_Cal, B_PCON_to_Pw_Cal, "+
+                " PowerControlSource, EnableLine, DigitalModulation, AnalogModulation )"+
 
-                " VALUES (@val1, @val2, @val3, @val4, @val5, @val6, @val7, @val8, @val9, @val10, @val11, @val12, @val13, @val14, @val15, @val16, @val18, @val19," +
-                "@val20, @val21, @val22, @val23, @val24, @val25, @val26, @val27, @val28, @val29, @val30, @val31)";
-
+                " VALUES ( @val1, @val2, @val3, @val4, @val5, @val6, @val7, @val8, @val9, @val10, @val11, @val12, " +
+                " @val13, @val14, @val15, @val16, @val17, @val18, @val19, @val20, @val21 , @val22, @val23, @val24, @val25, @val26, @val27,"+ 
+                " @val28, @val29, @val30, @val31)";
             try
             {
-                con.Open();
                 cmd = new SqlCommand(cmdString, con);
+                con.Open();
                 cmd.Parameters.Clear();
 
                 //************************************************************************//
@@ -2230,7 +2241,7 @@ namespace iRIS_CLM_GUI_TEST_02
                 cmd.Parameters.AddWithValue("@val10", Tb_User.Text);
                 cmd.Parameters.AddWithValue("@val11", Lbl_VGAval.Text);
                 cmd.Parameters.AddWithValue("@val12", Tb_SetOffset.Text);
-
+                
                 cmd.Parameters.AddWithValue("@val13", dataSet1[0]);
                 cmd.Parameters.AddWithValue("@val14", dataSet1[1]);
                 cmd.Parameters.AddWithValue("@val15", dataSet1[2]);
@@ -2243,8 +2254,9 @@ namespace iRIS_CLM_GUI_TEST_02
                 cmd.Parameters.AddWithValue("@val21", Tb_532TempSet.Text);
                 cmd.Parameters.AddWithValue("@val22", Tb_CalA_Pw.Text);
                 cmd.Parameters.AddWithValue("@val23", Tb_CalB_Pw.Text);
+
                 cmd.Parameters.AddWithValue("@val24", Tb_CalA_PwToADC.Text);
-                cmd.Parameters.AddWithValue("@val25", Tb_CalB_PwToADC);
+                cmd.Parameters.AddWithValue("@val25", Tb_CalB_PwToADC.Text);
                 cmd.Parameters.AddWithValue("@val26", Tb_CalAcmdToPw.Text);
                 cmd.Parameters.AddWithValue("@val27", Tb_CalBcmdToPw.Text);
 
@@ -2259,15 +2271,15 @@ namespace iRIS_CLM_GUI_TEST_02
 
                 if (ChkBx_AnlgModSet.Checked == true) { cmd.Parameters.AddWithValue("@val31", "Norm"); }
                 else { cmd.Parameters.AddWithValue("@val31", "Inverted"); }
-                
+ 
                 //************************************************************************//
                 cmd.ExecuteNonQuery();
 
             }
             catch (Exception) { MessageBox.Show("Write Table Error"); }
             finally { con.Close(); }
+            await Task.Delay(2);
 
-            await Task.Delay(5);
             return true;
         }
         //======================================================================
@@ -3005,7 +3017,8 @@ namespace iRIS_CLM_GUI_TEST_02
                 GrBx_532Tset.Enabled = false;
             }
         }
-
+        //======================================================================
+        private void Bt_EnableDBstring_Click_1(object sender, EventArgs e) { GrBx_DatabaseString.Visible = true; }
         //======================================================================
         //======================================================================
     }
