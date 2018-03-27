@@ -1675,9 +1675,13 @@ namespace iRIS_CLM_GUI_TEST_02
         //======================================================================
         private async Task<bool> ReadAllanlg(bool fullRd) {//reads all data
 
-            double pwrRead = 0;             //pm100
-            double pconRead = ReadADC(0);   //PCON feedback
-            double lsrPwRead = ReadADC(1);  //PD Vout
+            double pwrRead = 0;    //pm100
+            double pconRead = 0;   //PCON feedback
+            double lsrPwRead = 0;  //PD Vout
+
+            await Task.Delay(2);
+            pconRead =  ReadADC(0);   //PCON feedback
+            lsrPwRead = ReadADC(1);  //PD Vout
 
             double lsrCurrRead = ((ReadADC(2)/5.01)*1000); ; //Current Vout converted to mA compatible with laser setup data
             if (lsrCurrRead > maxCurr)
@@ -1701,7 +1705,6 @@ namespace iRIS_CLM_GUI_TEST_02
                     MessageBox.Show("Power Error");
                     return false;
                 }
-
                 Lbl_PM100rd.Text = pwrRead.ToString("00.000"); //update label in mW
             } 
             else if (pm100ok == false) {
@@ -1710,17 +1713,15 @@ namespace iRIS_CLM_GUI_TEST_02
 
             double tempSens = ReadADC(3) * 100;
             Lbl_Vpcon.Text = pconRead.ToString("00.000");
-            Lbl_PwreadV.Text = lsrPwRead.ToString("00.000");//*294.12 -- 0 to 4V
+            Lbl_PwreadV.Text = lsrPwRead.ToString("00.000");//*294.12 -- 0 to 4V third tab
             Lbl_Viout.Text = lsrCurrRead.ToString("000.0");//already converted to mA
             Lbl_TempSens.Text = tempSens.ToString("000.00");
 
-            Lbl_PDmonUser.Text = Lbl_PwreadV.Text;
+            Lbl_PDmonUser.Text = Lbl_PwreadV.Text;//second tab
             Lbl_ImonUser.Text = Lbl_Viout.Text;
             Lbl_PM100user.Text = Lbl_PM100rd.Text;
 
             if (fullRd == true) { bool readAdc = await LoadGlobalTestArray(analogRead); }//internal uCadc
-
-            await Task.Delay(10);
 
             return true;
         }
@@ -2416,26 +2417,25 @@ namespace iRIS_CLM_GUI_TEST_02
                 Set_USB_Digit_Out(0, 1);
 
                 bool rampdac1 = await RampDAC1toPower(RatedPw, startRp, stopRp, stepRp, false);//adjust PCON to NomPw
-                if (rampdac1 == false)
-                {
-                return false;
-                }
+
+                if (rampdac1 == false) { return false; }
                 else
                 {
-                    iopNomPw = Lbl_Viout.Text;
-                    voutPDmax = Lbl_PwreadV.Text;//nominal power recorded
+                    sendCalPw = await ReadAllanlg(true);
+                    iopNomPw =  Lbl_Viout.Text; //current 
                     Prg_Bar01.Increment(10);
+
                     sendCalPw = await SendToSerial(CmdSetPwtoVout, pmonVmax, 600, 9);//send 4V
                     sendCalPw = await SendToSerial(CmdSetMaxIop, iopNomPw, 600, 9);//save the nominal current for nominal power
 
-                    sendCalPw = await ReadAllanlg(true);//redundent...?
-
+                    sendCalPw = await ReadAllanlg(true);
+                    voutPDmax = Lbl_PwreadV.Text; //nominal power recorded
                     double pmonRd = Convert.ToDouble(voutPDmax);//check calibration for Pmon
                     if (pmonRd > pmonVmaxDlb + 0.1 || pmonRd < pmonVmaxDlb - 0.1) { MessageBox.Show("Pmon Calibration Error"); }
 
                     WriteDAC(00.000, 0);//reset ramp
-                    sendCalPw = await SendToSerial(CmdLaserEnable, StrDisable, 300, 9);
                     Set_USB_Digit_Out(0, 0);
+                    sendCalPw = await SendToSerial(CmdLaserEnable, StrDisable, 300, 9);
                     sendCalPw = await ReadAllanlg(true);
                     /*************************************************/
                     try { if (File.Exists(filePathRep)) { using (StreamWriter fs = File.AppendText(filePathRep)) {
@@ -2460,7 +2460,6 @@ namespace iRIS_CLM_GUI_TEST_02
         //======================================================================
         private async Task<bool> LIplot()
         {
-            //happen at any button state 
             Set_USB_Digit_Out(0, 0);//enable line off
             Set_USB_Digit_Out(1, 0);//digital modulation line
             WriteDAC(0, 0);
@@ -2480,8 +2479,10 @@ namespace iRIS_CLM_GUI_TEST_02
                     {
                         setPwCheck = await SendToSerial(CmdSetInOutPwCtrl, StrEnable, 300, 9); //internal Pw Ctrl in 1/10mW
                         setPwCheck = await SendToSerial(CmdTestMode, StrDisable, 300, 9); //run mode
-                        //double finalPowerDbl = Convert.ToDouble(Tb_SoftNomPw.Text) * 10;  //nominal power from database
-                        double finalPowerDbl = Convert.ToDouble(Tb_SoftNomPw.Text) * 9;  //nominal power from database
+
+                        double finalPowerDbl = Convert.ToDouble(Tb_SoftNomPw.Text) * 10;  //nominal power from database
+                        //double finalPowerDbl = Convert.ToDouble(Tb_SoftNomPw.Text) * 9;  //nominal power from database
+
                         string finalPower = finalPowerDbl.ToString("0000");
                         Tb_SetPower03.Text = finalPower;
                         setPwCheck = await SendToSerial(CmdSetLsPw, finalPower, 300, 9); //set power //ready to test
@@ -2492,27 +2493,28 @@ namespace iRIS_CLM_GUI_TEST_02
                         setPwCheck = await SendToSerial(CmdTestMode, StrEnable, 300, 9); //test mode
                         if (ChkBx_AnlgModSet.Checked == false) //non inverted ramp
                         {
-                            //dacPCONSet = 5.000;
-                            dacPCONSet = 4.850;
+                            dacPCONSet = 5.000;
+                            //dacPCONSet = 4.850;
+
                             iniLItest = await SendToSerial(CmdAnalgInpt, StrDisable, 300, 9); //Non Inv. PCON
                         }
                         else if (ChkBx_AnlgModSet.Checked == true) //inverted ramp
                         {
-                            //dacPCONSet = 0.000;
-                            dacPCONSet = 0.150;
+                            dacPCONSet = 0.000;
+                            //dacPCONSet = 0.150;
+
                             iniLItest = await SendToSerial(CmdAnalgInpt, StrEnable, 300, 9); //Inv. PCON
                         }
                         Tb_VPcon.Text = dacPCONSet.ToString();//set and update external DAC start value
                         setPwCheck = await SendToSerial(CmdTestMode, StrDisable, 300, 9); //run mode mode
                     }
 
-                    setPwCheck = await SendToSerial(CmdOperatingHr, StrDisable, 300, 9); //read timer
-
                     Set_USB_Digit_Out(1, 1);//digital modulation line
                     Set_USB_Digit_Out(0, 1);//Laser Enable
                     WriteDAC(dacPCONSet, 0);//stays on no effect if internal PCON
                     setPwCheck = await SendToSerial(CmdLaserEnable, StrEnable, 300, 9);//Laser Enable
-                    setPwCheck = await ReadAllanlg(true);//test if OK  
+                    setPwCheck = await SendToSerial(CmdOperatingHr, StrDisable, 600, 9); //read timer
+                    setPwCheck = await ReadAllanlg(true);//test if OK 
 
                     this.Cursor = Cursors.Default;
                     Bt_LiPlot.BackColor = Color.LawnGreen;
@@ -2540,15 +2542,13 @@ namespace iRIS_CLM_GUI_TEST_02
 
                 setPwCheck = await SendToSerial(CmdLaserEnable, StrDisable, 300, 9);//Laser Enable
                 setPwCheck = await SendToSerial(CmdTestMode, StrEnable, 300, 9); //Test mode
-                setPwCheck = await ResetLaserPCON();//reset laser IO
-                setPwCheck = await ReadAllanlg(true);//test if OK  
-                setPwCheck = await SendToSerial(CmdOperatingHr, StrDisable, 300, 9); //read timer
+                setPwCheck = await ResetLaserPCON();//reset laser IO and read analog
+                setPwCheck = await SendToSerial(CmdOperatingHr, StrDisable, 600, 9); //read timer
 
                 Bt_LiPlot.BackColor = Color.Coral;
                 Bt_LiPlot.Text = "Set to Nominal Laser Power";
                 this.Cursor = Cursors.Default;
             }
-
             return true;
         }
         //======================================================================
