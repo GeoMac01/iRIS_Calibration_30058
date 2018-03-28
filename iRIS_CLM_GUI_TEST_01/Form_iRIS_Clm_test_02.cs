@@ -2198,7 +2198,7 @@ namespace iRIS_CLM_GUI_TEST_02
                 }
                 catch (Exception err1) { MessageBox.Show(err1.Message); }
 
-                finalSet = await WriteResToDb();
+                finalSet = await WriteResToDb(0);
 
                 this.Cursor = Cursors.Default;
                 Bt_FinalLsSetup.BackColor = Color.LawnGreen;
@@ -2209,73 +2209,82 @@ namespace iRIS_CLM_GUI_TEST_02
             return true; 
         }
         //======================================================================
-        private async Task<bool> WriteResToDb()
+        private async Task<bool> WriteResToDb(sbyte saveData)
         {
             //string cmdString = "INSERT INTO " + Tb_DatabaseWrt.Text + " (PartNumber, LaserAddress) VALUES (@val1, @val2)";
 
-            string cmdString = "INSERT INTO " + Tb_DatabaseWrt.Text +
+            string cmdString0 = "INSERT INTO " + Tb_DatabaseWrt.Text +
                 " ( PartNumber, LaserAddress, Laser_Assy_Sn, Laser_Board_Sn, TEC_Board_Sn, SwLevel, TestDate, Wavelength, SoftwareNomPower, TecName, VGA_Value, V_Offset, "+
                 " Pw_at_5VPCON, Pw_at_0VPCON, Pw_at_Enbl_Off, VPCON_at_01pc, I_OUT_at_0VPCON, I_OUT_at_Nom_Pw, V_OUT_PD_at_Nom_Pw, V_OUT_PD_at_Min_Pw, "+
-                " TEC_BlockTemperature, A_Pw_Cal ,B_Pw_Cal, A_Pw_to_ADC_Cal, B_Pw_to_ADC_Cal, A_PCON_to_Pw_Cal, B_PCON_to_Pw_Cal, "+
-                " PowerControlSource, EnableLine, DigitalModulation, AnalogModulation )"+
-
+                " TEC_BlockTemperature, A_Pw_Cal ,B_Pw_Cal, A_Pw_to_ADC_Cal, B_Pw_to_ADC_Cal, A_PCON_to_Pw_Cal, B_PCON_to_Pw_Cal )"+
                 " VALUES ( @val1, @val2, @val3, @val4, @val5, @val6, @val7, @val8, @val9, @val10, @val11, @val12, " +
-                " @val13, @val14, @val15, @val16, @val17, @val18, @val19, @val20, @val21 , @val22, @val23, @val24, @val25, @val26, @val27,"+ 
-                " @val28, @val29, @val30, @val31)";
+                " @val13, @val14, @val15, @val16, @val17, @val18, @val19, @val20, @val21 , @val22, @val23, @val24, @val25, @val26, @val27)";
+
+            //command.CommandText = "UPDATE Student SET Address = @add, City = @cit Where FirstName = @fn and LastName = @add";
+
+            string cmdString1 = "UPDATE "+ Tb_DatabaseWrt.Text +
+                " SET PowerControlSource = @val28, EnableLine = @val29, DigitalModulation = @val30, AnalogModulation = @val31 "+
+                " WHERE  Laser_Assy_Sn = "+ Tb_SerNb.Text; //assuming there is only one laser serial number equivalent (double tested?)
+
             try
             {
-                cmd = new SqlCommand(cmdString, con);
                 con.Open();
                 cmd.Parameters.Clear();
 
-                //************************************************************************//
-                cmd.Parameters.AddWithValue("@val1", Tb_LaserPN.Text);
-                cmd.Parameters.AddWithValue("@val2", Tb_SetAdd.Text);
-                cmd.Parameters.AddWithValue("@val3", Tb_SerNb.Text);
-                cmd.Parameters.AddWithValue("@val4", lbl_SerNbReadBack.Text);
-                cmd.Parameters.AddWithValue("@val5", Tb_TecSerNumb.Text);
-                cmd.Parameters.AddWithValue("@val6", lbl_SWLevel.Text);
-                cmd.Parameters.AddWithValue("@val7", dateTimePicker1.Text);
-                cmd.Parameters.AddWithValue("@val8", Lbl_WaveLg.Text);
-                cmd.Parameters.AddWithValue("@val9", Tb_SoftNomPw.Text);
-                cmd.Parameters.AddWithValue("@val10", Tb_User.Text);
-                cmd.Parameters.AddWithValue("@val11", Lbl_VGAval.Text);
-                cmd.Parameters.AddWithValue("@val12", Tb_SetOffset.Text);
-                
-                cmd.Parameters.AddWithValue("@val13", dataSet1[0]);
-                cmd.Parameters.AddWithValue("@val14", dataSet1[1]);
-                cmd.Parameters.AddWithValue("@val15", dataSet1[2]);
-                cmd.Parameters.AddWithValue("@val16", dataSet1[3]);
-                cmd.Parameters.AddWithValue("@val17", dataSet1[4]);
-                cmd.Parameters.AddWithValue("@val18", dataSet1[5]);
-                cmd.Parameters.AddWithValue("@val19", dataSet1[6]);
-                cmd.Parameters.AddWithValue("@val20", dataSet1[7]);
+                if (saveData == 0) {
+                    cmd = new SqlCommand(cmdString0, con);
+                    //************************************************************************//
+                    cmd.Parameters.AddWithValue("@val1", Tb_LaserPN.Text);
+                    cmd.Parameters.AddWithValue("@val2", Tb_SetAdd.Text);
+                    cmd.Parameters.AddWithValue("@val3", Tb_SerNb.Text);
+                    cmd.Parameters.AddWithValue("@val4", lbl_SerNbReadBack.Text);
+                    cmd.Parameters.AddWithValue("@val5", Tb_TecSerNumb.Text);
+                    cmd.Parameters.AddWithValue("@val6", lbl_SWLevel.Text);
+                    cmd.Parameters.AddWithValue("@val7", dateTimePicker1.Text);
+                    cmd.Parameters.AddWithValue("@val8", Lbl_WaveLg.Text);
+                    cmd.Parameters.AddWithValue("@val9", Tb_SoftNomPw.Text);
+                    cmd.Parameters.AddWithValue("@val10", Tb_User.Text);
+                    cmd.Parameters.AddWithValue("@val11", Lbl_VGAval.Text);
+                    cmd.Parameters.AddWithValue("@val12", Tb_SetOffset.Text);
 
-                cmd.Parameters.AddWithValue("@val21", Tb_532TempSet.Text);
-                cmd.Parameters.AddWithValue("@val22", Tb_CalA_Pw.Text);
-                cmd.Parameters.AddWithValue("@val23", Tb_CalB_Pw.Text);
+                    cmd.Parameters.AddWithValue("@val13", dataSet1[0]);
+                    cmd.Parameters.AddWithValue("@val14", dataSet1[1]);
+                    cmd.Parameters.AddWithValue("@val15", dataSet1[2]);
+                    cmd.Parameters.AddWithValue("@val16", dataSet1[3]);
+                    cmd.Parameters.AddWithValue("@val17", dataSet1[4]);
+                    cmd.Parameters.AddWithValue("@val18", dataSet1[5]);
+                    cmd.Parameters.AddWithValue("@val19", dataSet1[6]);
+                    cmd.Parameters.AddWithValue("@val20", dataSet1[7]);
 
-                cmd.Parameters.AddWithValue("@val24", Tb_CalA_PwToADC.Text);
-                cmd.Parameters.AddWithValue("@val25", Tb_CalB_PwToADC.Text);
-                cmd.Parameters.AddWithValue("@val26", Tb_CalAcmdToPw.Text);
-                cmd.Parameters.AddWithValue("@val27", Tb_CalBcmdToPw.Text);
+                    cmd.Parameters.AddWithValue("@val21", Tb_532TempSet.Text);
+                    cmd.Parameters.AddWithValue("@val22", Tb_CalA_Pw.Text);
+                    cmd.Parameters.AddWithValue("@val23", Tb_CalB_Pw.Text);
 
-                if (ChkBx_ExtPwCtrl.Checked == true) { cmd.Parameters.AddWithValue("@val28", "Internal"); }
-                else { cmd.Parameters.AddWithValue("@val28", "External"); }
+                    cmd.Parameters.AddWithValue("@val24", Tb_CalA_PwToADC.Text);
+                    cmd.Parameters.AddWithValue("@val25", Tb_CalB_PwToADC.Text);
+                    cmd.Parameters.AddWithValue("@val26", Tb_CalAcmdToPw.Text);
+                    cmd.Parameters.AddWithValue("@val27", Tb_CalBcmdToPw.Text);
+                }
 
-                if (ChkBx_EnableSet.Checked == true) { cmd.Parameters.AddWithValue("@val29", "Norm"); }
-                else { cmd.Parameters.AddWithValue("@val29", "Inverted"); }
+                if (saveData == 1) {
+                    cmd = new SqlCommand(cmdString1, con);
+                    //************************************************************************//
+                    if (ChkBx_ExtPwCtrl.Checked == true) { cmd.Parameters.AddWithValue("@val28", "Internal"); }
+                    else { cmd.Parameters.AddWithValue("@val28", "External"); }
 
-                if (ChkBx_DigitModSet.Checked == true) { cmd.Parameters.AddWithValue("@val30", "Norm"); }
-                else { cmd.Parameters.AddWithValue("@val30", "Inverted"); }
+                    if (ChkBx_EnableSet.Checked == true) { cmd.Parameters.AddWithValue("@val29", "Inverted"); }
+                    else { cmd.Parameters.AddWithValue("@val29", "Norm"); }
 
-                if (ChkBx_AnlgModSet.Checked == true) { cmd.Parameters.AddWithValue("@val31", "Norm"); }
-                else { cmd.Parameters.AddWithValue("@val31", "Inverted"); }
- 
-                //************************************************************************//
+                    if (ChkBx_DigitModSet.Checked == true) { cmd.Parameters.AddWithValue("@val30", "Inverted"); }
+                    else { cmd.Parameters.AddWithValue("@val30", "Norm"); }
+
+                    if (ChkBx_AnlgModSet.Checked == true) { cmd.Parameters.AddWithValue("@val31", "Inverted"); }
+                    else { cmd.Parameters.AddWithValue("@val31", "Norm"); }
+                }
+                 //************************************************************************//
                 cmd.ExecuteNonQuery();
-
             }
+
             catch (Exception) { MessageBox.Show("Write Table Error"); }
             finally { con.Close(); }
             await Task.Delay(2);
@@ -2839,6 +2848,8 @@ namespace iRIS_CLM_GUI_TEST_02
                 finalSet = await SendToSerial(CmdAnalgInpt, chkBxStateAnlgModSet, 300, 9);
                 finalSet = await SendToSerial(CmdTestMode, StrDisable, 300, 9);
                 finalSet = await SendToSerial(CmdSetLsPw, finalPower, 300, 9);
+
+                finalSet = await WriteResToDb(1);
 
                 this.Cursor = Cursors.Default;
                 Bt_ShipState.BackColor = Color.LawnGreen;
