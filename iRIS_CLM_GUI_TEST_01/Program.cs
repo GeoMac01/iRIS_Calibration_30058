@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace iRIS_CLM_GUI_TEST_02
+namespace iRIS_CLM_GUI_TEST_03
 {
     static class Program
     {
@@ -16,7 +16,7 @@ namespace iRIS_CLM_GUI_TEST_02
        {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form_iRIS_Clm_test_02());
+            Application.Run(new Form_iRIS_Clm_test_03());
         }
     }
 }

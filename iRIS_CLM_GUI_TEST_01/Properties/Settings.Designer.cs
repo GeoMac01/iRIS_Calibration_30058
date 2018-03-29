@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace iRIS_CLM_GUI_TEST_02.Properties {
+namespace iRIS_CLM_GUI_TEST_03.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

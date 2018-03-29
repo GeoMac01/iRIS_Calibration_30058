@@ -1,6 +1,6 @@
-﻿namespace iRIS_CLM_GUI_TEST_02
+﻿namespace iRIS_CLM_GUI_TEST_03
 {
-    partial class Form_iRIS_Clm_test_02
+    partial class Form_iRIS_Clm_test_03
     {
         /// <summary>
         /// Required designer variable.

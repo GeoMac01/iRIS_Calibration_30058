@@ -14,9 +14,9 @@ using System.Management;
 //iRIS Production 30058_02_01
 //27/03/2018
 
-namespace iRIS_CLM_GUI_TEST_02
+namespace iRIS_CLM_GUI_TEST_03
 {
-    public partial class Form_iRIS_Clm_test_02 : Form
+    public partial class Form_iRIS_Clm_test_03 : Form
     {
         #region Commands Definition
         const string rtnNull = "00";
@@ -254,7 +254,7 @@ namespace iRIS_CLM_GUI_TEST_02
         //======================================================================
         #endregion
         //======================================================================
-         public Form_iRIS_Clm_test_02()
+         public Form_iRIS_Clm_test_03()
         {
             InitializeComponent();
             Getportnames();
