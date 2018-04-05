@@ -645,7 +645,7 @@ namespace iRIS_CLM_GUI_TEST_03
                     case CmdSetLaserType:
                         break;
 
-                    case CmdRdLaserType:
+                    case CmdRdLaserType://only here the label is updated with a value
                         Int16 rtnLsType = Convert.ToInt16(rtnValue);
                         if (rtnLsType == 41) { Lbl_LsType.Text = "MKT"; }
                         else if (rtnLsType == 19) { Lbl_LsType.Text = "CLM"; }
@@ -1040,10 +1040,12 @@ namespace iRIS_CLM_GUI_TEST_03
         //======================================================================
         #region COM buttons and address settings
         //======================================================================
-        private void Bt_USB_Click(object sender, EventArgs e) {
+        //private void Bt_USB_Click(object sender, EventArgs e)
+        private async void Bt_USB_Click(object sender, EventArgs e)
+        {
             SetComsUSB();
-            Task<bool> usbadd = SetAddress();
-            Bt_SetLsType.Enabled = true;
+            bool usbadd1 = await SetAddress();
+            usbadd1 = await CheckLaserType();
         }
         //======================================================================
         private void SetComsUSB()
@@ -1116,7 +1118,6 @@ namespace iRIS_CLM_GUI_TEST_03
                     lbl_RdAdd.Text = "00";
                     lbl_SerNbReadBack.Text = "0000000000000000";
                     lbl_SWLevel.Text = "00000000";
-                    Lbl_LsType.Text = "000";
                     Bt_SetLsType.Enabled = false;
                     MessageBox.Show("USB_Port_Open COM Error");
                 }
@@ -1124,7 +1125,14 @@ namespace iRIS_CLM_GUI_TEST_03
             this.Cursor = Cursors.Default;
         }
         //======================================================================
-        private void Bt_RS232_Click(object sender, EventArgs e)
+        //private void Bt_RS232_Click(object sender, EventArgs e)
+        private async void Bt_RS232_Click(object sender, EventArgs e)
+        {
+            SetComUART();
+            bool usbadd = await SetAddress();
+        }
+        //======================================================================
+        private void SetComUART()
         {
             if (RS232.IsOpen)
             {
@@ -1194,7 +1202,6 @@ namespace iRIS_CLM_GUI_TEST_03
                     MessageBox.Show("RS232 COM Error");
                 }
             }
-            Task<bool> usbadd = SetAddress();
             this.Cursor = Cursors.Default;
         }
         //======================================================================
@@ -1219,6 +1226,18 @@ namespace iRIS_CLM_GUI_TEST_03
         //======================================================================
         private void Bt_SetAddr_Click(object sender, EventArgs e) { Task<bool> setadd = SetAddress(); }
         //======================================================================
+        private async Task<bool> CheckLaserType()
+        {
+            bool setad1 = await SendToSerial(CmdTestMode, StrEnable, 300, 9);
+            setad1 = await SendToSerial(CmdRdLaserType, StrDisable, 300, 9);
+            setad1 = await SendToSerial(CmdTestMode, StrDisable, 300, 9);
+            if (Lbl_LsType.Text != Lbl_LaserType.Text) {
+                Bt_SetLsType.Enabled = true;
+                MessageBox.Show("Set Laser Type");
+            }
+            return true;
+        }
+        //======================================================================
         private async Task<bool> SetAddress()
         {
             string[] sentobuild = new string[2];
@@ -1228,9 +1247,6 @@ namespace iRIS_CLM_GUI_TEST_03
             sentobuild[0] = CmdRdUnitNo;
             setad = await BuildSendString(sentobuild);
 
-            setad = await SendToSerial(CmdTestMode, StrEnable, 300, 9);
-            setad = await SendToSerial(CmdRdLaserType, StrDisable, 300, 9);
-            setad = await SendToSerial(CmdTestMode, StrDisable, 300, 9);
             //setad = await SendToSerial(CmdRdCustomerPm, StrDisable, 300, 9);
             //setad = await SendToSerial(CmdRdFirmware, StrDisable, 300, 9);
             return true;
@@ -1890,6 +1906,7 @@ namespace iRIS_CLM_GUI_TEST_03
             else if (bt_NewTest.BackColor == Color.LawnGreen) {
                 if (Bt_PM100.BackColor == Color.LawnGreen) { bool closePM = await PM100Button(); }
                 if (Bt_USBinterf.BackColor == Color.LawnGreen) { bool closeUSBint = await SetUsbInterface(); }
+                if (Bt_USBcom.BackColor == Color.LawnGreen) { SetComsUSB(); }
                 bt_NewTest.BackColor = Color.Coral;
                 Lbl_LsType.Text = "000";
                 MessageBox.Show("Click again to re-initialise test");
@@ -2934,8 +2951,6 @@ namespace iRIS_CLM_GUI_TEST_03
             return true;
         }
         //======================================================================
-       
-        //======================================================================
         private void ReadDbs()
         {
             Rt_ReceiveDataUSB.Clear();
@@ -2990,7 +3005,7 @@ namespace iRIS_CLM_GUI_TEST_03
                         if ((rdr["SoftwareEnableStartup"].ToString()) == "ON") { ChkBx_SoftEnStart.Checked = true; }
                         else { ChkBx_SoftEnStart.Checked = false; }
 
-                        Lbl_LaserType.Text = rdr["LaserType"].ToString();
+                        Lbl_LaserType.Text = rdr["LaserType"].ToString().TrimEnd(' ');
                         Lbl_LaserType.ForeColor = Color.Green;
 
                         if (rdr["LaserType"].ToString()         == "CLM       ") { laserType = CLM_Ls; }
@@ -3153,9 +3168,9 @@ namespace iRIS_CLM_GUI_TEST_03
         private void Bt_SetLsType_Click(object sender, EventArgs e) { Task<bool> usbadd = SetLaserFirm(); }
         //======================================================================
         private async Task<bool> SetLaserFirm() { //decouple to get async, async can be accessible via event....
-
-            bool setad = await LoadGlobalTestArray(setLaserType);
-            SetComsUSB();//should disconnect usb
+            Lbl_LsType.Text = "000";
+            bool setad = await LoadGlobalTestArray(setLaserType);//read and set laser type
+            SetComsUSB();//should disconnect usb laser needs to restart
             await Task.Delay(10);
             return true;
         }

@@ -1049,9 +1049,9 @@
             this.Lbl_LaserType.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Lbl_LaserType.Location = new System.Drawing.Point(452, 23);
             this.Lbl_LaserType.Name = "Lbl_LaserType";
-            this.Lbl_LaserType.Size = new System.Drawing.Size(53, 20);
+            this.Lbl_LaserType.Size = new System.Drawing.Size(33, 20);
             this.Lbl_LaserType.TabIndex = 364;
-            this.Lbl_LaserType.Text = "- - - - - -";
+            this.Lbl_LaserType.Text = "- - - ";
             // 
             // GrBx_CutomIO
             // 
