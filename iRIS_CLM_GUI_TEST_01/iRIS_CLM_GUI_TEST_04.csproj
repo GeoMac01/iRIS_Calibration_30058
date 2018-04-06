@@ -7,8 +7,8 @@
     <ProjectGuid>{9E226BE3-5246-4D02-B05C-31D1B6E8C622}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>iRIS_CLM_GUI_TEST_03</RootNamespace>
-    <AssemblyName>iRIS_CLM_GUI_TEST_03</AssemblyName>
+    <RootNamespace>iRIS_CLM_GUI_TEST_04</RootNamespace>
+    <AssemblyName>iRIS_CLM_GUI_TEST_04</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -25,7 +25,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>3.0.0.0</ApplicationVersion>
+    <ApplicationVersion>4.0.0.0</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -73,11 +73,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form_iRIS_Clm_test_03.cs">
+    <Compile Include="Form_iRIS_Clm_test_04.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form_iRIS_Clm_test_03.Designer.cs">
-      <DependentUpon>Form_iRIS_Clm_test_03.cs</DependentUpon>
+    <Compile Include="Form_iRIS_Clm_test_04.Designer.cs">
+      <DependentUpon>Form_iRIS_Clm_test_04.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -88,8 +88,8 @@
     </Compile>
     <Compile Include="SendRecvCOM.cs" />
     <Compile Include="Settings.cs" />
-    <EmbeddedResource Include="Form_iRIS_Clm_test_03.resx">
-      <DependentUpon>Form_iRIS_Clm_test_03.cs</DependentUpon>
+    <EmbeddedResource Include="Form_iRIS_Clm_test_04.resx">
+      <DependentUpon>Form_iRIS_Clm_test_04.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -1,6 +1,6 @@
-﻿namespace iRIS_CLM_GUI_TEST_03
+﻿namespace iRIS_CLM_GUI_TEST_04
 {
-    partial class Form_iRIS_Clm_test_03
+    partial class Form_iRIS_Clm_test_04
     {
         /// <summary>
         /// Required designer variable.
@@ -188,9 +188,7 @@
             this.Tb_maxMaxPw = new System.Windows.Forms.TextBox();
             this.Tb_PwToVout = new System.Windows.Forms.TextBox();
             this.label53 = new System.Windows.Forms.Label();
-            this.label55 = new System.Windows.Forms.Label();
             this.Tb_MaxLsCurrent = new System.Windows.Forms.TextBox();
-            this.Tb_Wavelength = new System.Windows.Forms.TextBox();
             this.Lbl_PM100rd = new System.Windows.Forms.Label();
             this.Bt_RdPM100 = new System.Windows.Forms.Button();
             this.Bt_SetIntPwDAC = new System.Windows.Forms.Button();
@@ -226,6 +224,9 @@
             this.Bt_InvAnlg = new System.Windows.Forms.Button();
             this.Bt_IntExtPw = new System.Windows.Forms.Button();
             this.Rt_ReceiveDataUSB = new System.Windows.Forms.RichTextBox();
+            this.label55 = new System.Windows.Forms.Label();
+            this.Tb_Wavelength = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
             this.TbPg_InsTest.SuspendLayout();
             this.GrBx_532Tset.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -303,7 +304,7 @@
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(138, 334);
+            this.label25.Location = new System.Drawing.Point(143, 334);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(106, 13);
             this.label25.TabIndex = 392;
@@ -671,7 +672,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(324, 336);
+            this.label2.Location = new System.Drawing.Point(328, 336);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(62, 13);
             this.label2.TabIndex = 316;
@@ -680,7 +681,7 @@
             // lbl_LaserPD
             // 
             this.lbl_LaserPD.AutoSize = true;
-            this.lbl_LaserPD.Location = new System.Drawing.Point(284, 355);
+            this.lbl_LaserPD.Location = new System.Drawing.Point(287, 355);
             this.lbl_LaserPD.Name = "lbl_LaserPD";
             this.lbl_LaserPD.Size = new System.Drawing.Size(37, 13);
             this.lbl_LaserPD.TabIndex = 315;
@@ -689,7 +690,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(324, 355);
+            this.label1.Location = new System.Drawing.Point(328, 355);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(47, 13);
             this.label1.TabIndex = 314;
@@ -698,7 +699,7 @@
             // lbl_ADCpconRd
             // 
             this.lbl_ADCpconRd.AutoSize = true;
-            this.lbl_ADCpconRd.Location = new System.Drawing.Point(284, 336);
+            this.lbl_ADCpconRd.Location = new System.Drawing.Point(287, 336);
             this.lbl_ADCpconRd.Name = "lbl_ADCpconRd";
             this.lbl_ADCpconRd.Size = new System.Drawing.Size(37, 13);
             this.lbl_ADCpconRd.TabIndex = 313;
@@ -719,7 +720,7 @@
             // label63
             // 
             this.label63.AutoSize = true;
-            this.label63.Location = new System.Drawing.Point(138, 316);
+            this.label63.Location = new System.Drawing.Point(143, 316);
             this.label63.Name = "label63";
             this.label63.Size = new System.Drawing.Size(92, 13);
             this.label63.TabIndex = 308;
@@ -1009,6 +1010,9 @@
             // 
             // TbPg_Iris_Init
             // 
+            this.TbPg_Iris_Init.Controls.Add(this.label24);
+            this.TbPg_Iris_Init.Controls.Add(this.label55);
+            this.TbPg_Iris_Init.Controls.Add(this.Tb_Wavelength);
             this.TbPg_Iris_Init.Controls.Add(this.Lbl_LaserType);
             this.TbPg_Iris_Init.Controls.Add(this.GrBx_CutomIO);
             this.TbPg_Iris_Init.Controls.Add(this.label12);
@@ -1121,7 +1125,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(379, 202);
+            this.label12.Location = new System.Drawing.Point(348, 202);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(22, 13);
             this.label12.TabIndex = 362;
@@ -1173,7 +1177,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(169, 201);
+            this.label13.Location = new System.Drawing.Point(171, 201);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(122, 13);
             this.label13.TabIndex = 341;
@@ -1403,9 +1407,7 @@
             this.TbPg_Results.Controls.Add(this.Tb_maxMaxPw);
             this.TbPg_Results.Controls.Add(this.Tb_PwToVout);
             this.TbPg_Results.Controls.Add(this.label53);
-            this.TbPg_Results.Controls.Add(this.label55);
             this.TbPg_Results.Controls.Add(this.Tb_MaxLsCurrent);
-            this.TbPg_Results.Controls.Add(this.Tb_Wavelength);
             this.TbPg_Results.Controls.Add(this.Lbl_PM100rd);
             this.TbPg_Results.Controls.Add(this.Bt_RdPM100);
             this.TbPg_Results.Controls.Add(this.Bt_SetIntPwDAC);
@@ -1703,7 +1705,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(322, 173);
+            this.label10.Location = new System.Drawing.Point(324, 173);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(72, 13);
             this.label10.TabIndex = 348;
@@ -1730,7 +1732,7 @@
             // 
             this.Bt_SetVGA.BackColor = System.Drawing.Color.PeachPuff;
             this.Bt_SetVGA.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Bt_SetVGA.Location = new System.Drawing.Point(357, 212);
+            this.Bt_SetVGA.Location = new System.Drawing.Point(362, 217);
             this.Bt_SetVGA.Name = "Bt_SetVGA";
             this.Bt_SetVGA.Size = new System.Drawing.Size(68, 25);
             this.Bt_SetVGA.TabIndex = 343;
@@ -1906,7 +1908,7 @@
             // label32
             // 
             this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(322, 197);
+            this.label32.Location = new System.Drawing.Point(324, 197);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(86, 13);
             this.label32.TabIndex = 335;
@@ -1940,7 +1942,7 @@
             // label57
             // 
             this.label57.AutoSize = true;
-            this.label57.Location = new System.Drawing.Point(322, 151);
+            this.label57.Location = new System.Drawing.Point(324, 151);
             this.label57.Name = "label57";
             this.label57.Size = new System.Drawing.Size(97, 13);
             this.label57.TabIndex = 331;
@@ -1957,7 +1959,7 @@
             // label45
             // 
             this.label45.AutoSize = true;
-            this.label45.Location = new System.Drawing.Point(322, 129);
+            this.label45.Location = new System.Drawing.Point(324, 129);
             this.label45.Name = "label45";
             this.label45.Size = new System.Drawing.Size(92, 13);
             this.label45.TabIndex = 329;
@@ -1974,7 +1976,7 @@
             // label46
             // 
             this.label46.AutoSize = true;
-            this.label46.Location = new System.Drawing.Point(322, 107);
+            this.label46.Location = new System.Drawing.Point(324, 107);
             this.label46.Name = "label46";
             this.label46.Size = new System.Drawing.Size(95, 13);
             this.label46.TabIndex = 323;
@@ -2008,20 +2010,11 @@
             // label53
             // 
             this.label53.AutoSize = true;
-            this.label53.Location = new System.Drawing.Point(322, 262);
+            this.label53.Location = new System.Drawing.Point(324, 262);
             this.label53.Name = "label53";
             this.label53.Size = new System.Drawing.Size(63, 13);
             this.label53.TabIndex = 319;
             this.label53.Text = "Max Iop mA";
-            // 
-            // label55
-            // 
-            this.label55.AutoSize = true;
-            this.label55.Location = new System.Drawing.Point(322, 241);
-            this.label55.Name = "label55";
-            this.label55.Size = new System.Drawing.Size(119, 13);
-            this.label55.TabIndex = 318;
-            this.label55.Text = "Wavelength nm (Diode)";
             // 
             // Tb_MaxLsCurrent
             // 
@@ -2031,14 +2024,6 @@
             this.Tb_MaxLsCurrent.Size = new System.Drawing.Size(46, 20);
             this.Tb_MaxLsCurrent.TabIndex = 317;
             this.Tb_MaxLsCurrent.Text = "0000";
-            // 
-            // Tb_Wavelength
-            // 
-            this.Tb_Wavelength.Location = new System.Drawing.Point(274, 236);
-            this.Tb_Wavelength.Name = "Tb_Wavelength";
-            this.Tb_Wavelength.Size = new System.Drawing.Size(46, 20);
-            this.Tb_Wavelength.TabIndex = 316;
-            this.Tb_Wavelength.Text = "0000";
             // 
             // Lbl_PM100rd
             // 
@@ -2163,7 +2148,7 @@
             // label48
             // 
             this.label48.AutoSize = true;
-            this.label48.Location = new System.Drawing.Point(336, 307);
+            this.label48.Location = new System.Drawing.Point(338, 303);
             this.label48.Name = "label48";
             this.label48.Size = new System.Drawing.Size(50, 13);
             this.label48.TabIndex = 299;
@@ -2172,7 +2157,7 @@
             // lbl_01
             // 
             this.lbl_01.AutoSize = true;
-            this.lbl_01.Location = new System.Drawing.Point(336, 285);
+            this.lbl_01.Location = new System.Drawing.Point(338, 283);
             this.lbl_01.Name = "lbl_01";
             this.lbl_01.Size = new System.Drawing.Size(50, 13);
             this.lbl_01.TabIndex = 298;
@@ -2180,7 +2165,7 @@
             // 
             // Tb_CalB_Pw
             // 
-            this.Tb_CalB_Pw.Location = new System.Drawing.Point(274, 302);
+            this.Tb_CalB_Pw.Location = new System.Drawing.Point(274, 300);
             this.Tb_CalB_Pw.Name = "Tb_CalB_Pw";
             this.Tb_CalB_Pw.Size = new System.Drawing.Size(60, 20);
             this.Tb_CalB_Pw.TabIndex = 297;
@@ -2188,7 +2173,7 @@
             // 
             // Tb_CalA_Pw
             // 
-            this.Tb_CalA_Pw.Location = new System.Drawing.Point(274, 280);
+            this.Tb_CalA_Pw.Location = new System.Drawing.Point(274, 279);
             this.Tb_CalA_Pw.Name = "Tb_CalA_Pw";
             this.Tb_CalA_Pw.Size = new System.Drawing.Size(60, 20);
             this.Tb_CalA_Pw.TabIndex = 296;
@@ -2197,7 +2182,7 @@
             // label44
             // 
             this.label44.AutoSize = true;
-            this.label44.Location = new System.Drawing.Point(344, 351);
+            this.label44.Location = new System.Drawing.Point(345, 344);
             this.label44.Name = "label44";
             this.label44.Size = new System.Drawing.Size(80, 13);
             this.label44.TabIndex = 295;
@@ -2206,7 +2191,7 @@
             // label47
             // 
             this.label47.AutoSize = true;
-            this.label47.Location = new System.Drawing.Point(344, 329);
+            this.label47.Location = new System.Drawing.Point(345, 322);
             this.label47.Name = "label47";
             this.label47.Size = new System.Drawing.Size(80, 13);
             this.label47.TabIndex = 294;
@@ -2214,7 +2199,7 @@
             // 
             // Tb_CalB_PwToADC
             // 
-            this.Tb_CalB_PwToADC.Location = new System.Drawing.Point(274, 390);
+            this.Tb_CalB_PwToADC.Location = new System.Drawing.Point(274, 342);
             this.Tb_CalB_PwToADC.Name = "Tb_CalB_PwToADC";
             this.Tb_CalB_PwToADC.Size = new System.Drawing.Size(67, 20);
             this.Tb_CalB_PwToADC.TabIndex = 293;
@@ -2222,7 +2207,7 @@
             // 
             // Tb_CalA_PwToADC
             // 
-            this.Tb_CalA_PwToADC.Location = new System.Drawing.Point(274, 368);
+            this.Tb_CalA_PwToADC.Location = new System.Drawing.Point(274, 321);
             this.Tb_CalA_PwToADC.Name = "Tb_CalA_PwToADC";
             this.Tb_CalA_PwToADC.Size = new System.Drawing.Size(67, 20);
             this.Tb_CalA_PwToADC.TabIndex = 292;
@@ -2231,7 +2216,7 @@
             // label49
             // 
             this.label49.AutoSize = true;
-            this.label49.Location = new System.Drawing.Point(344, 396);
+            this.label49.Location = new System.Drawing.Point(345, 388);
             this.label49.Name = "label49";
             this.label49.Size = new System.Drawing.Size(72, 13);
             this.label49.TabIndex = 291;
@@ -2240,7 +2225,7 @@
             // label50
             // 
             this.label50.AutoSize = true;
-            this.label50.Location = new System.Drawing.Point(344, 374);
+            this.label50.Location = new System.Drawing.Point(345, 366);
             this.label50.Name = "label50";
             this.label50.Size = new System.Drawing.Size(72, 13);
             this.label50.TabIndex = 290;
@@ -2248,7 +2233,7 @@
             // 
             // Tb_CalBcmdToPw
             // 
-            this.Tb_CalBcmdToPw.Location = new System.Drawing.Point(274, 346);
+            this.Tb_CalBcmdToPw.Location = new System.Drawing.Point(274, 384);
             this.Tb_CalBcmdToPw.Name = "Tb_CalBcmdToPw";
             this.Tb_CalBcmdToPw.Size = new System.Drawing.Size(67, 20);
             this.Tb_CalBcmdToPw.TabIndex = 289;
@@ -2256,7 +2241,7 @@
             // 
             // Tb_CalAcmdToPw
             // 
-            this.Tb_CalAcmdToPw.Location = new System.Drawing.Point(274, 324);
+            this.Tb_CalAcmdToPw.Location = new System.Drawing.Point(274, 363);
             this.Tb_CalAcmdToPw.Name = "Tb_CalAcmdToPw";
             this.Tb_CalAcmdToPw.Size = new System.Drawing.Size(67, 20);
             this.Tb_CalAcmdToPw.TabIndex = 288;
@@ -2283,7 +2268,7 @@
             // label31
             // 
             this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(322, 219);
+            this.label31.Location = new System.Drawing.Point(324, 219);
             this.label31.Name = "label31";
             this.label31.Size = new System.Drawing.Size(29, 13);
             this.label31.TabIndex = 257;
@@ -2381,14 +2366,44 @@
             this.Rt_ReceiveDataUSB.Text = "";
             this.Rt_ReceiveDataUSB.DoubleClick += new System.EventHandler(this.Rtb_Display_USB_DoubleClick);
             // 
-            // Form_iRIS_Clm_test_03
+            // label55
+            // 
+            this.label55.AutoSize = true;
+            this.label55.Location = new System.Drawing.Point(174, 227);
+            this.label55.Name = "label55";
+            this.label55.Size = new System.Drawing.Size(119, 13);
+            this.label55.TabIndex = 366;
+            this.label55.Text = "Wavelength nm (Diode)";
+            // 
+            // Tb_Wavelength
+            // 
+            this.Tb_Wavelength.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.Tb_Wavelength.Location = new System.Drawing.Point(297, 224);
+            this.Tb_Wavelength.Name = "Tb_Wavelength";
+            this.Tb_Wavelength.Size = new System.Drawing.Size(46, 20);
+            this.Tb_Wavelength.TabIndex = 365;
+            this.Tb_Wavelength.Text = "0000";
+            this.Tb_Wavelength.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Tb_Wavelength.Click += new System.EventHandler(this.Tb_Wavelength_Click);
+            this.Tb_Wavelength.Leave += new System.EventHandler(this.Tb_Wavelength_Leave);
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(348, 229);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(21, 13);
+            this.label24.TabIndex = 367;
+            this.label24.Text = "nm";
+            // 
+            // Form_iRIS_Clm_test_04
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(706, 595);
             this.Controls.Add(this.tabControl1);
-            this.Name = "Form_iRIS_Clm_test_03";
-            this.Text = "30058-03 iRIS CLM TEST";
+            this.Name = "Form_iRIS_Clm_test_04";
+            this.Text = "30058-04 iRIS CLM TEST";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Frm_iRIS_Prod_FormClosing);
             this.Load += new System.EventHandler(this.Form_iRIS_Clm_01_Load);
             this.TbPg_InsTest.ResumeLayout(false);
@@ -2484,9 +2499,7 @@
         private System.Windows.Forms.TextBox Tb_maxMaxPw;
         private System.Windows.Forms.TextBox Tb_PwToVout;
         private System.Windows.Forms.Label label53;
-        private System.Windows.Forms.Label label55;
         private System.Windows.Forms.TextBox Tb_MaxLsCurrent;
-        private System.Windows.Forms.TextBox Tb_Wavelength;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.TextBox Tb_SerNb;
         private System.Windows.Forms.Label label45;
@@ -2613,6 +2626,9 @@
         private System.Windows.Forms.Label Lbl_LsType;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Label lbl_TecTemp;
+        private System.Windows.Forms.Label label55;
+        private System.Windows.Forms.TextBox Tb_Wavelength;
+        private System.Windows.Forms.Label label24;
     }
 }
 

@@ -11,12 +11,12 @@ using Thorlabs.PM100D_32.Interop;
 using MccDaq;
 using System.Management;
 
-//iRIS Production 30058_03_01
-//29/03/2018
+//iRIS Production 30058_04
+//06/04/2018 ECNxxxxxx
 
-namespace iRIS_CLM_GUI_TEST_03
+namespace iRIS_CLM_GUI_TEST_04
 {
-    public partial class Form_iRIS_Clm_test_03 : Form
+    public partial class Form_iRIS_Clm_test_04 : Form
     {
         #region Commands Definition
         const string rtnNull = "00";
@@ -272,7 +272,7 @@ namespace iRIS_CLM_GUI_TEST_03
         //======================================================================
         #endregion
         //======================================================================
-         public Form_iRIS_Clm_test_03()
+         public Form_iRIS_Clm_test_04()
         {
             InitializeComponent();
             Getportnames();
@@ -1423,26 +1423,33 @@ namespace iRIS_CLM_GUI_TEST_03
                 if (rsrc != 0)
                 {
                     //MessageBox.Show("Thorlab resources " + Convert.ToString(rsrc));
-                    Int16 rdWavelgth = Convert.ToInt16(Tb_Wavelength.Text);
-
-                    if (rdWavelgth <= 300 || rdWavelgth >= 900) { return pm100cnt = false; }//no wavelengh to set PM100
-                    else
+                    //Int16 rdWavelgth = Convert.ToInt16(Tb_Wavelength.Text);
+                    if (int.TryParse(Tb_Wavelength.Text, out int rdWavelgth32) == true)
                     {
-                        pm.setWavelength(rdWavelgth);
-                        //Set Zero / Dark adjustment
-                        //pm.setPowerAutoRange(true);
-                        pm100cnt = true;
+                        Int16 rdWavelgth = Convert.ToInt16(rdWavelgth32);
+
+                        if (rdWavelgth <= 1800 && rdWavelgth >= 400)//Wavelength OK
+                        {
+                            pm.setWavelength(rdWavelgth);
+                            //Set Zero / Dark adjustment
+                            //pm.setPowerAutoRange(true);
+                            pm100cnt = true;
+                        }
+                        else //Wavelength error
+                        {
+                            return pm100cnt = false;
+                        }
                     }
                 }
                 else
                 {
                     pm100cnt = false;
-                    MessageBox.Show("No PM100D");
+                    MessageBox.Show("No PM100D or Wlgth Error");
                 }
             }
             catch (Exception e) { MessageBox.Show("PM100 Error" + e.ToString()); }
-                    
-            await Task.Delay(1);
+
+            await Task.Delay(2);
             this.Cursor = Cursors.Default;
             return pm100cnt;
         }
@@ -2126,12 +2133,12 @@ namespace iRIS_CLM_GUI_TEST_03
                                 fs.WriteLine("14284 TEC PCB Serial Number: " + Tb_TecSerNumb.Text);
                                 fs.WriteLine("14264 Laser PCB Serial Number: " + lbl_SerNbReadBack.Text);
                                 fs.WriteLine("Firmware: " + lbl_SWLevel.Text);
-                                fs.WriteLine("Wavelength: " + Lbl_WaveLg.Text);
+                                fs.WriteLine("EEPROM Wavelength: " + Lbl_WaveLg.Text);
+                                fs.WriteLine("Diode Wavelength: " + Tb_Wavelength.Text);
                                 fs.WriteLine("Software Nominal power: " + Tb_SoftNomPw.Text);
                                 fs.WriteLine("Set Add.: " + lbl_RdAdd.Text);
                                 fs.WriteLine("VGA value: " + Lbl_VGAval.Text);
                                 fs.WriteLine("Offset value: " + Tb_SetOffset.Text);
-
                                 fs.WriteLine("Power @ 5V Pcon: " + Pw_Pcon_500V);
                                 fs.WriteLine("Power @ 0V Pcon: " + Pw_Pcon_0V);
                                 fs.WriteLine("Power @ Enable Off: " + Pw_EnOff);
@@ -2303,9 +2310,9 @@ namespace iRIS_CLM_GUI_TEST_03
             string cmdString0 = "INSERT INTO " + Tb_DatabaseWrt.Text +
                 " ( PartNumber, LaserAddress, Laser_Assy_Sn, Laser_Board_Sn, TEC_Board_Sn, SwLevel, TestDate, Wavelength, SoftwareNomPower, TecName, VGA_Value, V_Offset, "+
                 " Pw_at_5VPCON, Pw_at_0VPCON, Pw_at_Enbl_Off, VPCON_at_01pc, I_OUT_at_0VPCON, I_OUT_at_Nom_Pw, V_OUT_PD_at_Nom_Pw, V_OUT_PD_at_Min_Pw, "+
-                " TEC_BlockTemperature, A_Pw_Cal ,B_Pw_Cal, A_Pw_to_ADC_Cal, B_Pw_to_ADC_Cal, A_PCON_to_Pw_Cal, B_PCON_to_Pw_Cal )"+
+                " TEC_BlockTemperature, A_Pw_Cal ,B_Pw_Cal, A_Pw_to_ADC_Cal, B_Pw_to_ADC_Cal, A_PCON_to_Pw_Cal, B_PCON_to_Pw_Cal, Diode_Wavelength )" +
                 " VALUES ( @val1, @val2, @val3, @val4, @val5, @val6, @val7, @val8, @val9, @val10, @val11, @val12, " +
-                " @val13, @val14, @val15, @val16, @val17, @val18, @val19, @val20, @val21 , @val22, @val23, @val24, @val25, @val26, @val27)";
+                " @val13, @val14, @val15, @val16, @val17, @val18, @val19, @val20, @val21 , @val22, @val23, @val24, @val25, @val26, @val27, @val32)";
 
             //command.CommandText = "UPDATE Student SET Address = @add, City = @cit Where FirstName = @fn and LastName = @add";
 
@@ -2351,6 +2358,9 @@ namespace iRIS_CLM_GUI_TEST_03
                     cmd.Parameters.AddWithValue("@val25", Tb_CalB_PwToADC.Text);
                     cmd.Parameters.AddWithValue("@val26", Tb_CalAcmdToPw.Text);
                     cmd.Parameters.AddWithValue("@val27", Tb_CalBcmdToPw.Text);
+
+                    cmd.Parameters.AddWithValue("@val32", Tb_Wavelength.Text);
+
                 }
 
                 if (saveData == 1) {
@@ -3173,6 +3183,28 @@ namespace iRIS_CLM_GUI_TEST_03
             SetComsUSB();//should disconnect usb laser needs to restart
             await Task.Delay(10);
             return true;
+        }
+        //======================================================================
+        private void Tb_Wavelength_Click(object sender, EventArgs e) { Tb_Wavelength.Clear(); }
+        //======================================================================
+        private void Tb_Wavelength_Leave(object sender, EventArgs e)
+        {
+            int tbWavelngth = Convert.ToInt16(Lbl_Wlgth1.Text);
+
+            if (int.TryParse(Tb_Wavelength.Text, out int dummyInt) == true)
+            {
+                if (dummyInt <= (tbWavelngth + 5) && dummyInt >= (tbWavelngth - 5))
+                {
+                    Tb_Wavelength.ForeColor = Color.Green;
+                }
+                else
+                {
+                    Tb_Wavelength.ForeColor = Color.OrangeRed;
+                    Tb_Wavelength.Text = "0000";
+                    MessageBox.Show("Out of range value");
+                }
+            }
+            else { MessageBox.Show("Enter numerical integer Wavelength"); }
         }
         //======================================================================
         //======================================================================
