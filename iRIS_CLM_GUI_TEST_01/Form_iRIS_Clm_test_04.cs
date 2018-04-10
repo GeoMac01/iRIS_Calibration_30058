@@ -96,119 +96,33 @@ namespace iRIS_CLM_GUI_TEST_04
         //=================================================
         #region Test Sequence Definition
         //=================================================
-
-        string[,] bulkSetLaserIO = new string[7, 2] {   //the rest of the string is build with case...
-            { CmdLaserEnable,       StrDisable },
-            { CmdTestMode,          StrEnable  },
-            { CmdSetTECena_dis,     StrDisable},
-            { CmdSetInOutPwCtrl,    StrDisable },       //external PCON
-            { CmdAnalgInpt,         StrDisable },       //Non Inv. PCON
-            { CmdEnablLogicvIn,     StrDisable },       //Non Inv. Laser Enable
-            { CmdsetTTL,            StrEnable } };      //Inv. TTL line in nothing connected
-
-        string[,] bulkSetVarialble = new string[14, 2] {
-            {CmdTestMode,           StrEnable },
-            {CmdSetWavelenght,      StrDisable},
-            {CmdSetLsMominalPw,     StrDisable},
-            {CmdSetMaxIop,          StrDisable},
-            {CmdSetModel,           StrDisable},
-            {CmdSeManuDate,         StrDisable},
-            {CmdSetCalDate,         StrDisable},
-            {CmdSetPartNumber,      StrDisable},
-            {CmdSetCalAPw,          StrEnable},
-            {CmdSetCalBPw,          StrDisable},
-            {CmdSetCalAPwtoVint,    StrEnable},
-            {CmdSetCalBPwtoVint,    StrDisable},
-            {CmdSetCalAVtoPw,       StrEnable},
-            {CmdSetCalBVtoPw,       StrDisable} };
-
-        string[,] bulkSetdefaultCtrl = new string[6, 2] {
-            {CmdTestMode,       StrEnable  },
-            {CmdRatedPower,     StrDisable },
-            {CmdSetPwMonOut,    StrDisable },
-            {CmdSetVgaGain,     StrDisable },
-            {CmdSetOffstVolt,   StrDisable },      //Offset 2.500V
-            {CmdSetPwCtrlOut,   StrDisable } };    //Internal PCON 2.500V
-
-        static string[,] bulkSetFinalSetup = new string[7, 2] {
-            {CmdTestMode,           StrEnable},
-            {CmdSetCalAPw,          StrEnable},
-            {CmdSetCalBPw,          StrDisable},
-            {CmdSetCalAPwtoVint,    StrEnable },
-            {CmdSetCalBPwtoVint,    StrDisable},
-            {CmdSetCalAVtoPw,       StrEnable},
-            {CmdSetCalBVtoPw,       StrDisable} };
-
-        string[,] bulkSetTEC = new string[6, 2] {
-            { CmdTestMode,          StrEnable  },
-            { CmdSetTECTemp,        StrDisable },
-            { CmdSetTECkp,          StrDisable },
-            { CmdSetTECki,          StrDisable },
-            { CmdSetTECsmpTime,     StrDisable },
-            { CmdSetTECena_dis,     StrEnable} };
-
-        static string[,] bulkSetTEC532 = new string[2, 2] {
-            { CmdTestMode,          StrEnable  },
-            { CmdSetTECTemp,        StrDisable } };
-
-        string[,] bulkSetRstClk = new string[5, 2] {
-            { CmdTestMode,          StrEnable  },
-            { CmdOperatingHr,       StrDisable },
-            { CmdRstTime,           StrDisable },
-            { CmdTestMode,          StrDisable },
-            { CmdOperatingHr,       StrDisable } };
+        string[,] bulkSetLaserIO ;      
+        string[,] bulkSetVarialble;
+        string[,] bulkSetdefaultCtrl;    
+        string[,] bulkSetFinalSetup ;
+        string[,] bulkSetTEC ;
+        string[,] bulkSetTEC532 ;
+        string[,] bulkSetRstClk ;
         //=================================================
-        string[,] bulkSetBurnin = new string[7, 2] {
-            { CmdTestMode,          StrEnable  },
-            { CmdSetInOutPwCtrl,    StrDisable },     //external PCON
-            { CmdAnalgInpt,         StrDisable },     //Non Inv. PCON
-            { CmdEnablLogicvIn,     StrDisable },     //Non Inv. Laser Enable 0 >> 0/1 enable
-            { CmdsetTTL,            StrEnable  },     //Inv. TTL line in 1  line to 0
-            { CmdLaserEnable,       StrEnable  },
-            { CmdTestMode,          StrDisable } };
+        string[,] bulkSetBurnin ;
         //=================================================
-        string[,] bulkSetVga = new string[6, 2] {
-            { CmdLaserEnable,       StrDisable },
-            { CmdTestMode,          StrEnable  },
-            { CmdSetInOutPwCtrl,    StrDisable },     //external PCON
-            { CmdAnalgInpt,         StrDisable },     //Non Inv. PCON
-            { CmdEnablLogicvIn,     StrDisable },     //Non Inv. Laser Enable
-            { CmdsetTTL,            StrEnable } };    //Inv. TTL line in
+        string[,] bulkSetVga ;    //Inv. TTL line in
         //=================================================
-        string[,] analogRead = new string[4, 2] {//read analog inputs
-            { CmdTestMode,          StrEnable },
-            { CmdRdPwSetPcon,       StrDisable },
-            { CmdRdPwSetPcon,       StrDisable },
-            { CmdCurrentRead,       StrDisable } };
-
-        string[,] analogRead2 = new string[,] { };
-        /*
-        string[,] analogRead2 = new string[7, 2] {//read all analog inputs
-            { CmdTestMode,          StrEnable },
-            { CmdRdCmdStautus2,     StrDisable },
-            { CmdRdLaserPow,        StrDisable },
-            { CmdRdPwSetPcon,       StrDisable },
-            { CmdCurrentRead,       StrDisable },
-            { CmdRdTecTemprt,       StrDisable },
-            { CmdRdBplateTemp,      StrDisable } };
-            */
-        string[,] setLaserType = new string[4, 2] {
-            { CmdTestMode,          StrEnable },
-            { CmdSetLaserType,      StrDisable },
-            { CmdRdLaserType,       StrDisable },
-            { CmdTestMode,          StrDisable } };
+        string[,] analogRead ;
+        string[,] analogRead2;
+        string[,] setLaserType ;
         #endregion
         //=================================================
-        string CmdRdSerialNo = null;  //cmd 10 MKT
-        string CmdRdFirmware = null;  //cmd 09 MKT
-        string CmdRdWavelen = null;  //cmd 11 MKT
-        string CmdSetLsPw = null;  //cmd 04 MKT
-        string CmdRdLaserPow = null;  //cmd 05 MKT 
-        string CmdRatedPower = null;  //cmd 14 MKT
-        string CmdLaserStatus = null;  //cmd 06 MKT bit 5 
-
-        string[]  testStringArr   =     new string[2];//used to load commands in bulk send
-        
+        string CmdRdSerialNo    = null;  //cmd 10 MKT
+        string CmdRdFirmware    = null;  //cmd 09 MKT
+        string CmdRdWavelen     = null;  //cmd 11 MKT
+        string CmdSetLsPw       = null;  //cmd 04 MKT
+        string CmdRdLaserPow    = null;  //cmd 05 MKT 
+        string CmdRatedPower    = null;  //cmd 14 MKT
+        string CmdLaserStatus   = null;  //cmd 06 MKT bit 5 
+        //=================================================
+        string[]  testStringArr = new string[2]; //used to load commands in bulk send
+        //=================================================
         string indata_USB =     string.Empty;
         string indata_RS232 =   string.Empty;
         string outdata_RS232 =  string.Empty;
@@ -3087,8 +3001,95 @@ namespace iRIS_CLM_GUI_TEST_04
                 default:
                     MessageBox.Show("No Laser Type Loaded");
                     break;
+            }
 
-            analogRead2[] =  {//read all analog inputs
+            #region test arrays
+
+            bulkSetLaserIO = new string[7, 2] {   //the rest of the string is build with case...
+            { CmdLaserEnable,       StrDisable },
+            { CmdTestMode,          StrEnable  },
+            { CmdSetTECena_dis,     StrDisable},
+            { CmdSetInOutPwCtrl,    StrDisable },       //external PCON
+            { CmdAnalgInpt,         StrDisable },       //Non Inv. PCON
+            { CmdEnablLogicvIn,     StrDisable },       //Non Inv. Laser Enable
+            { CmdsetTTL,            StrEnable } };      //Inv. TTL line in nothing connected
+
+            bulkSetVarialble = new string[14, 2] {
+            {CmdTestMode,           StrEnable },
+            {CmdSetWavelenght,      StrDisable},
+            {CmdSetLsMominalPw,     StrDisable},
+            {CmdSetMaxIop,          StrDisable},
+            {CmdSetModel,           StrDisable},
+            {CmdSeManuDate,         StrDisable},
+            {CmdSetCalDate,         StrDisable},
+            {CmdSetPartNumber,      StrDisable},
+            {CmdSetCalAPw,          StrEnable},
+            {CmdSetCalBPw,          StrDisable},
+            {CmdSetCalAPwtoVint,    StrEnable},
+            {CmdSetCalBPwtoVint,    StrDisable},
+            {CmdSetCalAVtoPw,       StrEnable},
+            {CmdSetCalBVtoPw,       StrDisable} };
+
+            bulkSetdefaultCtrl = new string[6, 2] {
+            {CmdTestMode,       StrEnable  },
+            {CmdRatedPower,     StrDisable },
+            {CmdSetPwMonOut,    StrDisable },
+            {CmdSetVgaGain,     StrDisable },
+            {CmdSetOffstVolt,   StrDisable },      //Offset 2.500V
+            {CmdSetPwCtrlOut,   StrDisable } };    //Internal PCON 2.500V
+            
+            bulkSetFinalSetup = new string[7, 2] {
+            {CmdTestMode,           StrEnable},
+            {CmdSetCalAPw,          StrEnable},
+            {CmdSetCalBPw,          StrDisable},
+            {CmdSetCalAPwtoVint,    StrEnable },
+            {CmdSetCalBPwtoVint,    StrDisable},
+            {CmdSetCalAVtoPw,       StrEnable},
+            {CmdSetCalBVtoPw,       StrDisable} };
+
+            bulkSetTEC = new string[6, 2] {
+            { CmdTestMode,          StrEnable  },
+            { CmdSetTECTemp,        StrDisable },
+            { CmdSetTECkp,          StrDisable },
+            { CmdSetTECki,          StrDisable },
+            { CmdSetTECsmpTime,     StrDisable },
+            { CmdSetTECena_dis,     StrEnable} };
+
+            bulkSetTEC532 = new string[2, 2] {
+            { CmdTestMode,          StrEnable  },
+            { CmdSetTECTemp,        StrDisable } };
+
+            bulkSetRstClk = new string[5, 2] {
+            { CmdTestMode,          StrEnable  },
+            { CmdOperatingHr,       StrDisable },
+            { CmdRstTime,           StrDisable },
+            { CmdTestMode,          StrDisable },
+            { CmdOperatingHr,       StrDisable } };
+            //=================================================
+            bulkSetBurnin = new string[7, 2] {
+            { CmdTestMode,          StrEnable  },
+            { CmdSetInOutPwCtrl,    StrDisable },     //external PCON
+            { CmdAnalgInpt,         StrDisable },     //Non Inv. PCON
+            { CmdEnablLogicvIn,     StrDisable },     //Non Inv. Laser Enable 0 >> 0/1 enable
+            { CmdsetTTL,            StrEnable  },     //Inv. TTL line in 1  line to 0
+            { CmdLaserEnable,       StrEnable  },
+            { CmdTestMode,          StrDisable } };
+            //=================================================
+            bulkSetVga = new string[6, 2] {
+            { CmdLaserEnable,       StrDisable },
+            { CmdTestMode,          StrEnable  },
+            { CmdSetInOutPwCtrl,    StrDisable },     //external PCON
+            { CmdAnalgInpt,         StrDisable },     //Non Inv. PCON
+            { CmdEnablLogicvIn,     StrDisable },     //Non Inv. Laser Enable
+            { CmdsetTTL,            StrEnable } };    //Inv. TTL line in
+                                                      //=================================================
+            analogRead = new string[4, 2] {//read analog inputs
+            { CmdTestMode,          StrEnable },
+            { CmdRdLaserPow,       StrDisable },
+            { CmdRdPwSetPcon,       StrDisable },
+            { CmdCurrentRead,       StrDisable } };
+
+            analogRead2 = new string[7, 2] {//read all analog inputs
             { CmdTestMode,          StrEnable },
             { CmdRdCmdStautus2,     StrDisable },
             { CmdRdLaserPow,        StrDisable },
@@ -3097,7 +3098,13 @@ namespace iRIS_CLM_GUI_TEST_04
             { CmdRdTecTemprt,       StrDisable },
             { CmdRdBplateTemp,      StrDisable } };
 
-            }
+            setLaserType = new string[4, 2] {
+            { CmdTestMode,          StrEnable },
+            { CmdSetLaserType,      StrDisable },
+            { CmdRdLaserType,       StrDisable },
+            { CmdTestMode,          StrDisable } };
+
+            #endregion
 
         }
         //======================================================================
