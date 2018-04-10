@@ -98,6 +98,9 @@
             this.label29 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.TbPg_Iris_Init = new System.Windows.Forms.TabPage();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label55 = new System.Windows.Forms.Label();
+            this.Tb_Wavelength = new System.Windows.Forms.TextBox();
             this.Lbl_LaserType = new System.Windows.Forms.Label();
             this.GrBx_CutomIO = new System.Windows.Forms.GroupBox();
             this.ChkBx_SoftEnStart = new System.Windows.Forms.CheckBox();
@@ -224,9 +227,6 @@
             this.Bt_InvAnlg = new System.Windows.Forms.Button();
             this.Bt_IntExtPw = new System.Windows.Forms.Button();
             this.Rt_ReceiveDataUSB = new System.Windows.Forms.RichTextBox();
-            this.label55 = new System.Windows.Forms.Label();
-            this.Tb_Wavelength = new System.Windows.Forms.TextBox();
-            this.label24 = new System.Windows.Forms.Label();
             this.TbPg_InsTest.SuspendLayout();
             this.GrBx_532Tset.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -1046,6 +1046,36 @@
             this.TbPg_Iris_Init.TabIndex = 0;
             this.TbPg_Iris_Init.Text = " Test Init.";
             this.TbPg_Iris_Init.UseVisualStyleBackColor = true;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(348, 229);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(21, 13);
+            this.label24.TabIndex = 367;
+            this.label24.Text = "nm";
+            // 
+            // label55
+            // 
+            this.label55.AutoSize = true;
+            this.label55.Location = new System.Drawing.Point(174, 227);
+            this.label55.Name = "label55";
+            this.label55.Size = new System.Drawing.Size(119, 13);
+            this.label55.TabIndex = 366;
+            this.label55.Text = "Wavelength nm (Diode)";
+            // 
+            // Tb_Wavelength
+            // 
+            this.Tb_Wavelength.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.Tb_Wavelength.Location = new System.Drawing.Point(297, 224);
+            this.Tb_Wavelength.Name = "Tb_Wavelength";
+            this.Tb_Wavelength.Size = new System.Drawing.Size(46, 20);
+            this.Tb_Wavelength.TabIndex = 365;
+            this.Tb_Wavelength.Text = "0000";
+            this.Tb_Wavelength.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Tb_Wavelength.Click += new System.EventHandler(this.Tb_Wavelength_Click);
+            this.Tb_Wavelength.Leave += new System.EventHandler(this.Tb_Wavelength_Leave);
             // 
             // Lbl_LaserType
             // 
@@ -2365,36 +2395,6 @@
             this.Rt_ReceiveDataUSB.TabIndex = 185;
             this.Rt_ReceiveDataUSB.Text = "";
             this.Rt_ReceiveDataUSB.DoubleClick += new System.EventHandler(this.Rtb_Display_USB_DoubleClick);
-            // 
-            // label55
-            // 
-            this.label55.AutoSize = true;
-            this.label55.Location = new System.Drawing.Point(174, 227);
-            this.label55.Name = "label55";
-            this.label55.Size = new System.Drawing.Size(119, 13);
-            this.label55.TabIndex = 366;
-            this.label55.Text = "Wavelength nm (Diode)";
-            // 
-            // Tb_Wavelength
-            // 
-            this.Tb_Wavelength.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.Tb_Wavelength.Location = new System.Drawing.Point(297, 224);
-            this.Tb_Wavelength.Name = "Tb_Wavelength";
-            this.Tb_Wavelength.Size = new System.Drawing.Size(46, 20);
-            this.Tb_Wavelength.TabIndex = 365;
-            this.Tb_Wavelength.Text = "0000";
-            this.Tb_Wavelength.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Tb_Wavelength.Click += new System.EventHandler(this.Tb_Wavelength_Click);
-            this.Tb_Wavelength.Leave += new System.EventHandler(this.Tb_Wavelength_Leave);
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(348, 229);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(21, 13);
-            this.label24.TabIndex = 367;
-            this.label24.Text = "nm";
             // 
             // Form_iRIS_Clm_test_04
             // 

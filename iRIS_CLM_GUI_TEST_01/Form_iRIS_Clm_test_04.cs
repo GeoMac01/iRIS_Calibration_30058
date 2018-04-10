@@ -18,7 +18,6 @@ namespace iRIS_CLM_GUI_TEST_04
 {
     public partial class Form_iRIS_Clm_test_04 : Form
     {
-
         #region Constant Commands Definition
         const string rtnNull = "00";
         const string CmdLaserEnable = "02";
@@ -125,19 +124,19 @@ namespace iRIS_CLM_GUI_TEST_04
         //=================================================
         string[]  testStringArr = new string[2]; //used to load commands in bulk send
         //=================================================
-        string indata_USB =     string.Empty;
-        string indata_RS232 =   string.Empty;
-        string outdata_RS232 =  string.Empty;
-        string rString =        string.Empty;
-        string cmdTrack =       string.Empty;
+        string indata_USB       = null;
+        string indata_RS232     = null;
+        //string outdata_RS232    = null;
+        //string rString          = null;
+        string cmdTrack         = null;
 
-        string  rtnHeader =     string.Empty;
-        string  rtnCmd =        string.Empty;
-        string  rtnValue =      string.Empty;
-        string dataBaseName =   string.Empty;
+        string  rtnHeader       = null;
+        string  rtnCmd          = null;
+        string  rtnValue        = null;
 
-        string filePathLI = string.Empty;
-        string filePathRep = string.Empty;
+        string dataBaseName     = null;
+        //static string filePathLI       = null;
+        string filePathRep      = null;
 
         byte[] byteArrayToTest1 = new byte[8];//reads back "bits"
         byte[] byteArrayToTest2 = new byte[8];//reads back "bits"
@@ -157,9 +156,9 @@ namespace iRIS_CLM_GUI_TEST_04
         int arrayLgth   = 0;
         int arrIndex    = 0;
         int laserType   = 0;
-        int bdRate      = 115200;
         #endregion
         //======================================================================
+
         //======================================================================
         StringBuilder LogString_01 = new StringBuilder();
         //======================================================================
@@ -171,7 +170,6 @@ namespace iRIS_CLM_GUI_TEST_04
         //======================================================================
         SqlConnection con = null;
         SqlCommand cmd = null;
-        //SqlDataReader rdr = null;
         //======================================================================
 
         #region Setting ADCDAC IO USB Interface
@@ -584,18 +582,22 @@ namespace iRIS_CLM_GUI_TEST_04
 
                         if (rtnCmd == CmdRdSerialNo)
                         {
-                            lbl_SerNbReadBack.ForeColor = Color.Green;
                             lbl_SerNbReadBack.Text = rtnValue.PadLeft(8, '0');
-                        }
-                        else if (rtnCmd == CmdRdWavelen)
-                        {
-                            Lbl_WaveLg.ForeColor = Color.Green;
-                            Lbl_WaveLg.Text = rtnValue;
+                            lbl_SerNbReadBack.ForeColor = Color.Green;
                         }
                         else if (rtnCmd == CmdRdFirmware)
                         {
-                            lbl_SWLevel.ForeColor = Color.Green;
                             lbl_SWLevel.Text = rtnValue.PadLeft(8, '0');
+                            lbl_SWLevel.ForeColor = Color.Green;
+                        }
+                        else if (rtnCmd == CmdRdWavelen)
+                        {
+                            Lbl_WaveLg.Text = rtnValue;
+                            Lbl_WaveLg.ForeColor = Color.Green;
+                        }
+                        else if (rtnCmd == CmdSetLsPw)
+                        {
+                            //lbl_LaserPD.Text = rtnValue.PadLeft(5, '0');
                         }
                         else if (rtnCmd == CmdRdLaserPow)
                         {
@@ -905,14 +907,18 @@ namespace iRIS_CLM_GUI_TEST_04
                         sndDl = 600;//slow bd rate
                         comThresh = 14;
                     }
-                    else if (cmdToTest == CmdRdWavelen)
-                    {
-                        sndDl =300;
-                    }
                     else if (cmdToTest == CmdRdFirmware)
                     {
                         sndDl = 600;
                         comThresh = 14;
+                    }
+                    else if (cmdToTest == CmdRdWavelen)
+                    {
+                        sndDl =300;
+                    }
+                    else if (cmdToTest == CmdSetLsPw)
+                    {
+                        sndDl = 300;
                     }
                     else if (cmdToTest == CmdRdLaserPow)
                     {
@@ -946,7 +952,7 @@ namespace iRIS_CLM_GUI_TEST_04
             return true;
         }
         //======================================================================
-        private static byte[] ConvertToByteArr(string str)
+        private byte[] ConvertToByteArr(string str)
         {
             char[] charArr = str.ToCharArray();
             byte[] bytes = new byte[charArr.Length];
@@ -962,15 +968,9 @@ namespace iRIS_CLM_GUI_TEST_04
         #region COM buttons and address settings
         //======================================================================
         //private void Bt_USB_Click(object sender, EventArgs e)
-        private async void Bt_USB_Click(object sender, EventArgs e)
-        {
-            SetComsUSB();
-            bool usbadd1 = await SetAddress();
-            usbadd1 = await CheckLaserType();
-            SetLaserType(laserType);
-        }
+        private void Bt_USB_Click(object sender, EventArgs e) { Task<bool> setUsbCom = SetComsUSB(); }
         //======================================================================
-        private void SetComsUSB()
+        private async Task<bool> SetComsUSB()
         {
             if (USB_CDC.IsOpen)
             {
@@ -1023,6 +1023,10 @@ namespace iRIS_CLM_GUI_TEST_04
                     Bt_USBcom.Text = "USB Connected";
                     Bt_RefrCOMs.Enabled = false;
                     Bt_SetAddr.Enabled = true;
+
+                    bool usbadd1 = await SetAddress();
+                    usbadd1 = await CheckLaserType();
+                    SetLaserType(laserType);
                 }
                 catch (Exception)
                 {
@@ -1041,17 +1045,15 @@ namespace iRIS_CLM_GUI_TEST_04
                     lbl_SWLevel.Text = "00000000";
                     Bt_SetLsType.Enabled = false;
                     MessageBox.Show("USB_Port_Open COM Error");
+                    return false;
                 }
             }
             this.Cursor = Cursors.Default;
+            return true;
         }
         //======================================================================
         //private void Bt_RS232_Click(object sender, EventArgs e)
-        private async void Bt_RS232_Click(object sender, EventArgs e)
-        {
-            SetComUART();
-            bool usbadd = await SetAddress();
-        }
+        private void Bt_RS232_Click(object sender, EventArgs e) { SetComUART(); }
         //======================================================================
         private void SetComUART()
         {
@@ -1092,8 +1094,10 @@ namespace iRIS_CLM_GUI_TEST_04
                     RS232.Parity = Parity.None;
                     RS232.StopBits = StopBits.One;
                     RS232.DataBits = 8;
-                    //RS232.BaudRate = 115200;
-                    RS232.BaudRate = bdRate;
+
+                    if (laserType == MKT_Ls) { RS232.BaudRate = 19200; }
+                    else { RS232.BaudRate = 115200; }
+
                     RS232.ReadTimeout = 500;
                     RS232.WriteTimeout = 500;
                     RS232.ReceivedBytesThreshold = 9;
@@ -1106,6 +1110,7 @@ namespace iRIS_CLM_GUI_TEST_04
                     Cb_USB.Enabled = false;
                     Bt_RefrCOMs.Enabled = false;
                     Bt_SetAddr.Enabled = true;
+                    Task<bool> setaddr = SetAddress();
                 }
                 catch (Exception)
                 {
@@ -1167,9 +1172,6 @@ namespace iRIS_CLM_GUI_TEST_04
             bool setad = await BuildSendString(sentobuild);//use polymorphism...
             sentobuild[0] = CmdRdUnitNo;
             setad = await BuildSendString(sentobuild);
-
-            //setad = await SendToSerial(CmdRdCustomerPm, StrDisable, 300, 9);
-            //setad = await SendToSerial(CmdRdFirmware, StrDisable, 300, 9);
             return true;
         }
         //======================================================================
@@ -1817,8 +1819,8 @@ namespace iRIS_CLM_GUI_TEST_04
                     Prg_Bar01.Increment(10);
                     test2 = await SendToSerial(CmdRdCustomerPm, StrDisable, 300, 9);
                     test2 = await SendToSerial(CmdRdFirmware, StrDisable, 300, 9);
+                    test2 = await LoadGlobalTestArray(analogRead2);//added 10-04-2018
 
-                    test2 = await LoadGlobalTestArray(analogRead2);
                     test2 = await SetUsbInterface();
                     test2 = await PM100Button();
 
@@ -1835,7 +1837,7 @@ namespace iRIS_CLM_GUI_TEST_04
             else if (bt_NewTest.BackColor == Color.LawnGreen) {
                 if (Bt_PM100.BackColor == Color.LawnGreen) { bool closePM = await PM100Button(); }
                 if (Bt_USBinterf.BackColor == Color.LawnGreen) { bool closeUSBint = await SetUsbInterface(); }
-                if (Bt_USBcom.BackColor == Color.LawnGreen) { SetComsUSB(); }
+                if (Bt_USBcom.BackColor == Color.LawnGreen) { bool rsetUsb = await SetComsUSB(); }
                 bt_NewTest.BackColor = Color.Coral;
                 Lbl_LsType.Text = "000";
                 MessageBox.Show("Click again to re-initialise test");
@@ -1854,21 +1856,7 @@ namespace iRIS_CLM_GUI_TEST_04
             else MessageBox.Show("USB / IO USB not connected");
         }
         //======================================================================
-        public class Ref<T>
-        {
-            public Ref() { }
-            public Ref(T value) { Value = value; }
-            public T Value { get; set; }
- 
-            public override string ToString()
-            {
-                T value = Value;
-                return value == null ? "" : value.ToString();
-            }
-            public static implicit operator T(Ref<T> r) { return r.Value; }
-            public static implicit operator Ref<T>(T value) { return new Ref<T>(value); }
-        }
-        //Passing parameters by reference to an asynchronous method
+        //Passing parameters by reference to an asynchronous method...
         //======================================================================
         private async Task<bool> CalVGA()
         {
@@ -2652,7 +2640,19 @@ namespace iRIS_CLM_GUI_TEST_04
         //======================================================================
         #region Temp Comp Base plate
         //======================================================================
-        private void Bt_BasepltTemp_Click(object sender, EventArgs e) { Task<bool> readtempBplt = SendToSerial(CmdRdBplateTemp, StrDisable, 300, 9); }
+        private void Bt_BasepltTemp_Click(object sender, EventArgs e) { Task<bool> readtempBplt = ReadBpTemp(); }
+        //======================================================================
+        private async Task<bool> ReadBpTemp()
+        {
+            bool readtempBplt1 = false;
+            if (laserType == MKT_Ls ) {
+                readtempBplt1 = await SendToSerial(CmdTestMode, StrDisable, 300, 9);
+                readtempBplt1 = await SendToSerial(CmdRdBplateTemp, StrDisable, 300, 9);
+                readtempBplt1 = await SendToSerial(CmdTestMode, StrEnable, 300, 9);
+            }
+            else { readtempBplt1 = await SendToSerial(CmdRdBplateTemp, StrDisable, 300, 9); }
+            return true;
+        } 
         //======================================================================
         private void Bt_BasePltTempComp_Click(object sender, EventArgs e) { Task<bool> setTcomp = CompBpltTemp(); }
         //======================================================================
@@ -2780,13 +2780,7 @@ namespace iRIS_CLM_GUI_TEST_04
             finally { }
         }
         //======================================================================
-        private void Tb_LaserPN_Leave(object sender, EventArgs e) {
-        String tempPn = string.Empty;
-        Tb_LaserPN.ForeColor = Color.Red;
-        tempPn = Tb_LaserPN.Text.PadLeft(6, '0');
-        Tb_LaserPN.Text = tempPn;
-        ReadDbs();
-        }
+        private void Tb_LaserPN_Leave(object sender, EventArgs e) { ReadDbs(); }
         //======================================================================
         private void Bt_SetBurnin_Click(object sender, EventArgs e) { Task<bool> burninData = SendBurninData(); }
         //======================================================================
@@ -2797,10 +2791,10 @@ namespace iRIS_CLM_GUI_TEST_04
 
             if (Bt_SetBurnin.BackColor == Color.Coral)
             {
-                string chkBxStateExtPwCtrlBrin      = string.Empty;//null
-                string chkBxStateEnblSetBrin        = string.Empty;
-                string chkBxStateDigitModSetBrin    = string.Empty;
-                string chkBxStateAnlgModSetBrin     = string.Empty;
+                string chkBxStateExtPwCtrlBrin      = null;
+                string chkBxStateEnblSetBrin        = null;
+                string chkBxStateDigitModSetBrin    = null;
+                string chkBxStateAnlgModSetBrin     = null;
 
                 this.Cursor = Cursors.WaitCursor;
 
@@ -2905,22 +2899,22 @@ namespace iRIS_CLM_GUI_TEST_04
 
                         Lbl_MdlName.Text = rdr["Description"].ToString();
                         Lbl_MdlName.ForeColor = Color.Green;
-                        Lbl_Wlgth1.Text = rdr["Wavelength"].ToString().PadLeft(4, '0');
+                        Lbl_Wlgth1.Text = rdr["Wavelength"].ToString().PadLeft(4, '0').TrimStart('0');
                         Lbl_Wlgth1.ForeColor = Color.Green;
                         Tb_Wavelength.Text = Lbl_Wlgth1.Text;
         
-                        Lbl_NomPowerDtbas.Text = rdr["NominalPower"].ToString().PadLeft(5, '0');//note power in mw ! and not 1/10mW
+                        Lbl_NomPowerDtbas.Text = rdr["NominalPower"].ToString().PadLeft(5, '0').TrimStart('0');//note power in mw ! and not 1/10mW
                         Lbl_NomPowerDtbas.ForeColor = Color.Green;
                         Tb_NomPw.Text = Lbl_NomPowerDtbas.Text;
-                        Tb_maxMaxPw.Text = rdr["MaxPower"].ToString().PadLeft(5, '0');
-                        Tb_minMaxPw.Text = rdr["MinPower"].ToString().PadLeft(5, '0');
-                        Tb_SoftNomPw.Text = rdr["SoftwareNomPower"].ToString().PadLeft(5, '0');
+                        Tb_maxMaxPw.Text = rdr["MaxPower"].ToString().PadLeft(5, '0').TrimStart('0');
+                        Tb_minMaxPw.Text = rdr["MinPower"].ToString().PadLeft(5, '0').TrimStart('0');
+                        Tb_SoftNomPw.Text = rdr["SoftwareNomPower"].ToString().PadLeft(5, '0').TrimStart('0');
 
                         Tb_SetAdd.Text = rdr["LaserAddress"].ToString().PadLeft(2, '0');
 
                         Tb_TECpoint.Text = rdr["TEC_BlockTemperature"].ToString();
 
-                        Tb_PwToVcal.Text = rdr["PowerMonitorVoltage"].ToString().PadLeft(5, '0');
+                        Tb_PwToVcal.Text = rdr["PowerMonitorVoltage"].ToString().PadLeft(5, '0').TrimStart('0');
 
                         if ((rdr["PowerControlSource"].ToString()) == "Internal  ") { ChkBx_ExtPwCtrl.Checked = true; }
                         else { ChkBx_ExtPwCtrl.Checked = false; }
@@ -2974,7 +2968,7 @@ namespace iRIS_CLM_GUI_TEST_04
                     CmdRdLaserPow   = "05";  
                     CmdRatedPower   = "14";  
                     CmdLaserStatus  = "06";
-                    bdRate = 19200;
+                     Bt_BasePltTempComp.Enabled = false;
                     break;
 
                 case CLM_Ls:
@@ -2985,7 +2979,7 @@ namespace iRIS_CLM_GUI_TEST_04
                     CmdRdLaserPow   = "44";  //cmd 05 MKT 
                     CmdRatedPower   = "47";  //cmd 14 MKT
                     CmdLaserStatus  = "14";  //cmd 06 MKT bit 5 
-                    bdRate = 115200;
+                    Bt_BasePltTempComp.Enabled = true;
                     break;
 
                 case CCM_Ls:
@@ -2996,7 +2990,7 @@ namespace iRIS_CLM_GUI_TEST_04
                     CmdRdLaserPow   = "44";  
                     CmdRatedPower   = "47";  
                     CmdLaserStatus  = "14";
-                    bdRate = 115200;
+                    Bt_BasePltTempComp.Enabled = true;
                     break;
 
                 default:
@@ -3090,6 +3084,14 @@ namespace iRIS_CLM_GUI_TEST_04
             { CmdRdPwSetPcon,       StrDisable },
             { CmdCurrentRead,       StrDisable } };
 
+            analogRead2 = new string[6, 2] {//read all analog inputs
+            { CmdTestMode,          StrEnable },
+            { CmdRdCmdStautus2,     StrDisable },
+            { CmdRdLaserPow,        StrDisable },
+            { CmdRdPwSetPcon,       StrDisable },
+            { CmdCurrentRead,       StrDisable },
+            { CmdRdTecTemprt,       StrDisable } };
+            /*
             analogRead2 = new string[7, 2] {//read all analog inputs
             { CmdTestMode,          StrEnable },
             { CmdRdCmdStautus2,     StrDisable },
@@ -3098,7 +3100,7 @@ namespace iRIS_CLM_GUI_TEST_04
             { CmdCurrentRead,       StrDisable },
             { CmdRdTecTemprt,       StrDisable },
             { CmdRdBplateTemp,      StrDisable } };
-
+            */
             setLaserType = new string[4, 2] {
             { CmdTestMode,          StrEnable },
             { CmdSetLaserType,      StrDisable },
@@ -3208,8 +3210,7 @@ namespace iRIS_CLM_GUI_TEST_04
         private async Task<bool> SetLaserFirm() { //decouple to get async, async can be accessible via event....
             Lbl_LsType.Text = "000";
             bool setad = await LoadGlobalTestArray(setLaserType);//read and set laser type
-            SetComsUSB();//should disconnect usb laser needs to restart
-            await Task.Delay(10);
+            setad = await SetComsUSB();//should disconnect usb laser needs to restart
             return true;
         }
         //======================================================================
