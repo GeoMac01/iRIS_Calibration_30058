@@ -18,10 +18,10 @@ namespace iRIS_CLM_GUI_TEST_04
 {
     public partial class Form_iRIS_Clm_test_04 : Form
     {
-        #region Commands Definition
+
+        #region Constant Commands Definition
         const string rtnNull = "00";
         const string CmdLaserEnable = "02";
-        //see set varialble command string, not set as constant
         const string CmdRdBplateTemp = "07";
         const string CmdSetUnitNo = "12";
         const string CmdRdMinLsPower = "13";    //minimum laser power 0mW CLM
@@ -92,8 +92,8 @@ namespace iRIS_CLM_GUI_TEST_04
         const int CLM_Ls = 19;
         const int CCM_Ls = 64;
         #endregion
-
         //=================================================
+
         #region Test Sequence Definition
         //=================================================
         string[,] bulkSetLaserIO ;      
@@ -113,6 +113,8 @@ namespace iRIS_CLM_GUI_TEST_04
         string[,] setLaserType ;
         #endregion
         //=================================================
+
+        #region Variable
         string CmdRdSerialNo    = null;  //cmd 10 MKT
         string CmdRdFirmware    = null;  //cmd 09 MKT
         string CmdRdWavelen     = null;  //cmd 11 MKT
@@ -156,7 +158,7 @@ namespace iRIS_CLM_GUI_TEST_04
         int arrIndex    = 0;
         int laserType   = 0;
         int bdRate      = 115200;
-
+        #endregion
         //======================================================================
         //======================================================================
         StringBuilder LogString_01 = new StringBuilder();
@@ -171,7 +173,8 @@ namespace iRIS_CLM_GUI_TEST_04
         SqlCommand cmd = null;
         //SqlDataReader rdr = null;
         //======================================================================
-        #region// Setting ADCDAC IO USB Interface
+
+        #region Setting ADCDAC IO USB Interface
         public MccDaq.DaqDeviceDescriptor[] inventory;
         public MccDaq.MccBoard DaqBoard;
         public MccDaq.ErrorInfo ULStat;
@@ -196,11 +199,10 @@ namespace iRIS_CLM_GUI_TEST_04
             USB_CDC.DataReceived += new SerialDataReceivedEventHandler(CDCDataReceivedHandler);
             RS232.DataReceived   += new SerialDataReceivedEventHandler(RS232DataReceivedHandler);
             tabControl1.TabPages[1].Enabled = false;
-            //OpenSqlConnection();//done when loading form
-            //DisplayData();//not used here
-
+            //open sql connection when loading the form
         }
         //================================================================================
+
         #region SQL stuff
         private void OpenSqlConnection()
         {
@@ -912,10 +914,10 @@ namespace iRIS_CLM_GUI_TEST_04
                         sndDl = 600;
                         comThresh = 14;
                     }
-                    //else if (cmdToTest == CmdRdLaserPow)
-                    //{
-                    //    sndDl = 300;
-                    //}
+                    else if (cmdToTest == CmdRdLaserPow)
+                    {
+                        sndDl = 300;
+                    }
                     else if (cmdToTest == CmdLaserStatus)
                     {
                         sndDl = 300;
@@ -924,7 +926,6 @@ namespace iRIS_CLM_GUI_TEST_04
  
                     break;
             }
-
             bool result = await SendToSerial(cmdToTest, dataToAppd, sndDl, comThresh);
 
             return true;
@@ -1818,12 +1819,12 @@ namespace iRIS_CLM_GUI_TEST_04
                     test2 = await SendToSerial(CmdRdFirmware, StrDisable, 300, 9);
 
                     test2 = await LoadGlobalTestArray(analogRead2);
-                    //test2 = await SetUsbInterface();
-                    //test2 = await PM100Button();
+                    test2 = await SetUsbInterface();
+                    test2 = await PM100Button();
 
                     this.Cursor = Cursors.Default;
 
-                    //test2 = await RESETclk();
+                    test2 = await RESETclk();
 
                     bt_NewTest.BackColor = Color.LawnGreen;
                     //MessageBox.Show(" Open Laser Shutter \n Click Button Disconnect USB \n Power Cycle laser \n Click Button Re-connect USB \n Wait for TEC lock LED Click 'Rd Laser OK' \n Start 'Cal VGA' \n");
