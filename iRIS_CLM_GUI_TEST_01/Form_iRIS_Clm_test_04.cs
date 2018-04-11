@@ -23,7 +23,7 @@ namespace iRIS_CLM_GUI_TEST_04
         const string CmdLaserEnable = "02";
         const string CmdRdBplateTemp = "07";
         const string CmdSetUnitNo = "12";
-        const string CmdRdMinLsPower = "13";    //minimum laser power 0mW CLM
+        const string CmdRdMinLsPower = "13";    //minimum laser power 0mW MKT 
         const string CmdRdTecTemprt = "15";
         const string CmdHELP = "16";
         const string CmdsetTTL = "17";
@@ -126,8 +126,6 @@ namespace iRIS_CLM_GUI_TEST_04
         //=================================================
         string indata_USB       = null;
         string indata_RS232     = null;
-        //string outdata_RS232    = null;
-        //string rString          = null;
         string cmdTrack         = null;
 
         string  rtnHeader       = null;
@@ -135,7 +133,6 @@ namespace iRIS_CLM_GUI_TEST_04
         string  rtnValue        = null;
 
         string dataBaseName     = null;
-        //static string filePathLI       = null;
         string filePathRep      = null;
 
         byte[] byteArrayToTest1 = new byte[8];//reads back "bits"
@@ -183,7 +180,6 @@ namespace iRIS_CLM_GUI_TEST_04
         Int32 numchannels = 0;
         int   nudAInChannel = 0;
         //======================================================================
-        //System.String LastPass = "Upper";
         public const String AllowedCharactersInt = "0123456789";
         public const String AllowedCharactersFloat = "0123456789.";
         //======================================================================
@@ -410,7 +406,6 @@ namespace iRIS_CLM_GUI_TEST_04
                         break;
 
                     case CmdSet0mA:
-                        //firmware "error" : returns 00 as cmd
                         break;
 
                     case CmdSetStramind:
@@ -575,37 +570,35 @@ namespace iRIS_CLM_GUI_TEST_04
 
                     case CmdSetDefEnbl:
                         break;
-                                            
+
                     //********************************//
 
                     default:
 
-                        if (rtnCmd == CmdRdSerialNo)
-                        {
+                        if (rtnCmd == CmdRdSerialNo) {
                             lbl_SerNbReadBack.Text = rtnValue.PadLeft(8, '0');
                             lbl_SerNbReadBack.ForeColor = Color.Green;
                         }
-                        else if (rtnCmd == CmdRdFirmware)
-                        {
+                        else if (rtnCmd == CmdRdFirmware) {
                             lbl_SWLevel.Text = rtnValue.PadLeft(8, '0');
                             lbl_SWLevel.ForeColor = Color.Green;
                         }
-                        else if (rtnCmd == CmdRdWavelen)
-                        {
+                        else if (rtnCmd == CmdRdWavelen) {
                             Lbl_WaveLg.Text = rtnValue;
                             Lbl_WaveLg.ForeColor = Color.Green;
                         }
-                        else if (rtnCmd == CmdSetLsPw)
-                        {
-                            //lbl_LaserPD.Text = rtnValue.PadLeft(5, '0');
+                        else if (rtnCmd == CmdSetLsPw) {
                         }
-                        else if (rtnCmd == CmdRdLaserPow)
-                        {
+                        else if (rtnCmd == CmdRdLaserPow) {
                             lbl_LaserPD.Text = rtnValue.PadLeft(5, '0');
                         }
-                        else if (rtnCmd == CmdLaserStatus)
+                        else if (rtnCmd==CmdRdMinLsPower)
                         {
-                            byteArrayToTest1 = ConvertToByteArr(rtnValue);
+
+                        } 
+                        else if (rtnCmd == CmdLaserStatus) {
+                        if (rtnValue == "0000") { Tb_MKTLasEnable.BackColor = Color.Red; }
+                        else if (rtnValue == "0001") { Tb_MKTLasEnable.BackColor = Color.Green; }
                         }
                         else { MessageBox.Show("Case Default Receive"); }
 
@@ -899,6 +892,7 @@ namespace iRIS_CLM_GUI_TEST_04
                     else if (ChkBx_EnableSet.Checked == false) { dataToAppd = "0000"; }
                     sndDl = 300;//slow bd rate
                     break;
+
                 //********************************//
                 default:
 
@@ -924,9 +918,14 @@ namespace iRIS_CLM_GUI_TEST_04
                     {
                         sndDl = 300;
                     }
-                    else if (cmdToTest == CmdLaserStatus)
+                    else if (rtnCmd == CmdRdMinLsPower)
                     {
-                        sndDl = 300;
+
+                    }
+                    else if (rtnCmd == CmdLaserStatus)
+                    {
+                        if (rtnValue == "0000") { Tb_MKTLasEnable.BackColor = Color.Red; }
+                        else if (rtnValue == "0001") { Tb_MKTLasEnable.BackColor = Color.Green; }
                     }
                     else { MessageBox.Show("Case Default Send"); }
  
@@ -2299,15 +2298,25 @@ namespace iRIS_CLM_GUI_TEST_04
             return true;
         }
         //======================================================================
-        private void Bt_LaserEn_Click_1(object sender, EventArgs e) {
-            if (Bt_LaserEn.BackColor == Color.SandyBrown) {
-                Task<bool> sdEne = SendToSerial(CmdLaserEnable, StrEnable, 300, 9);
+        private void Bt_LaserEn_Click_1(object sender, EventArgs e) { Task<bool> sdEnd = SoftLaserEnable(); }
+        //======================================================================
+        private async Task<bool> SoftLaserEnable()
+        {
+            bool sdEne = false;
+
+            if (Bt_LaserEn.BackColor == Color.SandyBrown)
+            {
+                sdEne = await SendToSerial(CmdLaserEnable, StrEnable, 300, 9);
                 Bt_LaserEn.BackColor = Color.LawnGreen;
             }
-            else if (Bt_LaserEn.BackColor == Color.LawnGreen) {
-                Task<bool> sdEnd = SendToSerial(CmdLaserEnable, StrDisable, 300, 9);
+            else if (Bt_LaserEn.BackColor == Color.LawnGreen)
+            {
+                sdEne = await SendToSerial(CmdLaserEnable, StrDisable, 300, 9);
                 Bt_LaserEn.BackColor = Color.SandyBrown;
             }
+
+        sdEne = await SendToSerial(CmdLaserStatus, StrDisable, 300, 9);
+        return sdEne;
         }
         //======================================================================
         private void Bt_InvDigtMod_Click_1(object sender, EventArgs e) {
@@ -2484,9 +2493,9 @@ namespace iRIS_CLM_GUI_TEST_04
         #endregion
         //======================================================================
         //======================================================================
-        private void Bt_LiPlot_Click(object sender, EventArgs e) {  Task<bool> liplotseq = LIplot(); }//ramp
+        private void Bt_LiPlot_Click(object sender, EventArgs e) {  Task<bool> liplotseq = MaxLsPowerSet(); }//ramp
         //======================================================================
-        private async Task<bool> LIplot()
+        private async Task<bool> MaxLsPowerSet()
         {
             Set_USB_Digit_Out(0, 0);//enable line off
             Set_USB_Digit_Out(1, 0);//digital modulation line
@@ -2577,6 +2586,7 @@ namespace iRIS_CLM_GUI_TEST_04
                 Bt_LiPlot.Text = "Set to Nominal Laser Power";
                 this.Cursor = Cursors.Default;
             }
+            setPwCheck = await SendToSerial(CmdLaserStatus, StrDisable, 300, 9);
             return true;
         }
         //======================================================================
@@ -2831,6 +2841,8 @@ namespace iRIS_CLM_GUI_TEST_04
         //======================================================================
         private async Task<bool> SendShpData()
         {
+            bool finalSet = false;
+
             if (Bt_ShipState.BackColor == Color.Aqua) {
 
                 string chkBxStateExtPwCtrl = string.Empty;//null
@@ -2858,7 +2870,7 @@ namespace iRIS_CLM_GUI_TEST_04
                 if (ChkBx_SoftEnStart.Checked == true) { chkBxStateOnAtPon = StrEnable;  }
                 else { chkBxStateOnAtPon = StrDisable; }
 
-                bool finalSet = await SendToSerial(CmdTestMode, StrEnable, 300, 9);
+                finalSet = await SendToSerial(CmdTestMode, StrEnable, 300, 9);
                 finalSet = await SendToSerial(CmdSetInOutPwCtrl, chkBxStateExtPwCtrl, 300, 9);
                 finalSet = await SendToSerial(CmdEnablLogicvIn, chkBxStateEnblSet, 300, 9);
                 finalSet = await SendToSerial(CmdsetTTL, chkBxStateDigitModSet, 300, 9);
@@ -2873,7 +2885,7 @@ namespace iRIS_CLM_GUI_TEST_04
                 Bt_ShipState.BackColor = Color.LawnGreen;
             }
             else if (Bt_ShipState.BackColor==Color.LawnGreen) { Bt_ShipState.BackColor = Color.Aqua; }
-
+            finalSet = await SendToSerial(CmdLaserStatus, StrDisable, 300, 9);
             return true;
         }
         //======================================================================
@@ -2937,8 +2949,7 @@ namespace iRIS_CLM_GUI_TEST_04
                         if (rdr["LaserType"].ToString()         == "CLM       ") { laserType = CLM_Ls; }
                         else if (rdr["LaserType"].ToString()    == "MKT       ") { laserType = MKT_Ls; }
                         else if (rdr["LaserType"].ToString()    == "CCM       ") { laserType = CCM_Ls; }
-                        //SetLaserType(laserType);
-                        
+                                                
                         //MessageBox.Show("PN: " + readstuff + " @ " + dbArrayIdx.ToString() + "\n\n" + "Enter 'Diode Max. Current Limit' Value now");
                         Tb_LaserPN.ForeColor = Color.Green;
                         Tb_MaxILimit.Focus();
@@ -2968,7 +2979,9 @@ namespace iRIS_CLM_GUI_TEST_04
                     CmdRdLaserPow   = "05";  
                     CmdRatedPower   = "14";  
                     CmdLaserStatus  = "06";
-                     Bt_BasePltTempComp.Enabled = false;
+                    Bt_BasePltTempComp.Enabled = false;
+                    label28.Visible = true;
+                    Tb_MKTLasEnable.Visible = true;
                     break;
 
                 case CLM_Ls:
@@ -2980,6 +2993,8 @@ namespace iRIS_CLM_GUI_TEST_04
                     CmdRatedPower   = "47";  //cmd 14 MKT
                     CmdLaserStatus  = "14";  //cmd 06 MKT bit 5 
                     Bt_BasePltTempComp.Enabled = true;
+                    label28.Visible = false;
+                    Tb_MKTLasEnable.Visible = false;
                     break;
 
                 case CCM_Ls:
@@ -2991,6 +3006,8 @@ namespace iRIS_CLM_GUI_TEST_04
                     CmdRatedPower   = "47";  
                     CmdLaserStatus  = "14";
                     Bt_BasePltTempComp.Enabled = true;
+                    label28.Visible = false;
+                    Tb_MKTLasEnable.Visible = false;
                     break;
 
                 default:

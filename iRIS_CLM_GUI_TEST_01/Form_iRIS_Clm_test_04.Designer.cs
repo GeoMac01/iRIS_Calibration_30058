@@ -227,6 +227,8 @@
             this.Bt_InvAnlg = new System.Windows.Forms.Button();
             this.Bt_IntExtPw = new System.Windows.Forms.Button();
             this.Rt_ReceiveDataUSB = new System.Windows.Forms.RichTextBox();
+            this.Tb_MKTLasEnable = new System.Windows.Forms.TextBox();
+            this.label28 = new System.Windows.Forms.Label();
             this.TbPg_InsTest.SuspendLayout();
             this.GrBx_532Tset.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -241,6 +243,8 @@
             // 
             // TbPg_InsTest
             // 
+            this.TbPg_InsTest.Controls.Add(this.label28);
+            this.TbPg_InsTest.Controls.Add(this.Tb_MKTLasEnable);
             this.TbPg_InsTest.Controls.Add(this.label25);
             this.TbPg_InsTest.Controls.Add(this.lbl_TecTemp);
             this.TbPg_InsTest.Controls.Add(this.Lbl_LsType);
@@ -2396,6 +2400,25 @@
             this.Rt_ReceiveDataUSB.Text = "";
             this.Rt_ReceiveDataUSB.DoubleClick += new System.EventHandler(this.Rtb_Display_USB_DoubleClick);
             // 
+            // Tb_MKTLasEnable
+            // 
+            this.Tb_MKTLasEnable.BackColor = System.Drawing.Color.Red;
+            this.Tb_MKTLasEnable.Location = new System.Drawing.Point(508, 467);
+            this.Tb_MKTLasEnable.Name = "Tb_MKTLasEnable";
+            this.Tb_MKTLasEnable.Size = new System.Drawing.Size(11, 20);
+            this.Tb_MKTLasEnable.TabIndex = 393;
+            this.Tb_MKTLasEnable.Visible = false;
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(525, 470);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(146, 13);
+            this.label28.TabIndex = 394;
+            this.label28.Text = "MKT Laser Enable read-back";
+            this.label28.Visible = false;
+            // 
             // Form_iRIS_Clm_test_04
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2629,6 +2652,8 @@
         private System.Windows.Forms.Label label55;
         private System.Windows.Forms.TextBox Tb_Wavelength;
         private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.TextBox Tb_MKTLasEnable;
     }
 }
 
