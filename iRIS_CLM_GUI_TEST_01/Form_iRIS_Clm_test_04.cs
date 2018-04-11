@@ -1939,7 +1939,8 @@ namespace iRIS_CLM_GUI_TEST_04
                                     else
                                     {
                                         double pm100Res = Convert.ToDouble(Lbl_PM100rd.Text);//mW
-                                        if (pm100Res >= setPower) break;//continue
+                                        //if (pm100Res >= setPower) break;
+                                        if (pm100Res > setPower) break; // added 11/04/2018 the power should be a least above 
                                     }
                                 }
                                 Prg_Bar01.Increment(10);
