@@ -21,6 +21,7 @@ namespace iRIS_CLM_GUI_TEST_04
         #region Constant Commands Definition
         const string rtnNull = "00";
         const string CmdLaserEnable = "02";
+        // 04 rd laser assy Nb
         const string CmdRdBplateTemp = "07";
         const string CmdSetUnitNo = "12";
         const string CmdRdMinLsPower = "13";    //minimum laser power 0mW MKT 
@@ -46,7 +47,7 @@ namespace iRIS_CLM_GUI_TEST_04
         const string CmdRdInitCurrent = "42";
         const string CmdRdModelName = "43";
         const string CmdRdPnNb = "45";
-        const string CmdRdCustomerPm = "46";//PCB serial number
+        const string CmdRdCustomerPm = "46";//Rd PCB serial number
         const string CmdCurrentRead = "56";
         const string CmdSetPwtoVout = "59";
         const string CmdSetCalAPw = "60";
@@ -54,10 +55,10 @@ namespace iRIS_CLM_GUI_TEST_04
         const string CmdSetCalAPwtoVint = "62";
         const string CmdSetCalBPwtoVint = "63";
         const string CmdRstTime = "66";
-        const string CmdSetSerNumber = "71";
+        const string CmdSetSerNumber = "71";//Set Laser Serial Nb
         const string CmdSetWavelenght = "72";
         const string CmdSetLsMominalPw = "73";
-        const string CmdSetCustomerPm = "74";
+        const string CmdSetCustomerPm = "74";//set PCB SN done at inspection
         const string CmdSetMaxIop = "76";
         const string CmdSetCalDate = "77";
         const string CmdSeManuDate = "78";
@@ -430,9 +431,9 @@ namespace iRIS_CLM_GUI_TEST_04
                     case CmdRdPnNb:
                         break;
 
-                    case CmdRdCustomerPm:
-                        lbl_SerNbReadBack.ForeColor = Color.Green;
-                        lbl_SerNbReadBack.Text = rtnValue.PadLeft(16, ' ');
+                    case CmdRdCustomerPm://PCB Sn
+                        lbl_PCBSerNbReadBack.ForeColor = Color.Green;
+                        lbl_PCBSerNbReadBack.Text = rtnValue.PadLeft(16, ' ');
                         break;
 
                     case CmdCurrentRead:
@@ -476,8 +477,8 @@ namespace iRIS_CLM_GUI_TEST_04
                     case CmdRstTime:
                         break;
 
-                    case CmdSetSerNumber:
-                        Tb_SerNb.Text = rtnValue.PadLeft(8, '0');
+                    case CmdSetSerNumber://read back
+                        Lbl_LasAssySnRb.Text = rtnValue.PadLeft(8, '0');
                         break;
 
                     case CmdSetWavelenght:
@@ -578,9 +579,9 @@ namespace iRIS_CLM_GUI_TEST_04
 
                     default:
 
-                        if (rtnCmd == CmdRdSerialNo) {
-                            lbl_SerNbReadBack.Text = rtnValue.PadLeft(8, '0');
-                            lbl_SerNbReadBack.ForeColor = Color.Green;
+                        if (rtnCmd == CmdRdSerialNo) {//read serial number
+                            Lbl_LasAssySnRb.Text = rtnValue.PadLeft(8, '0');
+                            Lbl_LasAssySnRb.ForeColor = Color.Green;
                         }
                         else if (rtnCmd == CmdRdFirmware) {
                             lbl_SWLevel.Text = rtnValue.PadLeft(8, '0');
@@ -789,7 +790,7 @@ namespace iRIS_CLM_GUI_TEST_04
                     break;
 
                 case CmdSetSerNumber:
-                    dataToAppd = Tb_SerNb.Text;
+                    dataToAppd = Tb_LaserSerNb.Text;
                     sndDl = 600;
                     comThresh = 14;
                     break;
@@ -899,7 +900,7 @@ namespace iRIS_CLM_GUI_TEST_04
                 //********************************//
                 default:
 
-                    if (cmdToTest == CmdRdSerialNo)//updated commands
+                    if (cmdToTest == CmdRdSerialNo)//updated commands send read query
                     {
                         sndDl = 600;//slow bd rate
                         comThresh = 14;
@@ -987,7 +988,7 @@ namespace iRIS_CLM_GUI_TEST_04
                 Bt_SetAddr.Enabled = false;
                 Tb_EepromGood.BackColor = Color.Red;
                 lbl_RdAdd.Text = "00";
-                lbl_SerNbReadBack.Text = "0000000000000000";
+                lbl_PCBSerNbReadBack.Text = "12345678ABCDEF";
                 lbl_SWLevel.Text = "00000000";
                 Bt_SetLsType.Enabled = false;
             }
@@ -1043,7 +1044,7 @@ namespace iRIS_CLM_GUI_TEST_04
                     Tb_USBConnect.BackColor = Color.Red;
                     Tb_EepromGood.BackColor = Color.Red;
                     lbl_RdAdd.Text = "00";
-                    lbl_SerNbReadBack.Text = "0000000000000000";
+                    lbl_PCBSerNbReadBack.Text = "12345678ABCDEF";
                     lbl_SWLevel.Text = "00000000";
                     Bt_SetLsType.Enabled = false;
                     MessageBox.Show("USB_Port_Open COM Error");
@@ -1073,7 +1074,7 @@ namespace iRIS_CLM_GUI_TEST_04
                 Bt_SetAddr.Enabled = false;
                 Tb_EepromGood.BackColor = Color.Red;
                 lbl_RdAdd.Text = "00";
-                lbl_SerNbReadBack.Text = "0000000000000000";
+                lbl_PCBSerNbReadBack.Text = "12345678ABCDEF";
                 lbl_SWLevel.Text = "00000000";
             }
             else
@@ -1821,6 +1822,7 @@ namespace iRIS_CLM_GUI_TEST_04
                     Prg_Bar01.Increment(10);
                     test2 = await SendToSerial(CmdRdCustomerPm, StrDisable, 300, 9);
                     test2 = await SendToSerial(CmdRdFirmware, StrDisable, 300, 9);
+                    test2 = await SendToSerial(CmdRdSerialNo, StrDisable, 300, 9);
                     test2 = await LoadGlobalTestArray(analogRead2);//added 10-04-2018
 
                     test2 = await SetUsbInterface();
@@ -1833,17 +1835,21 @@ namespace iRIS_CLM_GUI_TEST_04
                     bt_NewTest.BackColor = Color.LawnGreen;
                     //MessageBox.Show(" Open Laser Shutter \n Click Button Disconnect USB \n Power Cycle laser \n Click Button Re-connect USB \n Wait for TEC lock LED Click 'Rd Laser OK' \n Start 'Cal VGA' \n");
                 }
-
                 else MessageBox.Show("value error");
             }
             else if (bt_NewTest.BackColor == Color.LawnGreen) {
                 if (Bt_PM100.BackColor == Color.LawnGreen) { bool closePM = await PM100Button(); }
                 if (Bt_USBinterf.BackColor == Color.LawnGreen) { bool closeUSBint = await SetUsbInterface(); }
                 if (Bt_USBcom.BackColor == Color.LawnGreen) { bool rsetUsb = await SetComsUSB(); }
-                bt_NewTest.BackColor = Color.Coral;
+                Lbl_LasAssySnRb.Text = "";
+                lbl_PCBSerNbReadBack.Text = "0123456789ACBD";
+                Lbl_LasAssySnRb.Text = "00000000";
+                lbl_SWLevel.Text = "00000000";
+                Lbl_WaveLg.Text = "0000";
                 Lbl_LsType.Text = "000";
                 MessageBox.Show("Click again to re-initialise test");
                 Prg_Bar01.Value = 0;
+                bt_NewTest.BackColor = Color.Coral;
             }
             return true;
         }
@@ -2042,9 +2048,9 @@ namespace iRIS_CLM_GUI_TEST_04
                                 fs.WriteLine("DATE: " + dateTimePicker1.Value.ToString());
                                 fs.WriteLine("User: " + Tb_User.Text);
                                 fs.WriteLine("Laser Part Number: " + Tb_LaserPN.Text);
-                                fs.WriteLine("Laser Assembly Serial Number: " + Tb_SerNb.Text);
+                                fs.WriteLine("Laser Assembly Serial Number: " + Tb_LaserSerNb.Text);
                                 fs.WriteLine("14284 TEC PCB Serial Number: " + Tb_TecSerNumb.Text);
-                                fs.WriteLine("14264 Laser PCB Serial Number: " + lbl_SerNbReadBack.Text);
+                                fs.WriteLine("14264 Laser PCB Serial Number: " + lbl_PCBSerNbReadBack.Text);
                                 fs.WriteLine("Firmware: " + lbl_SWLevel.Text);
                                 fs.WriteLine("EEPROM Wavelength: " + Lbl_WaveLg.Text);
                                 fs.WriteLine("Diode Wavelength: " + Tb_Wavelength.Text);
@@ -2234,7 +2240,7 @@ namespace iRIS_CLM_GUI_TEST_04
 
             string cmdString1 = "UPDATE "+ Tb_DatabaseWrt.Text +
                 " SET PowerControlSource = @val28, EnableLine = @val29, DigitalModulation = @val30, AnalogModulation = @val31 "+
-                " WHERE  Laser_Assy_Sn = "+ Tb_SerNb.Text; //assuming there is only one laser serial number equivalent (double tested?)
+                " WHERE  Laser_Assy_Sn = "+ Tb_LaserSerNb.Text; //assuming there is only one laser serial number equivalent (double tested?)
 
             try
             {
@@ -2246,8 +2252,8 @@ namespace iRIS_CLM_GUI_TEST_04
                     //************************************************************************//
                     cmd.Parameters.AddWithValue("@val1", Tb_LaserPN.Text);
                     cmd.Parameters.AddWithValue("@val2", Tb_SetAdd.Text);
-                    cmd.Parameters.AddWithValue("@val3", Tb_SerNb.Text);
-                    cmd.Parameters.AddWithValue("@val4", lbl_SerNbReadBack.Text);
+                    cmd.Parameters.AddWithValue("@val3", Tb_LaserSerNb.Text);
+                    cmd.Parameters.AddWithValue("@val4", lbl_PCBSerNbReadBack.Text);
                     cmd.Parameters.AddWithValue("@val5", Tb_TecSerNumb.Text);
                     cmd.Parameters.AddWithValue("@val6", lbl_SWLevel.Text);
                     cmd.Parameters.AddWithValue("@val7", dateTimePicker1.Text);
@@ -2763,9 +2769,9 @@ namespace iRIS_CLM_GUI_TEST_04
         private async Task<bool> CreateRepFile()
         {
             string rootPath = Tb_FolderLoc.Text + @"\" + Tb_LaserPN.Text;//production data + laser folder alreary set i.e. 015335
-            string folderName = @"\" + Tb_WorkOrder.Text + @"\" + Tb_SerNb.Text;//work order/ipo and laser assembly serial number added now
+            string folderName = @"\" + Tb_WorkOrder.Text + @"\" + Tb_LaserSerNb.Text;//work order/ipo and laser assembly serial number added now
             string filePathFold = rootPath + folderName;
-            string txtName =    @"\" + Tb_SerNb.Text + ".txt";//file .txt name
+            string txtName =    @"\" + Tb_LaserSerNb.Text + ".txt";//file .txt name
 
             filePathRep = filePathFold + txtName; // \\officeserver\Production Test Data\iFLEX IRIS Test Data\015335\IPO..........\0052.....
 
@@ -2921,7 +2927,7 @@ namespace iRIS_CLM_GUI_TEST_04
                         Lbl_MdlName.ForeColor = Color.Green;
                         Lbl_Wlgth1.Text = rdr["Wavelength"].ToString().PadLeft(4, '0').TrimStart('0');
                         Lbl_Wlgth1.ForeColor = Color.Green;
-                        Tb_Wavelength.Text = Lbl_Wlgth1.Text;
+                        Tb_Wavelength.Text = Lbl_Wlgth1.Text;//first read...
         
                         Lbl_NomPowerDtbas.Text = rdr["NominalPower"].ToString().PadLeft(5, '0').TrimStart('0');//note power in mw ! and not 1/10mW
                         Lbl_NomPowerDtbas.ForeColor = Color.Green;
@@ -3034,7 +3040,7 @@ namespace iRIS_CLM_GUI_TEST_04
             { CmdEnablLogicvIn,     StrDisable },       //Non Inv. Laser Enable
             { CmdsetTTL,            StrEnable } };      //Inv. TTL line in nothing connected
 
-            bulkSetVarialble = new string[14, 2] {
+            bulkSetVarialble = new string[15, 2] {
             {CmdTestMode,           StrEnable },
             {CmdSetWavelenght,      StrDisable},
             {CmdSetLsMominalPw,     StrDisable},
@@ -3043,6 +3049,7 @@ namespace iRIS_CLM_GUI_TEST_04
             {CmdSeManuDate,         StrDisable},
             {CmdSetCalDate,         StrDisable},
             {CmdSetPartNumber,      StrDisable},
+            {CmdSetSerNumber,       StrDisable}, 
             {CmdSetCalAPw,          StrEnable},
             {CmdSetCalBPw,          StrDisable},
             {CmdSetCalAPwtoVint,    StrEnable},
@@ -3190,14 +3197,14 @@ namespace iRIS_CLM_GUI_TEST_04
         //======================================================================
         private void Tb_User_Click(object sender, EventArgs e) { Tb_User.Clear(); }
         private void Tb_WorkOrder_Click(object sender, EventArgs e) { Tb_WorkOrder.Clear(); }
-        private void Tb_SerNb_Click(object sender, EventArgs e) { Tb_SerNb.Clear(); }
+        private void Tb_SerNb_Click(object sender, EventArgs e) { Tb_LaserSerNb.Clear(); }
         private void Tb_TecSerNumb_Click(object sender, EventArgs e) { Tb_TecSerNumb.Clear(); }
         private void Tb_LaserPN_Click(object sender, EventArgs e) { Tb_LaserPN.Clear(); }
         private void Tb_MaxILimit_Click(object sender, EventArgs e) { Tb_MaxILimit.Clear(); }
         //======================================================================
         private void Tb_WorkOrder_Leave(object sender, EventArgs e) { Tb_WorkOrder.ForeColor = Color.Green; }
         //======================================================================
-        private void Tb_SerNb_Leave(object sender, EventArgs e) { Tb_SerNb.ForeColor = Color.Green; }
+        private void Tb_SerNb_Leave(object sender, EventArgs e) { Tb_LaserSerNb.ForeColor = Color.Green; }
         //======================================================================
         private void Tb_TecSerNumb_Leave(object sender, EventArgs e) { Tb_TecSerNumb.ForeColor = Color.Green; }
         //======================================================================

@@ -29,6 +29,10 @@
         private void InitializeComponent()
         {
             this.TbPg_InsTest = new System.Windows.Forms.TabPage();
+            this.Lbl_LasAssySnRb = new System.Windows.Forms.Label();
+            this.label34 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.Tb_MKTLasEnable = new System.Windows.Forms.TextBox();
             this.label25 = new System.Windows.Forms.Label();
             this.lbl_TecTemp = new System.Windows.Forms.Label();
             this.Lbl_LsType = new System.Windows.Forms.Label();
@@ -94,7 +98,7 @@
             this.Bt_RefrCOMs = new System.Windows.Forms.Button();
             this.lbl_SWLevel = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
-            this.lbl_SerNbReadBack = new System.Windows.Forms.Label();
+            this.lbl_PCBSerNbReadBack = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.TbPg_Iris_Init = new System.Windows.Forms.TabPage();
@@ -126,7 +130,7 @@
             this.label58 = new System.Windows.Forms.Label();
             this.Tb_LaserPN = new System.Windows.Forms.TextBox();
             this.label33 = new System.Windows.Forms.Label();
-            this.Tb_SerNb = new System.Windows.Forms.TextBox();
+            this.Tb_LaserSerNb = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.Lbl_User = new System.Windows.Forms.Label();
             this.Tb_User = new System.Windows.Forms.TextBox();
@@ -227,8 +231,6 @@
             this.Bt_InvAnlg = new System.Windows.Forms.Button();
             this.Bt_IntExtPw = new System.Windows.Forms.Button();
             this.Rt_ReceiveDataUSB = new System.Windows.Forms.RichTextBox();
-            this.Tb_MKTLasEnable = new System.Windows.Forms.TextBox();
-            this.label28 = new System.Windows.Forms.Label();
             this.TbPg_InsTest.SuspendLayout();
             this.GrBx_532Tset.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -243,6 +245,8 @@
             // 
             // TbPg_InsTest
             // 
+            this.TbPg_InsTest.Controls.Add(this.Lbl_LasAssySnRb);
+            this.TbPg_InsTest.Controls.Add(this.label34);
             this.TbPg_InsTest.Controls.Add(this.label28);
             this.TbPg_InsTest.Controls.Add(this.Tb_MKTLasEnable);
             this.TbPg_InsTest.Controls.Add(this.label25);
@@ -294,7 +298,7 @@
             this.TbPg_InsTest.Controls.Add(this.groupBox1);
             this.TbPg_InsTest.Controls.Add(this.lbl_SWLevel);
             this.TbPg_InsTest.Controls.Add(this.label27);
-            this.TbPg_InsTest.Controls.Add(this.lbl_SerNbReadBack);
+            this.TbPg_InsTest.Controls.Add(this.lbl_PCBSerNbReadBack);
             this.TbPg_InsTest.Controls.Add(this.label29);
             this.TbPg_InsTest.ForeColor = System.Drawing.Color.DarkBlue;
             this.TbPg_InsTest.ImeMode = System.Windows.Forms.ImeMode.NoControl;
@@ -304,6 +308,44 @@
             this.TbPg_InsTest.Size = new System.Drawing.Size(698, 563);
             this.TbPg_InsTest.TabIndex = 1;
             this.TbPg_InsTest.Text = "Laser Calibration";
+            // 
+            // Lbl_LasAssySnRb
+            // 
+            this.Lbl_LasAssySnRb.AutoSize = true;
+            this.Lbl_LasAssySnRb.Location = new System.Drawing.Point(346, 32);
+            this.Lbl_LasAssySnRb.Name = "Lbl_LasAssySnRb";
+            this.Lbl_LasAssySnRb.Size = new System.Drawing.Size(55, 13);
+            this.Lbl_LasAssySnRb.TabIndex = 396;
+            this.Lbl_LasAssySnRb.Text = "00556688";
+            this.Lbl_LasAssySnRb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(258, 32);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(82, 13);
+            this.label34.TabIndex = 395;
+            this.label34.Text = "Laser Assy. SN.";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(525, 470);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(146, 13);
+            this.label28.TabIndex = 394;
+            this.label28.Text = "MKT Laser Enable read-back";
+            this.label28.Visible = false;
+            // 
+            // Tb_MKTLasEnable
+            // 
+            this.Tb_MKTLasEnable.BackColor = System.Drawing.Color.Red;
+            this.Tb_MKTLasEnable.Location = new System.Drawing.Point(508, 467);
+            this.Tb_MKTLasEnable.Name = "Tb_MKTLasEnable";
+            this.Tb_MKTLasEnable.Size = new System.Drawing.Size(11, 20);
+            this.Tb_MKTLasEnable.TabIndex = 393;
+            this.Tb_MKTLasEnable.Visible = false;
             // 
             // label25
             // 
@@ -742,7 +784,7 @@
             // label61
             // 
             this.label61.AutoSize = true;
-            this.label61.Location = new System.Drawing.Point(251, 56);
+            this.label61.Location = new System.Drawing.Point(251, 68);
             this.label61.Name = "label61";
             this.label61.Size = new System.Drawing.Size(89, 13);
             this.label61.TabIndex = 305;
@@ -760,7 +802,7 @@
             // Lbl_WaveLg
             // 
             this.Lbl_WaveLg.AutoSize = true;
-            this.Lbl_WaveLg.Location = new System.Drawing.Point(346, 56);
+            this.Lbl_WaveLg.Location = new System.Drawing.Point(346, 68);
             this.Lbl_WaveLg.Name = "Lbl_WaveLg";
             this.Lbl_WaveLg.Size = new System.Drawing.Size(31, 13);
             this.Lbl_WaveLg.TabIndex = 303;
@@ -965,7 +1007,7 @@
             // lbl_SWLevel
             // 
             this.lbl_SWLevel.AutoSize = true;
-            this.lbl_SWLevel.Location = new System.Drawing.Point(346, 35);
+            this.lbl_SWLevel.Location = new System.Drawing.Point(346, 50);
             this.lbl_SWLevel.Name = "lbl_SWLevel";
             this.lbl_SWLevel.Size = new System.Drawing.Size(55, 13);
             this.lbl_SWLevel.TabIndex = 270;
@@ -974,21 +1016,21 @@
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(259, 35);
+            this.label27.Location = new System.Drawing.Point(259, 50);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(81, 13);
             this.label27.TabIndex = 269;
             this.label27.Text = "Firmware Level:";
             // 
-            // lbl_SerNbReadBack
+            // lbl_PCBSerNbReadBack
             // 
-            this.lbl_SerNbReadBack.AutoSize = true;
-            this.lbl_SerNbReadBack.Location = new System.Drawing.Point(346, 14);
-            this.lbl_SerNbReadBack.Name = "lbl_SerNbReadBack";
-            this.lbl_SerNbReadBack.Size = new System.Drawing.Size(97, 13);
-            this.lbl_SerNbReadBack.TabIndex = 267;
-            this.lbl_SerNbReadBack.Text = "12345678ABCDEF";
-            this.lbl_SerNbReadBack.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_PCBSerNbReadBack.AutoSize = true;
+            this.lbl_PCBSerNbReadBack.Location = new System.Drawing.Point(346, 14);
+            this.lbl_PCBSerNbReadBack.Name = "lbl_PCBSerNbReadBack";
+            this.lbl_PCBSerNbReadBack.Size = new System.Drawing.Size(97, 13);
+            this.lbl_PCBSerNbReadBack.TabIndex = 267;
+            this.lbl_PCBSerNbReadBack.Text = "12345678ABCDEF";
+            this.lbl_PCBSerNbReadBack.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label29
             // 
@@ -1037,7 +1079,7 @@
             this.TbPg_Iris_Init.Controls.Add(this.label58);
             this.TbPg_Iris_Init.Controls.Add(this.Tb_LaserPN);
             this.TbPg_Iris_Init.Controls.Add(this.label33);
-            this.TbPg_Iris_Init.Controls.Add(this.Tb_SerNb);
+            this.TbPg_Iris_Init.Controls.Add(this.Tb_LaserSerNb);
             this.TbPg_Iris_Init.Controls.Add(this.label6);
             this.TbPg_Iris_Init.Controls.Add(this.Lbl_User);
             this.TbPg_Iris_Init.Controls.Add(this.Tb_User);
@@ -1335,18 +1377,18 @@
             this.label33.TabIndex = 286;
             this.label33.Text = "Laser Assembly Serial Number";
             // 
-            // Tb_SerNb
+            // Tb_LaserSerNb
             // 
-            this.Tb_SerNb.BackColor = System.Drawing.Color.White;
-            this.Tb_SerNb.Location = new System.Drawing.Point(297, 280);
-            this.Tb_SerNb.Name = "Tb_SerNb";
-            this.Tb_SerNb.Size = new System.Drawing.Size(76, 20);
-            this.Tb_SerNb.TabIndex = 285;
-            this.Tb_SerNb.TabStop = false;
-            this.Tb_SerNb.Text = "00597588";
-            this.Tb_SerNb.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Tb_SerNb.Click += new System.EventHandler(this.Tb_SerNb_Click);
-            this.Tb_SerNb.Leave += new System.EventHandler(this.Tb_SerNb_Leave);
+            this.Tb_LaserSerNb.BackColor = System.Drawing.Color.White;
+            this.Tb_LaserSerNb.Location = new System.Drawing.Point(297, 280);
+            this.Tb_LaserSerNb.Name = "Tb_LaserSerNb";
+            this.Tb_LaserSerNb.Size = new System.Drawing.Size(76, 20);
+            this.Tb_LaserSerNb.TabIndex = 285;
+            this.Tb_LaserSerNb.TabStop = false;
+            this.Tb_LaserSerNb.Text = "00597588";
+            this.Tb_LaserSerNb.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Tb_LaserSerNb.Click += new System.EventHandler(this.Tb_SerNb_Click);
+            this.Tb_LaserSerNb.Leave += new System.EventHandler(this.Tb_SerNb_Leave);
             // 
             // label6
             // 
@@ -2400,25 +2442,6 @@
             this.Rt_ReceiveDataUSB.Text = "";
             this.Rt_ReceiveDataUSB.DoubleClick += new System.EventHandler(this.Rtb_Display_USB_DoubleClick);
             // 
-            // Tb_MKTLasEnable
-            // 
-            this.Tb_MKTLasEnable.BackColor = System.Drawing.Color.Red;
-            this.Tb_MKTLasEnable.Location = new System.Drawing.Point(508, 467);
-            this.Tb_MKTLasEnable.Name = "Tb_MKTLasEnable";
-            this.Tb_MKTLasEnable.Size = new System.Drawing.Size(11, 20);
-            this.Tb_MKTLasEnable.TabIndex = 393;
-            this.Tb_MKTLasEnable.Visible = false;
-            // 
-            // label28
-            // 
-            this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(525, 470);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(146, 13);
-            this.label28.TabIndex = 394;
-            this.label28.Text = "MKT Laser Enable read-back";
-            this.label28.Visible = false;
-            // 
             // Form_iRIS_Clm_test_04
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2456,7 +2479,7 @@
         private System.Windows.Forms.TabPage TbPg_InsTest;
         private System.Windows.Forms.Label lbl_SWLevel;
         private System.Windows.Forms.Label label27;
-        private System.Windows.Forms.Label lbl_SerNbReadBack;
+        private System.Windows.Forms.Label lbl_PCBSerNbReadBack;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Label lbl_RdAdd;
         private System.Windows.Forms.TextBox Tb_RSConnect;
@@ -2524,7 +2547,7 @@
         private System.Windows.Forms.Label label53;
         private System.Windows.Forms.TextBox Tb_MaxLsCurrent;
         private System.Windows.Forms.Label label33;
-        private System.Windows.Forms.TextBox Tb_SerNb;
+        private System.Windows.Forms.TextBox Tb_LaserSerNb;
         private System.Windows.Forms.Label label45;
         private System.Windows.Forms.TextBox Tb_minMaxPw;
         private System.Windows.Forms.Label label57;
@@ -2654,6 +2677,8 @@
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.TextBox Tb_MKTLasEnable;
+        private System.Windows.Forms.Label Lbl_LasAssySnRb;
+        private System.Windows.Forms.Label label34;
     }
 }
 
