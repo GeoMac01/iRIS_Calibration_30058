@@ -182,10 +182,13 @@ namespace iRIS_CLM_GUI_TEST_04
         //======================================================================
         public const String AllowedCharactersInt = "0123456789";
         public const String AllowedCharactersFloat = "0123456789.";
+
+        public static string CmdRdCustomerPm1 => CmdRdCustomerPm;
+
         //======================================================================
         #endregion
         //======================================================================
-         public Form_iRIS_Clm_test_04()
+        public Form_iRIS_Clm_test_04()
         {
             InitializeComponent();
             Getportnames();
@@ -2045,6 +2048,7 @@ namespace iRIS_CLM_GUI_TEST_04
                                 fs.WriteLine("Firmware: " + lbl_SWLevel.Text);
                                 fs.WriteLine("EEPROM Wavelength: " + Lbl_WaveLg.Text);
                                 fs.WriteLine("Diode Wavelength: " + Tb_Wavelength.Text);
+                                fs.WriteLine("Diode Max I Limit Calc. " + Tb_MaxLsCurrent.Text);
                                 fs.WriteLine("Software Nominal power: " + Tb_SoftNomPw.Text);
                                 fs.WriteLine("Set Add.: " + lbl_RdAdd.Text);
                                 fs.WriteLine("VGA value: " + Lbl_VGAval.Text);
@@ -2193,6 +2197,8 @@ namespace iRIS_CLM_GUI_TEST_04
                             fs.WriteLine("B Pw to ADC in: " + Tb_CalBcmdToPw.Text);
                             fs.WriteLine("A Pcon to Pw: " + Tb_CalA_PwToADC.Text);
                             fs.WriteLine("B Pcon to Pw: " + Tb_CalB_PwToADC.Text);
+                            fs.WriteLine("Laser I Limit: " + Tb_MaxLsCurrent.Text);
+
                             fs.WriteLine("Internal Power Control: " + chkBxStateExtPwCtrl);
                             fs.WriteLine("Analog Modulation set to Inverted: " + chkBxStateAnlgModSet);
                             fs.WriteLine("Digital Modulation set to Inverted: " + chkBxStateDigitModSet);
@@ -2220,9 +2226,9 @@ namespace iRIS_CLM_GUI_TEST_04
             string cmdString0 = "INSERT INTO " + Tb_DatabaseWrt.Text +
                 " ( PartNumber, LaserAddress, Laser_Assy_Sn, Laser_Board_Sn, TEC_Board_Sn, SwLevel, TestDate, Wavelength, SoftwareNomPower, TecName, VGA_Value, V_Offset, "+
                 " Pw_at_5VPCON, Pw_at_0VPCON, Pw_at_Enbl_Off, VPCON_at_01pc, I_OUT_at_0VPCON, I_OUT_at_Nom_Pw, V_OUT_PD_at_Nom_Pw, V_OUT_PD_at_Min_Pw, "+
-                " TEC_BlockTemperature, A_Pw_Cal ,B_Pw_Cal, A_Pw_to_ADC_Cal, B_Pw_to_ADC_Cal, A_PCON_to_Pw_Cal, B_PCON_to_Pw_Cal, Diode_Wavelength )" +
+                " TEC_BlockTemperature, A_Pw_Cal ,B_Pw_Cal, A_Pw_to_ADC_Cal, B_Pw_to_ADC_Cal, A_PCON_to_Pw_Cal, B_PCON_to_Pw_Cal, Diode_Wavelength, Diode_I_Limit_mA)" +
                 " VALUES ( @val1, @val2, @val3, @val4, @val5, @val6, @val7, @val8, @val9, @val10, @val11, @val12, " +
-                " @val13, @val14, @val15, @val16, @val17, @val18, @val19, @val20, @val21 , @val22, @val23, @val24, @val25, @val26, @val27, @val32)";
+                " @val13, @val14, @val15, @val16, @val17, @val18, @val19, @val20, @val21 , @val22, @val23, @val24, @val25, @val26, @val27, @val32, @val33)";
 
             //command.CommandText = "UPDATE Student SET Address = @add, City = @cit Where FirstName = @fn and LastName = @add";
 
@@ -2270,6 +2276,7 @@ namespace iRIS_CLM_GUI_TEST_04
                     cmd.Parameters.AddWithValue("@val27", Tb_CalBcmdToPw.Text);
 
                     cmd.Parameters.AddWithValue("@val32", Tb_Wavelength.Text);
+                    cmd.Parameters.AddWithValue("@val33", Tb_MaxLsCurrent.Text);
 
                 }
 
