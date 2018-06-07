@@ -231,6 +231,8 @@
             this.Bt_InvAnlg = new System.Windows.Forms.Button();
             this.Bt_IntExtPw = new System.Windows.Forms.Button();
             this.Rt_ReceiveDataUSB = new System.Windows.Forms.RichTextBox();
+            this.label30 = new System.Windows.Forms.Label();
+            this.Tb_EqNb = new System.Windows.Forms.TextBox();
             this.TbPg_InsTest.SuspendLayout();
             this.GrBx_532Tset.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -1056,6 +1058,8 @@
             // 
             // TbPg_Iris_Init
             // 
+            this.TbPg_Iris_Init.Controls.Add(this.label30);
+            this.TbPg_Iris_Init.Controls.Add(this.Tb_EqNb);
             this.TbPg_Iris_Init.Controls.Add(this.label24);
             this.TbPg_Iris_Init.Controls.Add(this.label55);
             this.TbPg_Iris_Init.Controls.Add(this.Tb_Wavelength);
@@ -1366,7 +1370,7 @@
             this.Tb_LaserPN.Text = "015000";
             this.Tb_LaserPN.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Tb_LaserPN.Click += new System.EventHandler(this.Tb_LaserPN_Click);
-            this.Tb_LaserPN.Leave += new System.EventHandler(this.Tb_LaserPN_Leave);
+            this.Tb_LaserPN.Leave += new System.EventHandler(this.Tb_LaserPN_Leave_1);
             // 
             // label33
             // 
@@ -1388,6 +1392,7 @@
             this.Tb_LaserSerNb.Text = "00597588";
             this.Tb_LaserSerNb.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Tb_LaserSerNb.Click += new System.EventHandler(this.Tb_SerNb_Click);
+            this.Tb_LaserSerNb.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_LaserSerNb_KeyPress);
             this.Tb_LaserSerNb.Leave += new System.EventHandler(this.Tb_SerNb_Leave);
             // 
             // label6
@@ -2442,6 +2447,25 @@
             this.Rt_ReceiveDataUSB.Text = "";
             this.Rt_ReceiveDataUSB.DoubleClick += new System.EventHandler(this.Rtb_Display_USB_DoubleClick);
             // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label30.Location = new System.Drawing.Point(10, 522);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(116, 13);
+            this.label30.TabIndex = 369;
+            this.label30.Text = "Test Equipment EQ";
+            // 
+            // Tb_EqNb
+            // 
+            this.Tb_EqNb.Location = new System.Drawing.Point(132, 519);
+            this.Tb_EqNb.Name = "Tb_EqNb";
+            this.Tb_EqNb.Size = new System.Drawing.Size(80, 20);
+            this.Tb_EqNb.TabIndex = 368;
+            this.Tb_EqNb.Text = "EQ32665";
+            this.Tb_EqNb.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // Form_iRIS_Clm_test_04
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2449,7 +2473,7 @@
             this.ClientSize = new System.Drawing.Size(706, 595);
             this.Controls.Add(this.tabControl1);
             this.Name = "Form_iRIS_Clm_test_04";
-            this.Text = "30058-04 iRIS CLM TEST";
+            this.Text = "30058-04.01 iRIS CLM TEST";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Frm_iRIS_Prod_FormClosing);
             this.Load += new System.EventHandler(this.Form_iRIS_Clm_01_Load);
             this.TbPg_InsTest.ResumeLayout(false);
@@ -2679,6 +2703,8 @@
         private System.Windows.Forms.TextBox Tb_MKTLasEnable;
         private System.Windows.Forms.Label Lbl_LasAssySnRb;
         private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.TextBox Tb_EqNb;
     }
 }
 

@@ -6,13 +6,18 @@ using System.IO.Ports;
 using System.IO;
 using System.Data.SqlClient;
 using System.Windows.Forms;
-using Microsoft.VisualBasic;
+//using Microsoft.VisualBasic;
 using Thorlabs.PM100D_32.Interop;
 using MccDaq;
 using System.Management;
 
 //iRIS Production 30058_04
 //06/04/2018 ECNxxxxxx
+
+    //30058_04.01
+    //added EQ nb to table
+
+
 
 namespace iRIS_CLM_GUI_TEST_04
 {
@@ -1201,6 +1206,7 @@ namespace iRIS_CLM_GUI_TEST_04
             Properties.Settings.Default.Database01 = Tb_InitialCatalog.Text;
             Properties.Settings.Default.DbUser = Tb_User1.Text;
             Properties.Settings.Default.DbPw = Tb_Pw1.Text;
+            Properties.Settings.Default.TestEqNb = Tb_EqNb.Text;
             Properties.Settings.Default.Save();
             //***********************************************************************
             if (USB_CDC.IsOpen)
@@ -1234,6 +1240,7 @@ namespace iRIS_CLM_GUI_TEST_04
             this.Tb_InitialCatalog.Text = Properties.Settings.Default.Database01;
             this.Tb_User1.Text = Properties.Settings.Default.DbUser;
             this.Tb_Pw1.Text = Properties.Settings.Default.DbPw;
+            this.Tb_EqNb.Text = Properties.Settings.Default.TestEqNb;
             //***********************************************************************
             OpenSqlConnection();
             //************************************************************************
@@ -1264,7 +1271,6 @@ namespace iRIS_CLM_GUI_TEST_04
 
             return comId;
         }
-        //======================================================================
         //======================================================================
         private void Bt_EnableDBstring_Click(object sender, EventArgs e)
         {
@@ -2232,9 +2238,9 @@ namespace iRIS_CLM_GUI_TEST_04
             string cmdString0 = "INSERT INTO " + Tb_DatabaseWrt.Text +
                 " ( PartNumber, LaserAddress, Laser_Assy_Sn, Laser_Board_Sn, TEC_Board_Sn, SwLevel, TestDate, Wavelength, SoftwareNomPower, TecName, VGA_Value, V_Offset, "+
                 " Pw_at_5VPCON, Pw_at_0VPCON, Pw_at_Enbl_Off, VPCON_at_01pc, I_OUT_at_0VPCON, I_OUT_at_Nom_Pw, V_OUT_PD_at_Nom_Pw, V_OUT_PD_at_Min_Pw, "+
-                " TEC_BlockTemperature, A_Pw_Cal ,B_Pw_Cal, A_Pw_to_ADC_Cal, B_Pw_to_ADC_Cal, A_PCON_to_Pw_Cal, B_PCON_to_Pw_Cal, Diode_Wavelength, Diode_I_Limit_mA)" +
+                " TEC_BlockTemperature, A_Pw_Cal ,B_Pw_Cal, A_Pw_to_ADC_Cal, B_Pw_to_ADC_Cal, A_PCON_to_Pw_Cal, B_PCON_to_Pw_Cal, Diode_Wavelength, Diode_I_Limit_mA, RIG_EQ )" +
                 " VALUES ( @val1, @val2, @val3, @val4, @val5, @val6, @val7, @val8, @val9, @val10, @val11, @val12, " +
-                " @val13, @val14, @val15, @val16, @val17, @val18, @val19, @val20, @val21 , @val22, @val23, @val24, @val25, @val26, @val27, @val32, @val33)";
+                " @val13, @val14, @val15, @val16, @val17, @val18, @val19, @val20, @val21 , @val22, @val23, @val24, @val25, @val26, @val27, @val32, @val33, @eqNb)";
 
             //command.CommandText = "UPDATE Student SET Address = @add, City = @cit Where FirstName = @fn and LastName = @add";
 
@@ -2284,6 +2290,7 @@ namespace iRIS_CLM_GUI_TEST_04
                     cmd.Parameters.AddWithValue("@val32", Tb_Wavelength.Text);
                     cmd.Parameters.AddWithValue("@val33", Tb_MaxLsCurrent.Text);
 
+                    cmd.Parameters.AddWithValue("@eqNb", Tb_EqNb.Text);
                 }
 
                 if (saveData == 1) {
@@ -2703,6 +2710,7 @@ namespace iRIS_CLM_GUI_TEST_04
             return true;
         }
          //======================================================================
+         /*
         private double ReadExtTemp()//user thermometer reading
         {
             double strpopupInt = 0;
@@ -2725,6 +2733,7 @@ namespace iRIS_CLM_GUI_TEST_04
 
             return strpopupInt;
         }
+        */
         //======================================================================
         private double ReadExtTempLM35()//10mV/C
         {
@@ -2803,8 +2812,6 @@ namespace iRIS_CLM_GUI_TEST_04
             }
             finally { }
         }
-        //======================================================================
-        private void Tb_LaserPN_Leave(object sender, EventArgs e) { ReadDbs(); }
         //======================================================================
         private void Bt_SetBurnin_Click(object sender, EventArgs e) { Task<bool> burninData = SendBurninData(); }
         //======================================================================
@@ -2907,13 +2914,51 @@ namespace iRIS_CLM_GUI_TEST_04
         {
             Rt_ReceiveDataUSB.Clear();
             //int dbArrayIdx = 0; //just running index to locate the line on table...not used 
+            //string[] laserParameters = new string[30];
             bool entryOK = false;
             string readstuff = string.Empty;
-            string[] laserParameters = new string[30];
-            
+
+            try
+            {
+                con.Open();
+                cmd = new SqlCommand("SELECT * FROM " + "iFLEX_iRIS_Setup_Results", con); //Results table from iRIS setup
+                SqlDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    readstuff = rdr["Laser_Assy_Sn"].ToString();//read each Assy Serial Number
+
+                    if (readstuff.Contains(Tb_LaserSerNb.Text))//serial number found:
+                    {
+                        entryOK = true;
+                        Tb_LaserSerNb.ForeColor = Color.Green;//found assy.
+                        Tb_Wavelength.Text = rdr["Wavelength"].ToString().PadLeft(4, '0').TrimStart('0');//load test wavelength
+                        Tb_Wavelength.ForeColor = Color.Green;//used to set the PM100 only
+                        Tb_LaserPN.Text = rdr["PartNumber"].ToString();
+                        //Lbl_LsPartNb.Text = readLsPn.PadLeft(6, '0');
+                        //Lbl_LsPartNb.ForeColor = Color.Green;
+                        Tb_SetOffset.Text = rdr["V_Offset"].ToString().PadLeft(2, '0').TrimStart('0');
+                        Tb_SetOffset.ForeColor = Color.Green;
+                        Tb_MaxILimit.Text = rdr["Diode_I_Limit_mA"].ToString().PadLeft(4, '0').TrimStart('0');
+                        Tb_MaxLsCurrent.Text = Tb_MaxILimit.Text;
+                        tabControl1.TabPages[1].Enabled = true;
+                        Tb_MaxILimit.ForeColor = Color.Green;
+                        break;
+                    }
+                }
+                cmd.Dispose();
+                rdr.Close();//close reader (local)
+            }
+            catch (Exception e) { MessageBox.Show("No Laser SN " + e.ToString()); }
+            finally
+            {
+                con.Close();
+                if (entryOK == false) { MessageBox.Show("No Laser Assy. not found in " + Tb_DatabaseWrt.Text); }
+            }
+
             try {
                 con.Open();
-                cmd = new SqlCommand("SELECT * FROM " + "Laser_Setup_Config", con);
+                cmd = new SqlCommand("SELECT * FROM " + "Laser_Setup_Config", con);//root configurator
                 SqlDataReader rdr = cmd.ExecuteReader();
 
                 while (rdr.Read()) {
@@ -3210,9 +3255,6 @@ namespace iRIS_CLM_GUI_TEST_04
         //======================================================================
         private void Tb_User_KeyDown(object sender, EventArgs e) { Tb_User.ForeColor = Color.Green; }
         //======================================================================
-        private void Tb_LaserPN_MouseLeave(object sender, EventArgs e) { MessageBox.Show("\n\n" + "Enter 'Diode Max. Current Limit' Value now"); }
-        //not used
-        //======================================================================
         private void Bt_StopTest_Click(object sender, EventArgs e) {
             stopLoop = true;
             Rtb_ComList.AppendText("true\n");
@@ -3268,6 +3310,24 @@ namespace iRIS_CLM_GUI_TEST_04
             else { MessageBox.Show("Enter numerical integer Wavelength"); }
         }
         //======================================================================
+        private void Tb_LaserPN_Leave_1(object sender, EventArgs e) { ReadDbs(); }//first entry from laser PN configurator
+        //======================================================================
+        private void Tb_LaserSerNb_KeyPress(object sender, KeyPressEventArgs e) {
+            if (e.KeyChar == (char)Keys.Enter) { SetUsingSn();   }
+        }
+        //======================================================================
+        private void SetUsingSn()
+        {
+            Bt_pdCalibration.Enabled = false;
+            bt_NewTest.Enabled = false;
+            Bt_CalVGA.Enabled = false;
+            Bt_ZroCurr_PMonOutCal.Enabled = false;
+            Bt_BasepltTemp.Enabled = false;
+            Bt_IntExtPw.Enabled = false;
+            Bt_FinalLsSetup.Enabled = false;
+
+            ReadDbs();//need to load Tb_LaserPN first
+        }
         //======================================================================
     }
     //======================================================================
