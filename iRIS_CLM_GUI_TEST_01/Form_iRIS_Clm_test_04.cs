@@ -14,10 +14,8 @@ using System.Management;
 //iRIS Production 30058_04
 //06/04/2018 ECNxxxxxx
 
-    //30058_04.01
-    //added EQ nb to table
-
-
+//30058_04.01
+//added EQ nb to table
 
 namespace iRIS_CLM_GUI_TEST_04
 {
@@ -2910,81 +2908,41 @@ namespace iRIS_CLM_GUI_TEST_04
             return true;
         }
         //======================================================================
-        private void ReadDbs()
+        private void ReadDbsPn()//called by part number event 
         {
+
             Rt_ReceiveDataUSB.Clear();
-            //int dbArrayIdx = 0; //just running index to locate the line on table...not used 
-            //string[] laserParameters = new string[30];
             bool entryOK = false;
             string readstuff = string.Empty;
 
             try
             {
                 con.Open();
-                cmd = new SqlCommand("SELECT * FROM " + "iFLEX_iRIS_Setup_Results", con); //Results table from iRIS setup
+                cmd = new SqlCommand("SELECT * FROM " + "Laser_Setup_Config", con);//root configurator
                 SqlDataReader rdr = cmd.ExecuteReader();
 
                 while (rdr.Read())
                 {
-                    readstuff = rdr["Laser_Assy_Sn"].ToString();//read each Assy Serial Number
+                    readstuff = rdr["PartNumber"].ToString();//read each partnumber
 
-                    if (readstuff.Contains(Tb_LaserSerNb.Text))//serial number found:
-                    {
-                        entryOK = true;
-                        Tb_LaserSerNb.ForeColor = Color.Green;//found assy.
-                        Tb_Wavelength.Text = rdr["Wavelength"].ToString().PadLeft(4, '0').TrimStart('0');//load test wavelength
-                        Tb_Wavelength.ForeColor = Color.Green;//used to set the PM100 only
-                        Tb_LaserPN.Text = rdr["PartNumber"].ToString();
-                        //Lbl_LsPartNb.Text = readLsPn.PadLeft(6, '0');
-                        //Lbl_LsPartNb.ForeColor = Color.Green;
-                        Tb_SetOffset.Text = rdr["V_Offset"].ToString().PadLeft(2, '0').TrimStart('0');
-                        Tb_SetOffset.ForeColor = Color.Green;
-                        Tb_MaxILimit.Text = rdr["Diode_I_Limit_mA"].ToString().PadLeft(4, '0').TrimStart('0');
-                        Tb_MaxLsCurrent.Text = Tb_MaxILimit.Text;
-                        tabControl1.TabPages[1].Enabled = true;
-                        Tb_MaxILimit.ForeColor = Color.Green;
-                        break;
-                    }
-                }
-                cmd.Dispose();
-                rdr.Close();//close reader (local)
-            }
-            catch (Exception e) { MessageBox.Show("No Laser SN " + e.ToString()); }
-            finally
-            {
-                con.Close();
-                if (entryOK == false) { MessageBox.Show("No Laser Assy. not found in " + Tb_DatabaseWrt.Text); }
-            }
-
-            try {
-                con.Open();
-                cmd = new SqlCommand("SELECT * FROM " + "Laser_Setup_Config", con);//root configurator
-                SqlDataReader rdr = cmd.ExecuteReader();
-
-                while (rdr.Read()) {
-                //dbArrayIdx++;
-                readstuff = rdr["PartNumber"].ToString();//read each partnumber
-
-                    if (readstuff.Contains(Tb_LaserPN.Text)) {//if match
-                        entryOK = true;
+                    if (readstuff.Contains(Tb_LaserPN.Text)) {
 
                         Lbl_MdlName.Text = rdr["Description"].ToString();
                         Lbl_MdlName.ForeColor = Color.Green;
+
                         Lbl_Wlgth1.Text = rdr["Wavelength"].ToString().PadLeft(4, '0').TrimStart('0');
                         Lbl_Wlgth1.ForeColor = Color.Green;
                         Tb_Wavelength.Text = Lbl_Wlgth1.Text;//first read...
-        
+
                         Lbl_NomPowerDtbas.Text = rdr["NominalPower"].ToString().PadLeft(5, '0').TrimStart('0');//note power in mw ! and not 1/10mW
                         Lbl_NomPowerDtbas.ForeColor = Color.Green;
                         Tb_NomPw.Text = Lbl_NomPowerDtbas.Text;
+
                         Tb_maxMaxPw.Text = rdr["MaxPower"].ToString().PadLeft(5, '0').TrimStart('0');
                         Tb_minMaxPw.Text = rdr["MinPower"].ToString().PadLeft(5, '0').TrimStart('0');
                         Tb_SoftNomPw.Text = rdr["SoftwareNomPower"].ToString().PadLeft(5, '0').TrimStart('0');
-
                         Tb_SetAdd.Text = rdr["LaserAddress"].ToString().PadLeft(2, '0');
-
                         Tb_TECpoint.Text = rdr["TEC_BlockTemperature"].ToString();
-
                         Tb_PwToVcal.Text = rdr["PowerMonitorVoltage"].ToString().PadLeft(5, '0').TrimStart('0');
 
                         if ((rdr["PowerControlSource"].ToString()) == "Internal  ") { ChkBx_ExtPwCtrl.Checked = true; }
@@ -3004,26 +2962,143 @@ namespace iRIS_CLM_GUI_TEST_04
 
                         Lbl_LaserType.Text = rdr["LaserType"].ToString().TrimEnd(' ');
                         Lbl_LaserType.ForeColor = Color.Green;
+                        if (rdr["LaserType"].ToString() == "CLM       ") { laserType = CLM_Ls; }
+                        else if (rdr["LaserType"].ToString() == "MKT       ") { laserType = MKT_Ls; }
+                        else if (rdr["LaserType"].ToString() == "CCM       ") { laserType = CCM_Ls; }
 
-                        if (rdr["LaserType"].ToString()         == "CLM       ") { laserType = CLM_Ls; }
-                        else if (rdr["LaserType"].ToString()    == "MKT       ") { laserType = MKT_Ls; }
-                        else if (rdr["LaserType"].ToString()    == "CCM       ") { laserType = CCM_Ls; }
-                                                
-                        //MessageBox.Show("PN: " + readstuff + " @ " + dbArrayIdx.ToString() + "\n\n" + "Enter 'Diode Max. Current Limit' Value now");
                         Tb_LaserPN.ForeColor = Color.Green;
                         Tb_MaxILimit.Focus();
                         Tb_MaxILimit.Clear();
 
+                        entryOK = true; //found a valid serial number
                         break;
                     }
                 }
-                con.Close();
+                rdr.Close();
             }
-            catch (Exception e)   { MessageBox.Show("Dtb Read Error " + e.ToString()); }
-            if (entryOK == false) { MessageBox.Show("No parts in db\nTry again or contact engineering\n"); }
+            catch (Exception e) { MessageBox.Show("Dtb Read Error 2" + e.ToString()); }
+            finally
+            {
+                cmd.Dispose();
+                con.Close();
+                if (entryOK == false) { MessageBox.Show("No parts in db\nTry again or contact engineering\n"); } }
+         }
+        //======================================================================
+        private void ReadDbsSn()//called by Serial number event 
+        {
+            Rt_ReceiveDataUSB.Clear();
+            bool entryOK = false;
+            string readstuff = string.Empty;
+ 
+            try
+            {
+                con.Open();
+                cmd = new SqlCommand("SELECT * FROM " + "iFLEX_iRIS_Setup_Results", con); //Results table from iRIS setup
+                SqlDataReader rdr = cmd.ExecuteReader();
 
-            //if (rdr != null) { rdr.Close(); }
-            //if (con != null) { con.Close(); }
+                while (rdr.Read())
+                {
+                    readstuff = rdr["Laser_Assy_Sn"].ToString();//read each Assy Serial Number
+
+                    if (readstuff.Contains(Tb_LaserSerNb.Text)) { //serial number found:
+
+                        Tb_LaserSerNb.ForeColor = Color.Green;//found assy.
+
+                        Tb_Wavelength.Text = rdr["Wavelength"].ToString().PadLeft(4, '0').TrimStart('0');//load test wavelength
+                        Tb_Wavelength.ForeColor = Color.Green;//used to set the PM100 only
+
+                        Tb_LaserPN.Text = rdr["PartNumber"].ToString();
+                        Tb_LaserPN.ForeColor = Color.Green;
+
+                        Tb_SetOffset.Text = rdr["V_Offset"].ToString().PadLeft(2, '0').TrimStart('0');
+                        Tb_SetOffset.ForeColor = Color.Green;
+
+                        Tb_MaxILimit.Text = rdr["Diode_I_Limit_mA"].ToString().PadLeft(4, '0').TrimStart('0');
+                        Tb_MaxLsCurrent.Text = Tb_MaxILimit.Text;
+                        Tb_MaxILimit.ForeColor = Color.Green;
+
+                        entryOK = true;
+                        break;
+                    }
+               }
+                rdr.Close();//close reader (local)  
+            }
+            catch (Exception e) { MessageBox.Show("No Laser SN " + e.ToString()); }
+            finally
+            {
+                cmd.Dispose();
+                con.Close();
+                if (entryOK == false) { MessageBox.Show("No Laser Assy. not found in " + Tb_DatabaseWrt.Text); }
+            }
+
+            //**************************************************************//
+
+            if (entryOK == true) { //Laser serial number found and Tb Part number populated....
+                try
+                {
+                    con.Open();
+                    //cmd = new SqlCommand("SELECT "+ Tb_LaserPN.Text +" FROM " + "Laser_Setup_Config", con);//root configurator
+                    cmd = new SqlCommand("SELECT * FROM " + "Laser_Setup_Config", con);//root configurator
+                    SqlDataReader rdr = cmd.ExecuteReader();
+
+                    while (rdr.Read())
+                    {
+                        readstuff = rdr["PartNumber"].ToString();//read each partnumber
+
+                        if (readstuff.Contains(Tb_LaserPN.Text))
+                        {
+                            Lbl_MdlName.Text = rdr["Description"].ToString();
+                            Lbl_MdlName.ForeColor = Color.Green;
+
+                            Lbl_Wlgth1.Text = rdr["Wavelength"].ToString().PadLeft(4, '0').TrimStart('0');
+                            Lbl_Wlgth1.ForeColor = Color.Green;
+
+                            Lbl_NomPowerDtbas.Text = rdr["NominalPower"].ToString().PadLeft(5, '0').TrimStart('0');//note power in mw ! and not 1/10mW
+                            Lbl_NomPowerDtbas.ForeColor = Color.Green;
+                            Tb_NomPw.Text = Lbl_NomPowerDtbas.Text;
+
+                            Tb_maxMaxPw.Text = rdr["MaxPower"].ToString().PadLeft(5, '0').TrimStart('0');
+                            Tb_minMaxPw.Text = rdr["MinPower"].ToString().PadLeft(5, '0').TrimStart('0');
+                            Tb_SoftNomPw.Text = rdr["SoftwareNomPower"].ToString().PadLeft(5, '0').TrimStart('0');
+                            Tb_SetAdd.Text = rdr["LaserAddress"].ToString().PadLeft(2, '0');
+                            Tb_TECpoint.Text = rdr["TEC_BlockTemperature"].ToString();
+                            Tb_PwToVcal.Text = rdr["PowerMonitorVoltage"].ToString().PadLeft(5, '0').TrimStart('0');
+
+                            if ((rdr["PowerControlSource"].ToString()) == "Internal  ") { ChkBx_ExtPwCtrl.Checked = true; }
+                            else { ChkBx_ExtPwCtrl.Checked = false; }
+
+                            if ((rdr["EnableLine"].ToString()) == "Norm      ") { ChkBx_EnableSet.Checked = false; }
+                            else { ChkBx_EnableSet.Checked = true; }//inverted
+
+                            if ((rdr["DigitalModulation"].ToString()) == "Norm      ") { ChkBx_DigitModSet.Checked = false; }
+                            else { ChkBx_DigitModSet.Checked = true; }//inverted
+
+                            if ((rdr["AnalogueModulation"].ToString()) == "Norm      ") { ChkBx_AnlgModSet.Checked = false; }
+                            else { ChkBx_AnlgModSet.Checked = true; }//inverted
+
+                            if ((rdr["SoftwareEnableStartup"].ToString()) == "ON") { ChkBx_SoftEnStart.Checked = true; }
+                            else { ChkBx_SoftEnStart.Checked = false; }
+
+                            Lbl_LaserType.Text = rdr["LaserType"].ToString().TrimEnd(' ');
+                            Lbl_LaserType.ForeColor = Color.Green;
+                            if (rdr["LaserType"].ToString() == "CLM       ") { laserType = CLM_Ls; }
+                            else if (rdr["LaserType"].ToString() == "MKT       ") { laserType = MKT_Ls; }
+                            else if (rdr["LaserType"].ToString() == "CCM       ") { laserType = CCM_Ls; }
+
+
+                            tabControl1.TabPages[1].Enabled = true;
+                            break;
+                        }
+                    }
+                    rdr.Close();//close reader again
+                }
+                catch (Exception e) { MessageBox.Show("Dtb Read Error 2" + e.ToString()); }
+                finally
+                {
+                    cmd.Dispose();
+                    con.Close();
+                    if (entryOK == false) { MessageBox.Show("No parts in db\nTry again or contact engineering\n"); } }
+                }
         }
         //======================================================================
         private void SetLaserType(int lsType)//used for send and receive
@@ -3249,8 +3324,6 @@ namespace iRIS_CLM_GUI_TEST_04
         //======================================================================
         private void Tb_WorkOrder_Leave(object sender, EventArgs e) { Tb_WorkOrder.ForeColor = Color.Green; }
         //======================================================================
-        private void Tb_SerNb_Leave(object sender, EventArgs e) { Tb_LaserSerNb.ForeColor = Color.Green; }
-        //======================================================================
         private void Tb_TecSerNumb_Leave(object sender, EventArgs e) { Tb_TecSerNumb.ForeColor = Color.Green; }
         //======================================================================
         private void Tb_User_KeyDown(object sender, EventArgs e) { Tb_User.ForeColor = Color.Green; }
@@ -3310,11 +3383,18 @@ namespace iRIS_CLM_GUI_TEST_04
             else { MessageBox.Show("Enter numerical integer Wavelength"); }
         }
         //======================================================================
-        private void Tb_LaserPN_Leave_1(object sender, EventArgs e) { ReadDbs(); }//first entry from laser PN configurator
         //======================================================================
-        private void Tb_LaserSerNb_KeyPress(object sender, KeyPressEventArgs e) {
-            if (e.KeyChar == (char)Keys.Enter) { SetUsingSn();   }
+        private void Tb_LaserPN_KeyPress(object sender, KeyPressEventArgs e) {
+            if (e.KeyChar == (char)Keys.Enter) {
+                Tb_TecSerNumb.Enabled = true;
+                Tb_Wavelength.Enabled = true;
+                Tb_MaxILimit.Enabled = true;
+                ReadDbsPn(); }
         }
+        //======================================================================
+        private void Tb_SerNb_Leave(object sender, EventArgs e) { Tb_LaserSerNb.ForeColor = Color.Green; }
+        //======================================================================
+        private void Tb_SerNb_KeyPress(object sender, KeyPressEventArgs e) { if (e.KeyChar == (char)Keys.Enter) { SetUsingSn(); } }
         //======================================================================
         private void SetUsingSn()
         {
@@ -3325,9 +3405,13 @@ namespace iRIS_CLM_GUI_TEST_04
             Bt_BasepltTemp.Enabled = false;
             Bt_IntExtPw.Enabled = false;
             Bt_FinalLsSetup.Enabled = false;
-
-            ReadDbs();//need to load Tb_LaserPN first
+            Bt_SetIntPwCal.Enabled = false;
+            Tb_LaserPN.Enabled = false;
+            Tb_WorkOrder.Enabled = false;
+            ReadDbsSn();
         }
+        //======================================================================
+        private void Tb_EqNb_Click(object sender, EventArgs e) { Tb_EqNb.Clear(); }
         //======================================================================
     }
     //======================================================================
