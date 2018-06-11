@@ -233,6 +233,8 @@
             this.Bt_InvAnlg = new System.Windows.Forms.Button();
             this.Bt_IntExtPw = new System.Windows.Forms.Button();
             this.Rt_ReceiveDataUSB = new System.Windows.Forms.RichTextBox();
+            this.label51 = new System.Windows.Forms.Label();
+            this.ChkBx_PnOrSn = new System.Windows.Forms.CheckBox();
             this.TbPg_InsTest.SuspendLayout();
             this.GrBx_532Tset.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -1058,6 +1060,8 @@
             // 
             // TbPg_Iris_Init
             // 
+            this.TbPg_Iris_Init.Controls.Add(this.ChkBx_PnOrSn);
+            this.TbPg_Iris_Init.Controls.Add(this.label51);
             this.TbPg_Iris_Init.Controls.Add(this.label30);
             this.TbPg_Iris_Init.Controls.Add(this.Tb_EqNb);
             this.TbPg_Iris_Init.Controls.Add(this.label24);
@@ -1120,7 +1124,7 @@
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(348, 293);
+            this.label24.Location = new System.Drawing.Point(348, 310);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(21, 13);
             this.label24.TabIndex = 367;
@@ -1129,7 +1133,7 @@
             // label55
             // 
             this.label55.AutoSize = true;
-            this.label55.Location = new System.Drawing.Point(174, 291);
+            this.label55.Location = new System.Drawing.Point(174, 308);
             this.label55.Name = "label55";
             this.label55.Size = new System.Drawing.Size(119, 13);
             this.label55.TabIndex = 366;
@@ -1139,20 +1143,20 @@
             // 
             this.Tb_Wavelength.Enabled = false;
             this.Tb_Wavelength.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.Tb_Wavelength.Location = new System.Drawing.Point(297, 288);
+            this.Tb_Wavelength.Location = new System.Drawing.Point(297, 305);
             this.Tb_Wavelength.Name = "Tb_Wavelength";
             this.Tb_Wavelength.Size = new System.Drawing.Size(46, 20);
             this.Tb_Wavelength.TabIndex = 365;
             this.Tb_Wavelength.Text = "0000";
             this.Tb_Wavelength.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Tb_Wavelength.Click += new System.EventHandler(this.Tb_Wavelength_Click);
-            this.Tb_Wavelength.Leave += new System.EventHandler(this.Tb_Wavelength_Leave);
+            this.Tb_Wavelength.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Tb_Wavelength_KeyDown);
             // 
             // Lbl_LaserType
             // 
             this.Lbl_LaserType.AutoSize = true;
             this.Lbl_LaserType.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbl_LaserType.Location = new System.Drawing.Point(464, 92);
+            this.Lbl_LaserType.Location = new System.Drawing.Point(464, 109);
             this.Lbl_LaserType.Name = "Lbl_LaserType";
             this.Lbl_LaserType.Size = new System.Drawing.Size(33, 20);
             this.Lbl_LaserType.TabIndex = 364;
@@ -1166,7 +1170,7 @@
             this.GrBx_CutomIO.Controls.Add(this.ChkBx_EnableSet);
             this.GrBx_CutomIO.Controls.Add(this.ChkBx_DigitModSet);
             this.GrBx_CutomIO.Enabled = false;
-            this.GrBx_CutomIO.Location = new System.Drawing.Point(297, 54);
+            this.GrBx_CutomIO.Location = new System.Drawing.Point(297, 71);
             this.GrBx_CutomIO.Name = "GrBx_CutomIO";
             this.GrBx_CutomIO.Size = new System.Drawing.Size(150, 124);
             this.GrBx_CutomIO.TabIndex = 363;
@@ -1226,7 +1230,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(348, 266);
+            this.label12.Location = new System.Drawing.Point(348, 283);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(22, 13);
             this.label12.TabIndex = 362;
@@ -1278,7 +1282,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(171, 265);
+            this.label13.Location = new System.Drawing.Point(171, 282);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(122, 13);
             this.label13.TabIndex = 341;
@@ -1289,7 +1293,7 @@
             this.Tb_MaxILimit.BackColor = System.Drawing.Color.White;
             this.Tb_MaxILimit.Enabled = false;
             this.Tb_MaxILimit.ForeColor = System.Drawing.Color.Red;
-            this.Tb_MaxILimit.Location = new System.Drawing.Point(297, 262);
+            this.Tb_MaxILimit.Location = new System.Drawing.Point(297, 279);
             this.Tb_MaxILimit.Name = "Tb_MaxILimit";
             this.Tb_MaxILimit.Size = new System.Drawing.Size(45, 20);
             this.Tb_MaxILimit.TabIndex = 2;
@@ -1297,12 +1301,12 @@
             this.Tb_MaxILimit.Text = "0000";
             this.Tb_MaxILimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Tb_MaxILimit.Click += new System.EventHandler(this.Tb_MaxILimit_Click);
-            this.Tb_MaxILimit.Leave += new System.EventHandler(this.Tb_MaxILimit_Leave);
+            this.Tb_MaxILimit.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Tb_MaxILimit_KeyDown);
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(238, 214);
+            this.label11.Location = new System.Drawing.Point(238, 231);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(55, 13);
             this.label11.TabIndex = 337;
@@ -1311,7 +1315,8 @@
             // Tb_WorkOrder
             // 
             this.Tb_WorkOrder.BackColor = System.Drawing.Color.White;
-            this.Tb_WorkOrder.Location = new System.Drawing.Point(297, 210);
+            this.Tb_WorkOrder.Enabled = false;
+            this.Tb_WorkOrder.Location = new System.Drawing.Point(297, 227);
             this.Tb_WorkOrder.Name = "Tb_WorkOrder";
             this.Tb_WorkOrder.Size = new System.Drawing.Size(76, 20);
             this.Tb_WorkOrder.TabIndex = 336;
@@ -1319,13 +1324,13 @@
             this.Tb_WorkOrder.Text = "IPO1230000";
             this.Tb_WorkOrder.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Tb_WorkOrder.Click += new System.EventHandler(this.Tb_WorkOrder_Click);
-            this.Tb_WorkOrder.Leave += new System.EventHandler(this.Tb_WorkOrder_Leave);
+            this.Tb_WorkOrder.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Tb_WorkOrder_KeyDown);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(504, 145);
+            this.label3.Location = new System.Drawing.Point(504, 162);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(32, 20);
             this.label3.TabIndex = 335;
@@ -1335,7 +1340,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(498, 117);
+            this.label7.Location = new System.Drawing.Point(498, 134);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(31, 20);
             this.label7.TabIndex = 334;
@@ -1345,7 +1350,7 @@
             // 
             this.Lbl_NomPowerDtbas.AutoSize = true;
             this.Lbl_NomPowerDtbas.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbl_NomPowerDtbas.Location = new System.Drawing.Point(464, 146);
+            this.Lbl_NomPowerDtbas.Location = new System.Drawing.Point(464, 163);
             this.Lbl_NomPowerDtbas.Name = "Lbl_NomPowerDtbas";
             this.Lbl_NomPowerDtbas.Size = new System.Drawing.Size(37, 20);
             this.Lbl_NomPowerDtbas.TabIndex = 333;
@@ -1355,7 +1360,7 @@
             // 
             this.Lbl_Wlgth1.AutoSize = true;
             this.Lbl_Wlgth1.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbl_Wlgth1.Location = new System.Drawing.Point(464, 119);
+            this.Lbl_Wlgth1.Location = new System.Drawing.Point(464, 136);
             this.Lbl_Wlgth1.Name = "Lbl_Wlgth1";
             this.Lbl_Wlgth1.Size = new System.Drawing.Size(37, 20);
             this.Lbl_Wlgth1.TabIndex = 332;
@@ -1365,7 +1370,7 @@
             // 
             this.Lbl_MdlName.AutoSize = true;
             this.Lbl_MdlName.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbl_MdlName.Location = new System.Drawing.Point(464, 65);
+            this.Lbl_MdlName.Location = new System.Drawing.Point(464, 82);
             this.Lbl_MdlName.Name = "Lbl_MdlName";
             this.Lbl_MdlName.Size = new System.Drawing.Size(53, 20);
             this.Lbl_MdlName.TabIndex = 289;
@@ -1374,17 +1379,17 @@
             // label58
             // 
             this.label58.AutoSize = true;
-            this.label58.Location = new System.Drawing.Point(370, 28);
+            this.label58.Location = new System.Drawing.Point(197, 45);
             this.label58.Name = "label58";
-            this.label58.Size = new System.Drawing.Size(210, 13);
+            this.label58.Size = new System.Drawing.Size(95, 13);
             this.label58.TabIndex = 288;
-            this.label58.Text = "Laser Part Number and press \"Return Key\"";
+            this.label58.Text = "Laser Part Number";
             // 
             // Tb_LaserPN
             // 
             this.Tb_LaserPN.BackColor = System.Drawing.Color.White;
             this.Tb_LaserPN.ForeColor = System.Drawing.Color.Red;
-            this.Tb_LaserPN.Location = new System.Drawing.Point(297, 25);
+            this.Tb_LaserPN.Location = new System.Drawing.Point(297, 42);
             this.Tb_LaserPN.Name = "Tb_LaserPN";
             this.Tb_LaserPN.Size = new System.Drawing.Size(65, 20);
             this.Tb_LaserPN.TabIndex = 1;
@@ -1392,12 +1397,12 @@
             this.Tb_LaserPN.Text = "015000";
             this.Tb_LaserPN.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Tb_LaserPN.Click += new System.EventHandler(this.Tb_LaserPN_Click);
-            this.Tb_LaserPN.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_LaserPN_KeyPress);
+            this.Tb_LaserPN.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Tb_LaserPN_KeyDown);
             // 
             // label33
             // 
             this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(144, 187);
+            this.label33.Location = new System.Drawing.Point(144, 204);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(149, 13);
             this.label33.TabIndex = 286;
@@ -1406,7 +1411,8 @@
             // Tb_LaserSerNb
             // 
             this.Tb_LaserSerNb.BackColor = System.Drawing.Color.White;
-            this.Tb_LaserSerNb.Location = new System.Drawing.Point(297, 184);
+            this.Tb_LaserSerNb.Enabled = false;
+            this.Tb_LaserSerNb.Location = new System.Drawing.Point(297, 201);
             this.Tb_LaserSerNb.Name = "Tb_LaserSerNb";
             this.Tb_LaserSerNb.Size = new System.Drawing.Size(76, 20);
             this.Tb_LaserSerNb.TabIndex = 285;
@@ -1414,13 +1420,12 @@
             this.Tb_LaserSerNb.Text = "00000000";
             this.Tb_LaserSerNb.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Tb_LaserSerNb.Click += new System.EventHandler(this.Tb_SerNb_Click);
-            this.Tb_LaserSerNb.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_SerNb_KeyPress);
-            this.Tb_LaserSerNb.Leave += new System.EventHandler(this.Tb_SerNb_Leave);
+            this.Tb_LaserSerNb.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Tb_LaserSerNb_KeyDown);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(187, 240);
+            this.label6.Location = new System.Drawing.Point(187, 257);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(106, 13);
             this.label6.TabIndex = 282;
@@ -1445,13 +1450,13 @@
             this.Tb_User.Text = "JH";
             this.Tb_User.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Tb_User.Click += new System.EventHandler(this.Tb_User_Click);
-            this.Tb_User.Leave += new System.EventHandler(this.Tb_User_KeyDown);
+            this.Tb_User.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Tb_User_KeyDown);
             // 
             // Tb_TecSerNumb
             // 
             this.Tb_TecSerNumb.BackColor = System.Drawing.Color.White;
             this.Tb_TecSerNumb.Enabled = false;
-            this.Tb_TecSerNumb.Location = new System.Drawing.Point(297, 236);
+            this.Tb_TecSerNumb.Location = new System.Drawing.Point(297, 253);
             this.Tb_TecSerNumb.Name = "Tb_TecSerNumb";
             this.Tb_TecSerNumb.Size = new System.Drawing.Size(76, 20);
             this.Tb_TecSerNumb.TabIndex = 2;
@@ -1459,7 +1464,7 @@
             this.Tb_TecSerNumb.Text = "01234567";
             this.Tb_TecSerNumb.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Tb_TecSerNumb.Click += new System.EventHandler(this.Tb_TecSerNumb_Click);
-            this.Tb_TecSerNumb.Leave += new System.EventHandler(this.Tb_TecSerNumb_Leave);
+            this.Tb_TecSerNumb.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Tb_TecSerNumb_KeyDown);
             // 
             // dateTimePicker1
             // 
@@ -2470,6 +2475,28 @@
             this.Rt_ReceiveDataUSB.Text = "";
             this.Rt_ReceiveDataUSB.DoubleClick += new System.EventHandler(this.Rtb_Display_USB_DoubleClick);
             // 
+            // label51
+            // 
+            this.label51.AutoSize = true;
+            this.label51.Location = new System.Drawing.Point(367, 46);
+            this.label51.Name = "label51";
+            this.label51.Size = new System.Drawing.Size(154, 13);
+            this.label51.TabIndex = 370;
+            this.label51.Text = "To validate press \"Return Key\"";
+            // 
+            // ChkBx_PnOrSn
+            // 
+            this.ChkBx_PnOrSn.AutoSize = true;
+            this.ChkBx_PnOrSn.Checked = true;
+            this.ChkBx_PnOrSn.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ChkBx_PnOrSn.Location = new System.Drawing.Point(297, 14);
+            this.ChkBx_PnOrSn.Name = "ChkBx_PnOrSn";
+            this.ChkBx_PnOrSn.Size = new System.Drawing.Size(165, 17);
+            this.ChkBx_PnOrSn.TabIndex = 371;
+            this.ChkBx_PnOrSn.Text = "Search by Laser Part Number";
+            this.ChkBx_PnOrSn.UseVisualStyleBackColor = true;
+            this.ChkBx_PnOrSn.CheckedChanged += new System.EventHandler(this.ChkBx_PnOrSn_CheckedChanged);
+            // 
             // Form_iRIS_Clm_test_04
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2709,6 +2736,8 @@
         private System.Windows.Forms.Label label34;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.TextBox Tb_EqNb;
+        private System.Windows.Forms.CheckBox ChkBx_PnOrSn;
+        private System.Windows.Forms.Label label51;
     }
 }
 

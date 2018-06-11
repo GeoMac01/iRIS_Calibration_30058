@@ -978,6 +978,7 @@ namespace iRIS_CLM_GUI_TEST_04
         //======================================================================
         private async Task<bool> SetComsUSB()
         {
+
             if (USB_CDC.IsOpen)
             {
                 USB_CDC.Close();
@@ -1030,10 +1031,9 @@ namespace iRIS_CLM_GUI_TEST_04
                     Bt_RefrCOMs.Enabled = false;
                     Bt_SetAddr.Enabled = true;
 
-                    bool usbadd1 = await SetAddress();
-                    usbadd1 = await CheckLaserType();
-                    SetLaserType(laserType);
+                    bool usbconn1 = await StartTest();
                 }
+
                 catch (Exception)
                 {
                     USB_CDC.Close();
@@ -1055,6 +1055,42 @@ namespace iRIS_CLM_GUI_TEST_04
                 }
             }
             this.Cursor = Cursors.Default;
+            return true;
+        }
+
+        //======================================================================
+        private async Task<bool> StartTest()
+        {
+            bool vGood2 = false;
+ 
+            if (ChkBx_PnOrSn.Checked == true)//read part number
+            {
+                bool usbadd1 = await SetAddress();
+                usbadd1 = await CheckLaserType();
+                usbadd1 = await SetLaserType(laserType);
+            }
+
+            else if (ChkBx_PnOrSn.Checked == false)
+            {
+                if (vGood2 = LoadCurAndPwLimits() == true)  //Current and Power values OK...
+                {
+                    bool usbadd1 = await SetAddress();
+                    usbadd1 = await CheckLaserType();
+                    usbadd1 = await SetLaserType(laserType);//lasertype global value
+
+                    usbadd1 = await SendToSerial(CmdRdSerialNo, StrDisable, 600, 14);
+                    usbadd1 = await SendToSerial(CmdRdFirmware, StrDisable, 600, 14);
+                    Lbl_WaveLg.Text = Tb_Wavelength.Text;
+
+                    usbadd1 = await SendToSerial(CmdTestMode, StrEnable, 300, 9);
+                    usbadd1 = await SendToSerial(CmdRdCustomerPm, StrDisable, 300, 9);
+                    usbadd1 = await SendToSerial(CmdTestMode, StrDisable, 300, 9);
+
+                    usbadd1 = await SendToSerial(CmdOperatingHr, StrDisable, 600, 9); //read timer
+
+                    if (Lbl_LasAssySnRb.Text.Contains(Tb_LaserSerNb.Text) == false) { MessageBox.Show("Laser Serial Number not matching"); }
+                }
+            }
             return true;
         }
         //======================================================================
@@ -2708,31 +2744,6 @@ namespace iRIS_CLM_GUI_TEST_04
             return true;
         }
          //======================================================================
-         /*
-        private double ReadExtTemp()//user thermometer reading
-        {
-            double strpopupInt = 0;
-            Getitright:
-            string strpopup = Microsoft.VisualBasic.Interaction.InputBox(" Enter Temperature in C \n", "Base Plate Temperature Compensation", "00.0");
-
-            bool t = Information.IsNumeric(strpopup);
-            int strLgh = strpopup.Length;
-
-            if (t == true) {
-                if (strLgh < 5) { strpopupInt = Convert.ToDouble(strpopup); }
-                else {
-                    MessageBox.Show("Format 00.0");
-                    goto Getitright; }
-            }
-            else {
-                MessageBox.Show("Numerical only");
-                goto Getitright;
-            }
-
-            return strpopupInt;
-        }
-        */
-        //======================================================================
         private double ReadExtTempLM35()//10mV/C
         {
             double lm30Vread = (ReadADC(3))*100;//convert to 1/10 C 25C = (0.01x25)*1000
@@ -2971,6 +2982,11 @@ namespace iRIS_CLM_GUI_TEST_04
                         Tb_MaxILimit.Clear();
 
                         entryOK = true; //found a valid serial number
+                        Tb_LaserSerNb.Enabled = true;
+                        Tb_WorkOrder.Enabled = true;
+                        Tb_TecSerNumb.Enabled = true;
+                        Tb_MaxILimit.Enabled = true;
+                        Tb_Wavelength.Enabled = true;
                         break;
                     }
                 }
@@ -3016,6 +3032,17 @@ namespace iRIS_CLM_GUI_TEST_04
                         Tb_MaxILimit.Text = rdr["Diode_I_Limit_mA"].ToString().PadLeft(4, '0').TrimStart('0');
                         Tb_MaxLsCurrent.Text = Tb_MaxILimit.Text;
                         Tb_MaxILimit.ForeColor = Color.Green;
+
+                        Bt_pdCalibration.Enabled = false;
+                        bt_NewTest.Enabled = false;
+                        Bt_CalVGA.Enabled = false;
+                        Bt_ZroCurr_PMonOutCal.Enabled = false;
+                        Bt_BasePltTempComp.Enabled = false;
+                        Bt_IntExtPw.Enabled = false;
+                        Bt_FinalLsSetup.Enabled = false;
+                        Bt_SetIntPwCal.Enabled = false;
+                        Tb_LaserPN.Enabled = false;
+                        Tb_WorkOrder.Enabled = false;
 
                         entryOK = true;
                         break;
@@ -3101,7 +3128,7 @@ namespace iRIS_CLM_GUI_TEST_04
                 }
         }
         //======================================================================
-        private void SetLaserType(int lsType)//used for send and receive
+        private async Task<bool>  SetLaserType(int lsType)//used for send and receive
         {
             switch (lsType) {
 
@@ -3261,6 +3288,8 @@ namespace iRIS_CLM_GUI_TEST_04
 
             #endregion
 
+            await Task.Delay(2);
+            return true;
         }
         //======================================================================
         private void Bt_RstClk_Click(object sender, EventArgs e) { Task<bool> rstclk = RESETclk(); }
@@ -3291,26 +3320,6 @@ namespace iRIS_CLM_GUI_TEST_04
             }
         }
         //======================================================================
-        private void Tb_MaxILimit_Leave(object sender, EventArgs e) {
- 
-            if (int.TryParse(Tb_MaxILimit.Text, out int dummyInt) == true)
-            {
-                Tb_MaxLsCurrent.Text = Tb_MaxILimit.Text;
-
-                if ((LoadCurAndPwLimits()) == true)//reset at init...?
-                {
-                    Tb_MaxILimit.ForeColor = Color.Green;
-                    tabControl1.TabPages[1].Enabled = true;
-                }
-                else
-                {
-                    Tb_MaxILimit.ForeColor = Color.OrangeRed;
-                    MessageBox.Show("incorrect value");
-                }
-            }
-            else { MessageBox.Show("Enter numerical current"); }
-        }
-        //======================================================================
         private void Rtb_ComList_DoubleClick(object sender, EventArgs e) { Rtb_ComList.Clear(); }
         //======================================================================
         private void Bt_SetPower03_Click(object sender, EventArgs e) { Task<bool>  finalSet = SendToSerial(CmdSetLsPw, Tb_SetPower03.Text, 300, 9); }
@@ -3321,12 +3330,6 @@ namespace iRIS_CLM_GUI_TEST_04
         private void Tb_TecSerNumb_Click(object sender, EventArgs e) { Tb_TecSerNumb.Clear(); }
         private void Tb_LaserPN_Click(object sender, EventArgs e) { Tb_LaserPN.Clear(); }
         private void Tb_MaxILimit_Click(object sender, EventArgs e) { Tb_MaxILimit.Clear(); }
-        //======================================================================
-        private void Tb_WorkOrder_Leave(object sender, EventArgs e) { Tb_WorkOrder.ForeColor = Color.Green; }
-        //======================================================================
-        private void Tb_TecSerNumb_Leave(object sender, EventArgs e) { Tb_TecSerNumb.ForeColor = Color.Green; }
-        //======================================================================
-        private void Tb_User_KeyDown(object sender, EventArgs e) { Tb_User.ForeColor = Color.Green; }
         //======================================================================
         private void Bt_StopTest_Click(object sender, EventArgs e) {
             stopLoop = true;
@@ -3363,55 +3366,101 @@ namespace iRIS_CLM_GUI_TEST_04
         //======================================================================
         private void Tb_Wavelength_Click(object sender, EventArgs e) { Tb_Wavelength.Clear(); }
         //======================================================================
-        private void Tb_Wavelength_Leave(object sender, EventArgs e)
-        {
-            int tbWavelngth = Convert.ToInt16(Lbl_Wlgth1.Text);
-
-            if (int.TryParse(Tb_Wavelength.Text, out int dummyInt) == true)
-            {
-                if (dummyInt <= (tbWavelngth + 5) && dummyInt >= (tbWavelngth - 5))
-                {
-                    Tb_Wavelength.ForeColor = Color.Green;
-                }
-                else
-                {
-                    Tb_Wavelength.ForeColor = Color.OrangeRed;
-                    Tb_Wavelength.Text = "0000";
-                    MessageBox.Show("Out of range value");
-                }
-            }
-            else { MessageBox.Show("Enter numerical integer Wavelength"); }
-        }
-        //======================================================================
-        //======================================================================
-        private void Tb_LaserPN_KeyPress(object sender, KeyPressEventArgs e) {
-            if (e.KeyChar == (char)Keys.Enter) {
-                Tb_TecSerNumb.Enabled = true;
-                Tb_Wavelength.Enabled = true;
-                Tb_MaxILimit.Enabled = true;
-                ReadDbsPn(); }
-        }
-        //======================================================================
-        private void Tb_SerNb_Leave(object sender, EventArgs e) { Tb_LaserSerNb.ForeColor = Color.Green; }
-        //======================================================================
-        private void Tb_SerNb_KeyPress(object sender, KeyPressEventArgs e) { if (e.KeyChar == (char)Keys.Enter) { SetUsingSn(); } }
-        //======================================================================
-        private void SetUsingSn()
-        {
-            Bt_pdCalibration.Enabled = false;
-            bt_NewTest.Enabled = false;
-            Bt_CalVGA.Enabled = false;
-            Bt_ZroCurr_PMonOutCal.Enabled = false;
-            Bt_BasepltTemp.Enabled = false;
-            Bt_IntExtPw.Enabled = false;
-            Bt_FinalLsSetup.Enabled = false;
-            Bt_SetIntPwCal.Enabled = false;
-            Tb_LaserPN.Enabled = false;
-            Tb_WorkOrder.Enabled = false;
-            ReadDbsSn();
-        }
-        //======================================================================
         private void Tb_EqNb_Click(object sender, EventArgs e) { Tb_EqNb.Clear(); }
+        //======================================================================
+        private void Tb_User_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter) { Tb_TecSerNumb.ForeColor = Color.Green; }
+        }
+        //======================================================================
+        private void Tb_LaserSerNb_KeyDown(object sender, KeyEventArgs e) {
+
+            if (e.KeyCode == Keys.Enter)
+            {
+                Tb_LaserSerNb.ForeColor = Color.Green;
+                if (ChkBx_PnOrSn.Checked == false) ReadDbsSn();
+            }
+        }
+        //======================================================================
+        private void Tb_LaserPN_KeyDown(object sender, KeyEventArgs e) {
+            if (e.KeyCode  == Keys.Enter) { ReadDbsPn(); } // find part number only
+        }
+        //======================================================================
+        private void Tb_WorkOrder_KeyDown(object sender, KeyEventArgs e) {
+            if (e.KeyCode == Keys.Enter) { { Tb_WorkOrder.ForeColor = Color.Green; } }
+        }
+        //======================================================================
+        private void Tb_TecSerNumb_KeyDown(object sender, KeyEventArgs e) {
+            if (e.KeyCode == Keys.Enter) { { Tb_TecSerNumb.ForeColor = Color.Green; } }
+        }
+        //======================================================================
+        private void Tb_MaxILimit_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+
+                if (int.TryParse(Tb_MaxILimit.Text, out int dummyInt) == true)
+                {
+                    Tb_MaxLsCurrent.Text = Tb_MaxILimit.Text;
+
+                    if ((LoadCurAndPwLimits()) == true)//reset at init...?
+                    {
+                        Tb_MaxILimit.ForeColor = Color.Green;
+                        tabControl1.TabPages[1].Enabled = true;
+                    }
+                    else
+                    {
+                        Tb_MaxILimit.ForeColor = Color.OrangeRed;
+                        MessageBox.Show("incorrect value");
+                    }
+                }
+                else { MessageBox.Show("Enter numerical current"); }
+            }
+        }
+        //======================================================================
+        private void Tb_Wavelength_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                int tbWavelngth = Convert.ToInt16(Lbl_Wlgth1.Text);
+
+                if (int.TryParse(Tb_Wavelength.Text, out int dummyInt) == true)
+                {
+                    if (dummyInt <= (tbWavelngth + 5) && dummyInt >= (tbWavelngth - 5))
+                    {
+                        Tb_Wavelength.ForeColor = Color.Green;
+                    }
+                    else
+                    {
+                        Tb_Wavelength.ForeColor = Color.OrangeRed;
+                        Tb_Wavelength.Text = "0000";
+                        MessageBox.Show("Out of range value");
+                    }
+                }
+                else { MessageBox.Show("Enter numerical integer Wavelength"); }
+            }
+        }
+        //======================================================================
+        private void ChkBx_PnOrSn_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ChkBx_PnOrSn.Checked == true) {
+                Tb_LaserPN.Enabled = true;
+                Tb_LaserSerNb.Enabled = false;
+                Tb_WorkOrder.Enabled = false;
+                Tb_TecSerNumb.Enabled = false;
+                Tb_MaxLsCurrent.Enabled = false;
+                Tb_Wavelength.Enabled = false;
+            }
+            else if (ChkBx_PnOrSn.Checked == false) {
+                Tb_LaserPN.Enabled = false;
+                Tb_LaserSerNb.Enabled = true;
+                Tb_WorkOrder.Enabled = false;
+                Tb_TecSerNumb.Enabled = false;
+                Tb_MaxLsCurrent.Enabled = false;
+                Tb_Wavelength.Enabled = false;
+            }
+        }
+        //======================================================================
         //======================================================================
     }
     //======================================================================
