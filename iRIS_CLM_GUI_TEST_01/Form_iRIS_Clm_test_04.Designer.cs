@@ -102,6 +102,8 @@
             this.label29 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.TbPg_Iris_Init = new System.Windows.Forms.TabPage();
+            this.ChkBx_PnOrSn = new System.Windows.Forms.CheckBox();
+            this.label51 = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
             this.Tb_EqNb = new System.Windows.Forms.TextBox();
             this.label24 = new System.Windows.Forms.Label();
@@ -233,8 +235,6 @@
             this.Bt_InvAnlg = new System.Windows.Forms.Button();
             this.Bt_IntExtPw = new System.Windows.Forms.Button();
             this.Rt_ReceiveDataUSB = new System.Windows.Forms.RichTextBox();
-            this.label51 = new System.Windows.Forms.Label();
-            this.ChkBx_PnOrSn = new System.Windows.Forms.CheckBox();
             this.TbPg_InsTest.SuspendLayout();
             this.GrBx_532Tset.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -1100,6 +1100,28 @@
             this.TbPg_Iris_Init.TabIndex = 0;
             this.TbPg_Iris_Init.Text = " Test Init.";
             this.TbPg_Iris_Init.UseVisualStyleBackColor = true;
+            // 
+            // ChkBx_PnOrSn
+            // 
+            this.ChkBx_PnOrSn.AutoSize = true;
+            this.ChkBx_PnOrSn.Checked = true;
+            this.ChkBx_PnOrSn.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ChkBx_PnOrSn.Location = new System.Drawing.Point(297, 14);
+            this.ChkBx_PnOrSn.Name = "ChkBx_PnOrSn";
+            this.ChkBx_PnOrSn.Size = new System.Drawing.Size(165, 17);
+            this.ChkBx_PnOrSn.TabIndex = 371;
+            this.ChkBx_PnOrSn.Text = "Search by Laser Part Number";
+            this.ChkBx_PnOrSn.UseVisualStyleBackColor = true;
+            this.ChkBx_PnOrSn.CheckedChanged += new System.EventHandler(this.ChkBx_PnOrSn_CheckedChanged);
+            // 
+            // label51
+            // 
+            this.label51.AutoSize = true;
+            this.label51.Location = new System.Drawing.Point(367, 46);
+            this.label51.Name = "label51";
+            this.label51.Size = new System.Drawing.Size(154, 13);
+            this.label51.TabIndex = 370;
+            this.label51.Text = "To validate press \"Return Key\"";
             // 
             // label30
             // 
@@ -2475,28 +2497,6 @@
             this.Rt_ReceiveDataUSB.Text = "";
             this.Rt_ReceiveDataUSB.DoubleClick += new System.EventHandler(this.Rtb_Display_USB_DoubleClick);
             // 
-            // label51
-            // 
-            this.label51.AutoSize = true;
-            this.label51.Location = new System.Drawing.Point(367, 46);
-            this.label51.Name = "label51";
-            this.label51.Size = new System.Drawing.Size(154, 13);
-            this.label51.TabIndex = 370;
-            this.label51.Text = "To validate press \"Return Key\"";
-            // 
-            // ChkBx_PnOrSn
-            // 
-            this.ChkBx_PnOrSn.AutoSize = true;
-            this.ChkBx_PnOrSn.Checked = true;
-            this.ChkBx_PnOrSn.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ChkBx_PnOrSn.Location = new System.Drawing.Point(297, 14);
-            this.ChkBx_PnOrSn.Name = "ChkBx_PnOrSn";
-            this.ChkBx_PnOrSn.Size = new System.Drawing.Size(165, 17);
-            this.ChkBx_PnOrSn.TabIndex = 371;
-            this.ChkBx_PnOrSn.Text = "Search by Laser Part Number";
-            this.ChkBx_PnOrSn.UseVisualStyleBackColor = true;
-            this.ChkBx_PnOrSn.CheckedChanged += new System.EventHandler(this.ChkBx_PnOrSn_CheckedChanged);
-            // 
             // Form_iRIS_Clm_test_04
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2504,7 +2504,7 @@
             this.ClientSize = new System.Drawing.Size(706, 595);
             this.Controls.Add(this.tabControl1);
             this.Name = "Form_iRIS_Clm_test_04";
-            this.Text = "30058-04.01 iRIS CLM TEST";
+            this.Text = "30058-04 iRIS CLM TEST";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Frm_iRIS_Prod_FormClosing);
             this.Load += new System.EventHandler(this.Form_iRIS_Clm_01_Load);
             this.TbPg_InsTest.ResumeLayout(false);

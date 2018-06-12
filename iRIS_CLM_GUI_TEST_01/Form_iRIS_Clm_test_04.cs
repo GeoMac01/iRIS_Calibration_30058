@@ -1057,7 +1057,6 @@ namespace iRIS_CLM_GUI_TEST_04
             this.Cursor = Cursors.Default;
             return true;
         }
-
         //======================================================================
         private async Task<bool> StartTest()
         {
@@ -1089,6 +1088,7 @@ namespace iRIS_CLM_GUI_TEST_04
                     usbadd1 = await SendToSerial(CmdOperatingHr, StrDisable, 600, 9); //read timer
 
                     if (Lbl_LasAssySnRb.Text.Contains(Tb_LaserSerNb.Text) == false) { MessageBox.Show("Laser Serial Number not matching"); }
+                    else { MessageBox.Show("Check Wavelength\nEnable PM100 & USB Interface manually"); }
                 }
             }
             return true;
@@ -3450,6 +3450,7 @@ namespace iRIS_CLM_GUI_TEST_04
                 Tb_TecSerNumb.Enabled = false;
                 Tb_MaxLsCurrent.Enabled = false;
                 Tb_Wavelength.Enabled = false;
+                Bt_Rs232com.Enabled = true;
             }
             else if (ChkBx_PnOrSn.Checked == false) {
                 Tb_LaserPN.Enabled = false;
@@ -3458,6 +3459,7 @@ namespace iRIS_CLM_GUI_TEST_04
                 Tb_TecSerNumb.Enabled = false;
                 Tb_MaxLsCurrent.Enabled = false;
                 Tb_Wavelength.Enabled = false;
+                Bt_Rs232com.Enabled = false;
             }
         }
         //======================================================================
