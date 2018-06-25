@@ -2504,7 +2504,7 @@
             this.ClientSize = new System.Drawing.Size(706, 595);
             this.Controls.Add(this.tabControl1);
             this.Name = "Form_iRIS_Clm_test_04";
-            this.Text = "30058-04 iRIS CLM TEST";
+            this.Text = "30058-05 iRIS CLM TEST";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Frm_iRIS_Prod_FormClosing);
             this.Load += new System.EventHandler(this.Form_iRIS_Clm_01_Load);
             this.TbPg_InsTest.ResumeLayout(false);

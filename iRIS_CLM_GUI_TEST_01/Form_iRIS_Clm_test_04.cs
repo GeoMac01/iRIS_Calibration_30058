@@ -17,6 +17,10 @@ using System.Management;
 //30058_04.01
 //added EQ nb to table
 
+//30058_05.01
+//set for x86
+//small ?? changes
+
 namespace iRIS_CLM_GUI_TEST_04
 {
     public partial class Form_iRIS_Clm_test_04 : Form
@@ -2548,9 +2552,9 @@ namespace iRIS_CLM_GUI_TEST_04
         #endregion
         //======================================================================
         //======================================================================
-        private void Bt_LiPlot_Click(object sender, EventArgs e) {  Task<bool> liplotseq = MaxLsPowerSet(); }//ramp
+        private void Bt_LiPlot_Click(object sender, EventArgs e) {  Task<bool> liplotseq = NomLsPowerSet(); }//ramp
         //======================================================================
-        private async Task<bool> MaxLsPowerSet()
+        private async Task<bool> NomLsPowerSet()
         {
             Set_USB_Digit_Out(0, 0);//enable line off
             Set_USB_Digit_Out(1, 0);//digital modulation line
@@ -2573,7 +2577,6 @@ namespace iRIS_CLM_GUI_TEST_04
                         setPwCheck = await SendToSerial(CmdTestMode, StrDisable, 300, 9); //run mode
 
                         double finalPowerDbl = Convert.ToDouble(Tb_SoftNomPw.Text) * 10;  //nominal power from database
-                        //double finalPowerDbl = Convert.ToDouble(Tb_SoftNomPw.Text) * 9;  //nominal power from database
 
                         string finalPower = finalPowerDbl.ToString("0000");
                         Tb_SetPower03.Text = finalPower;
@@ -2586,14 +2589,12 @@ namespace iRIS_CLM_GUI_TEST_04
                         if (ChkBx_AnlgModSet.Checked == false) //non inverted ramp
                         {
                             dacPCONSet = 5.000;
-                            //dacPCONSet = 4.850;
 
                             iniLItest = await SendToSerial(CmdAnalgInpt, StrDisable, 300, 9); //Non Inv. PCON
                         }
                         else if (ChkBx_AnlgModSet.Checked == true) //inverted ramp
                         {
                             dacPCONSet = 0.000;
-                            //dacPCONSet = 0.150;
 
                             iniLItest = await SendToSerial(CmdAnalgInpt, StrEnable, 300, 9); //Inv. PCON
                         }
@@ -3016,7 +3017,7 @@ namespace iRIS_CLM_GUI_TEST_04
                 {
                     readstuff = rdr["Laser_Assy_Sn"].ToString();//read each Assy Serial Number
 
-                    if (readstuff.Contains(Tb_LaserSerNb.Text)) { //serial number found:
+                    if (readstuff.Contains(Tb_LaserSerNb.Text)) { //serial number found://issue with multiple entries!!!!!!
 
                         Tb_LaserSerNb.ForeColor = Color.Green;//found assy.
 
@@ -3032,6 +3033,9 @@ namespace iRIS_CLM_GUI_TEST_04
                         Tb_MaxILimit.Text = rdr["Diode_I_Limit_mA"].ToString().PadLeft(4, '0').TrimStart('0');
                         Tb_MaxLsCurrent.Text = Tb_MaxILimit.Text;
                         Tb_MaxILimit.ForeColor = Color.Green;
+
+                        Tb_TecSerNumb.Text = rdr["TEC_Board_Sn"].ToString();
+                        Tb_TecSerNumb.ForeColor = Color.Green;
 
                         Bt_pdCalibration.Enabled = false;
                         bt_NewTest.Enabled = false;
@@ -3252,11 +3256,11 @@ namespace iRIS_CLM_GUI_TEST_04
             bulkSetVga = new string[6, 2] {
             { CmdLaserEnable,       StrDisable },
             { CmdTestMode,          StrEnable  },
-            { CmdSetInOutPwCtrl,    StrDisable },     //external PCON
             { CmdAnalgInpt,         StrDisable },     //Non Inv. PCON
             { CmdEnablLogicvIn,     StrDisable },     //Non Inv. Laser Enable
-            { CmdsetTTL,            StrEnable } };    //Inv. TTL line in
-                                                      //=================================================
+            { CmdsetTTL,            StrEnable },      //Inv. TTL line in
+            { CmdSetInOutPwCtrl,    StrDisable } };   //external PCON 
+            //=================================================
             analogRead = new string[4, 2] {//read analog inputs
             { CmdTestMode,          StrEnable },
             { CmdRdLaserPow,       StrDisable },
