@@ -1,4 +1,4 @@
-﻿namespace iRIS_CLM_GUI_TEST_04.Properties {
+﻿namespace iRIS_CLM_GUI_TEST_05.Properties {
     
     
     // This class allows you to handle specific events on the settings class:

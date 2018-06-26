@@ -1,6 +1,6 @@
-﻿namespace iRIS_CLM_GUI_TEST_04
+﻿namespace iRIS_CLM_GUI_TEST_05
 {
-    partial class Form_iRIS_Clm_test_04
+    partial class Form_iRIS_Clm_test_05
     {
         /// <summary>
         /// Required designer variable.
@@ -2497,13 +2497,13 @@
             this.Rt_ReceiveDataUSB.Text = "";
             this.Rt_ReceiveDataUSB.DoubleClick += new System.EventHandler(this.Rtb_Display_USB_DoubleClick);
             // 
-            // Form_iRIS_Clm_test_04
+            // Form_iRIS_Clm_test_05
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(706, 595);
             this.Controls.Add(this.tabControl1);
-            this.Name = "Form_iRIS_Clm_test_04";
+            this.Name = "Form_iRIS_Clm_test_05";
             this.Text = "30058-05 iRIS CLM TEST";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Frm_iRIS_Prod_FormClosing);
             this.Load += new System.EventHandler(this.Form_iRIS_Clm_01_Load);

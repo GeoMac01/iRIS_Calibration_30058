@@ -21,9 +21,9 @@ using System.Management;
 //set for x86
 //small ?? changes
 
-namespace iRIS_CLM_GUI_TEST_04
+namespace iRIS_CLM_GUI_TEST_05
 {
-    public partial class Form_iRIS_Clm_test_04 : Form
+    public partial class Form_iRIS_Clm_test_05 : Form
     {
         #region Constant Commands Definition
         const string rtnNull = "00";
@@ -196,7 +196,7 @@ namespace iRIS_CLM_GUI_TEST_04
         //======================================================================
         #endregion
         //======================================================================
-        public Form_iRIS_Clm_test_04()
+        public Form_iRIS_Clm_test_05()
         {
             InitializeComponent();
             Getportnames();
