@@ -113,7 +113,7 @@
             this.GrBx_CutomIO = new System.Windows.Forms.GroupBox();
             this.ChkBx_SoftEnStart = new System.Windows.Forms.CheckBox();
             this.ChkBx_AnlgModSet = new System.Windows.Forms.CheckBox();
-            this.ChkBx_ExtPwCtrl = new System.Windows.Forms.CheckBox();
+            this.ChkBx_IntPwCtrl = new System.Windows.Forms.CheckBox();
             this.ChkBx_EnableSet = new System.Windows.Forms.CheckBox();
             this.ChkBx_DigitModSet = new System.Windows.Forms.CheckBox();
             this.label12 = new System.Windows.Forms.Label();
@@ -430,7 +430,7 @@
             this.groupBox4.Controls.Add(this.ChkBx_EnInvBurn);
             this.groupBox4.Controls.Add(this.ChkBx_AlgModInvBurn);
             this.groupBox4.Controls.Add(this.ChkBx_DiditModInvBurn);
-            this.groupBox4.Location = new System.Drawing.Point(543, 303);
+            this.groupBox4.Location = new System.Drawing.Point(508, 282);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(131, 98);
             this.groupBox4.TabIndex = 387;
@@ -497,7 +497,7 @@
             // Bt_SetBurnin
             // 
             this.Bt_SetBurnin.BackColor = System.Drawing.Color.Coral;
-            this.Bt_SetBurnin.Location = new System.Drawing.Point(450, 303);
+            this.Bt_SetBurnin.Location = new System.Drawing.Point(508, 237);
             this.Bt_SetBurnin.Name = "Bt_SetBurnin";
             this.Bt_SetBurnin.Size = new System.Drawing.Size(87, 39);
             this.Bt_SetBurnin.TabIndex = 381;
@@ -592,7 +592,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(328, 310);
+            this.label15.Location = new System.Drawing.Point(360, 342);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(74, 13);
             this.label15.TabIndex = 371;
@@ -601,7 +601,7 @@
             // Lbl_TmrVal
             // 
             this.Lbl_TmrVal.AutoSize = true;
-            this.Lbl_TmrVal.Location = new System.Drawing.Point(269, 310);
+            this.Lbl_TmrVal.Location = new System.Drawing.Point(292, 342);
             this.Lbl_TmrVal.Name = "Lbl_TmrVal";
             this.Lbl_TmrVal.Size = new System.Drawing.Size(55, 13);
             this.Lbl_TmrVal.TabIndex = 370;
@@ -610,7 +610,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(328, 290);
+            this.label16.Location = new System.Drawing.Point(360, 302);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(102, 13);
             this.label16.TabIndex = 368;
@@ -619,7 +619,7 @@
             // Lbl_PDmonUser
             // 
             this.Lbl_PDmonUser.AutoSize = true;
-            this.Lbl_PDmonUser.Location = new System.Drawing.Point(284, 250);
+            this.Lbl_PDmonUser.Location = new System.Drawing.Point(307, 282);
             this.Lbl_PDmonUser.Name = "Lbl_PDmonUser";
             this.Lbl_PDmonUser.Size = new System.Drawing.Size(40, 13);
             this.Lbl_PDmonUser.TabIndex = 367;
@@ -629,7 +629,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(328, 250);
+            this.label14.Location = new System.Drawing.Point(360, 282);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(102, 13);
             this.label14.TabIndex = 366;
@@ -638,7 +638,7 @@
             // Lbl_PM100user
             // 
             this.Lbl_PM100user.AutoSize = true;
-            this.Lbl_PM100user.Location = new System.Drawing.Point(284, 290);
+            this.Lbl_PM100user.Location = new System.Drawing.Point(307, 302);
             this.Lbl_PM100user.Name = "Lbl_PM100user";
             this.Lbl_PM100user.Size = new System.Drawing.Size(40, 13);
             this.Lbl_PM100user.TabIndex = 365;
@@ -647,7 +647,7 @@
             // Lbl_ImonUser
             // 
             this.Lbl_ImonUser.AutoSize = true;
-            this.Lbl_ImonUser.Location = new System.Drawing.Point(290, 270);
+            this.Lbl_ImonUser.Location = new System.Drawing.Point(313, 322);
             this.Lbl_ImonUser.Name = "Lbl_ImonUser";
             this.Lbl_ImonUser.Size = new System.Drawing.Size(34, 13);
             this.Lbl_ImonUser.TabIndex = 361;
@@ -656,7 +656,7 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(328, 270);
+            this.label19.Location = new System.Drawing.Point(360, 322);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(71, 13);
             this.label19.TabIndex = 360;
@@ -678,7 +678,7 @@
             // 
             this.Prg_Bar01.Location = new System.Drawing.Point(9, 217);
             this.Prg_Bar01.Name = "Prg_Bar01";
-            this.Prg_Bar01.Size = new System.Drawing.Size(292, 14);
+            this.Prg_Bar01.Size = new System.Drawing.Size(240, 14);
             this.Prg_Bar01.Step = 1;
             this.Prg_Bar01.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.Prg_Bar01.TabIndex = 324;
@@ -698,7 +698,7 @@
             // Bt_LiPlot
             // 
             this.Bt_LiPlot.BackColor = System.Drawing.Color.Coral;
-            this.Bt_LiPlot.Location = new System.Drawing.Point(450, 251);
+            this.Bt_LiPlot.Location = new System.Drawing.Point(310, 237);
             this.Bt_LiPlot.Name = "Bt_LiPlot";
             this.Bt_LiPlot.Size = new System.Drawing.Size(87, 39);
             this.Bt_LiPlot.TabIndex = 320;
@@ -722,7 +722,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(328, 336);
+            this.label2.Location = new System.Drawing.Point(360, 362);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(62, 13);
             this.label2.TabIndex = 316;
@@ -731,7 +731,7 @@
             // lbl_LaserPD
             // 
             this.lbl_LaserPD.AutoSize = true;
-            this.lbl_LaserPD.Location = new System.Drawing.Point(287, 355);
+            this.lbl_LaserPD.Location = new System.Drawing.Point(310, 382);
             this.lbl_LaserPD.Name = "lbl_LaserPD";
             this.lbl_LaserPD.Size = new System.Drawing.Size(37, 13);
             this.lbl_LaserPD.TabIndex = 315;
@@ -740,7 +740,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(328, 355);
+            this.label1.Location = new System.Drawing.Point(360, 382);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(47, 13);
             this.label1.TabIndex = 314;
@@ -749,7 +749,7 @@
             // lbl_ADCpconRd
             // 
             this.lbl_ADCpconRd.AutoSize = true;
-            this.lbl_ADCpconRd.Location = new System.Drawing.Point(287, 336);
+            this.lbl_ADCpconRd.Location = new System.Drawing.Point(310, 362);
             this.lbl_ADCpconRd.Name = "lbl_ADCpconRd";
             this.lbl_ADCpconRd.Size = new System.Drawing.Size(37, 13);
             this.lbl_ADCpconRd.TabIndex = 313;
@@ -1188,7 +1188,7 @@
             // 
             this.GrBx_CutomIO.Controls.Add(this.ChkBx_SoftEnStart);
             this.GrBx_CutomIO.Controls.Add(this.ChkBx_AnlgModSet);
-            this.GrBx_CutomIO.Controls.Add(this.ChkBx_ExtPwCtrl);
+            this.GrBx_CutomIO.Controls.Add(this.ChkBx_IntPwCtrl);
             this.GrBx_CutomIO.Controls.Add(this.ChkBx_EnableSet);
             this.GrBx_CutomIO.Controls.Add(this.ChkBx_DigitModSet);
             this.GrBx_CutomIO.Enabled = false;
@@ -1219,15 +1219,15 @@
             this.ChkBx_AnlgModSet.Text = "Anlg. Mod. Inverted";
             this.ChkBx_AnlgModSet.UseVisualStyleBackColor = true;
             // 
-            // ChkBx_ExtPwCtrl
+            // ChkBx_IntPwCtrl
             // 
-            this.ChkBx_ExtPwCtrl.AutoSize = true;
-            this.ChkBx_ExtPwCtrl.Location = new System.Drawing.Point(6, 24);
-            this.ChkBx_ExtPwCtrl.Name = "ChkBx_ExtPwCtrl";
-            this.ChkBx_ExtPwCtrl.Size = new System.Drawing.Size(103, 17);
-            this.ChkBx_ExtPwCtrl.TabIndex = 328;
-            this.ChkBx_ExtPwCtrl.Text = "Internal Pw. Ctrl.";
-            this.ChkBx_ExtPwCtrl.UseVisualStyleBackColor = true;
+            this.ChkBx_IntPwCtrl.AutoSize = true;
+            this.ChkBx_IntPwCtrl.Location = new System.Drawing.Point(6, 24);
+            this.ChkBx_IntPwCtrl.Name = "ChkBx_IntPwCtrl";
+            this.ChkBx_IntPwCtrl.Size = new System.Drawing.Size(103, 17);
+            this.ChkBx_IntPwCtrl.TabIndex = 328;
+            this.ChkBx_IntPwCtrl.Text = "Internal Pw. Ctrl.";
+            this.ChkBx_IntPwCtrl.UseVisualStyleBackColor = true;
             // 
             // ChkBx_EnableSet
             // 
@@ -2648,7 +2648,7 @@
         private System.Windows.Forms.CheckBox ChkBx_AnlgModSet;
         private System.Windows.Forms.CheckBox ChkBx_DigitModSet;
         private System.Windows.Forms.CheckBox ChkBx_EnableSet;
-        private System.Windows.Forms.CheckBox ChkBx_ExtPwCtrl;
+        private System.Windows.Forms.CheckBox ChkBx_IntPwCtrl;
         private System.Windows.Forms.Button Bt_LiPlot;
         private System.Windows.Forms.Label Lbl_NomPowerDtbas;
         private System.Windows.Forms.Label Lbl_Wlgth1;
