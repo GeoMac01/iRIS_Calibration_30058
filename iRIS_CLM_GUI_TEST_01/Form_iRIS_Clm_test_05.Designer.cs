@@ -2313,20 +2313,20 @@
             // label44
             // 
             this.label44.AutoSize = true;
-            this.label44.Location = new System.Drawing.Point(345, 344);
+            this.label44.Location = new System.Drawing.Point(344, 389);
             this.label44.Name = "label44";
-            this.label44.Size = new System.Drawing.Size(80, 13);
+            this.label44.Size = new System.Drawing.Size(86, 13);
             this.label44.TabIndex = 295;
-            this.label44.Text = "B Pw to ADC in";
+            this.label44.Text = "B Pw to DAC intr";
             // 
             // label47
             // 
             this.label47.AutoSize = true;
-            this.label47.Location = new System.Drawing.Point(345, 322);
+            this.label47.Location = new System.Drawing.Point(344, 367);
             this.label47.Name = "label47";
-            this.label47.Size = new System.Drawing.Size(80, 13);
+            this.label47.Size = new System.Drawing.Size(86, 13);
             this.label47.TabIndex = 294;
-            this.label47.Text = "A Pw to ADC in";
+            this.label47.Text = "A Pw to DAC intr";
             // 
             // Tb_CalB_PwToADC
             // 
@@ -2347,7 +2347,7 @@
             // label49
             // 
             this.label49.AutoSize = true;
-            this.label49.Location = new System.Drawing.Point(345, 388);
+            this.label49.Location = new System.Drawing.Point(344, 347);
             this.label49.Name = "label49";
             this.label49.Size = new System.Drawing.Size(72, 13);
             this.label49.TabIndex = 291;
@@ -2356,7 +2356,7 @@
             // label50
             // 
             this.label50.AutoSize = true;
-            this.label50.Location = new System.Drawing.Point(345, 366);
+            this.label50.Location = new System.Drawing.Point(344, 325);
             this.label50.Name = "label50";
             this.label50.Size = new System.Drawing.Size(72, 13);
             this.label50.TabIndex = 290;

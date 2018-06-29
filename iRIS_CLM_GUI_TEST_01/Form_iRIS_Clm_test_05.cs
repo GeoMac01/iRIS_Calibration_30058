@@ -144,7 +144,7 @@ namespace iRIS_CLM_GUI_TEST_05
         byte[] byteArrayToTest2 = new byte[8];//reads back "bits"
         byte[] byteArrayToTest3 = new byte[8];//reads back "bits"
 
-        double[,] dataADC = new double[1200, 5];
+        double[,] dataADC = new double[1200, 6];
         double[] dataSet1 = new double[32];
         double maxPw = 0;
         double maxCurr = 0;
@@ -1094,7 +1094,6 @@ namespace iRIS_CLM_GUI_TEST_05
             return true;
         }
         //======================================================================
-        //private void Bt_RS232_Click(object sender, EventArgs e)
         private void Bt_RS232_Click(object sender, EventArgs e) { SetComUART(); }
         //======================================================================
         private void SetComUART()
@@ -1603,6 +1602,7 @@ namespace iRIS_CLM_GUI_TEST_05
         //======================================================================
         #endregion  External Hardware
         //======================================================================
+        //======================================================================
         private async Task<bool> RampDACLI(double startRp, double stopRp, double stepRp, bool rdIntADC, bool invertedRamp)//external PCON
         {
             arrIndex = 0;
@@ -1611,7 +1611,7 @@ namespace iRIS_CLM_GUI_TEST_05
 
                 for (double startRpLp = startRp; startRpLp <= stopRp; startRpLp = startRpLp + stepRp)
                 {
-                    bool rampDAC1task = await RampExtPcon(startRpLp, true);
+                    bool rampDAC1task = await RampExtPcon(startRpLp, true); //calls the DAC PCON Method
                     if (rampDAC1task == false) { break; }
                     else if (rampDAC1task == true) { continue; }
                 }
@@ -1619,7 +1619,7 @@ namespace iRIS_CLM_GUI_TEST_05
             else if (invertedRamp == true) {//inverted ramp 5V-0V
                 for (double startRpLp = startRp; startRpLp >= stopRp; startRpLp = startRpLp - stepRp)
                 {
-                    bool rampDAC1task = await RampExtPcon(startRpLp, true);
+                    bool rampDAC1task = await RampExtPcon(startRpLp, true);//calls the DAC PCON Method
                     if (rampDAC1task == false) { break; }
                     else if (rampDAC1task == true) { continue; }
                 }
@@ -1628,7 +1628,7 @@ namespace iRIS_CLM_GUI_TEST_05
             return true;
         }
         //======================================================================
-        private async Task<bool> RampExtPcon(double extDacValue, bool readAll)
+        private async Task<bool> RampExtPcon(double extDacValue, bool readAll) //DAC PCON Method
         {
             WriteDAC(extDacValue, 0);//update Pcon DAC
 
@@ -1636,12 +1636,7 @@ namespace iRIS_CLM_GUI_TEST_05
 
             if (readAll == true)
             {
-                dataADC[arrIndex, 0] = Convert.ToDouble(Lbl_PM100rd.Text)*10;
-                dataADC[arrIndex, 1] = Convert.ToDouble(lbl_LaserPD.Text);
-                dataADC[arrIndex, 2] = Convert.ToDouble(lbl_ADCpconRd.Text);
-                dataADC[arrIndex, 3] = Convert.ToDouble(Lbl_Viout.Text);
-                dataADC[arrIndex, 4] = Convert.ToDouble(Lbl_Vpcon.Text);
-
+                rampDAC1task = await LoadArray(arrIndex);
                 arrIndex++;
             }
 
@@ -1663,13 +1658,11 @@ namespace iRIS_CLM_GUI_TEST_05
 
                     if (rampDAC1task == false) { rampState = false; }
 
-                    if (rdIntADC == true) {
-                        dataADC[arrIndex, 0] = Convert.ToDouble(Lbl_PM100rd.Text) * 10; ;
-                        dataADC[arrIndex, 1] = Convert.ToDouble(lbl_LaserPD.Text);
-                        dataADC[arrIndex, 2] = Convert.ToDouble(lbl_ADCpconRd.Text);
-                        dataADC[arrIndex, 3] = Convert.ToDouble(Lbl_Viout.Text);
-                        dataADC[arrIndex, 4] = Convert.ToDouble(Lbl_Vpcon.Text);
-                        arrIndex++; }
+                    if (rdIntADC == true)
+                    {
+                        rampDAC1task = await LoadArray(arrIndex);    
+                        arrIndex++;
+                    }
                 }
             }
 
@@ -1684,11 +1677,7 @@ namespace iRIS_CLM_GUI_TEST_05
 
                     if (rdIntADC == true)
                     {
-                        dataADC[arrIndex, 0] = Convert.ToDouble(Lbl_PM100rd.Text) * 10; ;
-                        dataADC[arrIndex, 1] = Convert.ToDouble(lbl_LaserPD.Text);
-                        dataADC[arrIndex, 2] = Convert.ToDouble(lbl_ADCpconRd.Text);
-                        dataADC[arrIndex, 3] = Convert.ToDouble(Lbl_Viout.Text);
-                        dataADC[arrIndex, 4] = Convert.ToDouble(Lbl_Vpcon.Text);
+                        rampDAC1task = await LoadArray(arrIndex);
                         arrIndex++;
                     }
                 }
@@ -1715,11 +1704,7 @@ namespace iRIS_CLM_GUI_TEST_05
                     double pm100Res = Convert.ToDouble(Lbl_PM100rd.Text);//mW from Analog read
                     if (rdIntADC == true)
                     {
-                        dataADC[arrIndex, 0] = pm100Res * 10;
-                        dataADC[arrIndex, 1] = Convert.ToDouble(lbl_LaserPD.Text);
-                        dataADC[arrIndex, 2] = Convert.ToDouble(lbl_ADCpconRd.Text);
-                        dataADC[arrIndex, 3] = Convert.ToDouble(Lbl_Viout.Text);
-                        dataADC[arrIndex, 4] = Convert.ToDouble(Lbl_Vpcon.Text);
+                        rampDAC1task = await LoadArray(arrIndex);
                         arrIndex++;
                     }
 
@@ -1731,37 +1716,40 @@ namespace iRIS_CLM_GUI_TEST_05
             return rampState;
         }
         //======================================================================
-        private async Task<bool> RampDACint(double startRp, double stopRp, double stepRp, bool rdIntADC)//can be simplified
-        {
+        private async Task<bool> RampDACintern(double startRp, double stopRp, double stepRp, bool rdIntADC) {//internal ramp setup
             string intPwVolt = string.Empty;
             bool rmpInt = false;
-            bool rampState = false;
             arrIndex = 0;
+            stopLoop = false;
 
-            rmpInt = await SendToSerial(CmdSetInOutPwCtrl, StrEnable, 300, 9);//set internal power
-
-            for (double startRpLp = startRp; (startRpLp <= stopRp) && (stopLoop == false); startRpLp = startRpLp + stepRp) {//in volts
-
+            for (double startRpLp = startRp; (startRpLp <= stopRp) && (stopLoop == false); startRpLp = startRpLp + stepRp)// values in volts
+            {
                 intPwVolt = startRpLp.ToString("00.000");
                 tb_SetIntPw.Text = intPwVolt;
                 rmpInt = await SendToSerial(CmdSetPwCtrlOut, intPwVolt, 300, 9);
                 rmpInt = await ReadAllanlg(rdIntADC);
 
-                if (rdIntADC == true) {
-                    dataADC[arrIndex, 0] = Convert.ToDouble(Lbl_PM100rd.Text)*10;
-                    dataADC[arrIndex, 1] = Convert.ToDouble(lbl_LaserPD.Text);
-                    dataADC[arrIndex, 2] = Convert.ToDouble(Lbl_RtnPwDACvalue.Text);
-                    dataADC[arrIndex, 3] = Convert.ToDouble(Lbl_Viout.Text);
-                    dataADC[arrIndex, 4] = Convert.ToDouble(Lbl_Vpcon.Text);
-                    arrIndex++; }
+                if (rdIntADC == true)
+                {
+                    rmpInt = await LoadArray(arrIndex);
+                    arrIndex++;
+                }
             }
-
-            rmpInt = await SendToSerial(CmdSetInOutPwCtrl, StrDisable, 300, 9);//externa power control
-
-            if(stopLoop == true) { rampState = false; }
-            else if (stopLoop == false) { rampState = true; }
-            return rampState;
+            return stopLoop;//global emergency stop event stop
         }
+        //======================================================================
+        private async Task<bool> LoadArray(int arrIndex)
+        {
+            dataADC[arrIndex, 0] = Convert.ToDouble(Lbl_PM100rd.Text) * 10;
+            dataADC[arrIndex, 1] = Convert.ToDouble(lbl_LaserPD.Text);
+            dataADC[arrIndex, 2] = Convert.ToDouble(lbl_ADCpconRd.Text);
+            dataADC[arrIndex, 3] = Convert.ToDouble(Lbl_Viout.Text);
+            dataADC[arrIndex, 4] = Convert.ToDouble(Lbl_Vpcon.Text);
+            dataADC[arrIndex, 5] = Convert.ToDouble(Lbl_RtnPwDACvalue.Text);
+            await Task.Delay(1);
+            return true;
+        }
+        //======================================================================
         //======================================================================
         private async Task<bool> ReadAllanlg(bool fullRd) {//reads all data
 
@@ -2202,10 +2190,10 @@ namespace iRIS_CLM_GUI_TEST_05
 
             this.Cursor = Cursors.WaitCursor;
 
-            Set_USB_Digit_Out(0, 1);                                        //Enable laser  
-            pdCalTask = await SendToSerial(CmdLaserEnable, StrEnable, 300, 9); // 
+            Set_USB_Digit_Out(0, 1);                                            //Enable laser  
+            pdCalTask = await SendToSerial(CmdLaserEnable, StrEnable, 300, 9);  // 
 
-            pdCalTask = await RampDACLI(startRp, stopRp, stepRp, true, false);//external PCON
+            pdCalTask = await RampDACLI(startRp, stopRp, stepRp, true, false);  //external PCON
 
             WriteDAC(0, 0);
             Set_USB_Digit_Out(0, 0);                    
@@ -2710,9 +2698,9 @@ namespace iRIS_CLM_GUI_TEST_05
             return true;
         }
         //======================================================================
-        private void Bt_SetIntPwCal_Click(object sender, EventArgs e) { Task<bool> calIntPw = CalIntPwSet(); }
+        private void Bt_SetIntPwCal_Click(object sender, EventArgs e) { Task<bool> calIntPw = CalIntPwSetCal(); }
         //======================================================================
-        private async Task<bool> CalIntPwSet()
+        private async Task<bool> CalIntPwSetCal()
         {
             if (Bt_SetIntPwCal.BackColor == Color.Coral) {
 
@@ -2725,19 +2713,23 @@ namespace iRIS_CLM_GUI_TEST_05
 
                 this.Cursor = Cursors.WaitCursor;
 
-                Set_USB_Digit_Out(0, 1);                                            //Enable laser  
-                pdCalTask = await SendToSerial(CmdLaserEnable, StrEnable, 300, 9);  // 
+                pdCalTask = await SendToSerial(CmdTestMode, StrEnable, 300, 9);//set test mode
+                pdCalTask = await SendToSerial(CmdSetInOutPwCtrl, StrEnable, 300, 9);//set internal power
 
-                pdCalTask = await RampDACint(startRp, stopRp, stepRp, true);
+                Set_USB_Digit_Out(0, 1); //Enable laser  
+                pdCalTask = await SendToSerial(CmdLaserEnable, StrEnable, 300, 9);// 
 
-                Set_USB_Digit_Out(0, 0);
+                pdCalTask = await RampDACintern(startRp, stopRp, stepRp, true);
+
+                Set_USB_Digit_Out(0, 0);//laser diseable
                 pdCalTask = await SendToSerial(CmdLaserEnable, StrDisable, 300, 9);
+
                 tb_SetIntPw.Text = "02.500";
-                pdCalTask = await SendToSerial(CmdSetPwCtrlOut, tb_SetIntPw.Text, 300, 9);
+                pdCalTask = await SendToSerial(CmdSetPwCtrlOut, tb_SetIntPw.Text, 300, 9);//reset int PCON
                 pdCalTask = await ReadAllanlg(false);
                 pdCalTask = await LoadGlobalTestArray(analogRead);//refresh/reset labels 
 
-                abResults = FindLinearLeastSquaresFit(dataADC, 0, arrIndex1, 0, 2);
+                abResults = FindLinearLeastSquaresFit(dataADC, 0, arrIndex1, 0, 5);//PM100 and Returned ADC value
 
                 Tb_CalAcmdToPw.Text = (abResults[0]).ToString("00000.0000");
                 Tb_CalBcmdToPw.Text = (abResults[1]).ToString("00000.0000");
@@ -2745,13 +2737,11 @@ namespace iRIS_CLM_GUI_TEST_05
                 Bt_SetIntPwCal.BackColor = Color.LawnGreen;
                 this.Cursor = Cursors.Default;
             }
-
             else if (Bt_SetIntPwCal.BackColor == Color.LawnGreen)
             {
                 MessageBox.Show("restart calibration");
                 Bt_SetIntPwCal.BackColor = Color.Coral; ;
             }
-
             return true;
         }
         //======================================================================
@@ -3101,7 +3091,7 @@ namespace iRIS_CLM_GUI_TEST_05
                         Bt_BasePltTempComp.Enabled = false;
                         Bt_IntExtPw.Enabled = false;
                         Bt_FinalLsSetup.Enabled = false;
-                        Bt_SetIntPwCal.Enabled = false;
+                        //Bt_SetIntPwCal.Enabled = false;
                         Tb_LaserPN.Enabled = false;
                         Tb_WorkOrder.Enabled = false;
 
@@ -3768,22 +3758,7 @@ namespace iRIS_CLM_GUI_TEST_05
             return true;
         }
         //======================================================================
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
 
 
 
