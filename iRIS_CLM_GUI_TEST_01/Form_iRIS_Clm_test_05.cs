@@ -1634,8 +1634,6 @@ namespace iRIS_CLM_GUI_TEST_05
             //Here non inverted ramp startRp = 0V; stopRp = 5v; stepRp 0.020;
             if (startRp < stopRp) {
 
-                MessageBox.Show("Ramp Non Inv");
-
                 for (double startRpLp = startRp; (startRpLp <= stopRp) && (stopLoop == false); startRpLp = startRpLp + stepRp)
                 {
                     WriteDAC(startRpLp, 0);
@@ -1649,8 +1647,6 @@ namespace iRIS_CLM_GUI_TEST_05
 
             //Here inverted ramp startRp = 5V; stopRp = 0v; stepRp 0.020;
             if (startRp > stopRp) {
-
-                MessageBox.Show("Ramp Inv");
 
                 for (double startRpLp = startRp; (startRpLp >= stopRp) && (stopLoop == false); startRpLp = startRpLp - stepRp)
                 {
@@ -1948,12 +1944,14 @@ namespace iRIS_CLM_GUI_TEST_05
             {
                 MessageBox.Show("PCON 0V to 5V");
                 Prg_Bar01.Maximum = 120;
+
                 #region set some variable
                 const double stopRp = 5.000;
                 const double pwThresholdVolt = 0.550;
                 const double thresholdOffsetAdj = 0.500;
                 const double startRp = 0.000;
                 const double stepRp = 0.020;//value 0.01..0.05..
+                double onePerctPower = (Convert.ToDouble(Tb_NomPw.Text)) / 1000;
                 double calPower = 0;
                 double setOffSet = 0;
                 double setPower = Convert.ToDouble(Tb_minMaxPw.Text);
@@ -1961,18 +1959,18 @@ namespace iRIS_CLM_GUI_TEST_05
                 string Pw_Pcon_055V = string.Empty;
                 string Pw_Pcon_500V = string.Empty;
                 string Pw_EnOff = string.Empty;
-                string Pw_05vPCON = string.Empty;
+                string Pw_Thres_PCON = string.Empty;
                 string offset = string.Empty;
                 bool initvga = false;
                 bool boolCalVGA1 = false;
                 bool goodOffset = false;
-                stopLoop = false;//can run loop
                 int vgaVal = 20;
                 #endregion set some variable
 
+                stopLoop = false;//can run loop
                 this.Cursor = Cursors.WaitCursor;
-                #region init and load test
 
+                #region init and load test
                 initvga = await LoadGlobalTestArray(bulkSetLaserIO);
                 Prg_Bar01.Increment(10);
                 initvga = await LoadGlobalTestArray(bulkSetVga);
@@ -2090,12 +2088,13 @@ namespace iRIS_CLM_GUI_TEST_05
                     Pw_Pcon_0V = Lbl_PM100rd.Text;
                     Prg_Bar01.Increment(10);
 
-                    bool rampdac11 = await RampDAC1toPower(00.050, 0.450, 00.700, 0.005, false);//adjust PCON to MAX power
+                    //adjust PCON to MAX power alway same start and stop for non inv. PCON
+                    bool rampdac11 = await RampDAC1toPower(onePerctPower, 0.450, 00.700, 0.005, false);
                     initvga = await ReadAllanlg(false);
-                    Pw_05vPCON = Lbl_Vpcon.Text;
+                    Pw_Thres_PCON = Lbl_Vpcon.Text;
                     Prg_Bar01.Increment(10);
 
-                    WriteDAC(stopRp, 0);
+                    WriteDAC(startRp, 0);
                     Set_USB_Digit_Out(0, 0); //Laser Disable
                     await Task.Delay(300);
                     initvga = await ReadAllanlg(false);
@@ -2141,12 +2140,12 @@ namespace iRIS_CLM_GUI_TEST_05
                                 fs.WriteLine("Power @ 5V Pcon: " + Pw_Pcon_500V);
                                 fs.WriteLine("Power @ 0V Pcon: " + Pw_Pcon_0V);
                                 fs.WriteLine("Power @ Enable Off: " + Pw_EnOff);
-                                fs.WriteLine("PCON Voltage @ 0.1% power: " + Pw_05vPCON);
+                                fs.WriteLine("PCON Voltage @ 0.1% power: " + Pw_Thres_PCON);
                             }
                             dataSet1[0] = Convert.ToDouble(Pw_Pcon_500V) ;
                             dataSet1[1] = Convert.ToDouble(Pw_Pcon_0V);
                             dataSet1[2] = Convert.ToDouble(Pw_EnOff);
-                            dataSet1[3] = Convert.ToDouble(Pw_05vPCON);
+                            dataSet1[3] = Convert.ToDouble(Pw_Thres_PCON);
                         }
                     }
                     catch (Exception err1) { MessageBox.Show(err1.Message); }
@@ -2180,6 +2179,8 @@ namespace iRIS_CLM_GUI_TEST_05
             if (Bt_CalVGA.BackColor == Color.Coral)
             {
                 MessageBox.Show("PCON 5V to 0V");
+                Prg_Bar01.Maximum = 120;
+
                 #region set some variable
                 const double stopRp = 0.000;
                 const double pwThresholdVolt = 4.450;
@@ -2191,7 +2192,7 @@ namespace iRIS_CLM_GUI_TEST_05
                 double setOffSet = 0;
                 double setPower = Convert.ToDouble(Tb_minMaxPw.Text);
 
-                string Pw_Pcon_5V = string.Empty;//minimum power
+                string Pw_Pcon_500V = string.Empty;//minimum power
                 string Pw_Pcon_450V = string.Empty;//laser threshold
                 string Pw_Pcon_445V = string.Empty;//1% power
                 string Pw_Pcon_0V = string.Empty;
@@ -2208,12 +2209,11 @@ namespace iRIS_CLM_GUI_TEST_05
                 bool boolCalVGA1 = false;
                 bool goodOffset = false;
                 int vgaVal = 20;
-                Prg_Bar01.Maximum = 120;
                 #endregion set some variable
 
                 stopLoop = false;//can run loop
-
                 this.Cursor = Cursors.WaitCursor;
+
                 //this is configured as inverted digital in (1 / digital line has no action) and non inverted enable (D021 setup)
                 #region init and load test
                 initvga = await LoadGlobalTestArray(bulkSetLaserIO);//
@@ -2224,17 +2224,11 @@ namespace iRIS_CLM_GUI_TEST_05
                 initvga = await SendToSerial(CmdAnalgInpt, StrEnable, 300, 9);//Inv. PCON
                 Prg_Bar01.Increment(10);
 
-                MessageBox.Show("VGA Cal 1 All set");
-
                 Set_USB_Digit_Out(0, 0);//enable line disable
                 Set_USB_Digit_Out(1, 0);//no effect
-                Tb_VPcon.Text = startRp.ToString();//starting point
+                Tb_VPcon.Text = startRp.ToString("00.000");//starting point
                 WriteDAC(startRp, 0);//start ramp point
-
                 #endregion init and load test
-
-                MessageBox.Show("VGA Cal 2 DAC on");
-
 
                 if ((Convert.ToBoolean(Read_USB_Digit_in(2)) == true) && (stopLoop == false)) //Laser OK //test
                 {
@@ -2340,10 +2334,11 @@ namespace iRIS_CLM_GUI_TEST_05
                     WriteDAC(startRp, 0);//5V
                     await Task.Delay(300);
                     initvga = await ReadAllanlg(false);
-                    Pw_Pcon_5V = Lbl_PM100rd.Text;
+                    Pw_Pcon_500V = Lbl_PM100rd.Text;
                     Prg_Bar01.Increment(10);
 
-                bool rampdac11 = await RampDAC1toPowerInv(onePerctPower, 4.650, 4.400, 0.005, false);//adjust PCON for MIN power
+                    //adjust PCON to MAX power alway same start and stop for Inv. PCON
+                    bool rampdac11 = await RampDAC1toPowerInv(onePerctPower, 4.650, 4.400, 0.005, false);//adjust PCON for MIN power
                     initvga = await ReadAllanlg(false);
                     Pw_Thres_PCON = Lbl_Vpcon.Text;
                     Prg_Bar01.Increment(10);
@@ -2392,13 +2387,13 @@ namespace iRIS_CLM_GUI_TEST_05
                                 fs.WriteLine("Set Add.: " + lbl_RdAdd.Text);
                                 fs.WriteLine("VGA value: " + Lbl_VGAval.Text);
                                 fs.WriteLine("Offset value: " + Tb_SetOffset.Text);
-                                fs.WriteLine("Power @ 5V Pcon: " + Pw_Pcon_5V);
+                                fs.WriteLine("Power @ 5V Pcon: " + Pw_Pcon_500V);
                                 fs.WriteLine("Power @ 0V Pcon: " + Pw_Pcon_0V);
                                 fs.WriteLine("Power @ Enable Off: " + Pw_EnOff);
                                 fs.WriteLine("PCON Voltage @ 0.1% power: " + Pw_Thres_PCON);
                             }
                             dataSet1[0] = Convert.ToDouble(Pw_Pcon_0V);//max power
-                            dataSet1[1] = Convert.ToDouble(Pw_Pcon_5V);//min power
+                            dataSet1[1] = Convert.ToDouble(Pw_Pcon_500V);//min power
                             dataSet1[2] = Convert.ToDouble(Pw_EnOff);
                             dataSet1[3] = Convert.ToDouble(Pw_Thres_PCON);
                         }
@@ -2422,7 +2417,6 @@ namespace iRIS_CLM_GUI_TEST_05
                     this.Cursor = Cursors.Default;
                 }
             }
-
             else if (Bt_CalVGA.BackColor == Color.LawnGreen)
             {
                 Bt_CalVGA.BackColor = Color.Coral;
