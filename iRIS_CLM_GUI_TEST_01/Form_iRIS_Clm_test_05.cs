@@ -1634,6 +1634,8 @@ namespace iRIS_CLM_GUI_TEST_05
             //Here non inverted ramp startRp = 0V; stopRp = 5v; stepRp 0.020;
             if (startRp < stopRp) {
 
+                MessageBox.Show("Ramp Non Inv");
+
                 for (double startRpLp = startRp; (startRpLp <= stopRp) && (stopLoop == false); startRpLp = startRpLp + stepRp)
                 {
                     WriteDAC(startRpLp, 0);
@@ -1647,6 +1649,8 @@ namespace iRIS_CLM_GUI_TEST_05
 
             //Here inverted ramp startRp = 5V; stopRp = 0v; stepRp 0.020;
             if (startRp > stopRp) {
+
+                MessageBox.Show("Ramp Inv");
 
                 for (double startRpLp = startRp; (startRpLp >= stopRp) && (stopLoop == false); startRpLp = startRpLp - stepRp)
                 {
@@ -1873,17 +1877,19 @@ namespace iRIS_CLM_GUI_TEST_05
                     Prg_Bar01.Increment(10);
                     bool test2 = await CreateRepFile();//generate new .txt file
                     Prg_Bar01.Increment(10);
+
                     test2 = await LoadGlobalTestArray(bulkSetLaserIO);
                     Prg_Bar01.Increment(10);
                     test2 = await LoadGlobalTestArray(bulkSetTEC);
                     Prg_Bar01.Increment(10);
                     test2 = await LoadGlobalTestArray(bulkSetVarialble);
                     Prg_Bar01.Increment(10);
+
                     test2 = await SendToSerial(CmdRdCustomerPm, StrDisable, 300, 9);
                     test2 = await SendToSerial(CmdRdFirmware, StrDisable, 300, 9);
                     test2 = await SendToSerial(CmdRdSerialNo, StrDisable, 300, 9);
                     test2 = await LoadGlobalTestArray(analogRead2);//added 10-04-2018
-
+                    
                     test2 = await SetUsbInterface();
                     test2 = await PM100Button();
 
@@ -1922,13 +1928,11 @@ namespace iRIS_CLM_GUI_TEST_05
             if ((USB_Port_Open == true) && (boardFound == true)) {
 
                 if (ChkBx_AnlgModSet.Checked == false || ChkBx_IntPwCtrl.Checked == true) // non inverted PCON or Internal PCON
-                    {//non inverted valid for internal PCON
-                        MessageBox.Show("PCON 0V to 5V");
+                    {
                         Task<bool> calvga = CalVGA_0_5V();
                     }
                 else if (ChkBx_AnlgModSet.Checked == true) //inverted PCON
                     {
-                        MessageBox.Show("PCON 5V to 0V");
                         Task<bool> calvga = CalVGA_5V_0();
                     }
 
@@ -1942,6 +1946,7 @@ namespace iRIS_CLM_GUI_TEST_05
         {
             if (Bt_CalVGA.BackColor == Color.Coral)
             {
+                MessageBox.Show("PCON 0V to 5V");
                 Prg_Bar01.Maximum = 120;
                 #region set some variable
                 const double stopRp = 5.000;
@@ -1973,6 +1978,7 @@ namespace iRIS_CLM_GUI_TEST_05
                 initvga = await LoadGlobalTestArray(bulkSetVga);
                 initvga = await SendToSerial(CmdSetVgaGain, Tb_VGASet.Text, 300, 9);//default initial VGA gain 20
                 initvga = await SendToSerial(CmdSetOffstVolt, Tb_SetOffset.Text, 300, 9);//sefault initial offset 2.500V
+                initvga = await SendToSerial(CmdAnalgInpt, StrDisable, 300, 9);//Non Inv. PCON
                 Prg_Bar01.Increment(10);
                 Set_USB_Digit_Out(0, 0);//enable line
                 Set_USB_Digit_Out(1, 0);//
@@ -2173,7 +2179,7 @@ namespace iRIS_CLM_GUI_TEST_05
         {
             if (Bt_CalVGA.BackColor == Color.Coral)
             {
-
+                MessageBox.Show("PCON 5V to 0V");
                 #region set some variable
                 const double stopRp = 0.000;
                 const double pwThresholdVolt = 4.450;
@@ -2215,7 +2221,10 @@ namespace iRIS_CLM_GUI_TEST_05
                 initvga = await LoadGlobalTestArray(bulkSetVga);//
                 initvga = await SendToSerial(CmdSetVgaGain, Tb_VGASet.Text, 300, 9);//default initial VGA gain 20
                 initvga = await SendToSerial(CmdSetOffstVolt, Tb_SetOffset.Text, 300, 9);//sefault initial offset 2.500V
+                initvga = await SendToSerial(CmdAnalgInpt, StrEnable, 300, 9);//Inv. PCON
                 Prg_Bar01.Increment(10);
+
+                MessageBox.Show("VGA Cal 1 All set");
 
                 Set_USB_Digit_Out(0, 0);//enable line disable
                 Set_USB_Digit_Out(1, 0);//no effect
@@ -2223,6 +2232,9 @@ namespace iRIS_CLM_GUI_TEST_05
                 WriteDAC(startRp, 0);//start ramp point
 
                 #endregion init and load test
+
+                MessageBox.Show("VGA Cal 2 DAC on");
+
 
                 if ((Convert.ToBoolean(Read_USB_Digit_in(2)) == true) && (stopLoop == false)) //Laser OK //test
                 {
@@ -2331,7 +2343,7 @@ namespace iRIS_CLM_GUI_TEST_05
                     Pw_Pcon_5V = Lbl_PM100rd.Text;
                     Prg_Bar01.Increment(10);
 
-                    bool rampdac11 = await RampDAC1toPower(onePerctPower, 4.650, 4.400, 0.005, false);//adjust PCON for MIN power
+                bool rampdac11 = await RampDAC1toPowerInv(onePerctPower, 4.650, 4.400, 0.005, false);//adjust PCON for MIN power
                     initvga = await ReadAllanlg(false);
                     Pw_Thres_PCON = Lbl_Vpcon.Text;
                     Prg_Bar01.Increment(10);
@@ -2886,7 +2898,7 @@ namespace iRIS_CLM_GUI_TEST_05
 
                     }
 
-                    else if (ChkBx_IntPwCtrl.Checked == false) //external PCON 0V or 5V -- I/O set in bulkSetVga sequence 
+                    else if (ChkBx_IntPwCtrl.Checked == false) //external PCON 0V or 5V -- 
                     {
                         setPwCheck = await SendToSerial(CmdTestMode, StrEnable, 300, 9); //test mode
                         setPwCheck = await SendToSerial(CmdSetInOutPwCtrl, StrDisable, 300, 9); //External Pw Ctrl in 1/10mW
@@ -3035,8 +3047,7 @@ namespace iRIS_CLM_GUI_TEST_05
             {
             bool setCompT =     await SendToSerial(CmdSetBaseTempCal, "0000", 300, 9);                      //set init comp to 0000 remember to reset for next init.
             setCompT =          await SendToSerial(CmdRdBplateTemp, StrDisable, 300, 9);                    //read initial value
-            
-            //double measTemp =  ReadExtTemp();                                                               //get user temp //wait
+                                                             //get user temp //wait
             double measTemp = ReadExtTempLM35();//if LM35 implemented
             double tempComp1 = (Convert.ToDouble(Lbl_TempBplt.Text) - measTemp)*10;
             setCompT = await SendToSerial(CmdSetBaseTempCal, tempComp1.ToString("0000"), 300, 9);           //set init comp to 0000 remember to reset for next init.
@@ -3566,15 +3577,23 @@ namespace iRIS_CLM_GUI_TEST_05
             { CmdLaserEnable,       StrEnable  },
             { CmdTestMode,          StrDisable } };
             //=================================================
+            /*
             bulkSetVga = new string[6, 2] {
             { CmdLaserEnable,       StrDisable },
             { CmdTestMode,          StrEnable  },
-            { CmdAnalgInpt,         StrDisable },     //Non Inv. PCON
+            { CmdAnalgInpt,         StrDisable },     //Non Inv. PCON //renoved V5.00.. set in method
             { CmdEnablLogicvIn,     StrDisable },     //Non Inv. Laser Enable
-            { CmdsetTTL,            StrEnable },      //Inv. TTL line in
+            { CmdsetTTL,            StrEnable  },      //Inv. TTL line in
             { CmdSetInOutPwCtrl,    StrDisable } };   //external PCON 
-            //=================================================
-            analogRead = new string[4, 2] {//read analog inputs
+            */
+            bulkSetVga = new string[5, 2] {
+            { CmdLaserEnable,       StrDisable },
+            { CmdTestMode,          StrEnable  },
+            { CmdEnablLogicvIn,     StrDisable },     //Non Inv. Laser Enable
+            { CmdsetTTL,            StrEnable  },     //Inv. TTL line in
+            { CmdSetInOutPwCtrl,    StrDisable }};    //external PCON 
+             //=================================================
+        analogRead = new string[4, 2] {//read analog inputs
             { CmdTestMode,          StrEnable },
             { CmdRdLaserPow,       StrDisable },
             { CmdRdPwSetPcon,       StrDisable },
