@@ -1052,7 +1052,6 @@ namespace iRIS_CLM_GUI_TEST_05
                 usbadd1 = await CheckLaserType();
                 usbadd1 = await SetLaserType(laserType);
             }
-
             else if (ChkBx_PnOrSn.Checked == false)//search by SN
             {
                 if (vGood2 = LoadCurAndPwLimits() == true)  //Current and Power values OK...
@@ -1063,7 +1062,7 @@ namespace iRIS_CLM_GUI_TEST_05
 
                     usbadd1 = await SendToSerial(CmdRdSerialNo, StrDisable, 600, 14);
                     usbadd1 = await SendToSerial(CmdRdFirmware, StrDisable, 600, 14);
-                    Lbl_WaveLg.Text = Tb_Wavelength.Text;
+                    //Lbl_WaveLg.Text = Tb_Wavelength.Text;
 
                     usbadd1 = await SendToSerial(CmdTestMode, StrEnable, 300, 9);
                     usbadd1 = await SendToSerial(CmdRdCustomerPm, StrDisable, 300, 9);
@@ -1072,11 +1071,9 @@ namespace iRIS_CLM_GUI_TEST_05
                     usbadd1 = await SendToSerial(CmdOperatingHr, StrDisable, 600, 9); //read timer
 
                     if (Lbl_LasAssySnRb.Text.Contains(Tb_LaserSerNb.Text) == false) { MessageBox.Show("Laser Serial Number not matching"); }
-                    else
-                    {
-                    usbadd1 = await SetUsbInterface();
-                    usbadd1 = await PM100Button();
-                    }
+                    else {
+                        if (Bt_USBinterf.BackColor == Color.Coral) {usbadd1 = await SetUsbInterface(); }//not connected
+                        if (Bt_PM100.BackColor  == Color.Coral) {usbadd1 = await PM100Button(); }   }
                 }
             }
             return true;
@@ -1373,9 +1370,7 @@ namespace iRIS_CLM_GUI_TEST_05
 
                 if (rsrc != 0)
                 {
-                    //MessageBox.Show("Thorlab resources " + Convert.ToString(rsrc));
-                    //Int16 rdWavelgth = Convert.ToInt16(Tb_Wavelength.Text);
-                    if (int.TryParse(Tb_Wavelength.Text, out int rdWavelgth32) == true)
+                if (int.TryParse(Tb_Wavelength.Text, out int rdWavelgth32) == true)
                     {
                         Int16 rdWavelgth = Convert.ToInt16(rdWavelgth32);
 
@@ -1488,7 +1483,8 @@ namespace iRIS_CLM_GUI_TEST_05
                 MccDaq.DaqDeviceManager.ReleaseDaqDevice(DaqBoard);
                 boardFound = false;
                 Bt_USBinterf.BackColor = Color.Coral;
-                Bt_USBinterf.Text = "USB Interface Connect"; }
+                Bt_USBinterf.Text = "USB Interface Connect";
+                Tb_LaserOK.BackColor = Color.Red; }
 
             await Task.Delay(1);
             return true;
@@ -1622,6 +1618,7 @@ namespace iRIS_CLM_GUI_TEST_05
             }
 
             if (stopLoop == true) { rtnRamp = false; }//user stop
+            //WriteDAC(startRp, 0);
             return rtnRamp;//good or system error            
         }
         //======================================================================
@@ -1659,47 +1656,18 @@ namespace iRIS_CLM_GUI_TEST_05
             }
 
             if (stopLoop == true) { rampState = false; }
+            //WriteDAC(startRp, 0); stays on for cal
             return rampState;
         }
         //======================================================================
-        /*
         private async Task<bool> RampDAC1toPower(double toPower, double startRp, double stopRp, double stepRp, bool rdIntADC)//external PCON can be simplified
         {
             bool rampDAC1task = false;
             bool rampState = false;
             arrIndex = 0;
 
-            for (double startRpLp = startRp; (startRpLp <= stopRp) && (stopLoop == false); startRpLp = startRpLp + stepRp)
+            if (startRp < stopRp) //ramp up
             {
-                WriteDAC(startRpLp, 0);
-                rampDAC1task = await ReadAllanlg(rdIntADC);//displays current in bits //check for overcurrent
-                if (rampDAC1task == false) { rampState = false; } // current error
-                else
-                {
-                    double pm100Res = Convert.ToDouble(Lbl_PM100rd.Text);//mW from Analog read
-
-                    if (rdIntADC == true)//read all
-                    {
-                        rampDAC1task = await LoadArray(arrIndex);
-                        arrIndex++;
-                    }
-
-                    if (pm100Res >= toPower) { return true; }
-                }
-            }
-            if (stopLoop == true) { rampState = false; }
-            else if (stopLoop == false) { rampState = true; }
-            return rampState;
-        }
-        */
-        private async Task<bool> RampDAC1toPower(double toPower, double startRp, double stopRp, double stepRp, bool rdIntADC)//external PCON can be simplified
-        {
-            bool rampDAC1task = false;
-            bool rampState = false;
-            arrIndex = 0;
-
-            if (startRp < stopRp)
-            {//ramp up
                 for (double startRpLp = startRp; (startRpLp <= stopRp) && (stopLoop == false); startRpLp = startRpLp + stepRp)
                 {
                     WriteDAC(startRpLp, 0);
@@ -1720,8 +1688,8 @@ namespace iRIS_CLM_GUI_TEST_05
                 }
             }
 
-            if (startRp > stopRp)
-            {//ramp down
+            if (startRp > stopRp)//ramp down
+            {
                 for (double startRpLp = startRp; (startRpLp >= stopRp) && (stopLoop == false); startRpLp = startRpLp - stepRp)
                 {
                     WriteDAC(startRpLp, 0);
@@ -1744,6 +1712,8 @@ namespace iRIS_CLM_GUI_TEST_05
 
             if (stopLoop == true) { rampState = false; }
             else if (stopLoop == false) { rampState = true; }
+
+            //WriteDAC(startRp, 0);
             return rampState;
         }
         //======================================================================
@@ -1766,6 +1736,9 @@ namespace iRIS_CLM_GUI_TEST_05
                     arrIndex++;
                 }
             }
+            //intPwVolt = startRp.ToString("00.000");
+            //tb_SetIntPw.Text = intPwVolt;//display Int. PCON
+            //rmpInt = await SendToSerial(CmdSetPwCtrlOut, intPwVolt, 300, 9);
             return stopLoop;//global emergency stop event stop
         }
         //======================================================================
@@ -1861,6 +1834,8 @@ namespace iRIS_CLM_GUI_TEST_05
             if (bt_NewTest.BackColor == Color.Coral)
             {
                 bool vGood = false;
+                stopLoop = false;
+
                 Prg_Bar01.Maximum = 60;
 
                 if (vGood = LoadCurAndPwLimits() == true)//Current and Power values OK...
@@ -2759,22 +2734,25 @@ namespace iRIS_CLM_GUI_TEST_05
         //======================================================================
         private async Task<bool> ZeroMaxIPcal()
         {
+            //set all the time
+            stopLoop = false;
+            double pconMin = 0;
+            double pconMax = 0;
+            double stepRp = 0.020;
+            if (ChkBx_AnlgModSet.Checked == true)//inverted ramp
+            {
+                pconMin = 5.000;
+                pconMax = 0.000;
+            }
+            else if (ChkBx_AnlgModSet.Checked == false)//non inverted ramp
+            {
+                pconMin = 0.000;
+                pconMax = 5.000;
+            }
+
             if (Bt_ZroCurr_PMonOutCal.BackColor == Color.Coral)
             {
             this.Cursor = Cursors.WaitCursor;
-
-                double pconMin = 0;
-                double pconMax = 0;
-                double stepRp = 0.020;
-
-                if (ChkBx_AnlgModSet.Checked == true) {
-                    pconMin = 5.000;
-                    pconMax = 0.000;
-                }
-                else if (ChkBx_AnlgModSet.Checked == false) {
-                    pconMin = 0.000;
-                    pconMax = 5.000;
-                }
 
                 bool sendzrcal = await ZerroCurrent(pconMin);
                 Prg_Bar01.Increment(10);
@@ -2794,7 +2772,7 @@ namespace iRIS_CLM_GUI_TEST_05
                 return true;
         }
         //======================================================================
-        private async Task<bool> ZerroCurrent(double zerroCurr)
+        private async Task<bool> ZerroCurrent(double zerroCurr)//correct Imon offset
         {
             WriteDAC(zerroCurr, 0);//current at Pcon zerro power 
             Set_USB_Digit_Out(0, 1);//Laser ON
@@ -2827,8 +2805,8 @@ namespace iRIS_CLM_GUI_TEST_05
                 string voutPDmin = string.Empty;
                 string pmonVmax = Tb_PwToVcal.Text;//4V 
 
-                double pmonVmaxDlb = Convert.ToDouble(Tb_PwToVcal.Text);
-                double RatedPw = Convert.ToDouble(Tb_NomPw.Text);//in mW i.e. 50mW
+                double pmonVmaxDlb = Convert.ToDouble(Tb_PwToVcal.Text);//tolerance calculation
+                double RatedPw = Convert.ToDouble(Tb_NomPw.Text);//in mW i.e. 50mW ramp to
 
                 this.Cursor = Cursors.WaitCursor;
 
@@ -2836,22 +2814,21 @@ namespace iRIS_CLM_GUI_TEST_05
 
                 WriteDAC(startRp, 0);
                 sendCalPw = await SendToSerial(CmdLaserEnable, StrEnable, 300, 9);
-                Set_USB_Digit_Out(0, 1);
+                Set_USB_Digit_Out(0, 1);//start ramp
 
-
-                bool rampdac1 = await RampDAC1toPower(RatedPw, startRp, stopRp, stepRp, false);//adjust PCON to NomPw
-
-                if (rampdac1 == false) { return false; }
+                bool rampdac1 = await RampDAC1toPower(RatedPw, startRp, stopRp, stepRp, false);//adjust PCON to NomPw first ramp
+                if (rampdac1 == false) { return false; }//error
+                else {
+                sendCalPw = await SendToSerial(CmdSetPwtoVout, pmonVmax, 600, 9);//set the 4V
+                rampdac1 = await RampDAC1toPower(RatedPw, startRp, stopRp, stepRp, false); }//adjust PCON to NomPw second ramp and save Pmon
+ 
+                if (rampdac1 == false) { return false; }//error
                 else
                 {
-                    sendCalPw = await ReadAllanlg(true);
+                    sendCalPw = await ReadAllanlg(true);//refresh labels and txt boxes
                     iopNomPw =  Lbl_Viout.Text; //current 
                     Prg_Bar01.Increment(10);
-
-                    sendCalPw = await SendToSerial(CmdSetPwtoVout, pmonVmax, 600, 9);//send 4V
                     sendCalPw = await SendToSerial(CmdSetMaxIop, iopNomPw, 600, 9);//save the nominal current for nominal power
-
-                    sendCalPw = await ReadAllanlg(true);
                     voutPDmax = Lbl_PwreadV.Text; //nominal power recorded
                     double pmonRd = Convert.ToDouble(voutPDmax);//check calibration for Pmon
                     if (pmonRd > pmonVmaxDlb + 0.1 || pmonRd < pmonVmaxDlb - 0.1) { MessageBox.Show("Pmon Calibration Error"); }
@@ -2860,6 +2837,7 @@ namespace iRIS_CLM_GUI_TEST_05
                     Set_USB_Digit_Out(0, 0);
                     sendCalPw = await SendToSerial(CmdLaserEnable, StrDisable, 300, 9);
                     sendCalPw = await ReadAllanlg(true);
+
                     /*************************************************/
                     try { if (File.Exists(filePathRep)) { using (StreamWriter fs = File.AppendText(filePathRep)) {
                                 fs.WriteLine("V_Iout mon. converted to mA @ Nominal Power: " + iopNomPw);
@@ -3298,7 +3276,7 @@ namespace iRIS_CLM_GUI_TEST_05
 
                         Lbl_Wlgth1.Text = rdr["Wavelength"].ToString().PadLeft(4, '0').TrimStart('0');
                         Lbl_Wlgth1.ForeColor = Color.Green;
-                        Tb_Wavelength.Text = Lbl_Wlgth1.Text;//first read...
+                        Tb_Wavelength.Text = Lbl_Wlgth1.Text;//first read...ONLY
 
                         Lbl_NomPowerDtbas.Text = rdr["NominalPower"].ToString().PadLeft(5, '0').TrimStart('0');//note power in mw ! and not 1/10mW
                         Tb_NomPw.Text = Lbl_NomPowerDtbas.Text;
