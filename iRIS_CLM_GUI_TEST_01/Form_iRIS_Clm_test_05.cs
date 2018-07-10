@@ -19,7 +19,6 @@ using System.Management;
 //30058_05.01
 //
 //
-
 namespace iRIS_CLM_GUI_TEST_05
 {
     public partial class Form_iRIS_Clm_test_05 : Form
@@ -1663,6 +1662,7 @@ namespace iRIS_CLM_GUI_TEST_05
             return rampState;
         }
         //======================================================================
+        /*
         private async Task<bool> RampDAC1toPower(double toPower, double startRp, double stopRp, double stepRp, bool rdIntADC)//external PCON can be simplified
         {
             bool rampDAC1task = false;
@@ -1691,31 +1691,57 @@ namespace iRIS_CLM_GUI_TEST_05
             else if (stopLoop == false) { rampState = true; }
             return rampState;
         }
-        //======================================================================
-        private async Task<bool> RampDAC1toPowerInv(double toPower, double startRp, double stopRp, double stepRp, bool rdIntADC)//external PCON can be simplified
+        */
+        private async Task<bool> RampDAC1toPower(double toPower, double startRp, double stopRp, double stepRp, bool rdIntADC)//external PCON can be simplified
         {
             bool rampDAC1task = false;
             bool rampState = false;
             arrIndex = 0;
-            //as it is inverted and it is still a PCON voltage for the moment two methods start at 4.800V anf ends at 4.300V for example
-            //          4.800V                      4.300V                                   positive step but substract here          
-            for (double startRpLp = startRp; (startRpLp >= stopRp) && (stopLoop == false); startRpLp = startRpLp - stepRp)
-            {
-                WriteDAC(startRpLp, 0);
-                rampDAC1task = await ReadAllanlg(rdIntADC);//displays current in bits //check for overcurrent
-                if (rampDAC1task == false) { rampState = false; } // current error
-                else
+
+            if (startRp < stopRp)
+            {//ramp up
+                for (double startRpLp = startRp; (startRpLp <= stopRp) && (stopLoop == false); startRpLp = startRpLp + stepRp)
                 {
-                    double pm100Res = Convert.ToDouble(Lbl_PM100rd.Text);//mW from Analog read
-                    if (rdIntADC == true)
+                    WriteDAC(startRpLp, 0);
+                    rampDAC1task = await ReadAllanlg(rdIntADC);//displays current in bits //check for overcurrent
+                    if (rampDAC1task == false) { rampState = false; } // current error
+                    else
                     {
-                        rampDAC1task = await LoadArray(arrIndex);
-                        arrIndex++;
+                        double pm100Res = Convert.ToDouble(Lbl_PM100rd.Text);//mW from Analog read
+
+                        if (rdIntADC == true)//read all
+                        {
+                            rampDAC1task = await LoadArray(arrIndex);
+                            arrIndex++;
+                        }
+
+                        if (pm100Res >= toPower) { return true; }
                     }
-                    //to power threshold power 
-                    if (pm100Res >= toPower) { return true; }
                 }
             }
+
+            if (startRp > stopRp)
+            {//ramp down
+                for (double startRpLp = startRp; (startRpLp >= stopRp) && (stopLoop == false); startRpLp = startRpLp - stepRp)
+                {
+                    WriteDAC(startRpLp, 0);
+                    rampDAC1task = await ReadAllanlg(rdIntADC);//displays current in bits //check for overcurrent
+                    if (rampDAC1task == false) { rampState = false; } // current error
+                    else
+                    {
+                        double pm100Res = Convert.ToDouble(Lbl_PM100rd.Text);//mW from Analog read
+
+                        if (rdIntADC == true)//read all
+                        {
+                            rampDAC1task = await LoadArray(arrIndex);
+                            arrIndex++;
+                        }
+
+                        if (pm100Res >= toPower) { return true; }
+                    }
+                }
+            }
+
             if (stopLoop == true) { rampState = false; }
             else if (stopLoop == false) { rampState = true; }
             return rampState;
@@ -1920,7 +1946,7 @@ namespace iRIS_CLM_GUI_TEST_05
         private void Bt_SetVGA_Click(object sender, EventArgs e) { Task<bool> setVGA = SendToSerial(CmdSetVgaGain, Tb_VGASet.Text, 300, 9); }
         //======================================================================
         private void Bt_CalVGA_Click(object sender, EventArgs e) {
-            //if green stop ramp....
+
             if ((USB_Port_Open == true) && (boardFound == true)) {
 
                 if (ChkBx_AnlgModSet.Checked == false || ChkBx_IntPwCtrl.Checked == true) // non inverted PCON or Internal PCON
@@ -1936,13 +1962,10 @@ namespace iRIS_CLM_GUI_TEST_05
             else MessageBox.Show("USB / IO USB not connected");
            }
         //======================================================================
-        //Passing parameters by reference to an asynchronous method...
-        //======================================================================
         private async Task<bool> CalVGA_0_5V()
         {
             if (Bt_CalVGA.BackColor == Color.Coral)
             {
-                MessageBox.Show("PCON 0V to 5V");
                 Prg_Bar01.Maximum = 120;
 
                 #region set some variable
@@ -2178,7 +2201,6 @@ namespace iRIS_CLM_GUI_TEST_05
         {
             if (Bt_CalVGA.BackColor == Color.Coral)
             {
-                MessageBox.Show("PCON 5V to 0V");
                 Prg_Bar01.Maximum = 120;
 
                 #region set some variable
@@ -2338,7 +2360,7 @@ namespace iRIS_CLM_GUI_TEST_05
                     Prg_Bar01.Increment(10);
 
                     //adjust PCON to MAX power alway same start and stop for Inv. PCON
-                    bool rampdac11 = await RampDAC1toPowerInv(onePerctPower, 4.650, 4.400, 0.005, false);//adjust PCON for MIN power
+                    bool rampdac11 = await RampDAC1toPower(onePerctPower, 4.650, 4.400, 0.005, false);//adjust PCON for MIN power
                     initvga = await ReadAllanlg(false);
                     Pw_Thres_PCON = Lbl_Vpcon.Text;
                     Prg_Bar01.Increment(10);
@@ -2732,42 +2754,32 @@ namespace iRIS_CLM_GUI_TEST_05
             }
         }
         //======================================================================
-        //======================================================================
         #region Calibrate Power Monitor Output
         private void Bt_ZroCurr_PMonOutCal_Click(object sender, EventArgs e) { Task<bool> zeroIPcal = ZeroMaxIPcal(); }
-        //======================================================================
-        private async Task<bool> ZerroCurrent()
-        {
-            
-            WriteDAC(0, 0);//Pcon Channel = 0V
-            Set_USB_Digit_Out(0, 1);//Laser ON
-            bool rdIcal = await SendToSerial(CmdLaserEnable, StrEnable, 300, 9);
-
-            rdIcal = await ReadAllanlg(false);
-            rdIcal = await SendToSerial(CmdCurrentRead, StrDisable, 300, 9);//read current value from cpu displayed on label
-            rdIcal = await SendToSerial(CmdSet0mA, StrDisable, 300, 9);//zero value cal
-            rdIcal = await SendToSerial(CmdCurrentRead, StrDisable, 300, 9);//recheck new cpu value...same voltage offset at Imon OUT
-            rdIcal = await ReadAllanlg(false);
-
-            /*************************************************/
-            try { if (File.Exists(filePathRep)) {
-                using (StreamWriter fs = File.AppendText(filePathRep)) { fs.WriteLine("V_Iout converted to mA Mon @ 0V Pcon: " + Lbl_Viout.Text); } }
-                dataSet1[4] = Convert.ToDouble(Lbl_Viout.Text);
-            }
-            catch (Exception err1) { MessageBox.Show(err1.Message); }
-            /*************************************************/
-            return true;
-        }
         //======================================================================
         private async Task<bool> ZeroMaxIPcal()
         {
             if (Bt_ZroCurr_PMonOutCal.BackColor == Color.Coral)
             {
-                this.Cursor = Cursors.WaitCursor;
-                
-                bool sendzrcal = await ZerroCurrent();
+            this.Cursor = Cursors.WaitCursor;
+
+                double pconMin = 0;
+                double pconMax = 0;
+                double stepRp = 0.020;
+
+                if (ChkBx_AnlgModSet.Checked == true) {
+                    pconMin = 5.000;
+                    pconMax = 0.000;
+                }
+                else if (ChkBx_AnlgModSet.Checked == false) {
+                    pconMin = 0.000;
+                    pconMax = 5.000;
+                }
+
+                bool sendzrcal = await ZerroCurrent(pconMin);
                 Prg_Bar01.Increment(10);
-                sendzrcal = await PwMonOutCal();
+
+                sendzrcal = await PwMonOutCal(pconMin, pconMax, stepRp);
                 Prg_Bar01.Increment(10);
 
                 Bt_ZroCurr_PMonOutCal.BackColor = Color.LawnGreen;
@@ -2782,15 +2794,39 @@ namespace iRIS_CLM_GUI_TEST_05
                 return true;
         }
         //======================================================================
-        private async Task<bool> PwMonOutCal()
+        private async Task<bool> ZerroCurrent(double zerroCurr)
         {
-                const double startRp = 00.000;
-                const double stopRp = 5.000;
-                const double stepRp = 0.020;
+            WriteDAC(zerroCurr, 0);//current at Pcon zerro power 
+            Set_USB_Digit_Out(0, 1);//Laser ON
+
+            bool rdIcal = await SendToSerial(CmdLaserEnable, StrEnable, 300, 9);
+            rdIcal = await ReadAllanlg(false);
+            rdIcal = await SendToSerial(CmdCurrentRead, StrDisable, 300, 9);//read current value from cpu displayed on label
+            rdIcal = await SendToSerial(CmdSet0mA, StrDisable, 300, 9);//zero value cal
+            rdIcal = await SendToSerial(CmdCurrentRead, StrDisable, 300, 9);//recheck new cpu value...same voltage offset at Imon OUT
+            rdIcal = await ReadAllanlg(false);
+
+            /*************************************************/
+            try
+            {
+                if (File.Exists(filePathRep))
+                {
+                    using (StreamWriter fs = File.AppendText(filePathRep)) { fs.WriteLine("V_Iout converted to mA Mon @ 0V Pcon: " + Lbl_Viout.Text); }
+                }
+                dataSet1[4] = Convert.ToDouble(Lbl_Viout.Text);
+            }
+            catch (Exception err1) { MessageBox.Show(err1.Message); }
+            /*************************************************/
+            return true;
+        }
+        //======================================================================
+        private async Task<bool> PwMonOutCal(double startRp, double stopRp, double stepRp)
+        {
                 string iopNomPw  = string.Empty;
                 string voutPDmax = string.Empty;
                 string voutPDmin = string.Empty;
                 string pmonVmax = Tb_PwToVcal.Text;//4V 
+
                 double pmonVmaxDlb = Convert.ToDouble(Tb_PwToVcal.Text);
                 double RatedPw = Convert.ToDouble(Tb_NomPw.Text);//in mW i.e. 50mW
 
@@ -2798,9 +2834,10 @@ namespace iRIS_CLM_GUI_TEST_05
 
                 bool sendCalPw = await SendToSerial(CmdTestMode, StrEnable, 300, 9);
 
-                WriteDAC(00.000, 0);
+                WriteDAC(startRp, 0);
                 sendCalPw = await SendToSerial(CmdLaserEnable, StrEnable, 300, 9);
                 Set_USB_Digit_Out(0, 1);
+
 
                 bool rampdac1 = await RampDAC1toPower(RatedPw, startRp, stopRp, stepRp, false);//adjust PCON to NomPw
 
@@ -2819,7 +2856,7 @@ namespace iRIS_CLM_GUI_TEST_05
                     double pmonRd = Convert.ToDouble(voutPDmax);//check calibration for Pmon
                     if (pmonRd > pmonVmaxDlb + 0.1 || pmonRd < pmonVmaxDlb - 0.1) { MessageBox.Show("Pmon Calibration Error"); }
 
-                    WriteDAC(00.000, 0);//reset ramp
+                    WriteDAC(startRp, 0);//reset ramp
                     Set_USB_Digit_Out(0, 0);
                     sendCalPw = await SendToSerial(CmdLaserEnable, StrDisable, 300, 9);
                     sendCalPw = await ReadAllanlg(true);
@@ -2840,7 +2877,6 @@ namespace iRIS_CLM_GUI_TEST_05
             return true;
         }
         #endregion
-        //======================================================================
         //======================================================================
         private void Bt_LiPlot_Click(object sender, EventArgs e) {
             if (USB_Port_Open == true) { Task<bool> liplotseq = NomLsPowerSet(); }
@@ -3792,16 +3828,13 @@ namespace iRIS_CLM_GUI_TEST_05
                 Bt_Rs232com.Enabled = false;
             }
         }
-        //======================================================================
-        //======================================================================
         
-
-
-
+        //======================================================================
+        //======================================================================
     }
-    //======================================================================
-    //======================================================================
+    //==========================================================================
+    //==========================================================================
 }
-//======================================================================
-//======================================================================
+//==============================================================================
+//==============================================================================
 
